@@ -1,4 +1,5 @@
 from skintellect.formulation.ingredient_facts import classify_ingredients
+from skintellect.formulation.scoring import calculate_darmeto_points
 
 """
 Skintellect & Filter Engine
@@ -182,37 +183,25 @@ def get_recommendations(
             if sq not in text:
                 continue
 
-        # Base score from Skintellect's user profile match
-        score = p['match_score'] or 85
+        # Calculate clinical Darmeto fit points and composite score via canonical scoring engine
+        darmeto_res = calculate_darmeto_points(
+            match_score=p['match_score'] or 85,
+            analysis={
+                'brighteners': analysis['brighteners'],
+                'barrier': analysis['hydrators'],
+                'smoothers': analysis['smoothers'],
+                'cloggers': analysis['pore_cloggers'],
+                'irritants': analysis['irritants'],
+            },
+            fungal_acne_safe=(p['fungal_acne_safe'] == 1),
+            pore_clogger_free=(p['pore_clogger_free'] == 1),
+            oil_free=(p['oil_free'] == 1),
+            rating=p.get('rating'),
+        )
 
-        # Targeted Concerns Bonus:
-        # 1. Dark Spots / Dullness (+3 per active, max +9)
-        score += min(len(analysis['brighteners']) * 3, 9)
-
-        # 2. Barrier & Hydration (+2 per active, max +8)
-        score += min(len(analysis['hydrators']) * 2, 8)
-
-        # 3. Texture & Calming (+2 per active, max +6)
-        score += min(len(analysis['smoothers']) * 2, 6)
-
-        # Safety & Formulation Bonuses
-        if p['fungal_acne_safe'] == 1:
-            score += 4
-        if p['pore_clogger_free'] == 1:
-            score += 3
-        if p['oil_free'] == 1:
-            score += 2
-
-        # Penalties
-        score -= len(analysis['pore_cloggers']) * 4
-        score -= len(analysis['irritants']) * 6
-
-        # Community sentiment boost
-        if p['rating'] and p['rating'] >= 4.0:
-            score += 3
-
-        p['composite_score'] = round(score, 1)
-        p['darmeto_points'] = p['composite_score']
+        p['composite_score'] = darmeto_res['darmeto_points']
+        p['darmeto_points'] = darmeto_res['darmeto_points']
+        p['darmeto_tier'] = darmeto_res['tier']
         p['analysis'] = analysis
         p['ingredients_count'] = len(ings)
         p['routine_step'], p['size'] = resolve_routine_and_size(p)

@@ -14,7 +14,7 @@ a paid Skintellect account or active browser cookies.
 import json
 import re
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # Ensure UTF-8 stdout on Windows
 if sys.stdout.encoding != 'utf-8':
@@ -284,6 +284,93 @@ def calculate_darmeto_points(
         "additions": additions,
         "deductions": deductions
     }
+
+
+def score_product_for_persona(p: Dict[str, Any], persona: Dict[str, Any]) -> Tuple[int, float, List[str]]:
+    """Calculates match_score and composite_score (Darmeto points) for a product given a persona."""
+    score = 100
+    reasons = []
+    st = persona.get('skin_type', 'combination')
+    excl = persona.get('safety_exclusions', {})
+    concerns = persona.get('target_concerns', [])
+
+    # 1. Fungal Acne Hard Cliff
+    if excl.get('fungal_acne_safe'):
+        if p.get('fungal_acne_safe', 0) == 0:
+            return 40, 44.0, ['Fungal Acne Trigger: Capped at 40% (conflicts with Malassezia-safe profile)']
+
+    # 2. Fragrance
+    if excl.get('fragrance_free') or persona.get('sensitivity') in ['very_sensitive', 'sensitive']:
+        if p.get('fragrance_free', 0) == 0:
+            pen = 20 if persona.get('sensitivity') == 'very_sensitive' else 15
+            score -= pen
+            reasons.append(f'Fragrance / Allergens: -{pen}%')
+
+    # 3. Drying Simple Alcohol
+    if excl.get('alcohol_free') or st == 'dry' or persona.get('sensitivity') == 'very_sensitive':
+        if p.get('alcohol_free', 0) == 0:
+            pen = 15 if st == 'dry' else 10
+            score -= pen
+            reasons.append(f'Drying Simple Alcohol: -{pen}%')
+
+    # 4. Oil-Free & Pore Cloggers
+    if excl.get('oil_free') or st == 'oily':
+        if p.get('oil_free', 0) == 0:
+            score -= 10
+            reasons.append('Contains Oils: -10%')
+
+    if excl.get('pore_clogger_free') or st in ['oily', 'combination']:
+        if p.get('pore_clogger_free', 0) == 0 or (p.get('comedogenic_max') and p.get('comedogenic_max') >= 3):
+            pen = 10 if st == 'oily' else 5
+            score -= pen
+            reasons.append(f'Pore-Clogging Comedogenic Lipids: -{pen}%')
+
+    # 5. Concerns
+    goals_lower = [str(g).lower() for g in p.get('parsed_skin_goals', [])]
+    all_actives = " ".join([a.get('name', '') if isinstance(a, dict) else str(a) for a in p.get('key_actives', [])] + p.get('analysis', {}).get('brighteners', []) + p.get('analysis', {}).get('hydrators', []) + p.get('analysis', {}).get('smoothers', [])).lower()
+
+    if ('dark_spots' in concerns or 'dullness' in concerns) and not re.search(r'\b(niacinamide|tranexamic|arbutin|ascorb|glycyrrhizate|licorice|glutathione|kojic|azelaic)\b', all_actives):
+        if not any('bright' in g or 'spot' in g or 'tone' in g for g in goals_lower):
+            score -= 4
+            reasons.append('Lacks Tyrosinase Brighteners: -4%')
+
+    if ('acne' in concerns or 'large_pores' in concerns) and st == 'oily' and not re.search(r'\b(salicylic|bha|zinc|tea tree|succinic|azelaic|benzoyl)\b', all_actives):
+        score -= 6
+        reasons.append('Lacks BHA/Zinc blemish targeting: -6%')
+
+    if ('dryness' in concerns or 'barrier_repair' in concerns or st == 'dry') and not re.search(r'\b(ceramide|phytosphingosine|cholesterol|hyaluronic|squalane|panthenol)\b', all_actives):
+        pen = 8 if st == 'dry' else 4
+        score -= pen
+        reasons.append('Lacks intercellular barrier lipids: -4%')
+
+    score = max(20, min(100, score))
+
+    # Composite / Darmeto points
+    darmeto = float(score)
+    if 'dark_spots' in concerns and re.search(r'\b(niacinamide|tranexamic|arbutin|ascorb|azelaic)\b', all_actives):
+        darmeto += 6
+    if ('barrier_repair' in concerns or 'dryness' in concerns) and re.search(r'\b(ceramide|phytosphingosine|cholesterol|squalane|hyaluronic)\b', all_actives):
+        darmeto += 6
+    if 'acne' in concerns and re.search(r'\b(salicylic|zinc|bha|azelaic|tea tree)\b', all_actives):
+        darmeto += 6
+    if ('anti_aging' in concerns or 'fine_lines' in concerns) and re.search(r'\b(retinol|retinal|peptide|copper|adenosine)\b', all_actives):
+        darmeto += 7
+    if ('redness' in concerns or 'sensitivity' in concerns) and re.search(r'\b(centella|cica|madecassoside|panthenol|allantoin)\b', all_actives):
+        darmeto += 5
+
+    if p.get('fungal_acne_safe') == 1: darmeto += 4
+    if p.get('fragrance_free') == 1: darmeto += 3
+    if p.get('alcohol_free') == 1: darmeto += 2
+    if p.get('oil_free') == 1 and st == 'oily': darmeto += 3
+    if p.get('pore_clogger_free') == 1: darmeto += 2
+
+    if p.get('comedogenic_max', 0) >= 3 and st in ['oily', 'combination']:
+        darmeto -= 5
+    if p.get('irritancy_max', 0) >= 2 and persona.get('sensitivity') != 'resilient':
+        darmeto -= 6
+
+    darmeto = round(max(0.0, darmeto), 1)
+    return score, darmeto, reasons
 
 
 def score_any_product(

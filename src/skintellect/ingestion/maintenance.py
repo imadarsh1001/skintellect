@@ -1,6 +1,7 @@
 
 
 import json
+import os
 import sqlite3
 from datetime import datetime, timezone
 
@@ -656,7 +657,230 @@ def run_audit(db_path: str = DB_PATH):
 
     conn.close()
 
-from skintellect.database import database, formula_hash, migrate
+from skintellect.database import database, formula_hash, migrate, init_db
+
+
+
+
+def _ensure_columns(cur):
+    p_cols = [r[1] for r in cur.execute("PRAGMA table_info(products)").fetchall()]
+    if "domain" not in p_cols:
+        cur.execute("ALTER TABLE products ADD COLUMN domain TEXT DEFAULT 'skin'")
+    if "target_area" not in p_cols:
+        cur.execute("ALTER TABLE products ADD COLUMN target_area TEXT DEFAULT 'face'")
+    i_cols = [r[1] for r in cur.execute("PRAGMA table_info(ingredients)").fetchall()]
+    if "domains_json" not in i_cols:
+        cur.execute("ALTER TABLE ingredients ADD COLUMN domains_json TEXT DEFAULT '[\"skin\"]'")
+    if "sources_json" not in i_cols:
+        cur.execute("ALTER TABLE ingredients ADD COLUMN sources_json TEXT DEFAULT '[\"skinsort\", \"incidecoder\"]'")
+    if "target_areas_json" not in i_cols:
+        cur.execute("ALTER TABLE ingredients ADD COLUMN target_areas_json TEXT DEFAULT '[\"face\"]'")
+
+
+def import_catalog_json(json_path: str, db_path: str = DB_PATH) -> dict:
+    """Import or update products and formulations from an exported catalog JSON.
+
+    Provides the bridge between the private collector (skintellect-collector)
+    and the public formulation engine database.
+    """
+    if not os.path.isfile(json_path):
+        raise FileNotFoundError(f"Catalog JSON file not found: {json_path}")
+
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    items = data.get("products", data) if isinstance(data, dict) else data
+    if not isinstance(items, list):
+        raise ValueError("Invalid JSON format: expected a list of product objects or an object with 'products' list.")
+
+    init_db(db_path)
+    migrate(db_path)
+
+    now_str = datetime.now(timezone.utc).isoformat()
+    inserted = 0
+    updated = 0
+    new_ingredients = 0
+    linked_ingredients = 0
+
+    with database(db_path) as conn:
+        cur = conn.cursor()
+        _ensure_columns(cur)
+        for p in items:
+            p_id = p.get("id")
+            slug = p.get("slug") or (p.get("name", "").lower().replace(" ", "-") if p.get("name") else None)
+            if not p_id and not slug:
+                continue
+
+            existing = None
+            if p_id:
+                existing = cur.execute("SELECT id FROM products WHERE id = ?", (p_id,)).fetchone()
+            if not existing and slug:
+                existing = cur.execute("SELECT id FROM products WHERE slug = ?", (slug,)).fetchone()
+                if existing:
+                    p_id = existing[0]
+
+            raw_ings = p.get("ingredients") or p.get("ingredients_json") or []
+            if isinstance(raw_ings, str):
+                try:
+                    formula = json.loads(raw_ings)
+                except Exception:
+                    formula = []
+            elif isinstance(raw_ings, list):
+                formula = raw_ings
+            else:
+                formula = []
+
+            ing_json_str = json.dumps(formula)
+            has_detail = 1 if formula else p.get("has_detail", 0)
+
+            badges = p.get("badges", [])
+            badges_str = json.dumps(badges) if isinstance(badges, list) else str(badges or "[]")
+            skin_goals = p.get("skin_goals", [])
+            goals_str = json.dumps(skin_goals) if isinstance(skin_goals, list) else str(skin_goals or "[]")
+            category = p.get("category", "Moisturizers") or "Moisturizers"
+            category_slug = p.get("category_slug", "moisturizers") or "moisturizers"
+
+            if existing:
+                cur.execute("""
+                    UPDATE products SET
+                        brand = COALESCE(?, brand),
+                        name = COALESCE(?, name),
+                        slug = COALESCE(?, slug),
+                        url = COALESCE(?, url),
+                        image_url = COALESCE(?, image_url),
+                        short_desc = COALESCE(?, short_desc),
+                        match_score = COALESCE(?, match_score),
+                        rating = COALESCE(?, rating),
+                        review_count = COALESCE(?, review_count),
+                        category = COALESCE(?, category),
+                        description = COALESCE(?, description),
+                        badges = ?,
+                        has_detail = ?,
+                        fungal_acne_safe = COALESCE(?, fungal_acne_safe),
+                        fragrance_free = COALESCE(?, fragrance_free),
+                        alcohol_free = COALESCE(?, alcohol_free),
+                        silicone_free = COALESCE(?, silicone_free),
+                        oil_free = COALESCE(?, oil_free),
+                        paraben_free = COALESCE(?, paraben_free),
+                        sulfate_free = COALESCE(?, sulfate_free),
+                        pore_clogger_free = COALESCE(?, pore_clogger_free),
+                        vegan = COALESCE(?, vegan),
+                        cruelty_free = COALESCE(?, cruelty_free),
+                        comedogenic_max = COALESCE(?, comedogenic_max),
+                        irritancy_max = COALESCE(?, irritancy_max),
+                        ingredients_json = ?,
+                        category_slug = ?,
+                        brand_country = COALESCE(?, brand_country),
+                        skin_goals = ?,
+                        price_tier = COALESCE(?, price_tier),
+                        price_range = COALESCE(?, price_range),
+                        size = COALESCE(?, size),
+                        routine_step = COALESCE(?, routine_step)
+                    WHERE id = ?
+                """, (
+                    p.get("brand"), p.get("name"), slug, p.get("url"), p.get("image_url"),
+                    p.get("short_desc"), p.get("match_score"), p.get("rating"), p.get("review_count"),
+                    category, p.get("description"), badges_str, has_detail,
+                    p.get("fungal_acne_safe"), p.get("fragrance_free"), p.get("alcohol_free"),
+                    p.get("silicone_free"), p.get("oil_free"), p.get("paraben_free"),
+                    p.get("sulfate_free"), p.get("pore_clogger_free"), p.get("vegan"),
+                    p.get("cruelty_free"), p.get("comedogenic_max", 0), p.get("irritancy_max", 0),
+                    ing_json_str, category_slug, p.get("brand_country"), goals_str,
+                    p.get("price_tier"), p.get("price_range"), p.get("size"), p.get("routine_step"),
+                    p_id
+                ))
+                updated += 1
+            else:
+                cur.execute("""
+                    INSERT INTO products (
+                        id, brand, name, slug, url, image_url, short_desc, match_score, rating,
+                        review_count, category, description, badges, has_detail, fungal_acne_safe,
+                        fragrance_free, alcohol_free, silicone_free, oil_free, paraben_free,
+                        sulfate_free, pore_clogger_free, vegan, cruelty_free, comedogenic_max,
+                        irritancy_max, ingredients_json, created_at, category_slug, brand_country,
+                        skin_goals, price_tier, price_range, size, routine_step, domain, target_area
+                    ) VALUES (
+                        ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                        ?, ?, ?, ?, ?, ?,
+                        ?, ?, ?, ?, ?,
+                        ?, ?, ?, ?, ?,
+                        ?, ?, ?, ?, ?,
+                        ?, ?, ?, ?, ?, ?, ?
+                    )
+                """, (
+                    p_id, p.get("brand", "Unknown"), p.get("name", "Product"), slug,
+                    p.get("url", ""), p.get("image_url", ""), p.get("short_desc", ""),
+                    p.get("match_score", 45), p.get("rating", 0.0), p.get("review_count", 0),
+                    category, p.get("description", ""), badges_str, has_detail,
+                    p.get("fungal_acne_safe", -1), p.get("fragrance_free", -1), p.get("alcohol_free", -1),
+                    p.get("silicone_free", -1), p.get("oil_free", -1), p.get("paraben_free", -1),
+                    p.get("sulfate_free", -1), p.get("pore_clogger_free", -1), p.get("vegan", -1),
+                    p.get("cruelty_free", -1), p.get("comedogenic_max", 0), p.get("irritancy_max", 0),
+                    ing_json_str, now_str, category_slug, p.get("brand_country", "International"),
+                    goals_str, p.get("price_tier", "$$"), p.get("price_range", "Moderate ($15-$30)"),
+                    p.get("size", "50 ml"), p.get("routine_step", "Step 4: Moisturize & Barrier (AM/PM)"),
+                    p.get("domain", "skin"), p.get("target_area", "face")
+                ))
+                p_id = p_id or cur.lastrowid
+                inserted += 1
+
+            cur.execute("""
+                INSERT INTO record_quality(product_id, is_seed, formula_status)
+                VALUES(?, 0, ?)
+                ON CONFLICT(product_id) DO UPDATE SET
+                    formula_status = excluded.formula_status
+                WHERE formula_status != 'verified_complete'
+            """, (p_id, 'unverified' if formula else 'missing'))
+
+            if formula:
+                cur.execute("DELETE FROM product_ingredients WHERE product_id = ?", (p_id,))
+                for order_idx, ing in enumerate(formula):
+                    ing_name = ing.get("name", "").strip() if isinstance(ing, dict) else str(ing).strip()
+                    if not ing_name:
+                        continue
+                    row = cur.execute("SELECT id FROM ingredients WHERE LOWER(name) = LOWER(?)", (ing_name,)).fetchone()
+                    if row:
+                        i_id = row[0]
+                    else:
+                        ing_slug = ing_name.lower().replace(" ", "-")
+                        cur.execute("""
+                            INSERT INTO ingredients (
+                                name, slug, function, description, comedogenic, irritancy,
+                                is_pore_clogging, fungal_trigger, domains_json, sources_json, target_areas_json
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """, (
+                            ing_name, ing_slug,
+                            ing.get("function", "") if isinstance(ing, dict) else "",
+                            ing.get("description", "") if isinstance(ing, dict) else "",
+                            ing.get("comedogenic") or 0 if isinstance(ing, dict) else 0,
+                            ing.get("irritancy") or 0 if isinstance(ing, dict) else 0,
+                            int(bool(ing.get("is_pore_clogging"))) if isinstance(ing, dict) else 0,
+                            ing.get("fungal_trigger", "") if isinstance(ing, dict) else "",
+                            json.dumps([p.get("domain", "skin")]),
+                            json.dumps(["collector", "skinsort"]),
+                            json.dumps([p.get("target_area", "face")])
+                        ))
+                        i_id = cur.lastrowid
+                        new_ingredients += 1
+
+                    is_key = 1 if isinstance(ing, dict) and ing.get("is_key_ingredient") else 0
+                    key_note = ing.get("key_note", "") if isinstance(ing, dict) else ""
+                    cur.execute("""
+                        INSERT INTO product_ingredients (
+                            product_id, ingredient_id, ingredient_order, is_key_ingredient, key_note
+                        ) VALUES (?, ?, ?, ?, ?)
+                    """, (p_id, i_id, order_idx + 1, is_key, key_note))
+                    linked_ingredients += 1
+
+    summary = {
+        "total_processed": len(items),
+        "inserted": inserted,
+        "updated": updated,
+        "new_ingredients": new_ingredients,
+        "linked_ingredients": linked_ingredients
+    }
+    print(f"[OK] Ingestion complete: {inserted} added, {updated} updated, {new_ingredients} new ingredients, {linked_ingredients} linked.")
+    return summary
 
 
 def verify_formula(product_id, source, reviewer):
@@ -684,9 +908,14 @@ def main():
     verify.add_argument('product_id', type=int)
     verify.add_argument('--source', required=True)
     verify.add_argument('--reviewer', required=True)
+    imp = commands.add_parser('import', help='Import or update catalog products from exported JSON')
+    imp.add_argument('json_path', type=str, help='Path to catalog JSON file')
+    imp.add_argument('--db', type=str, default=DB_PATH, help='Path to SQLite database')
     args = parser.parse_args()
     if args.command == 'verify':
         verify_formula(args.product_id, args.source, args.reviewer)
+    elif args.command == 'import':
+        import_catalog_json(args.json_path, args.db)
     elif args.command == 'seed':
         seed_multidomain()
     elif args.command == 'clean':

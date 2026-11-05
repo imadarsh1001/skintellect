@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+env/
+.pytest_cache/
+.ruff_cache/
+
+# Runtime and local temporary artifacts
+.runtime/
+.test-work/
+backups/
+tmp*/
+*.log
+*.pid
+analysis/*server*.log
+analysis/*.pid
+analysis/outputs/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local databases and generated exports are not source code
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.sqlite
+*.sqlite3
+data/exports/
+data/raw/
+reports/exports/
+/skinsort_*.json
+/skintellect_*.json
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

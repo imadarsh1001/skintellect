@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-10-22T21:36:07.368283+00:00",
+  "version": "2.8.0",
+  "tests": {
+    "passed": 69,
+    "skipped": 0,
+    "failed": 0
+  },
+  "legacy_direct_checks": "passed",
+  "python_compilation": "passed",
+  "javascript_syntax": "passed",
+  "browser_verification": {
+    "rendered_counts": true,
+    "job_submission": true,
+    "live_polling": true,
+    "screenshot": "reports/previews/progress_dashboard.png"
+  },
+  "preview_url": "http://127.0.0.1:8001/progress",
+  "http_checks": {
+    "/progress": 200,
+    "/research": 200,
+    "/static/js/progress.js": 200,
+    "/static/css/progress.css": 200,
+    "/api/research/progress": 200,
+    "/api/research/jobs": 202
+  },
+  "progress": {
+    "model": {
+      "provider": "Gemini",
+      "configured": true,
+      "enabled": true,
+      "backend": "vertex",
+      "location": "global",
+      "model": "gemini-4-argon",
+      "embedding_model": "gemini-embedding-001",
+      "connection_check": "not_performed_by_status"
+    },
+    "reviews": {
+      "processed": 54,
+      "eligible": 4062,
+      "remaining": 4008
+    },
+    "embeddings": {
+      "indexed": 18,
+      "eligible": 6554,
+      "remaining": 6536,
+      "stale_or_out_of_scope": 0
+    },
+    "usage": {
+      "operations": 49,
+      "provider_attempts": 46,
+      "reported_tokens": 23119,
+      "cache_hits": 3
+    },
+    "jobs": [
+      {
+        "id": 2,
+        "kind": "embed",
+        "status": "completed",
+        "limit_count": 5,
+        "product_id": 10256,
+        "max_calls": 5,
+        "max_seconds": 120,
+        "completed": 5,
+        "selected": 5,
+        "calls": 5,
+        "tokens": 310,
+        "cancel_requested": 0,
+        "error_code": null,
+        "created_at": "2026-10-22T21:32:52.815045+00:00",
+        "started_at": "2026-10-22T21:32:53.838594+00:00",
+        "finished_at": "2026-10-22T21:34:08.918476+00:00"
+      },
+      {
+        "id": 1,
+        "kind": "reviews",
+        "status": "completed",
+        "limit_count": 20,
+        "product_id": null,
+        "max_calls": 8,
+        "max_seconds": 120,
+        "completed": 20,
+        "selected": 20,
+        "calls": 4,
+        "tokens": 5295,
+        "cancel_requested": 0,
+        "error_code": null,
+        "created_at": "2026-10-22T21:30:41.440047+00:00",
+        "started_at": "2026-10-22T21:30:41.462766+00:00",
+        "finished_at": "2026-10-22T21:32:14.925252+00:00"
+      }
+    ],
+    "recent_operations": [
+      {
+        "task": "embedding",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 20321.14,
+        "error_code": null,
+        "created_at": "2026-10-22T21:34:07.581949+00:00"
+      },
+      {
+        "task": "embedding",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 8473.88,
+        "error_code": null,
+        "created_at": "2026-10-22T21:33:46.883680+00:00"
+      },
+      {
+        "task": "embedding",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 8614.77,
+        "error_code": null,
+        "created_at": "2026-10-22T21:33:37.597173+00:00"
+      },
+      {
+        "task": "embedding",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 10204.23,
+        "error_code": null,
+        "created_at": "2026-10-22T21:33:28.932897+00:00"
+      },
+      {
+        "task": "embedding",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 21004.31,
+        "error_code": null,
+        "created_at": "2026-10-22T21:33:17.150241+00:00"
+      },
+      {
+        "task": "review_aspects",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 28338.04,
+        "error_code": null,
+        "created_at": "2026-10-22T21:32:14.877019+00:00"
+      },
+      {
+        "task": "review_aspects",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 20267.11,
+        "error_code": null,
+        "created_at": "2026-10-22T21:31:46.494081+00:00"
+      },
+      {
+        "task": "review_aspects",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 22903.39,
+        "error_code": null,
+        "created_at": "2026-10-22T21:31:23.598712+00:00"
+      },
+      {
+        "task": "review_aspects",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 18974.45,
+        "error_code": null,
+        "created_at": "2026-10-22T21:31:00.636781+00:00"
+      },
+      {
+        "task": "tool_plan",
+        "status": "ok",
+        "attempts": 1,
+        "elapsed_ms": 29301.6,
+        "error_code": null,
+        "created_at": "2026-10-22T21:20:19.415472+00:00"
+      }
+    ],
+    "estimated_cost": null,
+    "notice": "Coverage excludes seeds; reviews exclude duplicate and empty text. Tokens are provider-reported, not a billing estimate. Jobs run while this server is open."
+  },
+  "original_tables_unchanged": {
+    "products": true,
+    "ingredients": true,
+    "product_ingredients": true,
+    "reviews": true,
+    "crawl_queue": true,
+    "personas": true
+  },
+  "database_integrity": "ok",
+  "observations": 61,
+  "invalid_support_spans": 0
+}

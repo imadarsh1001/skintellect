@@ -1,0 +1,21 @@
+{
+  "installed_wheel_import": true,
+  "catalog_http_smoke_groups": 11,
+  "direct_catalog_smoke": true,
+  "additional_http_paths": [
+    "/study",
+    "/research",
+    "/progress",
+    "/static/js/app.js",
+    "/static/js/workspace.js",
+    "/static/css/workspace.css",
+    "/static/vendor/vue.global.prod.js",
+    "/api/research/references",
+    "/api/products/10256/connections",
+    "/api/agents/meta"
+  ],
+  "database_sha256_unchanged": true,
+  "database_sha256": "b56d613774fa91c222cdc646e9b49aa045d18b95f3be2fd29dbc352deb6b7a02",
+  "provider_calls": 0,
+  "browser_layout_tested": false
+}

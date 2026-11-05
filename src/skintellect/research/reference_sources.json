@@ -1,0 +1,41 @@
+[
+  {
+    "id": "fda-label-order",
+    "title": "Cosmetics Labeling Guide",
+    "publisher": "U.S. Food and Drug Administration",
+    "url": "https://www.fda.gov/cosmetics/cosmetics-labeling-regulations/cosmetics-labeling-guide",
+    "source_type": "regulatory_guidance",
+    "topics": ["ingredient list", "concentration", "formula", "label"],
+    "quote": "The ingredients must be listed in descending order of predominance.",
+    "summary": "The U.S. labeling guide describes ordering rules and exceptions for low-concentration ingredients, color additives, and drug actives. Ingredient position alone does not reveal a precise concentration.",
+    "limitations": "U.S. labeling context. This reference does not verify any catalog formula or establish product safety.",
+    "retrieved_at": "2026-10-23",
+    "verification": "primary_page_checked_by_assistant"
+  },
+  {
+    "id": "aad-dry-skin",
+    "title": "Dermatologists' top tips for relieving dry skin",
+    "publisher": "American Academy of Dermatology",
+    "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/dermatologists-tips-relieve-dry-skin",
+    "source_type": "professional_patient_guidance",
+    "topics": ["hydration", "moisturizer", "dry skin", "fragrance", "glycerin", "dimethicone"],
+    "quote": "Dermatologists recommend using products labeled \"fragrance-free.\"",
+    "summary": "AAD discusses gentle skin care, moisturizer use after washing, and creams or ointments for dryness. It distinguishes fragrance-free labeling from unscented labeling.",
+    "limitations": "General educational guidance. It does not test the products in this catalog or determine individual suitability.",
+    "retrieved_at": "2026-10-23",
+    "verification": "primary_page_checked_by_assistant"
+  },
+  {
+    "id": "niacinamide-33038007",
+    "title": "Topical niacinamide enhances hydrophobicity and resilience of corneocyte envelopes on different facial locations",
+    "publisher": "International Journal of Cosmetic Science; PubMed PMID 33038007",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/33038007/",
+    "source_type": "primary_study_abstract",
+    "topics": ["niacinamide", "skin barrier", "hydration"],
+    "quote": "evaluated in a 4-week placebo-controlled study.",
+    "summary": "A 2020 study examined corneocyte-envelope properties and topical niacinamide in a controlled study. The abstract describes a defined study population and endpoints rather than a comparison of the catalog products.",
+    "limitations": "Abstract-level reference; full text was not accessible during retrieval. Some authors reported commercial affiliations. No catalog-product efficacy or safety conclusion follows.",
+    "retrieved_at": "2026-10-23",
+    "verification": "primary_abstract_checked_by_assistant"
+  }
+]

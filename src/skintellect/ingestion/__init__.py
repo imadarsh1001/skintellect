@@ -1,0 +1,1 @@
+"""Skintellect ingestion package."""

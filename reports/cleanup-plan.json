@@ -1,0 +1,214 @@
+{
+  "moves": [
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\approved_preparation_validation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\approved_preparation_validation.json",
+      "relative_from": "analysis/approved_preparation_validation.json",
+      "relative_to": "reports/history/approved_preparation_validation.json",
+      "sha256": "82d0d69bac964ec1625d1aab0103822122b409dc1a484c6a247fda646da313b3"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\baseline_preservation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\baseline_preservation.json",
+      "relative_from": "analysis/baseline_preservation.json",
+      "relative_to": "reports/history/baseline_preservation.json",
+      "sha256": "a43dd9859915d39f07c863fd03e27811aec2a582f2623f00309a6dd94725e098"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\cloud_gemini_validation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\cloud_gemini_validation.json",
+      "relative_from": "analysis/cloud_gemini_validation.json",
+      "relative_to": "reports/history/cloud_gemini_validation.json",
+      "sha256": "82d0d69bac964ec1625d1aab0103822122b409dc1a484c6a247fda646da313b3"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\foundation_audit.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\foundation_audit.json",
+      "relative_from": "analysis/foundation_audit.json",
+      "relative_to": "reports/history/foundation_audit.json",
+      "sha256": "12c1309f1cecd700b52ad680924720d8921ac9d4bc6d1a336480bbb35f9d56fa"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\gemini_preservation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\gemini_preservation.json",
+      "relative_from": "analysis/gemini_preservation.json",
+      "relative_to": "reports/history/gemini_preservation.json",
+      "sha256": "e7ecad4a4a9e73517fb9c77a5d5587b21c7ddc0ba305e41c216c61523f29b9e1"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_assistant_result.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_assistant_result.json",
+      "relative_from": "analysis/live_assistant_result.json",
+      "relative_to": "reports/history/live_assistant_result.json",
+      "sha256": "1f627809ca5948bf8cc62121504924d8c523201e6d57e5c203733c3c13c15c72"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_demo_embeddings.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_demo_embeddings.json",
+      "relative_from": "analysis/live_demo_embeddings.json",
+      "relative_to": "reports/history/live_demo_embeddings.json",
+      "sha256": "52fb1348b495c67ec5e3ca5e1d4f65fe74a58db4ac8c7dee7590242fe628d475"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_demo_reviews.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_demo_reviews.json",
+      "relative_from": "analysis/live_demo_reviews.json",
+      "relative_to": "reports/history/live_demo_reviews.json",
+      "sha256": "7509f1acc86b5ff75fa5a26d5853c382becb1675917930c42f5c68423c1fd6b0"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_embedding_preparation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_embedding_preparation.json",
+      "relative_from": "analysis/live_embedding_preparation.json",
+      "relative_to": "reports/history/live_embedding_preparation.json",
+      "sha256": "e8bf46d9a6ecddf7c126f43ea464f7969221ce92556af04ef99b712e188aa5a1"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_label_smoke.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\live_label_smoke.json",
+      "relative_from": "analysis/live_label_smoke.json",
+      "relative_to": "reports/latest/live_label_smoke.json",
+      "sha256": "a4637de8f14d67b3a1b6baeeb6e42c3e1a20c5f39c5cc4d220b8cfbf7a169137"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_review_expansion.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_review_expansion.json",
+      "relative_from": "analysis/live_review_expansion.json",
+      "relative_to": "reports/history/live_review_expansion.json",
+      "sha256": "1ac2f3340b46385c441236035550dda385357028a1211c738624ff92189a10a6"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_review_nlp_comparison.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_review_nlp_comparison.json",
+      "relative_from": "analysis/live_review_nlp_comparison.json",
+      "relative_to": "reports/history/live_review_nlp_comparison.json",
+      "sha256": "67e7d3ec269fc408db5ebe4699073d055f43bcf92950d748b43856489ec71dee"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_review_preparation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_review_preparation.json",
+      "relative_from": "analysis/live_review_preparation.json",
+      "relative_to": "reports/history/live_review_preparation.json",
+      "sha256": "722d916a958e516149b46cdb39ecb1fa9800ad4b4c4218a3f32002985bdb9f2e"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\live_scoped_embeddings.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\live_scoped_embeddings.json",
+      "relative_from": "analysis/live_scoped_embeddings.json",
+      "relative_to": "reports/history/live_scoped_embeddings.json",
+      "sha256": "ba90af414a215bcb646bad3433d3bc8c97990321a09963cda97188cea163e834"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\mcp_smoke.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\mcp_smoke.json",
+      "relative_from": "analysis/mcp_smoke.json",
+      "relative_to": "reports/latest/mcp_smoke.json",
+      "sha256": "d30ee1ca4f388f02ccfd3eeca2f3d28ae08d866643f49bbc29155291c3d2b7d4"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\parser_smoke_results.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\parser_smoke_results.json",
+      "relative_from": "analysis/parser_smoke_results.json",
+      "relative_to": "reports/history/parser_smoke_results.json",
+      "sha256": "3ebd5e2babe07e62da5a2ccd1684cd35d937e19bc29b2f4592d03b7d025a4f73"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\prepared_assistant_demo.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\prepared_assistant_demo.json",
+      "relative_from": "analysis/prepared_assistant_demo.json",
+      "relative_to": "reports/latest/prepared_assistant_demo.json",
+      "sha256": "f0969ccf89f20d0380a8a47847b5d65840745db43e621acedbfb2ece9a5a56ed"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\prepared_cohort_run.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\prepared_cohort_run.json",
+      "relative_from": "analysis/prepared_cohort_run.json",
+      "relative_to": "reports/latest/prepared_cohort_run.json",
+      "sha256": "7fbb95782dbfcf8ef95e5da3e59be555b30794451aebc866d94c9488e1b48d83"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\prepared_study.png",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\previews\\prepared_study.png",
+      "relative_from": "analysis/prepared_study.png",
+      "relative_to": "reports/previews/prepared_study.png",
+      "sha256": "993cf7dcb9545facc76648d3d8466c274efabc4549067d5831e28bafeaec30cb"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\progress_dashboard.png",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\previews\\progress_dashboard.png",
+      "relative_from": "analysis/progress_dashboard.png",
+      "relative_to": "reports/previews/progress_dashboard.png",
+      "sha256": "40b6e121d42c844b6fb2b957ff9f6c21ace61a941e69eaec6a412fb876bdf2dd"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\progress_release_validation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\progress_release_validation.json",
+      "relative_from": "analysis/progress_release_validation.json",
+      "relative_to": "reports/history/progress_release_validation.json",
+      "sha256": "42844e32676094d77b5c92425cfa22fc028822950991323071610a90ae5dc2ea"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\research_release_evaluation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\research_release_evaluation.json",
+      "relative_from": "analysis/research_release_evaluation.json",
+      "relative_to": "reports/latest/research_release_evaluation.json",
+      "sha256": "3a372c3b7276ddf4f869d14cb78dd2c497f98b958fc996bed15e11ec22fa066a"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\research_release_initial_evaluation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\research_release_initial_evaluation.json",
+      "relative_from": "analysis/research_release_initial_evaluation.json",
+      "relative_to": "reports/history/research_release_initial_evaluation.json",
+      "sha256": "22d5a2d7e50df2a947bbaf58205eab5c29f3961f1f78f12f2c02832077ea5dac"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\research_release_validation.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\latest\\research_release_validation.json",
+      "relative_from": "analysis/research_release_validation.json",
+      "relative_to": "reports/latest/research_release_validation.json",
+      "sha256": "eedafaaeb71da435d4da21fe8c3bd04daeca7dae2bd2628c1473c7d44d9d8ccb"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\review_nlp_smoke.json",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\reports\\history\\review_nlp_smoke.json",
+      "relative_from": "analysis/review_nlp_smoke.json",
+      "relative_to": "reports/history/review_nlp_smoke.json",
+      "sha256": "397fcf06177f70348ae79b59fcb357e9cb9b3f25ab5ffab1ceeeec55008faba2"
+    },
+    {
+      "from": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\synthetic_label.png",
+      "to": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tests\\fixtures\\synthetic_label.png",
+      "relative_from": "analysis/synthetic_label.png",
+      "relative_to": "tests/fixtures/synthetic_label.png",
+      "sha256": "7bca79414cfffb1867137f06e5e266ce01d894b96b58794417c524534188d32e"
+    }
+  ],
+  "remove_directories": [
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpbb0yqs6q",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpdqgxqxbe",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpgt1x6_62",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpjh5honmv",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpnux8mp_o",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpogkx9yol",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmpozkybzhc",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tmppyih49gx",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\.gemini_import",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\.library_helpers_gemini",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\agents\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\backend\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\backend\\services\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\core\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\crawler\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\ingestion\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\pipeline\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\tests\\__pycache__",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\__pycache__"
+  ],
+  "remove_files": [
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\study_server.pid",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\study_server_stderr.log",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\analysis\\study_server_stdout.log",
+    "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\static\\css\\progress.css"
+  ]
+}

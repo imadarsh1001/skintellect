@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-11-04T06:50:03.5077406Z",
+  "removed": [
+    {
+      "name": "skinsort_recommender.egg-info",
+      "files": 5,
+      "bytes": 8606
+    },
+    {
+      "name": "src\\skinsort_recommender.egg-info",
+      "files": 6,
+      "bytes": 9301
+    },
+    {
+      "name": "build",
+      "files": 69,
+      "bytes": 1156332
+    },
+    {
+      "name": ".ruff_cache",
+      "files": 17,
+      "bytes": 16666
+    },
+    {
+      "name": ".test-work",
+      "files": 171,
+      "bytes": 31219591
+    }
+  ],
+  "removed_bytes": 32410496,
+  "application_import_and_routes": "passed",
+  "packaged_assets": "passed",
+  "catalog_products": 2502,
+  "database_sha256_unchanged": true,
+  "database_sha256": "B56D613774FA91C222CDC646E9B49AA045D18B95F3BE2FD29DBC352DEB6B7A02",
+  "full_regression_suite_rerun": false
+}

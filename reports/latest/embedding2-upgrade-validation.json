@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-23T14:07:49.287700+00:00",
+  "regression_tests": {
+    "passed": 104,
+    "failed": 0
+  },
+  "targeted_decision_tests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "ui_semantic_assertions": 31,
+  "legacy_http_suite_passed": true,
+  "live_decision_smoke": "dynamic-decision-smoke.json",
+  "active_embedding_model": "gemini-embedding-2",
+  "embedding_transport": "sdk",
+  "active_absa_model": "gemini-3.5-flash-lite",
+  "embedding_dimensions": 768,
+  "vector_inventory": [
+    {
+      "model": "gemini-embedding-001",
+      "dimensions": 768,
+      "count": 35
+    },
+    {
+      "model": "gemini-embedding-2",
+      "dimensions": 768,
+      "count": 35
+    }
+  ],
+  "prepared_study_ready": true,
+  "evaluation_current": true,
+  "live_server": "http://127.0.0.1:8001",
+  "live_evaluation_current": true,
+  "migration_report": "embedding2-migration.json",
+  "migration_activated": true,
+  "absa_migration_report": "dynamic-absa-migration.json",
+  "absa_model_replaced": true,
+  "legacy_results_preserved": true,
+  "accuracy_human_validated": false,
+  "browser_layout_tested": false
+}

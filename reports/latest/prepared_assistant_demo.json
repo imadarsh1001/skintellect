@@ -1,0 +1,642 @@
+{
+  "answer": "Found 2 eligible catalog records; 0 have unknown ingredient constraints.",
+  "search": {
+    "products": [
+      {
+        "id": 10256,
+        "brand": "Thank You Farmer",
+        "name": "Phyto Relieful Cica Cream",
+        "category": "Moisturizers",
+        "domain": "skin",
+        "price_tier": "$$",
+        "url": "https://skinsort.com/products/thank-you-farmer/phyto-relieful-cica-cream",
+        "formula_status": "unverified",
+        "is_seed": false,
+        "evidence_id": "product:10256",
+        "score_kind": "heuristic_preference",
+        "formulation_version": "unverified",
+        "checks": [
+          {
+            "constraint": "require:ceramides",
+            "status": "pass",
+            "matched_names": [
+              "ceramide np"
+            ],
+            "reason": "Observed in recorded formula",
+            "evidence_ids": [
+              "product:10256"
+            ]
+          }
+        ],
+        "ranking_components": {
+          "price_preference": 0
+        },
+        "unresolved_preferences": []
+      },
+      {
+        "id": 21620,
+        "brand": "Dr. Sheth's",
+        "name": "Oil-Free Moisturizer",
+        "category": "Moisturizers",
+        "domain": "skin",
+        "price_tier": "$",
+        "url": "https://skinsort.com/products/dr-sheth-s/oil-free-moisturizer",
+        "formula_status": "unverified",
+        "is_seed": false,
+        "evidence_id": "product:21620",
+        "score_kind": "heuristic_preference",
+        "formulation_version": "unverified",
+        "checks": [
+          {
+            "constraint": "require:ceramides",
+            "status": "pass",
+            "matched_names": [
+              "ceramide eop",
+              "ceramide ns",
+              "ceramide np",
+              "ceramide as",
+              "ceramide ap"
+            ],
+            "reason": "Observed in recorded formula",
+            "evidence_ids": [
+              "product:21620"
+            ]
+          }
+        ],
+        "ranking_components": {
+          "price_preference": 0
+        },
+        "unresolved_preferences": []
+      }
+    ],
+    "total": 2,
+    "unknown_count": 0,
+    "failed_count": 0,
+    "intent": {
+      "category": "moisturizers",
+      "domain": "skin",
+      "required_ingredients": [
+        "ceramides"
+      ],
+      "excluded_ingredients": [],
+      "preferred_price_tiers": [],
+      "preferences": [],
+      "unresolved_terms": [],
+      "text": "Find moisturizers with ceramides. Summarize texture evidence and suggest one alternative.",
+      "limit": 10
+    },
+    "needs_clarification": [],
+    "notice": "Unknown exclusions are withheld. Price tiers are approximate. Texture preferences are not yet ranked.",
+    "product_scope": [
+      10256,
+      21620,
+      37102
+    ]
+  },
+  "review_insights": [
+    {
+      "product_id": 10256,
+      "collected_reviews": 9,
+      "unique_reviews": 9,
+      "duplicates_removed": 0,
+      "aspects": [
+        {
+          "aspect": "texture",
+          "mentioning_reviews": 2,
+          "positive_reviews": 2,
+          "negative_reviews": 0,
+          "mixed_reviews": 0,
+          "neutral_reviews": 0
+        },
+        {
+          "aspect": "hydration",
+          "mentioning_reviews": 4,
+          "positive_reviews": 1,
+          "negative_reviews": 2,
+          "mixed_reviews": 1,
+          "neutral_reviews": 0
+        },
+        {
+          "aspect": "stinging",
+          "mentioning_reviews": 1,
+          "positive_reviews": 0,
+          "negative_reviews": 1,
+          "mixed_reviews": 0,
+          "neutral_reviews": 0
+        },
+        {
+          "aspect": "absorption",
+          "mentioning_reviews": 3,
+          "positive_reviews": 2,
+          "negative_reviews": 0,
+          "mixed_reviews": 1,
+          "neutral_reviews": 0
+        },
+        {
+          "aspect": "value",
+          "mentioning_reviews": 1,
+          "positive_reviews": 0,
+          "negative_reviews": 1,
+          "mixed_reviews": 0,
+          "neutral_reviews": 0
+        }
+      ],
+      "observations": [
+        {
+          "aspect": "stinging",
+          "sentiment": "negative",
+          "negated": false,
+          "span": "I experienced a mild burning sensation; not too bad, but noticeable enough that I couldn\u2019t ignore.",
+          "start": 103,
+          "end": 201,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 991,
+          "evidence_id": "review:991",
+          "skin_type": "Sensitive Skin",
+          "truncated": true,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "hydration",
+          "sentiment": "mixed",
+          "negated": true,
+          "span": "the hydration was okay, but not as much as I expected.",
+          "start": 324,
+          "end": 378,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 991,
+          "evidence_id": "review:991",
+          "skin_type": "Sensitive Skin",
+          "truncated": true,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "absorption",
+          "sentiment": "positive",
+          "negated": true,
+          "span": "soaks in the skin instantly leaving no residue",
+          "start": 9,
+          "end": 55,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 992,
+          "evidence_id": "review:992",
+          "skin_type": "Sensitive Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "hydration",
+          "sentiment": "positive",
+          "negated": false,
+          "span": "it really hydrated my skin",
+          "start": 45,
+          "end": 71,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 993,
+          "evidence_id": "review:993",
+          "skin_type": "Combination Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "texture",
+          "sentiment": "positive",
+          "negated": false,
+          "span": "One of the best lightweight moisturisers for nighttime.",
+          "start": 0,
+          "end": 55,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 994,
+          "evidence_id": "review:994",
+          "skin_type": "Sensitive Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "absorption",
+          "sentiment": "mixed",
+          "negated": false,
+          "span": "it takes a little longer than my day moisturiser to soak into the skin, but as a night cream it's perfect.",
+          "start": 64,
+          "end": 170,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 994,
+          "evidence_id": "review:994",
+          "skin_type": "Sensitive Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "absorption",
+          "sentiment": "positive",
+          "negated": true,
+          "span": "Soaks in nicely with no residue.",
+          "start": 73,
+          "end": 105,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 996,
+          "evidence_id": "review:996",
+          "skin_type": "Dry Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "hydration",
+          "sentiment": "negative",
+          "negated": true,
+          "span": "However, I have EXTREMELY dry skin and in the winter time this is not moisturizing enough for me",
+          "start": 106,
+          "end": 202,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 996,
+          "evidence_id": "review:996",
+          "skin_type": "Dry Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "texture",
+          "sentiment": "positive",
+          "negated": true,
+          "span": "the gel-like texture feels really light on the skin, leaving it glowy but not oily.",
+          "start": 107,
+          "end": 190,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 997,
+          "evidence_id": "review:997",
+          "skin_type": "Dry Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "hydration",
+          "sentiment": "negative",
+          "negated": false,
+          "span": "during the winter, I would need more hydration.",
+          "start": 240,
+          "end": 287,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 997,
+          "evidence_id": "review:997",
+          "skin_type": "Dry Skin",
+          "truncated": false,
+          "formulation_match": "unverified"
+        },
+        {
+          "aspect": "value",
+          "sentiment": "negative",
+          "negated": false,
+          "span": "Third THERES BARELYY PRODUCT FOR A 35$ (the picture is what it actually had)",
+          "start": 274,
+          "end": 350,
+          "extraction_method": "gemini",
+          "extraction_version": "gemini-aspects-1",
+          "model": "gemini-4-argon",
+          "review_id": 999,
+          "evidence_id": "review:999",
+          "skin_type": "Combination Skin",
+          "truncated": true,
+          "formulation_match": "unverified"
+        }
+      ],
+      "extraction_version": "gemini-aspects-1:gemini-4-argon",
+      "mode": "gemini_with_rule_fallback",
+      "gemini_reviews": 9,
+      "notice": "Counts describe collected reviews; categories may overlap. Formula version matching is unverified."
+    },
+    {
+      "product_id": 21620,
+      "collected_reviews": 4,
+      "unique_reviews": 4,
+      "duplicates_removed": 0,
+      "aspects": [],
+      "observations": [],
+      "extraction_version": "gemini-aspects-1:gemini-4-argon",
+      "mode": "gemini_with_rule_fallback",
+      "gemini_reviews": 4,
+      "notice": "Counts describe collected reviews; categories may overlap. Formula version matching is unverified."
+    }
+  ],
+  "alternatives": [
+    {
+      "product_id": 10256,
+      "alternatives": [
+        {
+          "id": 21620,
+          "brand": "Dr. Sheth's",
+          "name": "Oil-Free Moisturizer",
+          "category": "Moisturizers",
+          "domain": "skin",
+          "price_tier": "$",
+          "url": "https://skinsort.com/products/dr-sheth-s/oil-free-moisturizer",
+          "formula_status": "unverified",
+          "is_seed": false,
+          "evidence_id": "product:21620",
+          "score_kind": "heuristic_preference",
+          "formulation_version": "unverified",
+          "weighted_similarity": 0.0445,
+          "jaccard_baseline": 0.08,
+          "shared_ingredients": [
+            "ceramide np",
+            "ethylhexylglycerin",
+            "glycerin",
+            "water"
+          ],
+          "removed_ingredients": [
+            "1 2-hexanediol",
+            "ammonium acryloyldimethyltaurate/vp copolymer",
+            "angelica gigas root extract",
+            "beta-glucan",
+            "carbomer",
+            "centella asiatica extract",
+            "cnidium officinale root extract",
+            "coptis japonica root extract",
+            "dicaprylyl ether",
+            "eclipta prostrata leaf extract",
+            "ficus carica fruit extract",
+            "forsythia suspensa fruit extract",
+            "fructooligosaccharides",
+            "gardenia jasminoides fruit extract",
+            "glycyrrhiza uralensis root extract",
+            "hexyldecanol",
+            "hexyldecyl laurate",
+            "houttuynia cordata extract",
+            "hydrogenated lecithin",
+            "hydrolyzed hyaluronic acid",
+            "hydroxyacetophenone",
+            "laminaria japonica extract",
+            "lonicera japonica flower extract",
+            "panthenol",
+            "polyquaternium-51",
+            "solanum melongena fruit extract",
+            "tromethamine",
+            "xanthan gum"
+          ],
+          "added_ingredients": [
+            "3-o-ethyl ascorbic acid",
+            "caprylic/capric triglyceride",
+            "ceramide ap",
+            "ceramide as",
+            "ceramide eop",
+            "ceramide ns",
+            "cetyl-pg hydroxyethyl palmitamide",
+            "coconut alkanes",
+            "dimethicone",
+            "disodium edta",
+            "laminaria digitata extract",
+            "lecithin",
+            "phenoxyethanol",
+            "phyllanthus emblica fruit extract",
+            "sodium acrylates copolymer",
+            "terminalia ferdinandiana fruit extract",
+            "tocopheryl acetate",
+            "withania somnifera root extract"
+          ],
+          "checks": [
+            {
+              "constraint": "require:ceramides",
+              "status": "pass",
+              "matched_names": [
+                "ceramide eop",
+                "ceramide ns",
+                "ceramide np",
+                "ceramide as",
+                "ceramide ap"
+              ],
+              "reason": "Observed in recorded formula",
+              "evidence_ids": [
+                "product:21620"
+              ]
+            }
+          ],
+          "price_preference": 0
+        }
+      ],
+      "target": {
+        "id": 10256,
+        "brand": "Thank You Farmer",
+        "name": "Phyto Relieful Cica Cream",
+        "category": "Moisturizers",
+        "domain": "skin",
+        "price_tier": "$$",
+        "url": "https://skinsort.com/products/thank-you-farmer/phyto-relieful-cica-cream",
+        "formula_status": "unverified",
+        "is_seed": false,
+        "evidence_id": "product:10256",
+        "score_kind": "heuristic_preference",
+        "formulation_version": "unverified"
+      },
+      "notice": "Recorded ingredient similarity does not establish matching concentrations, performance, or safety."
+    }
+  ],
+  "references": [
+    {
+      "id": "aad-dry-skin",
+      "limitations": "General educational guidance. It does not test the products in this catalog or determine individual suitability.",
+      "publisher": "American Academy of Dermatology",
+      "quote": "Dermatologists recommend using products labeled \"fragrance-free.\"",
+      "retrieved_at": "2026-10-23",
+      "source_type": "professional_patient_guidance",
+      "summary": "AAD discusses gentle skin care, moisturizer use after washing, and creams or ointments for dryness. It distinguishes fragrance-free labeling from unscented labeling.",
+      "title": "Dermatologists' top tips for relieving dry skin",
+      "topics": [
+        "hydration",
+        "moisturizer",
+        "dry skin",
+        "fragrance",
+        "glycerin",
+        "dimethicone"
+      ],
+      "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/dermatologists-tips-relieve-dry-skin",
+      "verification": "primary_page_checked_by_assistant",
+      "evidence_id": "source:aad-dry-skin",
+      "content_hash": "216a7937ae686fb84e6a1e624f5c0112cba171d036bc09396c8b0951c0b76bb5",
+      "kind": "reference_note",
+      "human_reviewed": false
+    }
+  ],
+  "evidence": {
+    "mode": "hybrid_rrf",
+    "documents": [
+      {
+        "evidence_id": "product:21620",
+        "product_id": 21620,
+        "text": "Dr. Sheth's Oil-Free Moisturizer Moisturizers This barrier-repair moisturizer is formulated around Caprylic/Capric Triglyceride and Ceramide NP to strengthen the skin barrier and hydrate skin. moisturizer with 22 ingredients, including vitamin C, vitamin E, and ceramides. It is reef-safe, fungal acne-safe, cruelty-free, and can help with dry skin, sensitive skin, and anti aging. It is allergen-free, sulfate-free, paraben-free, oil-free, and alcohol-free. water, caprylic/capric triglyceride, glycerin, sodium acrylates copolymer, coconut alkanes, dimethicone, phyllanthus emblica fruit extract, tocopheryl acetate, terminalia ferdinandiana fruit extract, laminaria digitata extract, 3-o-ethyl ascorbic acid, phenoxyethanol, lecithin, cetyl-pg hydroxyethyl palmitamide, ceramide eop, ceramide ns, ceramide np, ceramide as, ceramide ap, withania somnifera root extract, disodium edta, ethylhexylglycerin",
+        "kind": "catalog_record",
+        "content_hash": "f30a02995224d024e2bc2d58f420d758be3849fad4e94d5ad3d9d03c895ae30c",
+        "score": 0.032787
+      },
+      {
+        "evidence_id": "product:10256",
+        "product_id": 10256,
+        "text": "Thank You Farmer Phyto Relieful Cica Cream Moisturizers This calming moisturizer is formulated around Centella Asiatica Extract and Panthenol to calm redness and strengthen the skin barrier. moisturizer with 32 ingredients, including hyaluronic acid and ceramides. It is reef-safe, fungal acne-safe, cruelty-free, and can help with dry skin, sensitive skin, and anti aging. It is allergen-free, sulfate-free, silicone-free, paraben-free, and oil-free. water, centella asiatica extract, dicaprylyl ether, panthenol, glycerin, 1 2-hexanediol, solanum melongena fruit extract, lonicera japonica flower extract, forsythia suspensa fruit extract, angelica gigas root extract, cnidium officinale root extract, gardenia jasminoides fruit extract, coptis japonica root extract, glycyrrhiza uralensis root extract, laminaria japonica extract, eclipta prostrata leaf extract, ficus carica fruit extract, houttuynia cordata extract, hydrogenated lecithin, ammonium acryloyldimethyltaurate/vp copolymer, hexyldecyl laurate, hexyldecanol, carbomer, tromethamine, polyquaternium-51, fructooligosaccharides, xanthan gum, beta-glucan, hydrolyzed hyaluronic acid, ceramide np, hydroxyacetophenone, ethylhexylglycerin",
+        "kind": "catalog_record",
+        "content_hash": "5ed1ed350a0cee961938c5d3b199d4d86e2933b10b394dfad1a4b2090057b915",
+        "score": 0.032002
+      },
+      {
+        "evidence_id": "review:997",
+        "product_id": 10256,
+        "text": "My skin is pretty dry, and heavier moisturizers tend to break me out. This hasn't caused me any breakouts, the gel-like texture feels really light on the skin, leaving it glowy but not oily. I use a hydrating toner every day with this, but during the winter, I would need more hydration.",
+        "kind": "reported_experience",
+        "content_hash": "dd8219af95d52febe01eec110dcb46099c57890854132b278127a5a7cf3f0dc4",
+        "score": 0.032002
+      },
+      {
+        "evidence_id": "review:996",
+        "product_id": 10256,
+        "text": "Super nice product that help calm the redness/irritation around my nose. Soaks in nicely with no residue. However, I have EXTREMELY dry skin and in the winter time this is not moisturizing enough for me",
+        "kind": "reported_experience",
+        "content_hash": "611db34ae23ec124aa7119e06e5381d3651ec3fdc678d64eb6063fa0cb05aaa6",
+        "score": 0.03101
+      },
+      {
+        "evidence_id": "review:994",
+        "product_id": 10256,
+        "text": "One of the best lightweight moisturisers for nighttime. For me, it takes a little longer than my day moisturiser to soak into the skin, but as a night cream it's perfect.\nIt's very gentle on my sensitive acne prone skin and helps my barrier.\nBasically it's like a perfect base without harsh actives that could trigger sensitivity",
+        "kind": "reported_experience",
+        "content_hash": "e6fecfbc37f576b9cb2121250b164b800140a58225cf589d2e8b5af3aee3a5f9",
+        "score": 0.029857
+      },
+      {
+        "evidence_id": "review:998",
+        "product_id": 10256,
+        "text": "I was really loving this, but after a few days of use, small white pustules started appearing on my face :( It's a shame because the ingredients for this looked so clean and safe",
+        "kind": "reported_experience",
+        "content_hash": "157058be96f5099b8afda75237804b1e6cba76cd682667c4bad30960bb717ee7",
+        "score": 0.029851
+      },
+      {
+        "evidence_id": "review:992",
+        "product_id": 10256,
+        "text": "calming, soaks in the skin instantly leaving no residue, fungal acne safe. overall one of the best if not the best",
+        "kind": "reported_experience",
+        "content_hash": "25ca062127696ee89b67aeb5e70d40570ab1f3ffd66a69204e455e887a1beefe",
+        "score": 0.029514
+      },
+      {
+        "evidence_id": "review:608",
+        "product_id": 21620,
+        "text": "THIS. IS. AMAZING.\nif your looking for a moisturizer that soothes the skin very well and heals redness THIS IS THE ONE!! literally after 1 day my skin is eating this up!!\ud83d\ude2d I love this!",
+        "kind": "reported_experience",
+        "content_hash": "dcf07e06241ded6dd468d5c2c54a130aa2b98bd25d2a51ada9d1a2de84426302",
+        "score": 0.029274
+      }
+    ],
+    "semantic_status": "available",
+    "semantic_coverage": 15,
+    "scoped_documents": 15
+  },
+  "synthesis": {
+    "mode": "gemini_extract_supported_passages",
+    "selections": [
+      {
+        "evidence_id": "review:997",
+        "topic": "texture",
+        "quote": "This hasn't caused me any breakouts, the gel-like texture feels really light on the skin, leaving it glowy but not oily.",
+        "kind": "reported_experience"
+      },
+      {
+        "evidence_id": "review:994",
+        "topic": "texture",
+        "quote": "One of the best lightweight moisturisers for nighttime.",
+        "kind": "reported_experience"
+      }
+    ],
+    "unanswered_topics": []
+  },
+  "trace": {
+    "mode": "deterministic_workflow",
+    "rule_version": "foundation-1",
+    "tools": [
+      "interpret",
+      "structured_search",
+      "reviews",
+      "alternatives",
+      "retrieve",
+      "validate_evidence"
+    ],
+    "plan_mode": "explicit_request_plan",
+    "planned_tools": [
+      "reviews",
+      "alternatives",
+      "retrieve"
+    ],
+    "events": [
+      {
+        "task": "intent",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 9.42
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 7.82
+      },
+      {
+        "task": "answer_evidence",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 7.02
+      }
+    ],
+    "retries": 0,
+    "model_calls": 0,
+    "interpretation_mode": "gemini_structured_intent",
+    "stage_timings_ms": {
+      "interpret": 31.43,
+      "load_catalog": 388.81,
+      "search": 1.2,
+      "plan": 0.48,
+      "reviews": 42.66,
+      "alternatives": 8.64,
+      "retrieve": 56.24,
+      "evidence_selection": 22.76
+    },
+    "cache_hits": 3,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "thinking_tokens": 0,
+    "elapsed_ms": 554.95
+  }
+}

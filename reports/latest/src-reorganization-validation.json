@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-11-04T06:43:19.544765+00:00",
+  "layout": "src/skinsort",
+  "regression_tests": {
+    "passed": 118,
+    "failed": 0
+  },
+  "ruff": "passed",
+  "agent_smoke": "passed",
+  "ui_semantic_assertions": 31,
+  "wheel_build": "passed",
+  "installed_wheel_http_smoke_groups": 11,
+  "installed_wheel_direct_smoke": "passed",
+  "additional_http_paths": 10,
+  "workspace_audit": "passed",
+  "database_sha256_unchanged": true,
+  "database_sha256": "b56d613774fa91c222cdc646e9b49aa045d18b95f3be2fd29dbc352deb6b7a02",
+  "preserved_raw_and_report_files": [
+    "reports/exports/Personalized_Moisturizer_Recommendations.md",
+    "reports/exports/Personalized_Recommendations.md",
+    "reports/exports/skinsort_recommendations.html",
+    "data/raw/skinsort_ingredients.json",
+    "data/raw/skinsort_moisturizers.json",
+    "data/raw/skinsort_personas.json",
+    "data/raw/skinsort_reviews.json"
+  ],
+  "source_backup": "backups\\before_src_reorganization_20261104T061529Z",
+  "provider_calls": 0,
+  "browser_layout_tested": false,
+  "compatibility_note": "Root launch modules and legacy Python import paths have been retired. See docs/SOURCE_LAYOUT.md."
+}

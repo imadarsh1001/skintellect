@@ -1,0 +1,60 @@
+{
+  "result": {
+    "indexed": 3,
+    "pending_selected": 3,
+    "model": "gemini-embedding-001",
+    "eligible_documents": 10
+  },
+  "usage": {
+    "calls": 3,
+    "max_calls": 3,
+    "deadline": 677897.734,
+    "events": [
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 295,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 295,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 8172.47
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 93,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 9453.64
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 26,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 26,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 9847.48
+      }
+    ]
+  }
+}

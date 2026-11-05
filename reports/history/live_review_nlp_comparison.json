@@ -1,0 +1,88 @@
+{
+  "dataset_kind": "authored_synthetic_smoke_fixtures",
+  "reviews": 12,
+  "results": {
+    "rules": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "true_positive": 12,
+      "false_positive": 0,
+      "false_negative": 0,
+      "missing": [],
+      "extra": []
+    },
+    "gemini": {
+      "precision": 0.9166666666666666,
+      "recall": 0.9166666666666666,
+      "f1": 0.9166666666666666,
+      "true_positive": 11,
+      "false_positive": 1,
+      "false_negative": 1,
+      "missing": [
+        [
+          8,
+          "scent",
+          "neutral",
+          false
+        ]
+      ],
+      "extra": [
+        [
+          8,
+          "scent",
+          "negative",
+          false
+        ]
+      ]
+    }
+  },
+  "limitation": "No real-world model accuracy claim follows from the synthetic examples.",
+  "events": [
+    {
+      "task": "review_aspects",
+      "model": "gemini-4-argon",
+      "status": "ok",
+      "cache_hit": false,
+      "attempts": 1,
+      "input_tokens": 548,
+      "output_tokens": 280,
+      "error_code": null,
+      "thinking_tokens": 0,
+      "total_tokens": 828,
+      "model_version": "gemini-4-argon",
+      "backend": "vertex",
+      "elapsed_ms": 26187.23
+    },
+    {
+      "task": "review_aspects",
+      "model": "gemini-4-argon",
+      "status": "ok",
+      "cache_hit": false,
+      "attempts": 1,
+      "input_tokens": 553,
+      "output_tokens": 173,
+      "error_code": null,
+      "thinking_tokens": 0,
+      "total_tokens": 726,
+      "model_version": "gemini-4-argon",
+      "backend": "vertex",
+      "elapsed_ms": 13732.46
+    },
+    {
+      "task": "review_aspects",
+      "model": "gemini-4-argon",
+      "status": "ok",
+      "cache_hit": false,
+      "attempts": 1,
+      "input_tokens": 504,
+      "output_tokens": 56,
+      "error_code": null,
+      "thinking_tokens": 0,
+      "total_tokens": 560,
+      "model_version": "gemini-4-argon",
+      "backend": "vertex",
+      "elapsed_ms": 33473.03
+    }
+  ]
+}

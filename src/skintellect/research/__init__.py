@@ -1,0 +1,1 @@
+"""Skintellect research package."""

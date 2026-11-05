@@ -1,0 +1,1 @@
+"""Skintellect formulation package."""

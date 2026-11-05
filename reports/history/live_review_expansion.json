@@ -1,0 +1,74 @@
+{
+  "result": {
+    "processed_reviews": 20,
+    "selected_reviews": 20,
+    "version": "gemini-aspects-1:gemini-4-argon"
+  },
+  "usage": {
+    "calls": 4,
+    "max_calls": 4,
+    "deadline": 677879.281,
+    "events": [
+      {
+        "task": "review_aspects",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 939,
+        "output_tokens": 312,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 1251,
+        "model_version": "gemini-4-argon",
+        "backend": "vertex",
+        "elapsed_ms": 32775.73
+      },
+      {
+        "task": "review_aspects",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 854,
+        "output_tokens": 84,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 938,
+        "model_version": "gemini-4-argon",
+        "backend": "vertex",
+        "elapsed_ms": 29791.58
+      },
+      {
+        "task": "review_aspects",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 943,
+        "output_tokens": 151,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 1094,
+        "model_version": "gemini-4-argon",
+        "backend": "vertex",
+        "elapsed_ms": 27778.24
+      },
+      {
+        "task": "review_aspects",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 738,
+        "output_tokens": 151,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 889,
+        "model_version": "gemini-4-argon",
+        "backend": "vertex",
+        "elapsed_ms": 13923.79
+      }
+    ]
+  }
+}

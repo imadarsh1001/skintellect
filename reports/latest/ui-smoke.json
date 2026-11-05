@@ -1,0 +1,11 @@
+{
+  "kind": "headless_local_fixture_ui_checks",
+  "status": "browser_unavailable",
+  "provider_calls": 0,
+  "all_passed": null,
+  "attempted_browsers": [
+    "Chrome",
+    "Edge"
+  ],
+  "limitation": "Browser processes failed before the fixture UI could be exercised in this restricted execution environment. JavaScript syntax, HTML contracts, API tests and regression tests are checked separately. Visual and browser-interaction verification remains unavailable."
+}

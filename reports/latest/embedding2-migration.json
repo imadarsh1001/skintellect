@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-10-23T13:59:56.620383+00:00",
+  "source_model": "gemini-embedding-001",
+  "target_model": "gemini-embedding-2",
+  "dimensions": 768,
+  "selected_documents": 35,
+  "old_vectors_preserved": true,
+  "activated": true,
+  "scope": "Current documents previously indexed with the legacy model; not the full catalog.",
+  "indexing": {
+    "indexed": 17,
+    "pending_selected": 17,
+    "model": "gemini-embedding-2",
+    "eligible_documents": 35
+  },
+  "provider_attempts": 17,
+  "valid_target_documents": 35,
+  "complete": true,
+  "status": "ready"
+}

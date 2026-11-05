@@ -1,0 +1,1 @@
+"""Skintellect application package."""

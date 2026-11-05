@@ -1,0 +1,17 @@
+{
+  "dataset_kind": "authored_synthetic_smoke_fixtures",
+  "reviews": 12,
+  "results": {
+    "rules": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "true_positive": 12,
+      "false_positive": 0,
+      "false_negative": 0,
+      "missing": [],
+      "extra": []
+    }
+  },
+  "limitation": "No real-world model accuracy claim follows from the synthetic examples."
+}

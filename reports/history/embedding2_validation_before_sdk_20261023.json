@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-23T12:28:42.732561+00:00",
+  "regression_tests": {
+    "passed": 94,
+    "failed": 0
+  },
+  "active_embedding_model": "gemini-embedding-001",
+  "active_absa_model": "gemini-4-argon",
+  "embedding_dimensions": 768,
+  "vector_inventory": [
+    {
+      "model": "gemini-embedding-001",
+      "dimensions": 768,
+      "count": 35
+    }
+  ],
+  "prepared_study_ready": true,
+  "evaluation_current": true,
+  "migration_report": "embedding2-migration.json",
+  "migration_activated": false,
+  "blocked_by": "Cloud embedContent rejected supplied API-key authentication: HTTP 401; v1beta1 diagnostic CREDENTIALS_MISSING",
+  "absa_smoke_report": "absa-flash-lite-smoke.json",
+  "absa_model_replaced": false,
+  "active_preparation_jobs": 0
+}

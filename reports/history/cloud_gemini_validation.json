@@ -1,0 +1,30 @@
+{
+  "dataset_disclosure": "explicitly_authorized_by_user",
+  "model_review_records": 34,
+  "observations": 29,
+  "invalid_support_spans": 0,
+  "stored_vectors": 13,
+  "original_tables_unchanged": {
+    "products": true,
+    "ingredients": true,
+    "product_ingredients": true,
+    "reviews": true,
+    "crawl_queue": true,
+    "personas": true
+  },
+  "database_integrity": "ok",
+  "tests": {
+    "passed": 59,
+    "skipped": 1
+  },
+  "coverage": "bounded sample; not a complete catalog index",
+  "assistant": {
+    "eligible_products": 25,
+    "retrieval_mode": "hybrid_rrf",
+    "semantic_coverage": 3,
+    "selected_quotes": 1,
+    "all_quotes_supported": true,
+    "elapsed_ms": 52085.83,
+    "model_calls": 2
+  }
+}

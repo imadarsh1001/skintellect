@@ -1,0 +1,43 @@
+{
+  "extraction": {
+    "ingredients": [
+      "Water",
+      "Glycerin",
+      "Panthenol",
+      "Fragrance"
+    ],
+    "uncertain_text": [],
+    "appears_complete": true
+  },
+  "image_hash": "7bca79414cfffb1867137f06e5e266ce01d894b96b58794417c524534188d32e",
+  "model": "gemini-4-argon",
+  "human_verified": false,
+  "formula_verification_changed": false,
+  "comparison": null,
+  "events": [
+    {
+      "task": "label_transcription",
+      "model": "gemini-4-argon",
+      "status": "ok",
+      "cache_hit": false,
+      "attempts": 1,
+      "input_tokens": 1450,
+      "output_tokens": 49,
+      "error_code": null,
+      "thinking_tokens": 0,
+      "total_tokens": 1499,
+      "model_version": "gemini-4-argon",
+      "backend": "vertex",
+      "elapsed_ms": 16968.3
+    }
+  ],
+  "notice": "Experimental transcription. Unreadable text, batch, market and formulation versions may differ. No catalog formula is changed.",
+  "test_kind": "authored_synthetic_label_smoke_not_real_label_accuracy",
+  "expected_ingredients": [
+    "water",
+    "glycerin",
+    "panthenol",
+    "parfum"
+  ],
+  "exact_expected_match": true
+}

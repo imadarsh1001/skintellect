@@ -1,0 +1,348 @@
+{
+  "label": "Developer smoke cases; no held-out accuracy claim",
+  "passed": 20,
+  "total": 20,
+  "cases": [
+    {
+      "query": "fragrance-free moisturizer",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [
+          "Parfum"
+        ],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "fragrance-free moisturizer",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer without perfume",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [
+          "Parfum"
+        ],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "moisturizer without perfume",
+        "limit": 10
+      }
+    },
+    {
+      "query": "serum with niacinamide",
+      "passed": true,
+      "intent": {
+        "category": "serums",
+        "domain": "skin",
+        "required_ingredients": [
+          "niacinamide"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "serum with niacinamide",
+        "limit": 10
+      }
+    },
+    {
+      "query": "cleanser without niacinamide",
+      "passed": true,
+      "intent": {
+        "category": "cleansers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [
+          "niacinamide"
+        ],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "cleanser without niacinamide",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer with ceramides",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [
+          "ceramides"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "moisturizer with ceramides",
+        "limit": 10
+      }
+    },
+    {
+      "query": "toner with panthenol",
+      "passed": true,
+      "intent": {
+        "category": "toners",
+        "domain": "skin",
+        "required_ingredients": [
+          "panthenol"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "toner with panthenol",
+        "limit": 10
+      }
+    },
+    {
+      "query": "sunscreen without dimethicone",
+      "passed": true,
+      "intent": {
+        "category": "sunscreens",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [
+          "dimethicone"
+        ],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "sunscreen without dimethicone",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer with glycerin",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [
+          "glycerin"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "moisturizer with glycerin",
+        "limit": 10
+      }
+    },
+    {
+      "query": "serum with retinol",
+      "passed": true,
+      "intent": {
+        "category": "serums",
+        "domain": "skin",
+        "required_ingredients": [
+          "retinol"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "serum with retinol",
+        "limit": 10
+      }
+    },
+    {
+      "query": "cleanser with salicylic acid",
+      "passed": true,
+      "intent": {
+        "category": "cleansers",
+        "domain": "skin",
+        "required_ingredients": [
+          "salicylic acid"
+        ],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "cleanser with salicylic acid",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer under ₹800",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "Exact local prices are unavailable; choose a catalog price tier."
+        ],
+        "text": "moisturizer under ₹800",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer under 800 rupees",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "Exact local prices are unavailable; choose a catalog price tier."
+        ],
+        "text": "moisturizer under 800 rupees",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer without essential oils",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "An unsupported safety or exclusion phrase needs explicit structured filters."
+        ],
+        "text": "moisturizer without essential oils",
+        "limit": 10
+      }
+    },
+    {
+      "query": "moisturizer alcohol-free",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "An unsupported safety or exclusion phrase needs explicit structured filters."
+        ],
+        "text": "moisturizer alcohol-free",
+        "limit": 10
+      }
+    },
+    {
+      "query": "pregnancy safe moisturizer",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "An unsupported safety or exclusion phrase needs explicit structured filters."
+        ],
+        "text": "pregnancy safe moisturizer",
+        "limit": 10
+      }
+    },
+    {
+      "query": "serum and moisturizer",
+      "passed": true,
+      "intent": {
+        "category": "all",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "Multiple categories: choose one in the structured filters."
+        ],
+        "text": "serum and moisturizer",
+        "limit": 10
+      }
+    },
+    {
+      "query": "show me products",
+      "passed": true,
+      "intent": {
+        "category": "all",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [
+          "Choose a product category or ingredient constraint."
+        ],
+        "text": "show me products",
+        "limit": 10
+      }
+    },
+    {
+      "query": "affordable moisturizer",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [
+          "$",
+          "$$"
+        ],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "affordable moisturizer",
+        "limit": 10
+      }
+    },
+    {
+      "query": "lightweight moisturizer",
+      "passed": true,
+      "intent": {
+        "category": "moisturizers",
+        "domain": "skin",
+        "required_ingredients": [],
+        "excluded_ingredients": [],
+        "preferred_price_tiers": [],
+        "preferences": [
+          "lightweight"
+        ],
+        "unresolved_terms": [],
+        "text": "lightweight moisturizer",
+        "limit": 10
+      }
+    },
+    {
+      "query": "shampoo fragrance-free",
+      "passed": true,
+      "intent": {
+        "category": "shampoos",
+        "domain": "hair",
+        "required_ingredients": [],
+        "excluded_ingredients": [
+          "Parfum"
+        ],
+        "preferred_price_tiers": [],
+        "preferences": [],
+        "unresolved_terms": [],
+        "text": "shampoo fragrance-free",
+        "limit": 10
+      }
+    }
+  ]
+}

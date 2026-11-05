@@ -1,0 +1,18 @@
+{
+  "wheel_imports": "passed",
+  "http_catalog_groups": 11,
+  "direct_catalog_checks": "passed",
+  "additional_paths": [
+    "/study",
+    "/research",
+    "/progress",
+    "/api/research/progress",
+    "/api/research/demo",
+    "/api/products/10256/review-insights",
+    "/api/products/10256/connections",
+    "/static/js/workspace.js"
+  ],
+  "provider_calls": 0,
+  "database_sha256_unchanged": true,
+  "browser_layout_tested": false
+}

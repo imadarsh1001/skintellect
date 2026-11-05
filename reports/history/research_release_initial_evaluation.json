@@ -1,0 +1,1182 @@
+{
+  "created_at": "2026-10-23T04:59:45.723643+00:00",
+  "input_fingerprint": "543e79becadd36dc5bac6832678ebad879f37e7fbc845f05b961b07d927dc209",
+  "evaluation_kind": "automated_engineering_checks_not_human_validated_accuracy",
+  "cohort_product_ids": [
+    10256,
+    21620,
+    37102
+  ],
+  "cohort_ready": true,
+  "retrieval": {
+    "label_kind": "generated_identity_and_surface_term_weak_labels",
+    "cases": [
+      {
+        "query": "Thank You Farmer Phyto Relieful Cica Cream",
+        "relevant": [
+          "product:10256"
+        ],
+        "label_basis": "known_catalog_identity",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:10256",
+              "review:994",
+              "review:7",
+              "review:3"
+            ],
+            "elapsed_ms": 15115.23,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:10256",
+              "review:608",
+              "review:991",
+              "review:996",
+              "review:992",
+              "review:998",
+              "review:995",
+              "review:994",
+              "review:609",
+              "review:1"
+            ],
+            "elapsed_ms": 18929.89,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:10256",
+              "review:994",
+              "review:3",
+              "review:7",
+              "review:608",
+              "review:991",
+              "review:996",
+              "review:992",
+              "review:998",
+              "review:995"
+            ],
+            "elapsed_ms": 6760.76,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "Dr. Sheth's Oil-Free Moisturizer",
+        "relevant": [
+          "product:21620"
+        ],
+        "label_basis": "known_catalog_identity",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "product:10256",
+              "product:37102",
+              "review:13",
+              "review:608",
+              "review:996",
+              "review:997",
+              "review:2",
+              "review:994",
+              "review:12"
+            ],
+            "elapsed_ms": 3525.9,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "review:997",
+              "review:992",
+              "review:994",
+              "review:608",
+              "review:996",
+              "review:998",
+              "review:611",
+              "review:610",
+              "review:609"
+            ],
+            "elapsed_ms": 17078.53,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "review:997",
+              "review:608",
+              "review:996",
+              "review:994",
+              "product:10256",
+              "review:998",
+              "review:13",
+              "review:12",
+              "review:609"
+            ],
+            "elapsed_ms": 3024.43,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "iUNIK Tea Tree Relief Serum",
+        "relevant": [
+          "product:37102"
+        ],
+        "label_basis": "known_catalog_identity",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:37102",
+              "review:9",
+              "review:13",
+              "review:7",
+              "review:10",
+              "review:15",
+              "review:4",
+              "review:5",
+              "review:8",
+              "review:2"
+            ],
+            "elapsed_ms": 3997.77,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:37102",
+              "review:10",
+              "review:9",
+              "review:7",
+              "review:992",
+              "review:996",
+              "review:5",
+              "review:12",
+              "review:3",
+              "review:1"
+            ],
+            "elapsed_ms": 13264.41,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:37102",
+              "review:9",
+              "review:10",
+              "review:7",
+              "review:13",
+              "review:5",
+              "review:12",
+              "review:4",
+              "review:3",
+              "review:2"
+            ],
+            "elapsed_ms": 1802.72,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "niacinamide",
+        "relevant": [
+          "product:37102",
+          "review:5"
+        ],
+        "label_basis": "surface_term_match_weak_label",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "review:5",
+              "product:37102"
+            ],
+            "elapsed_ms": 3598.93,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 0.5,
+              "ndcg_at_3": 0.6131471927654584
+            },
+            "evidence_ids": [
+              "review:5",
+              "review:14",
+              "review:992",
+              "product:37102",
+              "review:12",
+              "review:610",
+              "review:3",
+              "review:6",
+              "review:4",
+              "review:2"
+            ],
+            "elapsed_ms": 25642.74,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "review:5",
+              "product:37102",
+              "review:14",
+              "review:992",
+              "review:12",
+              "review:610",
+              "review:3",
+              "review:6",
+              "review:4",
+              "review:2"
+            ],
+            "elapsed_ms": 1740.96,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "ceramide",
+        "relevant": [
+          "product:10256",
+          "product:21620"
+        ],
+        "label_basis": "surface_term_match_weak_label",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "product:10256"
+            ],
+            "elapsed_ms": 1676.41,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 0.5,
+              "ndcg_at_3": 0.6131471927654584
+            },
+            "evidence_ids": [
+              "product:21620",
+              "review:992",
+              "review:4",
+              "product:10256",
+              "review:994",
+              "review:610",
+              "review:608",
+              "review:1",
+              "review:609",
+              "review:611"
+            ],
+            "elapsed_ms": 22782.95,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "product:10256",
+              "review:992",
+              "review:4",
+              "review:994",
+              "review:610",
+              "review:608",
+              "review:1",
+              "review:609",
+              "review:611"
+            ],
+            "elapsed_ms": 1813.9,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "glycerin",
+        "relevant": [
+          "product:10256",
+          "product:21620",
+          "product:37102"
+        ],
+        "label_basis": "surface_term_match_weak_label",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 1.0,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "product:10256",
+              "product:37102"
+            ],
+            "elapsed_ms": 3158.1,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.3333333333333333,
+              "recall_at_3": 0.3333333333333333,
+              "ndcg_at_3": 0.46927872602275644
+            },
+            "evidence_ids": [
+              "product:21620",
+              "review:992",
+              "review:4",
+              "review:994",
+              "review:608",
+              "review:610",
+              "review:609",
+              "review:6",
+              "review:12",
+              "product:10256"
+            ],
+            "elapsed_ms": 25689.22,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 1.0,
+              "recall_at_3": 1.0,
+              "ndcg_at_3": 1.0
+            },
+            "evidence_ids": [
+              "product:21620",
+              "product:10256",
+              "product:37102",
+              "review:992",
+              "review:4",
+              "review:994",
+              "review:608",
+              "review:610",
+              "review:609",
+              "review:6"
+            ],
+            "elapsed_ms": 4608.56,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      },
+      {
+        "query": "hydrating",
+        "relevant": [
+          "review:7",
+          "review:12",
+          "review:997"
+        ],
+        "label_basis": "surface_term_match_weak_label",
+        "rankings": {
+          "lexical": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 0.6666666666666666,
+              "ndcg_at_3": 0.7653606369886217
+            },
+            "evidence_ids": [
+              "review:997",
+              "review:7",
+              "review:993",
+              "review:12",
+              "review:991",
+              "product:21620"
+            ],
+            "elapsed_ms": 7176.61,
+            "actual_mode": "lexical_bm25",
+            "semantic_status": "not_requested"
+          },
+          "semantic": {
+            "metrics": {
+              "mrr": 0.5,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 0.6666666666666666,
+              "ndcg_at_3": 0.5307212739772434
+            },
+            "evidence_ids": [
+              "product:21620",
+              "review:997",
+              "review:7",
+              "review:994",
+              "review:993",
+              "review:991",
+              "product:10256",
+              "review:608",
+              "review:996",
+              "review:992"
+            ],
+            "elapsed_ms": 17917.89,
+            "actual_mode": "semantic_only",
+            "semantic_status": "available"
+          },
+          "hybrid": {
+            "metrics": {
+              "mrr": 1.0,
+              "precision_at_3": 0.6666666666666666,
+              "recall_at_3": 0.6666666666666666,
+              "ndcg_at_3": 0.7653606369886217
+            },
+            "evidence_ids": [
+              "review:997",
+              "review:7",
+              "product:21620",
+              "review:993",
+              "review:991",
+              "review:12",
+              "review:994",
+              "product:10256",
+              "review:608",
+              "review:996"
+            ],
+            "elapsed_ms": 5248.53,
+            "actual_mode": "hybrid_rrf",
+            "semantic_status": "available"
+          }
+        }
+      }
+    ],
+    "summary": {
+      "lexical": {
+        "mrr": 1.0,
+        "precision_at_3": 0.5714285714285714,
+        "recall_at_3": 0.9523809523809524,
+        "ndcg_at_3": 0.9664800909983745
+      },
+      "semantic": {
+        "mrr": 0.9285714285714286,
+        "precision_at_3": 0.38095238095238093,
+        "recall_at_3": 0.7142857142857143,
+        "ndcg_at_3": 0.7466134836472739
+      },
+      "hybrid": {
+        "mrr": 1.0,
+        "precision_at_3": 0.5714285714285714,
+        "recall_at_3": 0.9523809523809524,
+        "ndcg_at_3": 0.9664800909983745
+      }
+    },
+    "limitation": "Small convenience sample. Surface labels favor lexical matching. These scores do not establish semantic relevance or ranking gains."
+  },
+  "review_agreement": {
+    "kind": "real_review_rules_model_agreement_not_accuracy",
+    "reviews": 28,
+    "exact_set_agreement": 0.32142857142857145,
+    "mean_jaccard_agreement": 0.4744047619047619,
+    "invalid_model_source_spans": 0,
+    "disagreements": [
+      {
+        "review_id": 2,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.5,
+        "rules_only": [
+          [
+            "texture",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 3,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.5,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 5,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 6,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.2,
+        "rules_only": [
+          [
+            "stickiness",
+            "negative",
+            false
+          ],
+          [
+            "texture",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": [
+          [
+            "stickiness",
+            "positive",
+            true
+          ],
+          [
+            "texture",
+            "neutral",
+            false
+          ]
+        ]
+      },
+      {
+        "review_id": 7,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.75,
+        "rules_only": [],
+        "gemini_only": [
+          [
+            "texture",
+            "neutral",
+            false
+          ]
+        ]
+      },
+      {
+        "review_id": 10,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "texture",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 11,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "value",
+            "negative",
+            false
+          ],
+          [
+            "value",
+            "positive",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 12,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.3333333333333333,
+        "rules_only": [
+          [
+            "stinging",
+            "positive",
+            true
+          ],
+          [
+            "texture",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 14,
+        "product_id": 37102,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 608,
+        "product_id": 21620,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "hydration",
+            "positive",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 609,
+        "product_id": 21620,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 991,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.3333333333333333,
+        "rules_only": [
+          [
+            "hydration",
+            "positive",
+            false
+          ]
+        ],
+        "gemini_only": [
+          [
+            "hydration",
+            "mixed",
+            true
+          ]
+        ]
+      },
+      {
+        "review_id": 992,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [],
+        "gemini_only": [
+          [
+            "absorption",
+            "positive",
+            true
+          ]
+        ]
+      },
+      {
+        "review_id": 993,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.5,
+        "rules_only": [
+          [
+            "texture",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 994,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.5,
+        "rules_only": [],
+        "gemini_only": [
+          [
+            "absorption",
+            "mixed",
+            false
+          ]
+        ]
+      },
+      {
+        "review_id": 995,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": []
+      },
+      {
+        "review_id": 996,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.3333333333333333,
+        "rules_only": [
+          [
+            "stinging",
+            "negative",
+            false
+          ]
+        ],
+        "gemini_only": [
+          [
+            "absorption",
+            "positive",
+            true
+          ]
+        ]
+      },
+      {
+        "review_id": 997,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.3333333333333333,
+        "rules_only": [
+          [
+            "hydration",
+            "positive",
+            false
+          ]
+        ],
+        "gemini_only": [
+          [
+            "hydration",
+            "negative",
+            false
+          ]
+        ]
+      },
+      {
+        "review_id": 999,
+        "product_id": 10256,
+        "exact_label_set_agreement": false,
+        "jaccard_agreement": 0.0,
+        "rules_only": [],
+        "gemini_only": [
+          [
+            "value",
+            "negative",
+            false
+          ]
+        ]
+      }
+    ],
+    "limitation": "Both methods can be wrong. No independent human annotations were supplied."
+  },
+  "synthetic_rule_smoke": {
+    "kind": "authored_synthetic_developer_fixtures",
+    "cases": 12,
+    "metrics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "true_positive": 12,
+      "false_positive": 0,
+      "false_negative": 0,
+      "missing": [],
+      "extra": []
+    }
+  },
+  "latency": {
+    "measurements": [
+      {
+        "run": "first_run_in_this_benchmark",
+        "elapsed_ms": 98887.48,
+        "provider_calls": 3,
+        "cache_hits": 1,
+        "stage_timings_ms": {
+          "interpret": 302.15,
+          "search": 2844.24,
+          "plan": 0.89,
+          "reviews": 155.21,
+          "alternatives": 3150.02,
+          "retrieve": 14041.25
+        },
+        "evidence_selection_mode": "evidence_selection_fallback",
+        "selected_quotes": 0,
+        "all_selected_quotes_supported": true,
+        "outcome": "no_excerpts"
+      },
+      {
+        "run": "repeat_run",
+        "elapsed_ms": 29530.52,
+        "provider_calls": 1,
+        "cache_hits": 2,
+        "stage_timings_ms": {
+          "interpret": 23.9,
+          "search": 435.09,
+          "plan": 0.04,
+          "reviews": 45.65,
+          "alternatives": 476.97,
+          "retrieve": 1803.85,
+          "evidence_selection": 26739.22
+        },
+        "evidence_selection_mode": "gemini_extract_supported_passages",
+        "selected_quotes": 2,
+        "all_selected_quotes_supported": true,
+        "outcome": "supported_excerpts"
+      },
+      {
+        "run": "warm_cache_after_catalog_load_optimization",
+        "elapsed_ms": 9305.56,
+        "provider_calls": 0,
+        "cache_hits": 3,
+        "stage_timings_ms": {
+          "interpret": 47.62,
+          "load_catalog": 254.17,
+          "search": 0.78,
+          "plan": 0.34,
+          "reviews": 25.36,
+          "alternatives": 10.49,
+          "retrieve": 8827.79,
+          "evidence_selection": 45.24
+        },
+        "evidence_selection_mode": "gemini_extract_supported_passages",
+        "selected_quotes": 2,
+        "all_selected_quotes_supported": true,
+        "outcome": "supported_excerpts"
+      },
+      {
+        "run": "warm_cache_after_scoped_corpus_optimization",
+        "elapsed_ms": 384.04,
+        "provider_calls": 0,
+        "cache_hits": 3,
+        "stage_timings_ms": {
+          "interpret": 24.26,
+          "load_catalog": 271.94,
+          "search": 0.88,
+          "plan": 0.29,
+          "reviews": 20.9,
+          "alternatives": 11.3,
+          "retrieve": 37.91,
+          "evidence_selection": 13.42
+        },
+        "evidence_selection_mode": "gemini_extract_supported_passages",
+        "selected_quotes": 2,
+        "all_selected_quotes_supported": true,
+        "outcome": "supported_excerpts"
+      }
+    ],
+    "limitation": "Small repeated-run sample. Earlier timings and the initial provider-network fallback are retained. Later warm-cache timings follow catalog-load and scoped-corpus optimizations; they are not cold-query performance claims."
+  },
+  "reference_library": {
+    "notes": 3,
+    "lexical_smoke": {
+      "source:fda-label-order": 0.8153342416728678,
+      "source:aad-dry-skin": 0.7298974764758115,
+      "source:niacinamide-33038007": 0.6638866511063487
+    }
+  },
+  "usage": {
+    "provider_calls": 11,
+    "retrieval_provider_calls": 7,
+    "retrieval_events": [
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 9,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 9,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 9737.63
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 12.43
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 11,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 11,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 12581.23
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 6.02
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 7,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 7,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 9336.88
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 4.56
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 3,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 3,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 20045.17
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 5.1
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 2,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 2,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 20626.44
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 4.55
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 2,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 2,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 20166.24
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 5.57
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 2,
+        "output_tokens": 0,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 2,
+        "model_version": "gemini-embedding-001",
+        "backend": "vertex",
+        "elapsed_ms": 8953.76
+      },
+      {
+        "task": "embedding",
+        "model": "gemini-embedding-001",
+        "status": "ok",
+        "cache_hit": true,
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "error_code": null,
+        "backend": "vertex",
+        "elapsed_ms": 15.09
+      }
+    ]
+  },
+  "human_reviewed": false,
+  "remaining_limitations": [
+    "No human gold labels",
+    "No catalog formula certified complete",
+    "No clinical product validation",
+    "Full catalog preparation is partial"
+  ]
+}

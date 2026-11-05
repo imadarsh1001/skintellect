@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-10-23T07:47:19.859739+00:00",
+  "regression_tests": {
+    "command": "python -m unittest discover -s tests -q",
+    "passed": 82,
+    "failed": 0
+  },
+  "legacy_direct_routes": {
+    "passed": true,
+    "groups": 11,
+    "http_transport_tested": false
+  },
+  "provider_calls": 0,
+  "browser": {
+    "status": "unavailable",
+    "visual_checks_passed": null,
+    "details": "ui-smoke.json"
+  },
+  "workspace_audit": "workspace-audit.json",
+  "asgi_route_checks": {
+    "passed": true,
+    "routes": [
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/study",
+        "status": 200
+      },
+      {
+        "path": "/research",
+        "status": 200
+      },
+      {
+        "path": "/progress",
+        "status": 200
+      },
+      {
+        "path": "/static/css/workspace.css",
+        "status": 200
+      },
+      {
+        "path": "/static/js/workspace.js",
+        "status": 200
+      },
+      {
+        "path": "/static/js/study.js",
+        "status": 200
+      },
+      {
+        "path": "/static/js/research.js",
+        "status": 200
+      },
+      {
+        "path": "/static/js/progress.js",
+        "status": 200
+      },
+      {
+        "path": "/api/research/demo",
+        "status": 200
+      },
+      {
+        "path": "/api/research/progress",
+        "status": 200
+      }
+    ],
+    "network_http_transport_tested": false
+  },
+  "workspace_audit_passed": true,
+  "original_database_tables_unchanged": true,
+  "database_integrity": "ok"
+}

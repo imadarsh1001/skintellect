@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-23T08:24:02.989613+00:00",
+  "regression_tests": {
+    "passed": 82,
+    "failed": 0
+  },
+  "ui_semantic_and_contrast_assertions": 29,
+  "contrast_pairs": 8,
+  "summary_checks": "ui-semantics.json",
+  "workspace_audit": "workspace-audit.json",
+  "live_http_checks": [
+    {
+      "path": "/study",
+      "status": 200
+    },
+    {
+      "path": "/research",
+      "status": 200
+    },
+    {
+      "path": "/static/js/workspace.js",
+      "status": 200
+    },
+    {
+      "path": "/static/js/study.js",
+      "status": 200
+    },
+    {
+      "path": "/static/js/research.js",
+      "status": 200
+    },
+    {
+      "path": "/api/products/10256/review-insights",
+      "status": 200
+    },
+    {
+      "path": "/api/products/21620/review-insights",
+      "status": 200
+    },
+    {
+      "path": "/api/products/37102/review-insights",
+      "status": 200
+    }
+  ],
+  "browser_rendering_and_interactions": "unverified; installed headless browsers failed in earlier attempts",
+  "provider_calls": 0,
+  "product_first_refinement": [
+    "compact introduction and optional color key",
+    "actual extracted-theme previews with shared saved-review requests",
+    "theme and sentiment quote filters",
+    "source-preserving pagination and empty-state recovery"
+  ],
+  "ui_semantic_checks_passed": true
+}

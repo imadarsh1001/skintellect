@@ -1,0 +1,29 @@
+{
+  "result": {
+    "processed_reviews": 5,
+    "selected_reviews": 5,
+    "version": "gemini-aspects-1:gemini-4-argon"
+  },
+  "usage": {
+    "calls": 1,
+    "max_calls": 2,
+    "deadline": 677705.265,
+    "events": [
+      {
+        "task": "review_aspects",
+        "model": "gemini-4-argon",
+        "status": "ok",
+        "cache_hit": false,
+        "attempts": 1,
+        "input_tokens": 925,
+        "output_tokens": 83,
+        "error_code": null,
+        "thinking_tokens": 0,
+        "total_tokens": 1008,
+        "model_version": "gemini-4-argon",
+        "backend": "vertex",
+        "elapsed_ms": 13978.62
+      }
+    ]
+  }
+}

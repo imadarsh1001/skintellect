@@ -1,0 +1,46 @@
+{
+  "schema_version": "review-decisions-v1",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "extraction_version": "gemini-aspects-2-open",
+  "observations": [
+    {
+      "aspect": "absorption",
+      "is_discovered_aspect": false,
+      "sentiment": "positive",
+      "negated": false,
+      "span": "absorbs quickly",
+      "start": 30,
+      "end": 45,
+      "extraction_method": "gemini",
+      "extraction_version": "gemini-aspects-2-open",
+      "model": "gemini-3.5-flash-lite",
+      "review_id": 1,
+      "source_id": "input:review:1"
+    },
+    {
+      "aspect": "white_cast",
+      "is_discovered_aspect": true,
+      "sentiment": "negative",
+      "negated": false,
+      "span": "leaves a white cast",
+      "start": 50,
+      "end": 69,
+      "extraction_method": "gemini",
+      "extraction_version": "gemini-aspects-2-open",
+      "model": "gemini-3.5-flash-lite",
+      "review_id": 1,
+      "source_id": "input:review:1"
+    }
+  ],
+  "discovered_aspects": [
+    "white_cast"
+  ],
+  "source_quotes_validated": true,
+  "confidence": null,
+  "confidence_status": "not_calibrated",
+  "provider_attempts": 1,
+  "notice": "Aspects describe reported experiences. New labels are provisional; source validity does not establish classification accuracy.",
+  "evaluation_kind": "synthetic_integration_smoke_not_accuracy_benchmark",
+  "limitation": "Source spans validated, but the model omitted the broken-pump experience in this synthetic input; structured output does not guarantee exhaustive aspect coverage."
+}

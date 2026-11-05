@@ -1,0 +1,49 @@
+{
+  "backup_archive_valid": true,
+  "backup_database_integrity": "ok",
+  "current_database_integrity": "ok",
+  "original_table_checks": {
+    "products": {
+      "original_count": 2502,
+      "current_count": 2502,
+      "unchanged": true
+    },
+    "ingredients": {
+      "original_count": 1507,
+      "current_count": 1507,
+      "unchanged": true
+    },
+    "product_ingredients": {
+      "original_count": 12216,
+      "current_count": 12216,
+      "unchanged": true
+    },
+    "reviews": {
+      "original_count": 4062,
+      "current_count": 4062,
+      "unchanged": true
+    },
+    "crawl_queue": {
+      "original_count": 2492,
+      "current_count": 2492,
+      "unchanged": true
+    },
+    "personas": {
+      "original_count": 6,
+      "current_count": 6,
+      "unchanged": true
+    }
+  },
+  "modified_original_files": [
+    "README.md",
+    "test_api.py",
+    "backend/api.py",
+    "backend/models.py",
+    "templates/index.html",
+    "backend/services/catalog_service.py",
+    "backend/services/dupe_service.py",
+    "backend/services/formula_service.py",
+    "backend/services/ingredient_service.py",
+    "backend/services/routine_service.py"
+  ]
+}

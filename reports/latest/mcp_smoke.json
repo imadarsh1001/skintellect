@@ -1,0 +1,40 @@
+{
+  "transport": "stdio",
+  "tool_count": 5,
+  "valid_read_calls": 3,
+  "protocol": "2025-11-25",
+  "responses_summary": [
+    {
+      "id": 1,
+      "is_error": false,
+      "result_hash": "69edc45ec4a6a442fe9d4a758788cfda176cd3b343a743bd506e9134f7031f1b"
+    },
+    {
+      "id": 2,
+      "is_error": false,
+      "result_hash": "aec9aaf6b8e33303508bf6c02efe448d054a0f596f36f81f666836a94d712511"
+    },
+    {
+      "id": 3,
+      "is_error": false,
+      "result_hash": "9bfe300b3aa61287cea43b6134610f6b21b02f97a114927ed78fad3f4c1bd34a"
+    },
+    {
+      "id": 4,
+      "is_error": false,
+      "result_hash": "5d728fe7e7e3cb7c9884edbdd3e10b4ab5d81a5dfaf055b9fba5eb8ff5706129"
+    },
+    {
+      "id": 5,
+      "is_error": false,
+      "result_hash": "a70dc77484426731986b574cfe2b296ffd93eec7967737a47970c6f0ada8928f"
+    }
+  ],
+  "tool_names": [
+    "search_products",
+    "get_evidence",
+    "get_review_insights",
+    "get_connections",
+    "retrieve_passages"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "dataset_kind": "authored_synthetic_smoke_fixtures",
+  "reviews": 12,
+  "results": {
+    "rules": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "true_positive": 12,
+      "false_positive": 0,
+      "false_negative": 0,
+      "missing": [],
+      "extra": []
+    },
+    "gemini-3.5-flash-lite": {
+      "precision": 0.9166666666666666,
+      "recall": 0.9166666666666666,
+      "f1": 0.9166666666666666,
+      "true_positive": 11,
+      "false_positive": 1,
+      "false_negative": 1,
+      "missing": [
+        [
+          8,
+          "scent",
+          "neutral",
+          false
+        ]
+      ],
+      "extra": [
+        [
+          8,
+          "scent",
+          "negative",
+          false
+        ]
+      ],
+      "model": "gemini-3.5-flash-lite",
+      "metric_kind": "joint_aspect_sentiment_negation_tuple_micro",
+      "source_quotes_validated": true,
+      "observations": 12,
+      "provider_attempts": 1,
+      "events": [
+        {
+          "task": "review_aspects",
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "cache_hit": true,
+          "attempts": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "error_code": null,
+          "backend": "vertex",
+          "elapsed_ms": 5.28
+        },
+        {
+          "task": "review_aspects",
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "cache_hit": true,
+          "attempts": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "error_code": null,
+          "backend": "vertex",
+          "elapsed_ms": 4.24
+        },
+        {
+          "task": "review_aspects",
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "cache_hit": false,
+          "attempts": 1,
+          "input_tokens": 363,
+          "output_tokens": 64,
+          "error_code": null,
+          "thinking_tokens": 0,
+          "total_tokens": 427,
+          "model_version": "gemini-3.5-flash-lite",
+          "backend": "vertex",
+          "elapsed_ms": 8037.26
+        }
+      ]
+    }
+  },
+  "limitation": "No real-world model accuracy claim follows from the synthetic examples."
+}

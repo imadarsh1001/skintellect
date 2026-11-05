@@ -1,0 +1,111 @@
+{
+  "archived": [
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpbb0yqs6q",
+      "from": "tmpbb0yqs6q"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpdqgxqxbe",
+      "from": "tmpdqgxqxbe"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpgt1x6_62",
+      "from": "tmpgt1x6_62"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpjh5honmv",
+      "from": "tmpjh5honmv"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpnux8mp_o",
+      "from": "tmpnux8mp_o"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpogkx9yol",
+      "from": "tmpogkx9yol"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmpozkybzhc",
+      "from": "tmpozkybzhc"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tmppyih49gx",
+      "from": "tmppyih49gx"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\.gemini_import",
+      "from": ".gemini_import"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\.library_helpers_gemini",
+      "from": ".library_helpers_gemini"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\agents\\__pycache__",
+      "from": "agents\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\analysis\\__pycache__",
+      "from": "analysis\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\backend\\__pycache__",
+      "from": "backend\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\backend\\services\\__pycache__",
+      "from": "backend\\services\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\core\\__pycache__",
+      "from": "core\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\crawler\\__pycache__",
+      "from": "crawler\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\ingestion\\__pycache__",
+      "from": "ingestion\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\pipeline\\__pycache__",
+      "from": "pipeline\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\tests\\__pycache__",
+      "from": "tests\\__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\__pycache__",
+      "from": "__pycache__"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\analysis\\study_server.pid",
+      "from": "analysis\\study_server.pid"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\analysis\\study_server_stderr.log",
+      "from": "analysis\\study_server_stderr.log"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\analysis\\study_server_stdout.log",
+      "from": "analysis\\study_server_stdout.log"
+    },
+    {
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\static\\css\\progress.css",
+      "from": "static\\css\\progress.css"
+    },
+    {
+      "from": ".test-work\\browser-16tjw0nw",
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\browser-profiles\\browser-16tjw0nw"
+    },
+    {
+      "from": ".test-work\\browser-diagnostic-v7n35sry",
+      "to": "backups\\cleanup_quarantine_20261023T071113Z\\browser-profiles\\browser-diagnostic-v7n35sry"
+    }
+  ],
+  "quarantine": "D:\\Code Projects\\Miscellaneous\\skinsort_recommender\\backups\\cleanup_quarantine_20261023T071113Z",
+  "reason": "Automatic approval blocked deletion. Confirmed generated items moved out of the working tree using reversible moves.",
+  "deleted_files": 0
+}

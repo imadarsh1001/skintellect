@@ -1,0 +1,57 @@
+{
+  "kind": "ui_semantic_unit_checks",
+  "passed": true,
+  "assertions": 31,
+  "contrast_pairs": [
+    {
+      "name": "ready",
+      "foreground": "#12635a",
+      "background": "#e5f5f2",
+      "ratio": 6.31
+    },
+    {
+      "name": "source",
+      "foreground": "#245ba9",
+      "background": "#eaf2ff",
+      "ratio": 5.93
+    },
+    {
+      "name": "unknown",
+      "foreground": "#805309",
+      "background": "#fff4da",
+      "ratio": 6.08
+    },
+    {
+      "name": "negative",
+      "foreground": "#a63244",
+      "background": "#fff0f2",
+      "ratio": 6.01
+    },
+    {
+      "name": "mixed",
+      "foreground": "#6843a8",
+      "background": "#f2edfc",
+      "ratio": 6.19
+    },
+    {
+      "name": "button",
+      "foreground": "#ffffff",
+      "background": "#0e6870",
+      "ratio": 6.5
+    },
+    {
+      "name": "body",
+      "foreground": "#182c42",
+      "background": "#f3f6fb",
+      "ratio": 13.12
+    },
+    {
+      "name": "muted",
+      "foreground": "#526277",
+      "background": "#ffffff",
+      "ratio": 6.23
+    }
+  ],
+  "browser_layout_tested": false,
+  "provider_calls": 0
+}

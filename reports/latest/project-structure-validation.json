@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-23",
+  "project": "SkinSort Recommender / Formulation Studio",
+  "checks": {
+    "ruff_correctness": "passed",
+    "offline_regression_tests": {
+      "passed": 114,
+      "failed": 0
+    },
+    "agent_smoke_checks": "passed",
+    "http_catalog_smoke_checks": {
+      "passed": 11,
+      "failed": 0,
+      "catalog": "temporary SQLite backup of original"
+    },
+    "editable_install_metadata": "passed: pip install --no-deps --target .test-work/package-check -e .",
+    "original_database_sha256_unchanged_during_http_check": true,
+    "hosted_github_actions": "configured, not executed"
+  },
+  "canonical_configuration": "core/config.py",
+  "canonical_modules": {
+    "crawler/crawler.py": "ingestion/skinsort_collector.py",
+    "crawler/queue_manager.py": "ingestion/queue_worker.py",
+    "backend/migrations.py": "pipeline/migrations.py",
+    "test_api.py": "tests/smoke_api.py",
+    "agents/test_agents.py": "tests/smoke_agents.py"
+  },
+  "generated_json_location": "data/exports/",
+  "developer_guide": "docs/DEVELOPMENT.md",
+  "source_restore_point": "backups/before_structure_refactor_20261023/source.zip",
+  "notes": [
+    "Restore point precedes bulk source consolidation; initial metadata additions were already present.",
+    "Crawler session configuration moved from source to ignored local .env without printing its contents.",
+    "No new frontend build system or distributed infrastructure introduced.",
+    "Fresh-environment dependency resolution and hosted CI are not established by editable metadata verification."
+  ]
+}

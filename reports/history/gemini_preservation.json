@@ -1,0 +1,15 @@
+{
+  "backup_checksum_valid": true,
+  "backup_archive_valid": true,
+  "unchanged_original_tables": {
+    "products": true,
+    "ingredients": true,
+    "product_ingredients": true,
+    "reviews": true,
+    "crawl_queue": true,
+    "personas": true
+  },
+  "database_integrity": "ok",
+  "live_provider_verified": false,
+  "credential_import": "blocked_attachment_download"
+}

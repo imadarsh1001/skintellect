@@ -1,0 +1,16 @@
+{
+  "products": 2502,
+  "ingredients": 1507,
+  "reviews": 4062,
+  "source_documents": 0,
+  "seed_products": 10,
+  "formulas_present": 576,
+  "verified_complete": 0,
+  "formula_link_mismatches": 0,
+  "invalid_formula_json": 0,
+  "stale_verifications": 0,
+  "truncated_reviews": 1226,
+  "duplicate_reviews": 0,
+  "retrieval_note": "Configured source labels and generated URLs are not retrieved evidence.",
+  "created_at": "2026-10-22T18:50:19.642209+00:00"
+}

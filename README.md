@@ -10,7 +10,7 @@
 **Skintellect** is an open-source formulation intelligence and cosmetic research platform. Built with Python 3.12+, FastAPI, SQLite, and a buildless Vue 3 interface, it bridges cosmetic chemistry heuristics with modern AI orchestration. 
 
 It empowers users to:
-- **Reverse-Engineer Compatibility:** Calculate 0–100% personalized formulation match scores and clinical fit points based on specific skin profiles (e.g. acne-prone, oily, sensitive).
+- **Reverse-Engineer Compatibility:** Calculate 0–100% personalized formulation match scores and clinical fit points based on specific skin profiles (e.g. acne-prone, oily, sensitive) via a unified canonical scoring engine.
 - **Audit Safety & Comedogenicity:** Detect pore-clogging comedogenic ingredients, Malassezia (*fungal acne*) triggers, drying alcohols, synthetic fragrances, and allergens.
 - **Synthesize Community Insights:** Extract granular sentiment aspects from thousands of user reviews with exact supporting text spans using Gemini NLP and passage indexing.
 - **Convene Multi-Agent Deliberation:** Coordinate specialist agent boards (Formulator, Safety Critic, Microbiome Analyst, and Clinical Judge) to debate ingredient efficacy, vehicle delivery, and barrier safety.

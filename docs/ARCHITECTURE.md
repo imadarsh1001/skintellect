@@ -36,8 +36,11 @@ The [domain glossary](../GLOSSARY.md) defines the terms used by these modules.
   snapshot for both ingredient evidence and product presentation.
 - `formulation/ingredient_facts.py` owns ingredient matching knowledge and
   normalization. Formula, catalog and recommendation classification policies
-  preserve existing behavior, including historical matching vocabulary. Scoring
-  formulas remain distinct; provided ratings remain distinguishable from name matches.
+  preserve existing behavior, including historical matching vocabulary.
+- `formulation/scoring.py` owns canonical formulation compatibility scoring,
+  safety exclusions (Malassezia triggers, drying simple alcohols, pore cloggers),
+  and clinical Darmeto fit points. `catalog/products.py` and `catalog/recommendations.py`
+  delegate to this single authoritative engine to eliminate scoring drift.
 - `research/review_store.py` owns review cleaning, per-product duplicate identity,
   source hashes, extraction identity, cached-span acceptance and observation writes.
   Preparation, progress, summaries, study readiness and upgrades share these decisions.

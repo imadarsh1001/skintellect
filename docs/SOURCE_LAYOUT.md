@@ -24,6 +24,7 @@ src/skintellect/
 
 Shared decisions now have explicit owners: `catalog/store.py` for selected-catalog
 reads and cache lifetime; `formulation/ingredient_facts.py` for matching facts;
+`formulation/scoring.py` for canonical persona match and clinical Darmeto fit scoring;
 `research/review_store.py` for review preparation identity and accepted observations;
 and `research/passage_index.py` for usable saved vectors and repair eligibility.
 See [architecture](ARCHITECTURE.md) and the [domain glossary](../GLOSSARY.md).

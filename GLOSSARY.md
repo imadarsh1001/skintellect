@@ -7,6 +7,7 @@
 | Verified complete formula | An exact recorded formula with a matching human-reviewed hash, source and date. This attests to completeness, not safety. |
 | Ingredient facts | Ingredient-name matches and separately retained source-provided flags/ratings, owned by `formulation/ingredient_facts.py`. Neither establishes clinical performance. |
 | Classification policy | The named formula, catalog or recommendation matching profile. Historical differences are explicit and preserved; classification is separate from final score policy. |
+| Compatibility & clinical fit | Algorithmic persona match percentage (0–100%) and clinical Darmeto points (0–130 pts), owned canonically by `formulation/scoring.py` and shared across catalog, recommendations, and studio lab. |
 | Review source | A review's raw text, visible cleaned text, source identity, product and duplicate status. Raw text and evidence IDs remain preserved. |
 | Review corpus | The selected review sources and shared eligibility rules. Preparation/counts use unique nonempty sources per product; retrieval preserves individual raw-review evidence IDs. |
 | Prepared review | A saved observation list matching the source hash and active extraction/model identity, with valid exact source spans. An accepted empty list means no observations, not missing preparation. |

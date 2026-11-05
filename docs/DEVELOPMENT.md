@@ -5,7 +5,24 @@ and a buildless Vue interface. See [source ownership](SOURCE_LAYOUT.md).
 
 ## Setup
 
-Use Python 3.12 or newer:
+Use Python 3.12 or newer. We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, deterministic dependency management:
+
+### Option A: Using `uv` (Recommended)
+
+```powershell
+# Create virtual environment and install dependencies
+uv venv
+.\.venv\Scripts\Activate.ps1
+uv pip install -e ".[dev]"
+
+# Configure environment
+Copy-Item .env.example .env
+
+# Start web interface
+uv run skintellect web
+```
+
+### Option B: Using Standard Python `venv`
 
 ```powershell
 python -m venv .venv
@@ -52,6 +69,30 @@ MCP entry points. Old `main.py`, `app.py`, `core.*`, `backend.*`, `crawler.*`,
 Maintenance `audit`, `clean`, `seed` and `verify` are explicit subcommands.
 Formula verification requires the product ID, `--source` and `--reviewer`.
 Model upgrades preserve existing results and activate only validated coverage.
+
+
+## Package Management with `uv`
+
+This repository uses PEP 621 metadata in `pyproject.toml` and is optimized for `uv`:
+
+```powershell
+# Add a new runtime dependency
+uv add <package-name>
+
+# Add a development / testing dependency
+uv add --dev <package-name>
+
+# Run verification suite in the managed environment
+uv run python scripts/check.py
+
+# Run Ruff code linter
+uv run ruff check .
+
+# Execute any skintellect CLI command directly
+uv run skintellect stats
+uv run skintellect recommend --category sunscreens --min-match 90
+uv run skintellect score --ingredients "Water, Glycerin, Niacinamide, Ceramide NP"
+```
 
 ## Checks
 

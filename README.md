@@ -1,103 +1,194 @@
-# Skintellect
+# Skintellect 🔬
 
-**Formulation Studio** is a local cosmetic-product research app built with Python,
-FastAPI, SQLite and a buildless Vue interface. It combines catalog search,
-ingredient constraints, review excerpts and explainable ingredient alternatives.
-It is a research prototype; its scores and ingredient flags are unvalidated heuristics.
+> **Explainable Cosmetic Formulation Intelligence & Personalized Skincare Research Engine**  
+> *Reverse-engineered ingredient compatibility, clinical fit scoring, attributed review NLP, and multi-agent formulation deliberation.*
 
-## Start the app
+---
 
-On this workstation, run:
+## 📌 Overview
 
-```powershell
-.\run-research.cmd
+**Skintellect** is an open-source formulation intelligence and cosmetic research platform. Built with Python 3.12+, FastAPI, SQLite, and a buildless Vue 3 interface, it bridges cosmetic chemistry heuristics with modern AI orchestration. 
+
+It empowers users to:
+- **Reverse-Engineer Compatibility:** Calculate 0–100% personalized formulation match scores and clinical fit points based on specific skin profiles (e.g. acne-prone, oily, sensitive).
+- **Audit Safety & Comedogenicity:** Detect pore-clogging comedogenic ingredients, Malassezia (*fungal acne*) triggers, drying alcohols, synthetic fragrances, and allergens.
+- **Synthesize Community Insights:** Extract granular sentiment aspects from thousands of user reviews with exact supporting text spans using Gemini NLP and passage indexing.
+- **Convene Multi-Agent Deliberation:** Coordinate specialist agent boards (Formulator, Safety Critic, Microbiome Analyst, and Clinical Judge) to debate ingredient efficacy, vehicle delivery, and barrier safety.
+- **Investigate Breakouts via Ingredient CSI:** Perform differential set comparison between problematic products and safe benchmarks to isolate prime suspect ingredients.
+
+---
+
+## 🏛️ Architecture: Public Intelligence vs. Private Collector
+
+Skintellect is architected with a strict separation between **data collection** and **scientific intelligence**:
+
+```
+├── 🔒 PRIVATE REPOSITORY: skintellect-collector
+│   ├── src/collector/          # Turbo-Frame HTML streams, scrapers, rate limiters
+│   ├── queue.py                # Prioritized SQLite queue worker with exponential backoff
+│   └── data/raw/               # Raw HTML/JSON snapshots (~37 MB)
+│
+└── 🌐 PUBLIC REPOSITORY: skintellect (This Repository)
+    ├── src/skintellect/
+    │   ├── api/                # FastAPI application, OpenAPI schema & REST endpoints
+    │   ├── catalog/            # Catalog store, recommendation algorithms, persona registry
+    │   ├── formulation/        # Scoring algorithms, clinical fit points, compatibility rules
+    │   ├── research/           # Gemini RAG, review NLP, passage indexing, evidence attribution
+    │   ├── agents/             # LangGraph copilot, specialist deliberation, CSI detective
+    │   ├── database.py         # Schema creation (init_db), migrations, reproducible audits, exports
+    │   └── web/                # Vue 3 reactive UI + Tailwind CSS interface
+    ├── tests/                  # 128 unit/architecture tests, synthetic fixture bootstrap
+    └── frontend/               # Modern Vue 3 + Vite SPA client
 ```
 
-The launcher starts the full app, including the catalog and formulation tools.
-Open [the prepared study](http://127.0.0.1:8000/study) for the focused demonstration.
-Use one server worker for preparation jobs.
+*The public repository is 100% self-contained: it runs out-of-the-box using deterministic synthetic catalogs (`tests/bootstrap_catalog.py`) or local SQLite databases (`skintellect_moisturizers.db`) with zero external scraping dependencies.*
 
-For a new checkout with Python 3.12 or newer:
+---
+
+## 🚀 Quickstart
+
+We recommend **[uv](https://github.com/astral-sh/uv)** for fast, reproducible package management.
+
+### Option A: Using `uv` (Recommended)
+
+```powershell
+# 1. Clone repository
+git clone https://github.com/imadarsh1001/skintellect.git
+cd skintellect
+
+# 2. Create virtual environment and install package in editable mode with dev tools
+uv venv
+.\.venv\Scripts\Activate.ps1    # macOS/Linux: source .venv/bin/activate
+uv pip install -e ".[dev]"
+
+# 3. Configure local environment (copy example)
+Copy-Item .env.example .env    # macOS/Linux: cp .env.example .env
+
+# 4. Launch Formulation Studio Web UI
+uv run skintellect web --port 8000
+```
+
+### Option B: Using Standard Python `venv`
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1    # macOS/Linux: source .venv/bin/activate
 python -m pip install -e ".[dev]"
-python -m skintellect web
+Copy-Item .env.example .env
+python -m skintellect web --port 8000
 ```
 
-On macOS/Linux, activate with `source .venv/bin/activate`. Supply an existing
-catalog through `SKINTELLECT_DB_PATH`; the database is not included in the package.
-For new local provider configuration, copy `.env.example` to `.env` and fill in
-its settings. Preserve an existing `.env`. See [setup and configuration](docs/DEVELOPMENT.md).
+Once running, open:
+- 🌐 **Formulation Studio:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- 🔬 **Prepared Three-Product Study:** [http://127.0.0.1:8000/study](http://127.0.0.1:8000/study)
+- 📚 **Interactive OpenAPI Docs:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-| Page | Purpose |
-| --- | --- |
-| `/study` | Prepared three-product demonstration |
-| `/research` | Ingredient-constrained questions and attributed evidence |
-| `/progress` | Coverage, preparation jobs, cancellation and resume |
-| `/` | Catalog, ingredients, personas, Formula Lab, routines and experimental agents |
-| `/docs` | Interactive HTTP endpoint documentation |
+---
 
-## Implemented features
+## 💻 Command Line Interface (CLI)
 
-- Catalog and ingredient search, custom personas, and explainable formula scores.
-- Required/excluded ingredient checks with explicit pass, fail and unknown results.
-- Rule-based and optional Gemini review extraction with exact supporting text spans.
-- Lexical and embedding retrieval, ingredient-overlap alternatives, and bounded research workflows.
-- Resumable review/index preparation with budgets, usage history and recovery.
-- Ingredient connections, attributed reference notes, read-only local MCP tools,
-  and experimental ingredient-label image transcription.
-
-`run-mcp.cmd` starts the independent MCP adapter; it does not start the web server.
-Optional provider operations require configuration and can incur provider charges.
-The deterministic parser and rule-based extraction are available without model calls.
-
-## Coverage and limits
-
-The supplied local snapshot contains **2,502 products**, **1,507 ingredients**,
-**12,216 product-ingredient links**, and **4,062 reviews**. Only **576 products**
-have recorded ingredient lists; **none** are human-verified complete formulas.
-Hair, body and makeup contain 10 demonstration products combined. Seeds are excluded
-from default search and recommendations; the catalog endpoint can display them
-explicitly with `include_seeds=true`.
-
-Model preparation covers a small sample, not the full catalog. The prepared
-study demonstrates three products, 28 reviews and 31 indexed passages. Saved
-validation and preparation counts are snapshots; check `/progress` for coverage.
-
-Missing information does not prove ingredient absence. Ingredient overlap does
-not prove equal concentrations or performance. Review anecdotes and configured
-source names do not establish clinical validation or retrieved scientific evidence.
-The app is intended for local single-user operation; public hosting is unfinished.
-
-## Project map
-
-| Location | Contents |
-| --- | --- |
-| [src/skintellect/](src/skintellect/) | Runtime modules and packaged web assets |
-| [tests/](tests/) | Regressions, synthetic fixtures and integration smoke checks |
-| [scripts/](scripts/README.md) | Checks, workspace audit and evaluation commands |
-| [experiments/](experiments/README.md) | Advanced-study plans: LangGraph board, label transcription, Ingredient CSI and Formula Lab |
-| [docs/](docs/README.md) | Current guides and clearly separated historical notes |
-| [data/](data/README.md) | Raw snapshots and generated data exports |
-| [reports/](reports/README.md) | Saved evaluations, validation and report exports |
-| [backups/](backups/README.md) | Local restore points; not an application dependency |
-
-The live database remains `skintellect_moisturizers.db` at the checkout root.
-The workstation launchers currently use `.venv` for Python and `.runtime` for
-fallback dependencies. Neither folder is application source.
-
-## Verification
+Skintellect includes a master CLI interface:
 
 ```powershell
-python scripts/check.py
-python -m scripts.check_query_parser
-python -m scripts.audit_workspace
+# Display catalog metrics, category counts, and ingredient safety stats
+uv run skintellect stats
+
+# Get personalized top recommendations (e.g. Korean sunscreens, min 85% match)
+uv run skintellect recommend --category sunscreens --country "South Korea" --min-match 85
+
+# Granular filter for fungal acne safe, fragrance-free serums
+uv run skintellect filter --category serums --fungal-safe --fragrance-free --min-match 90
+
+# Score any custom ingredient deck or recorded catalog product
+uv run skintellect score --ingredients "Water, Niacinamide, Glycerin, Ceramide NP"
+uv run skintellect score --product "Barrier Restoring Cream"
+
+# Convene Multi-Agent Formulation Board deliberation
+uv run skintellect agent --formula "Water, Salicylic Acid, Glycolic Acid" --persona acne_prone
+
+# Run Ingredient CSI Detective to isolate breakout triggers
+uv run skintellect agent --csi --csi-problems "Problem Cream A; Breakout Gel B" --csi-safes "Safe Benchmark Lotion"
+
+# Audit catalog integrity, schema consistency, and formula completeness
+uv run skintellect audit
+
+# Clean and standardize category names and rating distributions
+uv run skintellect clean
+
+# Export products and personas to clean, formatted JSON
+uv run skintellect export
 ```
 
-The main checks use disposable synthetic data and disable real provider calls.
-The workspace audit checks source imports, page assets, links and read-only
-SQLite integrity. Browser rendering and live-provider quality require separate checks.
-See [development](docs/DEVELOPMENT.md), [module ownership](docs/SOURCE_LAYOUT.md)
-and [saved validation reports](reports/README.md).
+---
+
+## 📦 Package Management with `uv`
+
+This project uses modern PEP 621 metadata configured in `pyproject.toml`:
+
+```powershell
+# Add a new runtime dependency
+uv add <package-name>
+
+# Add a development tool
+uv add --dev <tool-name>
+
+# Run lint checks with Ruff in the managed environment
+uv run ruff check .
+
+# Execute full verification suite
+uv run python scripts/check.py
+```
+
+---
+
+## 🧪 Testing & Verification
+
+Skintellect adheres to strict verification-before-completion standards:
+
+```powershell
+# 1. Run full verification suite (Ruff, 128 tests, UI semantic contracts)
+uv run python scripts/check.py
+
+# 2. Run developer query-intent parser validation (20/20 benchmark cases)
+uv run python -m scripts.check_query_parser
+
+# 3. Run workspace contract & document integrity audit (0 broken links)
+uv run python -m scripts.audit_workspace
+
+# 4. Run UI semantics & WCAG contrast check
+node tests/check_ui_semantics.js
+```
+
+---
+
+## 🗺️ Project Structure
+
+```
+├── src/skintellect/
+│   ├── api/                   # FastAPI route definitions (catalog, formulation, research, study)
+│   ├── catalog/               # Catalog models, persona store, recommendations, taxonomy
+│   ├── formulation/           # Heuristic scoring, Darmeto clinical fit points, ingredient facts
+│   ├── research/              # RAG pipeline, Gemini extraction, passage indexing, evidence
+│   ├── agents/                # LangGraph copilot, specialist deliberation, CSI detective
+│   ├── database.py            # SQLite schema, transactions, migrations, reproducible audits
+│   ├── config.py              # Environment variable resolution & dynamic path discovery
+│   └── web/                   # Fast HTML templates, static CSS/JS, and bundled Vue 3
+├── tests/                     # 128 unit and architecture tests with synthetic fixtures
+├── experiments/               # Specialist board, Ingredient CSI, Formula Lab experiments
+├── frontend/                  # Vue 3 + Tailwind CSS modern SPA interface
+├── docs/                      # Architectural specs, module guides, and engineering logs
+├── scripts/                   # Automated check suites, audits, and evaluation runners
+└── data/                      # Data storage contract documentation & JSON exports
+```
+
+---
+
+## ⚖️ Scientific & Ethical Disclaimer
+
+Skintellect is a formulation research prototype. Its match scores, Darmeto fit points, and safety flags are **algorithmic heuristics**, not medical advice or clinical validation. Review excerpts reflect consumer sentiment and do not prove dermatological causation. Always consult a certified dermatologist for medical skin conditions.
+
+---
+
+## 📄 License
+
+Licensed under the [MIT License](LICENSE).

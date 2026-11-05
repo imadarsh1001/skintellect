@@ -37,6 +37,6 @@ Generated labels and model/rule agreement do not establish extraction accuracy,
 clinical product performance or general retrieval-quality improvements.
 
 Regenerate engineering checks with [the developer tools](../scripts/README.md).
-Use `python -m skinsort report --format markdown` or `--format html` for report
+Use `python -m skintellect.reporting --format markdown` or `--format html` for report
 exports. Keep results needed for comparison; archive older material deliberately.
 The optional browser smoke fixture reads `latest/prepared_assistant_demo.json`.

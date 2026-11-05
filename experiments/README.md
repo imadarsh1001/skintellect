@@ -46,7 +46,7 @@ runtime locations until a separately verified migration is needed.
 **Purpose:** study how reliably an ingredient declaration can be transcribed
 from a photograph and reconciled with a recorded formula.
 
-- Reuse the existing [label reader](../src/skinsort/research/labels.py) as the
+- Reuse the existing [label reader](../src/skintellect/research/labels.py) as the
   starting point; avoid creating a duplicate transcription service.
 - Accept validated PNG/JPEG inputs, preserve printed ingredient order, and
   report unreadable or uncertain text explicitly. Do not reconstruct hidden text.
@@ -66,7 +66,7 @@ from a photograph and reconciled with a recorded formula.
 **Purpose:** explore differences between ingredient lists from products a user
 reports tolerating and products they report reacting to.
 
-- Reuse the existing [detective](../src/skinsort/agents/detective.py) and its
+- Reuse the existing [detective](ingredient_csi/detective.py) and its
   ingredient normalization/pattern logic rather than building another engine.
 - Show shared and differing ingredients and the reasons for candidate rankings.
   Preserve source attribution and explicitly identify missing formula data.
@@ -83,8 +83,8 @@ reports tolerating and products they report reacting to.
 **Purpose:** inspect an arbitrary ingredient declaration and study how its
 classification and heuristic scoring produce an explanation.
 
-- Reuse existing [formula analysis](../src/skinsort/formulation/formulas.py),
-  [legacy scoring](../src/skinsort/formulation/scoring.py) and validation models.
+- Reuse existing [formula analysis](../src/skintellect/formulation/formulas.py),
+  [legacy scoring](../src/skintellect/formulation/scoring.py) and validation models.
   Preserve the raw-input interface and inspectable audit explanations.
 - Label compatibility matrices, concern scores and final scores as unvalidated
   heuristics. A list of names does not establish concentrations, pH, finished-

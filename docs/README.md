@@ -24,7 +24,7 @@ notes are preserved separately and may describe superseded behavior.
 - [Experimental agents and Ingredient CSI](modules/agents.md)
 - [Evaluations and reporting](modules/evaluations-and-reporting.md)
 - [Developer tools](../scripts/README.md), [local data](../data/README.md),
-  [saved reports](../reports/README.md), and [local restore points](../backups/README.md)
+  and [saved reports](../reports/README.md) (historical backups are archived in the private collector repository)
 
 ## Historical context
 

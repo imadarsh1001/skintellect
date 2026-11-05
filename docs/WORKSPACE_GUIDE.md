@@ -25,7 +25,7 @@ Run `run-research.cmd` on this workstation, or install the project and use
 | `reports/history/` | Earlier experiments and validation |
 | `reports/exports/` | Generated Markdown and standalone HTML reports |
 | `docs/` | Current guides and historical design/release notes |
-| `backups/` | Local source/data restore points |
+| `backups/` | Historical milestone restore points (archived in `skintellect-collector`) |
 
 The live database remains `skintellect_moisturizers.db` at the checkout root.
 No database, credentials, dependencies, reports or backups belong in `src/`.

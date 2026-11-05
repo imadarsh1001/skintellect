@@ -27,6 +27,9 @@ python -m skintellect clean
 # Biochemical ingredient enrichment via PubChem
 python -m skintellect.ingestion.pubchem --help
 
+# Synchronize/import updated formulations from collector JSON export
+python -m skintellect.ingestion.maintenance import <path_to_catalog.json>
+
 # Export catalog and reviews to JSON
 python -m skintellect export
 ```

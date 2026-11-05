@@ -1,7 +1,7 @@
 # Developer checks and evaluations
 
 These tools run from the checkout root after installing the project with
-`python -m pip install -e ".[dev,crawl]"`. They are not part of the installed
+`pip install -e ".[dev]"` (or `uv pip install -e ".[dev]"`). They are not part of the installed
 runtime package. CI invokes `check.py`; tests import the release evaluator.
 
 | Tool | Purpose | Data/provider effects |

@@ -62,8 +62,8 @@ python -m skintellect.ingestion.maintenance --help
 python -m skintellect.ingestion.pubchem --help
 ```
 
-Installed console commands `skinsort` and `skinsort-mcp` provide the same CLI and
-MCP entry points. Old `main.py`, `app.py`, `core.*`, `backend.*`, `crawler.*`,
+The installed console command `skintellect` provides the master CLI entry point.
+Legacy `skinsort*` commands, old `main.py`, `app.py`, `core.*`, `backend.*`, `crawler.*`,
 `pipeline.*`, and root re-exports have been retired; update external callers.
 
 Maintenance `audit`, `clean`, `seed` and `verify` are explicit subcommands.

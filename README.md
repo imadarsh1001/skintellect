@@ -117,6 +117,9 @@ uv run skintellect clean
 
 # Export products and personas to clean, formatted JSON
 uv run skintellect export
+
+# Synchronize/import updated formulations from private collector JSON export
+uv run python -m skintellect.ingestion.maintenance import <path-to-catalog.json>
 ```
 
 ---

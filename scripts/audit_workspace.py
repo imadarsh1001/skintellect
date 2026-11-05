@@ -8,6 +8,11 @@ import subprocess
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
+import sys
+
+_SRC = Path(__file__).resolve().parent.parent / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
 from skintellect.config import DB_PATH, PROJECT_ROOT, STATIC_DIR, TEMPLATES_DIR
 

@@ -2,8 +2,8 @@
 Skintellect Product Intelligence Suite - Master Entrypoint
 ===========================================================
 Unified command-line interface for formulation scoring, personalized
-recommendations, granular filtering, data export, multi-agent evaluation,
-and the interactive Formulation Studio web application.
+recommendations, granular filtering, data export, and the interactive
+Formulation Studio web application.
 
 Usage Examples:
   # View catalog metrics, categories, origins, and skin goals
@@ -21,12 +21,6 @@ Usage Examples:
   # Offline formulation evaluation and score breakdown
   python -m skintellect score --product "Barrier Restoring Cream"
   python -m skintellect score --ingredients "Water, Niacinamide, Glycerin, Ceramide NP"
-
-  # Multi-Agent Formulation Board deliberation
-  python -m skintellect agent --formula "Water, Salicylic Acid, Glycolic Acid" --persona acne_prone
-
-  # Ingredient CSI investigation
-  python -m skintellect agent --csi --csi-problems "Product A; Product B" --csi-safes "Safe Cream"
 
   # Launch interactive Formulation Studio web server
   python -m skintellect web --port 8000
@@ -371,58 +365,6 @@ def cmd_web(args):
     uvicorn.run("skintellect.api.app:app", host=args.host, port=args.port, reload=args.reload)
 
 
-def cmd_agent(args):
-    """Executes Multi-Agent Formulation Board deliberation or Ingredient CSI Detective."""
-    import importlib.util
-
-    if args.csi:
-        print("\n" + "=" * 60)
-        print(" 🕵️‍♂️ INGREDIENT CSI DETECTIVE INVESTIGATION")
-        print("=" * 60)
-        from skintellect.agents.csi import CSIDetective
-        detective = CSIDetective()
-
-        problems = [p.strip() for p in args.csi_problems.split(";")] if args.csi_problems else []
-        safes = [s.strip() for s in args.csi_safes.split(";")] if args.csi_safes else []
-
-        if not problems:
-            print("[!] Please provide at least one problematic product with --csi-problems 'Brand Name'")
-            return
-
-        report = detective.investigate(problems, safes, reaction_type=args.reaction)
-        print(f" Reaction Profile: {report['reaction_type'].upper()}")
-        print(f" Problem Products Tested: {len(report['problematic_products'])}")
-        print(f" Safe Benchmarks Compared: {len(report['safe_products'])}")
-        print("-" * 60)
-        print(" 🚨 PRIME SUSPECT INGREDIENTS:")
-        for s in report["top_suspects"]:
-            print(f"   • {s['ingredient']} (Suspect Score: {s['suspect_score']})")
-            print(f"     Found in {s['found_in_count']} breakout products; 0 safe benchmarks")
-            if s.get("reasons"):
-                print(f"     Evidence: {'; '.join(s['reasons'])}")
-        print("=" * 60)
-    else:
-        print("\n" + "=" * 60)
-        print(" 🔬 MULTI-AGENT FORMULATION DELIBERATION BOARD")
-        print("=" * 60)
-        from skintellect.agents.board import BoardOrchestrator
-        orch = BoardOrchestrator()
-        formula = args.formula or "Water, Glycerin, Niacinamide, Butylene Glycol, Ceramide NP"
-        persona = args.persona or "uap"
-        print(f" Target Skin Persona : {persona.upper()}")
-        print(f" User Query          : {args.question}")
-        print(f" Formulation Deck    : {formula[:80]}...")
-        print("-" * 60)
-        res = orch.run_deliberation(formula, persona_id=persona, user_question=args.question)
-        for r in res.get("debate", []):
-            print(f"\n[{r['round']}] {r['agent']} ({r['badge']})")
-            print("-" * 50)
-            print(r.get("message") or r.get("summary"))
-        print("\n" + "=" * 60)
-        v = res.get("verdict", {})
-        print(f" ⚖️ FINAL BINDING VERDICT: {v.get('status')} ({v.get('predicted_match')}%)")
-        print(f" Darmeto Fit Points: {v.get('darmeto_points')} / 130 pts ({v.get('tier')})")
-        print("=" * 60)
 
 
 def main():
@@ -488,7 +430,6 @@ def main():
 
     # 6. clean
     p_cln = subparsers.add_parser("clean", help="Clean & canonicalize categories, ratings, and routine steps")
-    p_cln.add_argument("--no-report", action="store_true", help="Skip regenerating reports after cleaning")
     p_cln.set_defaults(func=cmd_clean)
 
     # 7. audit
@@ -502,16 +443,6 @@ def main():
     p_web.add_argument("--reload", action="store_true", help="Enable live auto-reloading")
     p_web.set_defaults(func=cmd_web)
 
-    # 9. agent
-    p_agt = subparsers.add_parser('agent', help='Convene Multi-Agent Formulation Board or run Ingredient CSI investigation')
-    p_agt.add_argument('--formula', type=str, default=None, help='Raw ingredient list to deliberate')
-    p_agt.add_argument('--persona', type=str, default='uap', help='Target skin persona (default: uap)')
-    p_agt.add_argument('--question', type=str, default='Evaluate barrier safety and active balance', help='User question for board')
-    p_agt.add_argument('--csi', action='store_true', help='Run Ingredient CSI Detective mode instead of Board')
-    p_agt.add_argument('--csi-problems', type=str, default=None, help='Semicolon-separated failure product names or decks')
-    p_agt.add_argument('--csi-safes', type=str, default=None, help='Semicolon-separated safe benchmark product names or decks')
-    p_agt.add_argument('--reaction', type=str, default='breakouts_acne', choices=['breakouts_acne', 'contact_dermatitis', 'fungal_acne'], help='Reaction type')
-    p_agt.set_defaults(func=cmd_agent)
 
     args = parser.parse_args()
     if hasattr(args, "func"):

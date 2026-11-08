@@ -87,7 +87,7 @@ export async function fetchEvidence(evidenceId: string): Promise<any> {
 }
 
 export async function fetchReviewInsights(productId: number): Promise<any> {
-  const res = await fetch(`${BASE_URL}/api/research/reviews?product_id=${productId}`)
+  const res = await fetch(`${BASE_URL}/api/products/${productId}/review-insights`)
   if (!res.ok) throw new Error(`Failed to fetch reviews for product ${productId}`)
   return res.json()
 }
@@ -160,7 +160,10 @@ export async function streamCopilot(
       }
     }
 
-    return finalData || askCopilot(payload)
+    if (finalData) return finalData
+    const fallback = await askCopilot(payload)
+    onUpdate({ event: 'final_result', data: fallback })
+    return fallback
   } catch (err) {
     console.warn('Stream failed, falling back to standard copilot ask:', err)
     const fallback = await askCopilot(payload)

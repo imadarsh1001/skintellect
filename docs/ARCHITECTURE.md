@@ -14,7 +14,6 @@ for schema validation, cache identity, retries, budgets and telemetry.
 
 `research/preparation.py` processes bounded review/index batches.
 `research/jobs.py` persists scheduling state and handles cancellation/recovery.
-`research/upgrades.py` migrates model outputs while preserving prior versions.
 `research/study.py` defines the focused demonstration and freshness checks.
 
 SQLite transactions and migrations live in `database.py`. The catalog is external

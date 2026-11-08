@@ -36,7 +36,7 @@ Copy the environment example only for a new setup; preserve an existing `.env`.
 Reinstall the editable package after migrating from the old root-level layout.
 On macOS/Linux, activate with `source .venv/bin/activate`.
 
-The Windows `run-research.cmd` and `run-mcp.cmd` launchers add `src/` to
+The Windows `run-research.cmd` launcher adds `src/` to
 PYTHONPATH. The optional workstation `.runtime/` remains a dependency fallback.
 Normal installations use a virtual environment and the editable install above.
 
@@ -53,11 +53,8 @@ the working directory. Static assets always resolve from the installed package.
 python -m skintellect --help
 python -m skintellect web
 python -m uvicorn skintellect.api.app:app --host 127.0.0.1 --port 8000
-python -m skintellect.mcp
 python -m skintellect.research.preparation --help
 python -m skintellect.research.study --help
-python -m skintellect.research.upgrades embeddings --help
-python -m skintellect.research.upgrades reviews --help
 python -m skintellect.ingestion.maintenance --help
 python -m skintellect.ingestion.pubchem --help
 ```
@@ -70,6 +67,19 @@ Maintenance `audit`, `clean`, `seed` and `verify` are explicit subcommands.
 Formula verification requires the product ID, `--source` and `--reviewer`.
 Model upgrades preserve existing results and activate only validated coverage.
 
+
+### Modern Frontend (Vite + Vue 3 SPA)
+
+The repository includes a modern Vue 3 SPA under `frontend/` that compiles to `frontend/dist`:
+
+```powershell
+cd frontend
+npm install
+npm run build
+cd ..
+```
+
+`api/app.py` serves `frontend/dist/index.html` as the default application when present, and falls back to the buildless templates under `web/templates/` if `frontend/dist` is not built.
 
 ## Package Management with `uv`
 

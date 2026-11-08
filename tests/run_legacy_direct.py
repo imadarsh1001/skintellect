@@ -13,9 +13,7 @@ from fastapi.params import Param
 from pydantic import TypeAdapter
 
 from skintellect.api import catalog as api
-from skintellect.api import formulation
 from skintellect.config import TEMPLATES_DIR
-from skintellect.formulation.models import FormulaLabRequest, RoutineAnalyzeRequest
 from tests import smoke_api as test_api
 
 
@@ -57,12 +55,6 @@ def direct_get(path, timeout=10):
 
 
 def direct_post(path, json_data, timeout=10):
-    if path == '/api/formula-lab/analyze':
-        result = formulation.analyze_raw_formula(FormulaLabRequest(**json_data))
-        return 200, serialize(result, formulation.FormulaLabResponse)
-    if path == '/api/routine/analyze':
-        result = formulation.analyze_skincare_routine(RoutineAnalyzeRequest(**json_data))
-        return 200, serialize(result, formulation.RoutineAnalyzeResponse)
     raise AssertionError('Unmapped direct route: ' + path)
 
 

@@ -92,6 +92,14 @@ def graph_workspace():
             return HTMLResponse(content=f.read())
     return HTMLResponse("<meta http-equiv='refresh' content='0; url=/#graph'>")
 
+@app.get('/copilot', response_class=HTMLResponse)
+def copilot_workspace():
+    modern_index = FRONTEND_DIST / "index.html"
+    if modern_index.is_file():
+        with open(modern_index, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return HTMLResponse("<meta http-equiv='refresh' content='0; url=/#copilot'>")
+
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
     modern_index = FRONTEND_DIST / "index.html"

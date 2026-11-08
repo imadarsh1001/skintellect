@@ -2,7 +2,7 @@
  * Skintellect Studio - Reactive Application Core (Vue 3)
  */
 
-const { createApp, ref, reactive, computed, onMounted, watch } = Vue;
+const { createApp, ref, reactive, computed, onMounted } = Vue;
 
 const app = createApp({
   setup() {
@@ -25,13 +25,6 @@ const app = createApp({
       { brand: "Paula's Choice", name: '2% BHA', label: "Paula's Choice 2% BHA Liquid ($35)" }
     ];
 
-    const formulaPresets = {
-      abib: "Water, Houttuynia Cordata Extract, Glycerin, Methyl Trimethicone, Cetyl Ethylhexanoate, Butylene Glycol, Niacinamide, Dipotassium Glycyrrhizate, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Hyaluronic Acid, Ceramide NP, Beta-Glucan, Allantoin, 1,2-Hexanediol",
-      anua_azelaic: "Water, Azelaic Acid, Dipropylene Glycol, Niacinamide, Butylene Glycol, Panthenol, Dipotassium Glycyrrhizate, Allantoin, Sodium Hyaluronate, Beta-Glucan, Betaine Salicylate, Zinc PCA, 1,2-Hexanediol",
-      cerave: "Water, Glycerin, Cetearyl Alcohol, Caprylic/Capric Triglyceride, Cetyl Alcohol, Ceteareth-20, Petrolatum, Ceramide NP, Ceramide AP, Ceramide EOP, Phytosphingosine, Cholesterol, Sodium Hyaluronate, Carbomer, Dimethicone, Phenoxyethanol",
-      cosrx_sun: "Water, Ethylhexyl Methoxycinnamate, Homosalate, Alcohol Denat, Ethylhexyl Salicylate, Dipropylene Glycol, Silica, Isoamyl p-Methoxycinnamate, Cyclopentasiloxane, Stearic Acid, Glyceryl Stearate, PEG-100 Stearate, Fragrance, Aloe Arborescens Leaf Extract"
-    };
-
     // ----------------------------------------------------
     // State
     // ----------------------------------------------------
@@ -47,7 +40,7 @@ const app = createApp({
     const activePersonaId = ref(localStorage.getItem('skintellect_active_persona_id') || localStorage.getItem('skinsort_active_persona_id') || 'uap');
     const personaDropdownOpen = ref(false);
 
-    const currentView = ref('catalog'); // 'catalog' | 'ingredients' | 'formula' | 'routine' | 'dupe'
+    const currentView = ref('catalog'); // 'catalog' | 'ingredients'
     const activeDomain = ref('all'); // 'all' | 'skin' | 'hair' | 'body' | 'makeup'
     const domains = ref([]);
     const sources = ref([]);
@@ -89,26 +82,11 @@ const app = createApp({
     const ingDetailLoading = ref(false);
     let ingSearchTimer = null;
 
-    const routine = reactive({
-      cleansers: null,
-      toners: null,
-      serums: null,
-      moisturizers: null,
-      sunscreens: null
-    });
-
-    const routineAnalysis = reactive({
-      conflicts: [],
-      synergies: [],
-      total_price_tier: '--',
-      avg_match_score: '--'
-    });
-
     const compareList = ref([]);
     const comparedProducts = ref([]);
     const compareLoading = ref(false);
 
-    const activeModal = ref(null); // 'product' | 'routine' | 'dupe' | 'persona' | 'formula' | 'compare'
+    const activeModal = ref(null); // 'product' | 'dupe' | 'persona' | 'compare'
     const selectedProduct = ref(null);
     const modalLoading = ref(false);
     const productModalTab = ref('safety');
@@ -135,38 +113,11 @@ const app = createApp({
       }
     });
 
-    const formulaInput = ref(formulaPresets.abib);
-    const formulaResult = ref(null);
-    const formulaLoading = ref(false);
-    const formulaTab = ref('overview'); // 'overview' | 'audit' | 'skin_types' | 'concerns' | 'deck'
-    const formulaIngSearch = ref('');
-
-    // ----------------------------------------------------
-    // AI Board & CSI Detective State
-    // ----------------------------------------------------
-    const agentTab = ref('board'); // 'board' | 'csi'
-    const agentInputText = ref(formulaPresets.anua_azelaic);
-    const agentQuestion = ref("Evaluate barrier safety, comedogenic load, and Malassezia tolerance.");
-    const agentLoading = ref(false);
-    const agentDeliberation = ref(null);
-    const agentRounds = ref([]);
-    const agentMeta = ref(null);
-
-    // CSI State
-    const csiProblems = ref("Water, Ethylhexyl Palmitate, Cetearyl Alcohol, Fragrance\nWater, Isopropyl Myristate, Coconut Oil");
-    const csiSafes = ref("Water, Glycerin, Ceramide NP, Squalane\nWater, Centella Asiatica, Panthenol");
-    const csiReaction = ref("breakouts_acne");
-    const csiLoading = ref(false);
-    const csiResult = ref(null);
-
     const copyFeedback = reactive({
-      routine: false,
-      personaJson: false,
-      formulaLog: false
+      personaJson: false
     });
 
     let searchTimer = null;
-    let formulaTimer = null;
 
     // ----------------------------------------------------
     // Computed Properties
@@ -179,10 +130,6 @@ const app = createApp({
         sensitivity: 'slightly_sensitive',
         description: 'Targeting barrier repair & dark spots without fungal triggers.'
       };
-    });
-
-    const routineCount = computed(() => {
-      return Object.values(routine).filter(Boolean).length;
     });
 
     const activeFilterCount = computed(() => {
@@ -235,18 +182,6 @@ const app = createApp({
         else if (st.includes('norm')) counts.normal++;
       });
       return counts;
-    });
-
-    const filteredFormulaIngredients = computed(() => {
-      if (!formulaResult.value || !formulaResult.value.ingredients_breakdown) return [];
-      const q = (formulaIngSearch.value || '').trim().toLowerCase();
-      if (!q) return formulaResult.value.ingredients_breakdown;
-      return formulaResult.value.ingredients_breakdown.filter(it => 
-        (it.name || '').toLowerCase().includes(q) ||
-        (it.function || '').toLowerCase().includes(q) ||
-        (it.category_badge || '').toLowerCase().includes(q) ||
-        (it.safety_status || '').toLowerCase().includes(q)
-      );
     });
 
     // ----------------------------------------------------
@@ -456,12 +391,6 @@ const app = createApp({
       personaDropdownOpen.value = false;
       page.value = 1;
       await loadProducts();
-      if (activeModal.value === 'routine') {
-        analyzeRoutine();
-      }
-      if (activeModal.value === 'formula') {
-        runFormulaAnalysis();
-      }
     };
 
     const saveCustomPersona = async () => {
@@ -503,91 +432,6 @@ const app = createApp({
       navigator.clipboard.writeText(JSON.stringify(allPersonas.value, null, 2)).then(() => {
         copyFeedback.personaJson = true;
         setTimeout(() => { copyFeedback.personaJson = false; }, 2000);
-      });
-    };
-
-    // ----------------------------------------------------
-    // Routine Methods
-    // ----------------------------------------------------
-    const getSlotKey = (p) => {
-      const cat = (p.category_display || p.category || '').toLowerCase();
-      if (cat.includes('cleanse')) return 'cleansers';
-      if (cat.includes('tone')) return 'toners';
-      if (cat.includes('sun') || cat.includes('spf')) return 'sunscreens';
-      if (cat.includes('moistur') || cat.includes('cream') || cat.includes('oil')) return 'moisturizers';
-      return 'serums';
-    };
-
-    const isInRoutine = (productId) => {
-      return Object.values(routine).some(p => p && p.id === productId);
-    };
-
-    const toggleRoutine = async (p) => {
-      const slot = getSlotKey(p);
-      if (routine[slot] && routine[slot].id === p.id) {
-        routine[slot] = null;
-      } else {
-        routine[slot] = p;
-      }
-      await analyzeRoutine();
-    };
-
-    const removeRoutineStep = (slot) => {
-      routine[slot] = null;
-      analyzeRoutine();
-    };
-
-    const clearRoutine = () => {
-      routine.cleansers = null;
-      routine.toners = null;
-      routine.serums = null;
-      routine.moisturizers = null;
-      routine.sunscreens = null;
-      routineAnalysis.conflicts = [];
-      routineAnalysis.synergies = [];
-      routineAnalysis.total_price_tier = '--';
-      routineAnalysis.avg_match_score = '--';
-    };
-
-    const analyzeRoutine = async () => {
-      const pIds = Object.values(routine).filter(Boolean).map(p => p.id);
-      if (pIds.length === 0) {
-        routineAnalysis.conflicts = [];
-        routineAnalysis.synergies = [];
-        routineAnalysis.total_price_tier = '--';
-        routineAnalysis.avg_match_score = '--';
-        return;
-      }
-      try {
-        const res = await API.analyzeRoutine(pIds, activePersonaId.value);
-        routineAnalysis.conflicts = res.conflicts || [];
-        routineAnalysis.synergies = res.synergies || [];
-        routineAnalysis.total_price_tier = res.total_price_tier || '$$';
-        routineAnalysis.avg_match_score = `${res.avg_match_score || 0}%`;
-      } catch (e) {
-        console.error("Routine analysis error:", e);
-      }
-    };
-
-    const copyRoutineMarkdown = () => {
-      const stepLabels = {
-        cleansers: 'Step 1: Cleanse (AM/PM)',
-        toners: 'Step 2: Tone & Prep (AM/PM)',
-        serums: 'Step 3: Target & Treat (AM/PM)',
-        moisturizers: 'Step 4: Moisturize (AM/PM)',
-        sunscreens: 'Step 5: Sun Protection (AM Only)'
-      };
-      const lines = Object.entries(routine).map(([k, p]) => {
-        const label = stepLabels[k];
-        if (p) {
-          return `- **${label}:** [${p.brand} - ${p.name}](${p.url}) (${p.match_score}% Match, ${p.price_tier || '$$'})`;
-        }
-        return `- **${label}:** *(Empty Slot)*`;
-      });
-      const md = `### 🧴 My 5-Step Skincare Routine (${activePersona.value.label})\n\n${lines.join('\n')}\n\n*Built via Skintellect Studio*`;
-      navigator.clipboard.writeText(md).then(() => {
-        copyFeedback.routine = true;
-        setTimeout(() => { copyFeedback.routine = false; }, 2000);
       });
     };
 
@@ -704,56 +548,6 @@ const app = createApp({
     };
 
     // ----------------------------------------------------
-    // Formula Lab Methods
-    // ----------------------------------------------------
-    const openFormulaLab = () => {
-      activeModal.value = 'formula';
-      if (!formulaResult.value && formulaInput.value) {
-        runFormulaAnalysis();
-      }
-    };
-
-    const loadFormulaPreset = (key) => {
-      formulaInput.value = formulaPresets[key] || '';
-      runFormulaAnalysis();
-    };
-
-    const runFormulaAnalysis = async () => {
-      if (!formulaInput.value.trim()) {
-        formulaResult.value = null;
-        return;
-      }
-      formulaLoading.value = true;
-      try {
-        const res = await API.analyzeFormula(formulaInput.value, activePersonaId.value);
-        formulaResult.value = res;
-      } catch (e) {
-        console.error("Formula analysis error:", e);
-      } finally {
-        formulaLoading.value = false;
-      }
-    };
-
-    const copyFormulaAuditLog = () => {
-      if (!formulaResult.value || !formulaResult.value.audit_log) return;
-      const text = formulaResult.value.audit_log.join('\n');
-      navigator.clipboard.writeText(text).then(() => {
-        copyFeedback.formulaLog = true;
-        setTimeout(() => { copyFeedback.formulaLog = false; }, 2000);
-      });
-    };
-
-    // Auto-debounce formula input when user types
-    watch(formulaInput, () => {
-      clearTimeout(formulaTimer);
-      formulaTimer = setTimeout(() => {
-        if (activeModal.value === 'formula') {
-          runFormulaAnalysis();
-        }
-      }, 500);
-    });
-
-    // ----------------------------------------------------
     // UI Helpers
     // ----------------------------------------------------
     const getFlag = (country) => {
@@ -765,97 +559,6 @@ const app = createApp({
       if (tier === '$$') return 'bg-blue-50 text-blue-800 border-blue-200';
       if (tier === '$$$') return 'bg-amber-50 text-amber-800 border-amber-200';
       return 'bg-purple-50 text-purple-800 border-purple-200';
-    };
-
-    // ----------------------------------------------------
-    // AI Board & CSI Detective Methods
-    // ----------------------------------------------------
-    const openAiBoard = async (initialTab = 'board') => {
-      agentTab.value = initialTab;
-      activeModal.value = 'ai_board';
-      if (!agentMeta.value) {
-        try {
-          agentMeta.value = await API.fetchAgentsMeta();
-        } catch (e) {
-          console.error("Failed to load agent meta:", e);
-        }
-      }
-      if (initialTab === 'board' && !agentDeliberation.value) {
-        await runAiBoardDeliberation();
-      }
-    };
-
-    const runAiBoardDeliberation = async () => {
-      if (!agentInputText.value.trim()) return;
-      agentLoading.value = true;
-      agentDeliberation.value = null;
-      agentRounds.value = [];
-      try {
-        const res = await API.deliberateBoard(agentInputText.value, activePersonaId.value, agentQuestion.value);
-        agentDeliberation.value = res;
-        agentRounds.value = res.debate || [];
-      } catch (e) {
-        console.error("AI Board Deliberation Error:", e);
-      } finally {
-        agentLoading.value = false;
-      }
-    };
-
-    const loadAgentPreset = (presetKey) => {
-      if (formulaPresets[presetKey]) {
-        agentInputText.value = formulaPresets[presetKey];
-        runAiBoardDeliberation();
-      }
-    };
-
-    const runCsiInvestigation = async () => {
-      csiLoading.value = true;
-      csiResult.value = null;
-      try {
-        const probs = csiProblems.value.split('\n').map(s => s.trim()).filter(Boolean);
-        const safes = csiSafes.value.split('\n').map(s => s.trim()).filter(Boolean);
-        const res = await API.investigateCsi(probs, safes, csiReaction.value);
-        csiResult.value = res;
-      } catch (e) {
-        console.error("CSI Investigation Error:", e);
-      } finally {
-        csiLoading.value = false;
-      }
-    };
-
-    const applyCsiExclusions = async (exclusions) => {
-      if (!activePersona.value) return;
-      const updatedExclusions = { ...activePersona.value.safety_exclusions };
-      for (const ex of exclusions) {
-        updatedExclusions[ex] = true;
-      }
-      try {
-        await API.createPersona({
-          username: activePersona.value.username,
-          label: activePersona.value.label,
-          description: (activePersona.value.description || '') + " (Tuned via CSI)",
-          skin_type: activePersona.value.skin_type,
-          sensitivity: activePersona.value.sensitivity,
-          target_concerns: activePersona.value.target_concerns || [],
-          safety_exclusions: updatedExclusions
-        });
-        const pers = await API.fetchPersonas();
-        allPersonas.value = pers;
-        applyPersona(activePersona.value.id);
-        alert("✅ Persona safety exclusions successfully updated from CSI findings!");
-      } catch (e) {
-        console.error("Failed to apply exclusions:", e);
-      }
-    };
-
-    const openAiBoardForProduct = (p) => {
-      if (!p) return;
-      const ings = (p.ingredients || []).map(i => typeof i === 'string' ? i : (i.name || '')).filter(Boolean).join(', ');
-      if (ings) {
-        agentInputText.value = ings;
-        agentQuestion.value = `Evaluate formulation safety, vehicle stability and active compatibility for ${p.brand} ${p.name}`;
-      }
-      openAiBoard('board');
     };
 
     // Lifecycle
@@ -897,7 +600,6 @@ const app = createApp({
       // Constants
       countryFlags,
       dupePresets,
-      formulaPresets,
       // State
       currentView,
       activeDomain,
@@ -919,9 +621,6 @@ const app = createApp({
       activePersona,
       personaDropdownOpen,
       filters,
-      routine,
-      routineAnalysis,
-      routineCount,
       activeFilterCount,
       compareList,
       comparedProducts,
@@ -940,26 +639,7 @@ const app = createApp({
       dupeLoading,
       personaTab,
       customPersona,
-      formulaInput,
-      formulaResult,
-      formulaLoading,
-      formulaTab,
-      formulaIngSearch,
-      filteredFormulaIngredients,
       copyFeedback,
-      // AI Board & CSI State
-      agentTab,
-      agentInputText,
-      agentQuestion,
-      agentLoading,
-      agentDeliberation,
-      agentRounds,
-      agentMeta,
-      csiProblems,
-      csiSafes,
-      csiReaction,
-      csiLoading,
-      csiResult,
       // Actions
       selectDomain,
       switchView,
@@ -984,11 +664,6 @@ const app = createApp({
       saveCustomPersona,
       downloadPersonaJson,
       copyPersonaJson,
-      isInRoutine,
-      toggleRoutine,
-      removeRoutineStep,
-      clearRoutine,
-      copyRoutineMarkdown,
       isInCompare,
       toggleCompare,
       clearCompare,
@@ -997,17 +672,6 @@ const app = createApp({
       openDupeModal,
       loadDupesForProduct,
       selectDupePreset,
-      openFormulaLab,
-      loadFormulaPreset,
-      runFormulaAnalysis,
-      copyFormulaAuditLog,
-      // AI Board & CSI Actions
-      openAiBoard,
-      openAiBoardForProduct,
-      runAiBoardDeliberation,
-      loadAgentPreset,
-      runCsiInvestigation,
-      applyCsiExclusions,
       getFlag,
       getPriceBadgeClass
     };

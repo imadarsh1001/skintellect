@@ -28,7 +28,7 @@ export interface ProductsResponse {
   products: Product[]
 }
 
-export async function fetchProducts(filters: ProductFilters = {}): Promise<ProductsResponse> {
+export async function fetchProducts(filters: ProductFilters = {}, signal?: AbortSignal): Promise<ProductsResponse> {
   const params = new URLSearchParams()
   if (filters.page) params.set('page', filters.page.toString())
   if (filters.limit) params.set('limit', filters.limit.toString())
@@ -47,7 +47,7 @@ export async function fetchProducts(filters: ProductFilters = {}): Promise<Produ
   if (filters.persona_id) params.set('persona_id', filters.persona_id)
   if (filters.include_seeds) params.set('include_seeds', 'true')
 
-  const res = await fetch(`${BASE_URL}/api/products?${params.toString()}`)
+  const res = await fetch(`${BASE_URL}/api/products?${params.toString()}`, { signal })
   if (!res.ok) throw new Error(`Failed to fetch products: ${res.statusText}`)
   return res.json()
 }

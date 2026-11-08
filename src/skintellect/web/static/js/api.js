@@ -39,29 +39,9 @@ const API = {
     return await res.json();
   },
 
-  async analyzeRoutine(productIds, personaId = 'uap') {
-    const res = await fetch('/api/routine/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_ids: productIds, persona_id: personaId })
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to analyze routine`);
-    return await res.json();
-  },
-
   async fetchDupes(productId) {
     const res = await fetch(`/api/dupes/${productId}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to fetch dupes`);
-    return await res.json();
-  },
-
-  async analyzeFormula(ingredientsText, personaId = 'uap') {
-    const res = await fetch('/api/formula-lab/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ingredients_text: ingredientsText, persona_id: personaId })
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to analyze formula`);
     return await res.json();
   },
 
@@ -101,39 +81,6 @@ const API = {
     return await res.json();
   },
 
-  async fetchAgentsMeta() {
-    const res = await fetch('/api/agents/meta');
-    if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to fetch agents meta`);
-    return await res.json();
-  },
-
-  async deliberateBoard(ingredientsText, personaId = 'uap', userQuestion = '') {
-    const res = await fetch('/api/agents/board/deliberate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ingredients_text: ingredientsText,
-        persona_id: personaId,
-        user_question: userQuestion
-      })
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to deliberate formula`);
-    return await res.json();
-  },
-
-  async investigateCsi(problematicProducts, safeProducts, reactionType = 'breakouts_acne') {
-    const res = await fetch('/api/agents/csi/investigate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        problematic_products: problematicProducts,
-        safe_products: safeProducts,
-        reaction_type: reactionType
-      })
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to investigate CSI`);
-    return await res.json();
-  }
 };
 
 window.API = API;

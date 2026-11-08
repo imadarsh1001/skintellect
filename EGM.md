@@ -10,7 +10,7 @@ Explainable cosmetic formulation intelligence and product research platform (pac
 - **Experiments** — `experiments`: opt-in study track (specialist board deliberation, ingredient CSI, label OCR, formula lab) that is LLM-optional, offline-capable (`AGENT_LLM_MODE=offline`), and read-only against the catalog.
 - **Tooling** — `scripts`: developer gates and evaluation harnesses writing reports under `reports/`.
 
-State ownership: the SQLite catalog (default `skintellect_moisturizers.db` via [src/skintellect/config.py:DB_PATH]) is the single source of truth; in-memory caches are stamp- or hash-invalidated against it. Human-maintained narrative docs live in [README.md](./README.md) and `docs/` — those READMEs are intentionally kept separate from these code-grounded `EGM.md` contracts.
+State ownership: the SQLite catalog (default `skintellect_moisturizers.db` via [src/skintellect/config.py:DB_PATH]) is the single source of truth; in-memory caches are stamp- or hash-invalidated against it. Human-maintained narrative docs live in [README.md](./README.md) and `docs/` — those READMEs are intentionally kept separate from these code-grounded `EGM.md` contracts. Terminology: a leaf package contract is a *Peanut*; a rollup contract is a *Blueprint*.
 
 ## Subdirectories & System Boundaries
 

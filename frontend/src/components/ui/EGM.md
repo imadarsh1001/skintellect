@@ -1,7 +1,7 @@
 # ui
 
 ## Overview
-The shared UI primitive library for the frontend: ten shadcn-vue style component packages built as thin wrappers around [radix-vue](https://www.radix-vue.com/) headless components, styled with Tailwind CSS and `class-variance-authority`. Each package is a self-contained Peanut exporting its components from an `index.ts`. This directory contains no direct source files of its own; it is an architectural grouping only.
+The shared UI primitive library for the frontend: ten shadcn-vue style component packages built as thin wrappers around [radix-vue](https://www.radix-vue.com/) headless components, styled with Tailwind CSS and `class-variance-authority`. Each package is a self-contained Peanut (EGM term: the leaf contract of a directory of direct source files) exporting its components from an `index.ts`. This directory contains no direct source files of its own; it is an architectural grouping only.
 
 ## Subdirectories & Boundaries
 - badge: [./badge/EGM.md](./badge/EGM.md) - `Badge` pill with variants `default|secondary|destructive|outline|verified|source|unknown|negative|mixed` (`Badge.vue:badgeVariants`)
@@ -17,7 +17,7 @@ The shared UI primitive library for the frontend: ten shadcn-vue style component
 
 ## Cross-Package Invariants
 - Every package is a generic shadcn-vue primitive: no app-domain logic and no API calls anywhere under this directory; all stateful behavior (open/close, value, orientation) is owned by the wrapped radix-vue roots
-- Every component merges caller styling through the shared `cn` helper from `@/lib/utils` (imported in each `.vue` script block); theme tokens (`primary`, `muted`, `accent`, `popover`, `card`, `destructive`, ...) resolve to CSS variables mapped in `frontend/tailwind.config.js:extend.colors`
+- Components declaring a `class?: HTMLAttributes['class']` prop merge caller styling through the shared `cn` helper from `@/lib/utils` (24 of 33 `.vue` files); the other 9 are pure radix-vue passthroughs with no `class` prop and no `cn` import, relying on Vue attribute fallthrough (`Collapsible.vue`, `CollapsibleContent.vue`, `CollapsibleTrigger.vue`, `Dialog.vue`, `DialogTrigger.vue`, `Select.vue`, `SelectGroup.vue`, `SelectValue.vue`, `Tabs.vue`). Theme tokens (`primary`, `muted`, `accent`, `popover`, `card`, `destructive`, ...) resolve to CSS variables mapped in `frontend/tailwind.config.js:extend.colors`
 - `animate-in`/`animate-out`/`animate-collapsible-*` transition classes declared in dialog, select, and collapsible templates require animation keyframes/plugins that are absent (`tailwind.config.js:plugins` is `[]`); these classes currently resolve to no-ops
 
 ## Cross-Package Side Effects

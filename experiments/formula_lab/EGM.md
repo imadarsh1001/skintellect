@@ -12,23 +12,23 @@ explicitly unvalidated heuristics computed offline from ingredient names.
 
 ## Interface
 
-- `[scoring.py:parse_ingredients_input(raw_input)]` — normalizes a `list` (of strings
+- `[scoring.py:parse_ingredients_input] (raw_input)` — normalizes a `list` (of strings
   or `{"name": ...}` dicts), a JSON-array string, or a comma/semicolon/newline
   separated string into a clean `List[str]`, stripping leading list numbering
   (`^\d+[\.\)]\s*`).
-- `[scoring.py:analyze_ingredients(ing_names)]` — returns the
+- `[scoring.py:analyze_ingredients] (ing_names)` — returns the
   `groups` dict of `src/skintellect/formulation/ingredient_facts.py:classify_ingredients`
   (keys include `brighteners`, `barrier`, `smoothers`, `irritants`, `cloggers`,
   `fungal_triggers`).
-- `[scoring.py:predict_skintellect_match(ingredients, skin_type="combination", concerns=None, avoid_fungal_triggers=True, avoid_fragrance=True, avoid_alcohol=True)]` —
+- `[scoring.py:predict_skintellect_match] (ingredients, skin_type="combination", concerns=None, avoid_fungal_triggers=True, avoid_fragrance=True, avoid_alcohol=True)` —
   returns `{"predicted_match_score", "status", "summary", "breakdown", "analysis"}`.
   Scoring: base 100; fungal triggers with `avoid_fungal_triggers=True` hard-cap the
-  score into `[34, 45]` and return early; fragrance `-15`, drying alcohol `-10`,
+  score into `[34, 43]` and return early; fragrance `-15`, drying alcohol `-10`,
   any pore cloggers `-5`, missing dark-spot brighteners `-4`, missing barrier lipids
   `-4`, salicylic acid/BHA with at most one barrier lipid `-6`; final clamp
   `max(20, min(100, score))`. Status thresholds: `>=95` "Excellent match",
   `>=85` "Great match", `>=75` "Good match", else "Fair match".
-- `[scoring.py:calculate_darmeto_points(match_score, analysis, fungal_acne_safe=True, pore_clogger_free=True, oil_free=True, rating=None)]` —
+- `[scoring.py:calculate_darmeto_points] (match_score, analysis, fungal_acne_safe=True, pore_clogger_free=True, oil_free=True, rating=None)` —
   returns `{"darmeto_points", "tier", "baseline_match", "additions", "deductions"}`.
   Bonuses: brighteners `min(3*count, 9)`, barrier `min(2*count, 8)`, smoothers
   `min(2*count, 6)`, fungal-safe `+4`, clogger-free `+3`, oil-free `+2`,
@@ -36,12 +36,12 @@ explicitly unvalidated heuristics computed offline from ingredient names.
   Final = `round(max(0, pts), 1)`; tiers: `>=120` Tier 1 Holy Grail, `>=105` Tier 2
   Highly Targeted Treatment, `>=90` Tier 3 Safe Everyday Base, else Tier 4
   Suboptimal / Potential Irritants.
-- `[scoring.py:score_any_product(ingredients, skin_type="combination", rating=None)]` —
+- `[scoring.py:score_any_product] (ingredients, skin_type="combination", rating=None)` —
   unified entry point returning `{"skintellect_match", "darmeto_points",
   "actives_summary"}` (note the result key is `skintellect_match`).
 - `[scoring.py:predict_skinsort_match]` — backward-compatibility alias of
   `predict_skintellect_match`.
-- `[formulas.py:classify_single_ingredient(name)]` — classifies one ingredient against
+- `[formulas.py:classify_single_ingredient] (name)` — classifies one ingredient against
   the cached catalog `ingredients` table and regex actives; matches the DB by exact
   lower-cased name or `normalize()` alias only, never by substring. A clogger is
   `is_pore_clogging` or `comedogenic >= 3` or a regex clogger hit; an irritant is
@@ -51,17 +51,18 @@ explicitly unvalidated heuristics computed offline from ingredient names.
   "description"}`. Unresolved ingredients get `category_badge="Unresolved ingredient"`
   and `safety_status="unknown"`; resolved-but-unflagged ingredients get
   `safety_status="unflagged"`.
-- `[formulas.py:compute_skin_type_compatibilities(analysis, ing_names, is_fungal_safe, is_fragrance_free, is_alcohol_free)]` —
+- `[formulas.py:compute_skin_type_compatibilities] (analysis, ing_names, is_fungal_safe, is_fragrance_free, is_alcohol_free)` —
   returns entries for `combination`, `oily`, `dry`, `sensitive`, `fungal_safe`, each
-  `{"score", "status", "verdict", "reason"}`; score floors are 30, 25, 30, 20, and a
-  hard 100/35 for `fungal_safe`, with a 100 ceiling on the others.
-- `[formulas.py:compute_target_concern_efficacies(analysis)]` — returns
+  `{"score", "status", "verdict", "reason"}`; scores clamp to floors of 30
+  (combination), 25 (oily), 30 (dry), 20 (sensitive) with a 100 ceiling; `fungal_safe`
+  is binary — exactly 100 when free of fungal triggers, 35 otherwise.
+- `[formulas.py:compute_target_concern_efficacies] (analysis)` — returns
   `dark_spots`, `barrier`, `texture`, `redness` entries with
   `{"status", "score", "actives", "mechanism"}`.
-- `[formulas.py:generate_mathematical_audit_log(persona, ing_names, analysis, match_score, match_status, match_breakdown, darmeto_res, is_fungal_safe, is_fragrance_free, is_alcohol_free)]` —
+- `[formulas.py:generate_mathematical_audit_log] (persona, ing_names, analysis, match_score, match_status, match_breakdown, darmeto_res, is_fungal_safe, is_fragrance_free, is_alcohol_free)` —
   returns a list of human-readable audit-trace strings (Phase 1 match score steps,
   Phase 2 Darmeto additions/deductions).
-- `[formulas.py:analyze_formula_full(ingredients_text, persona_id="uap")]` — master
+- `[formulas.py:analyze_formula_full] (ingredients_text, persona_id="uap")` — master
   orchestrator; resolves the persona via
   `src/skintellect/catalog/personas.py:get_all_personas` (falls back to the first
   persona) and returns the full analysis dict (`predicted_match_score`,
@@ -83,8 +84,9 @@ explicitly unvalidated heuristics computed offline from ingredient names.
 
 External dependencies (repository paths):
 `src/skintellect/formulation/ingredient_facts.py` (`classify_ingredients`,
-`normalize`), `src/skintellect/formulation/scoring.py` (re-exported here for
-`experiments` consumers), `src/skintellect/catalog/store.py:get_catalog`,
+`normalize`), `src/skintellect/formulation/scoring.py` (imported by the local
+`formulas.py`; the local `scoring.py` is a diverged fork of it, not a re-export),
+`src/skintellect/catalog/store.py:get_catalog`,
 `src/skintellect/database.py:database`, `src/skintellect/catalog/personas.py`,
 `src/skintellect/catalog/models.py`.
 
@@ -103,7 +105,8 @@ External dependencies (repository paths):
   `False` when the property fails and `None` otherwise — never `True` — so absence of
   flags can never read as an affirmative safety claim.
 - `[scoring.py:predict_skintellect_match]` early-returns on fungal triggers when
-  `avoid_fungal_triggers=True`; the hard cliff result is capped to `[34, 45]` and no
+  `avoid_fungal_triggers=True`; the hard cliff result is capped to `[34, 43]`
+  (penalty 57-66 points; the function's own docstring still reads `[34%, 45%]`) and no
   later rules are applied.
 - `[formulas.py:classify_single_ingredient]` matches the DB by exact name or
   `normalize()` alias only; substring matches are explicitly avoided to prevent

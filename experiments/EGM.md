@@ -55,7 +55,8 @@ External dependencies (repository paths): `src/skintellect/formulation/scoring.p
   requirements; the track scope is defined by the human-maintained `README.md` in
   this directory.
 - `[run_agent_cli.py]` and `[smoke_agents.py]` self-bootstrap `sys.path` (repository
-  root, `src/`, and for the smoke suite `.runtime/`) before importing
+  root, `src/`, and for the smoke suite `.runtime/` — the optional
+  dependency-fallback directory, see docs/DEVELOPMENT.md) before importing
   `experiments.*` or `skintellect.*`, so both run standalone from the repository root.
 - `[smoke_agents.py]` forces `os.environ["AGENT_LLM_MODE"] = "offline"` at import
   time; the smoke checks are deterministic, key-free, and make no network calls.
@@ -63,9 +64,10 @@ External dependencies (repository paths): `src/skintellect/formulation/scoring.p
   fixed default question ("Evaluate barrier safety and active balance");
   `[run_agent_cli.py:run_board]` substitutes a fixed sample deck when `--formula` is
   omitted.
-- Child packages never write to the catalog or product databases; the only database
-  access in this tree is read-only (`CSIDetective` product lookups, Formula Lab
-  ingredient cache).
+- Child packages never write catalog/product tables; `CSIDetective` lookups and the
+  Formula Lab ingredient cache are read-only, but `label_ocr` and live-mode Specialist
+  Board LLM calls write Gemini telemetry/cache rows (`gemini_runs`/`gemini_cache`)
+  through the shared transport (`src/skintellect/gemini.py:GeminiClient.structured`).
 
 ## Side Effects
 

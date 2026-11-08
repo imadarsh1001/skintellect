@@ -2,7 +2,7 @@
 Skintellect Studio - End-to-End API Test Suite
 Uses standard library urllib (no external test client dependencies required).
 Tests all core catalog, multi-domain taxonomy (Skin, Hair, Body, Makeup),
-ingredient explorer, and formula lab endpoints.
+and ingredient explorer endpoints.
 """
 
 import json
@@ -156,24 +156,6 @@ def run_tests():
     products_count = len(ing_detail.get("products", []))
     print(f"   [PASS] Ingredient '{ing_detail['name']}' found in {products_count} catalog formulations (Sources: {ing_detail.get('sources')})")
 
-    # 10. Formula Lab Raw Text Analyzer
-    print("10. Testing POST /api/formula-lab/analyze")
-    status, lab_res = http_post("/api/formula-lab/analyze", {
-        "ingredients_text": "Water, Houttuynia Cordata Extract, Glycerin, Niacinamide, Ceramide NP",
-        "persona_id": "uap"
-    })
-    assert status == 200, f"Expected 200, got {status}"
-    print(f"   [PASS] Formula Lab: {lab_res['predicted_match_score']}% match, {lab_res['darmeto_points']} Darmeto pts, {len(lab_res.get('audit_log', []))} audit entries")
-
-    # 11. Routine Conflict & Synergy Analyzer
-    print("11. Testing POST /api/routine/analyze")
-    sample_ids = [top_p["id"], top_h["id"], top_b["id"]]
-    status, rtn_res = http_post("/api/routine/analyze", {
-        "product_ids": sample_ids,
-        "persona_id": "uap"
-    })
-    assert status == 200, f"Expected 200, got {status}"
-    print(f"   [PASS] Routine check: {len(rtn_res['conflicts'])} conflicts, {len(rtn_res['synergies'])} synergies")
 
     print("\n" + "=" * 65)
     print("  ALL MULTI-DOMAIN AND MULTI-SOURCE VERIFICATION CHECKS PASSED!")

@@ -13,11 +13,9 @@ src/skintellect/
   formulation/             scoring, formula analysis, routine checks, models
   research/                assistant, search, alternatives, reviews, retrieval,
                            evidence, references, connections, labels, preparation,
-                           jobs, study, upgrades, models and provider-backed steps
+                           jobs, study, models and provider-backed steps
   ingestion/               PubChem compound lookup and catalog maintenance (crawlers decoupled)
-  agents/                  board, specialist implementations, detective, model adapter
-  reporting.py             Markdown and standalone HTML reporting
-  mcp.py                   local read-only MCP transport
+  agents/                  LangGraph copilot, intent routing, and tools
   web/templates/           four served HTML pages
   web/static/              live JavaScript, CSS and vendored Vue
 ```
@@ -43,22 +41,22 @@ preparation job is run as part of this source reorganization.
 
 | Previous location | Current owner |
 | --- | --- |
-| `agents.csi_detective` | `skintellect.agents.detective` |
-| `agents.formulator_agent` | `skintellect.agents.formulator` |
-| `agents.judge_agent` | `skintellect.agents.judge` |
-| `agents.llm_client` | `skintellect.agents.llm` |
-| `agents.mcp_server` | `skintellect.mcp` |
-| `agents.microbiome_agent` | `skintellect.agents.microbiome` |
-| `agents.models` | `skintellect.api.agents` |
-| `agents.orchestrator` | `skintellect.agents.board` |
-| `agents.router` | `skintellect.api.agents` |
-| `agents.safety_critic_agent` | `skintellect.agents.safety_critic` |
+| `agents.csi_detective` | `experiments.ingredient_csi.detective` |
+| `agents.formulator_agent` | `experiments.specialist_board.formulator` |
+| `agents.judge_agent` | `experiments.specialist_board.judge` |
+| `agents.llm_client` | `experiments.specialist_board.llm` |
+| `agents.mcp_server` | Retired (optional transport) |
+| `agents.microbiome_agent` | `experiments.specialist_board.microbiome` |
+| `agents.models` | `experiments.specialist_board.models` |
+| `agents.orchestrator` | `experiments.specialist_board.board` |
+| `agents.router` | `experiments.specialist_board.board` |
+| `agents.safety_critic_agent` | `experiments.specialist_board.safety_critic` |
 | `analysis.audit_workspace` | `scripts.audit_workspace` |
 | `analysis.evaluate_release` | `scripts.evaluate_release` |
 | `analysis.evaluate_research` | `scripts.check_query_parser` |
 | `analysis.evaluate_review_nlp` | `scripts.evaluate_review_nlp` |
 | `analysis.recommender` | `skintellect.catalog.recommendations` |
-| `analysis.reports` | `skintellect.reporting` |
+| `analysis.reports` | Retired (in favor of web UI) |
 | `backend.api` | `skintellect.api.app` |
 | `backend.models` | `skintellect.catalog.models` |
 | `backend.research_api` | `skintellect.api.research` |
@@ -83,8 +81,8 @@ preparation job is run as part of this source reorganization.
 | `core.scoring_engine` | `skintellect.formulation.scoring` |
 | `core.taxonomy` | `skintellect.catalog.taxonomy` |
 | `ingestion.pubchem_connector` | `skintellect.ingestion.pubchem` |
-| `ingestion.queue_worker` | `skintellect.ingestion.queue` |
-| `ingestion.skinsort_collector` | `skintellect.ingestion.crawler` |
+| `ingestion.queue_worker` | Decoupled (`skintellect-collector`) |
+| `ingestion.skinsort_collector` | Decoupled (`skintellect-collector`) |
 | `pipeline.ai_pipeline` | `skintellect.research.preparation` |
 | `pipeline.audit_data` | `skintellect.ingestion.maintenance` |
 | `pipeline.clean_data` | `skintellect.ingestion.maintenance` |
@@ -93,8 +91,8 @@ preparation job is run as part of this source reorganization.
 | `pipeline.migrations` | `skintellect.database` |
 | `pipeline.research_release` | `skintellect.research.study` |
 | `pipeline.seed_multidomain` | `skintellect.ingestion.maintenance` |
-| `pipeline.upgrade_embeddings` | `skintellect.research.upgrades` |
-| `pipeline.upgrade_review_aspects` | `skintellect.research.upgrades` |
+| `pipeline.upgrade_embeddings` | Retired |
+| `pipeline.upgrade_review_aspects` | Retired |
 | `pipeline.verify_formula` | `skintellect.ingestion.maintenance` |
 
 `research_service.py` was split: catalog record loading belongs to catalog;
@@ -103,9 +101,7 @@ similarity to alternatives; evidence resolution to evidence; lexical retrieval t
 retrieval. Only assistant coordination remains in `research/service.py`.
 
 The domain and research metadata migrations share `database.py` but retain their
-separate functions. The two model upgrade workflows share `research/upgrades.py`
-and are exposed as `upgrade_embeddings` and `upgrade_reviews`.
-
+separate functions. 
 Retired code includes the unused DOM frontend (`main.js`, `state.js` and six old
 component scripts), placeholder INCIDecoder/CosDNA connectors and their unused
 base class, the standalone reference Gemini client, and Python compatibility

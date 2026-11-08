@@ -105,6 +105,28 @@ class GeminiTests(unittest.TestCase):
                     GeminiClient(self.path,transport).structured('test','extract',{},SampleOutput)
         self.assertEqual(run['calls'],1)
 
+    def test_budget_survives_threadpool_stream_consumption(self):
+        """SSE regression: Starlette consumes sync generators with one next() per
+        pooled context copy, so run_budget teardown runs in a different context
+        than entry; it must not raise a cross-context ContextVar error."""
+        import asyncio
+
+        from skintellect.gemini import _ACTIVE_RUN
+
+        async def drive():
+            def stream():
+                with run_budget(max_calls=6) as run:
+                    for tick in range(3):
+                        run['events'].append({'tick': tick})
+                        yield tick
+            gen = stream()
+            items = [await asyncio.to_thread(next, gen) for _ in range(3)]
+            await asyncio.to_thread(gen.close)  # teardown in yet another context copy
+            return items
+
+        self.assertEqual(asyncio.run(drive()), [0, 1, 2])
+        self.assertIsNone(_ACTIVE_RUN.get())
+
     def test_disabled_mode_makes_no_requests(self):
         with patch.dict(os.environ,{'RESEARCH_LLM_ENABLED':'0'}):
             with patch('skintellect.gemini.urllib.request.urlopen') as transport:

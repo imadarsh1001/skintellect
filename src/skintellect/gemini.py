@@ -53,11 +53,15 @@ def ensure_tables(db_path):
 @contextmanager
 def run_budget(max_calls=6, max_seconds=120):
     run = {'calls': 0, 'max_calls': max_calls, 'deadline': time.monotonic()+max_seconds, 'events': []}
-    token = _ACTIVE_RUN.set(run)
+    previous = _ACTIVE_RUN.get()
+    _ACTIVE_RUN.set(run)
     try:
         yield run
     finally:
-        _ACTIVE_RUN.reset(token)
+        # Teardown may execute in a different thread/context than entry (Starlette
+        # consumes sync SSE generators one next() per pooled context copy), where
+        # ContextVar.reset(token) raises; restoring by value is context-safe.
+        _ACTIVE_RUN.set(previous)
 
 
 def safe_model(value):

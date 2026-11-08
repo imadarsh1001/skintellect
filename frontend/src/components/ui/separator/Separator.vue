@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
-import { Separator as SeparatorPrimitive, type SeparatorProps } from 'radix-vue'
+import { Separator as SeparatorPrimitive, type SeparatorProps } from 'reka-ui'
 
 const props = withDefaults(
   defineProps<SeparatorProps & { class?: HTMLAttributes['class'] }>(),

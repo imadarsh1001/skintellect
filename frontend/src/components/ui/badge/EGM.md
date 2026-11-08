@@ -12,7 +12,7 @@ Generic shadcn-vue style badge primitive. A purely presentational labeled pill r
 
 ## Invariants
 - Generic primitive only: contains no app-domain logic and performs no API calls; all app meaning comes from the slot content and the `variant` chosen by callers
-- Renders a plain `<div>` (not a radix-vue `Primitive`); slot content is unstyled by this component
+- Renders a plain `<div>` (not a reka-ui `Primitive`); slot content is unstyled by this component
 - `variant` values are limited to the keys declared in `Badge.vue:badgeVariants`; an omitted `variant` falls back to `default` via `defaultVariants`
 
 ## Side Effects

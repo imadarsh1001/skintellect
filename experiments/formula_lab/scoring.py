@@ -330,7 +330,7 @@ if __name__ == "__main__":
     print("\n" + "=" * 55)
     print(" SAMPLE TEST FORMULATION EVALUATION")
     print("=" * 55)
-    print(f" Predicted Skintellect Match : {res['skinsort_match']['predicted_match_score']}% ({res['skinsort_match']['status']})")
+    print(f" Predicted Skintellect Match : {res['skintellect_match']['predicted_match_score']}% ({res['skintellect_match']['status']})")
     print(f" Darmeto Fit Points       : {res['darmeto_points']['darmeto_points']} pts ({res['darmeto_points']['tier']})")
     print("\n Actives Breakdown:")
     print("   Brighteners  :", res['actives_summary']['brighteners'])

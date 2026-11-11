@@ -188,5 +188,6 @@ export function useExploreQuery(options: { personaId: Readonly<Ref<string>> }) {
     setFilter,
     setPage,
     resetFilters,
+    reload: load,
   }
 }

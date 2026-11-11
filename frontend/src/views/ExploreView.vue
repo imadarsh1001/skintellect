@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Product } from '@/lib/types'
-import { useExploreQuery } from '@/composables/useExploreQuery'
+import { fetchCatalogStats, type CatalogStats } from '@/lib/api'
+import { useExploreQuery, DEFAULT_FILTERS } from '@/composables/useExploreQuery'
 import FilterSidebar from '@/components/explore/FilterSidebar.vue'
 import ProductGrid from '@/components/explore/ProductGrid.vue'
+import { Button } from '@/components/ui/button'
 import {
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
   Database,
   FlaskConical,
+  Loader2,
   ShieldCheck,
 } from 'lucide-vue-next'
 
@@ -21,16 +27,62 @@ const emits = defineEmits<{
   (e: 'view-details', product: Product): void
 }>()
 
+const PAGE_LIMIT = 36 // matches the backend /api/products default page size
+
 const {
   products,
+  total,
   loading,
+  error,
   filters,
+  page,
   searchInput,
   setFilter,
+  setPage,
   resetFilters,
+  reload,
 } = useExploreQuery({ personaId: computed(() => props.personaId) })
 
 const comparedIds = computed(() => props.comparedProducts.map(p => p.id))
+
+const stats = ref<CatalogStats | null>(null)
+const statsLoading = ref(true)
+
+onMounted(async () => {
+  try {
+    stats.value = await fetchCatalogStats()
+  } catch {
+    stats.value = null // hero stat row hides; no stale hardcode is shown
+  } finally {
+    statsLoading.value = false
+  }
+})
+
+const verifiedCount = computed(() => {
+  if (!stats.value) return null
+  const complete = (stats.value as Record<string, unknown>)['verified_complete_products']
+  return typeof complete === 'number' ? complete : (stats.value.enriched_products ?? null)
+})
+const verifiedLabel = computed(() =>
+  ((stats.value as Record<string, unknown> | null)?.['verified_complete_products']) !== undefined
+    ? 'Verified Complete Formulas'
+    : 'Enriched Formulations',
+)
+const totalPages = computed(() => Math.max(1, Math.ceil(total.value / PAGE_LIMIT)))
+
+const pageWindow = computed<(number | '…')[]>(() => {
+  const current = page.value
+  const last = totalPages.value
+  if (last <= 7) return Array.from({ length: last }, (_, i) => i + 1)
+  const window: (number | '…')[] = [1]
+  const lo = Math.max(2, current - 1)
+  const hi = Math.min(last - 1, current + 1)
+  if (lo > 2) window.push('…')
+  for (let p = lo; p <= hi; p++) window.push(p)
+  if (hi < last - 1) window.push('…')
+  window.push(last)
+  return window
+})
 
 const DOMAINS = [
   { value: 'all', label: 'All Domains', icon: '🌐' },
@@ -53,6 +105,12 @@ const CATEGORY_ICONS: Record<string, string> = {
 
 function toggleQuickFilter(key: 'fungal_safe' | 'fragrance_free' | 'oil_free') {
   setFilter(key, !filters.value[key])
+}
+
+function goToPage(target: number | '…') {
+  if (target === '…' || target === page.value) return
+  setPage(target)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
@@ -103,20 +161,24 @@ function toggleQuickFilter(key: 'fungal_safe' | 'fragrance_free' | 'oil_free') {
     <!-- Hero Header -->
     <div class="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-card p-6 sm:p-8 shadow-xs relative overflow-hidden">
       <div class="max-w-3xl flex flex-col gap-3 relative z-10">
-        <div class="flex items-center gap-2 flex-wrap">
+        <div v-if="statsLoading" class="flex items-center gap-2 text-xs text-muted-foreground">
+          <Loader2 class="w-3.5 h-3.5 animate-spin" />
+          Loading catalog metrics...
+        </div>
+        <div v-else-if="stats" class="flex items-center gap-2 flex-wrap">
           <span class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#12635a] bg-[#e5f5f2] border border-[#12635a]/30 px-2.5 py-0.5 rounded-full">
             <ShieldCheck class="w-3.5 h-3.5" />
-            546 Verified Complete Formulas
+            {{ verifiedCount ?? 0 }} {{ verifiedLabel }}
           </span>
           <span class="text-xs text-muted-foreground font-semibold">·</span>
           <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
             <Database class="w-3 h-3" />
-            2,492 Formulations
+            {{ stats.total_products.toLocaleString() }} Formulations
           </span>
           <span class="text-xs text-muted-foreground font-semibold">·</span>
           <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
             <FlaskConical class="w-3 h-3" />
-            1,490+ Ingredient Dossiers
+            {{ stats.total_ingredients.toLocaleString() }} Ingredient Dossiers
           </span>
         </div>
 
@@ -124,7 +186,7 @@ function toggleQuickFilter(key: 'fungal_safe' | 'fragrance_free' | 'oil_free') {
           Universal Cosmetic Chemistry & Formulation Intelligence
         </h2>
         <p class="text-sm text-muted-foreground leading-relaxed">
-          Explore 2,492+ formulations across Face, Scalp, Body, and Makeup scored deterministically against your skin profile.
+          Explore formulations across Face, Scalp, Body, and Makeup scored deterministically against your skin profile.
           Zero-tolerance contraindications highlight fungal acne triggers, fragrances, and drying alcohols with verifiable proof.
         </p>
 
@@ -191,15 +253,77 @@ function toggleQuickFilter(key: 'fungal_safe' | 'fragrance_free' | 'oil_free') {
         @reset="resetFilters()"
       />
 
-      <ProductGrid
-        :products="products"
-        :loading="loading"
-        :compared-ids="comparedIds"
-        @toggle-compare="(prod: Product) => emits('toggle-compare', prod)"
-        @open-copilot="(prod: Product) => emits('open-copilot', prod)"
-        @view-details="(prod: Product) => emits('view-details', prod)"
-        @reset-filters="resetFilters()"
-      />
+      <div class="flex-grow flex flex-col gap-3">
+        <!-- API Error State -->
+        <div
+          v-if="error"
+          class="p-4 rounded-xl border border-evidence-negative/30 bg-evidence-negative-bg/60 flex items-start justify-between gap-3"
+          role="alert"
+        >
+          <div class="flex items-start gap-2 text-xs">
+            <AlertTriangle class="w-4 h-4 text-evidence-negative shrink-0 mt-0.5" />
+            <div>
+              <p class="font-bold text-evidence-negative">Couldn't reach the formulation catalog.</p>
+              <p class="text-muted-foreground mt-0.5">{{ error }}</p>
+            </div>
+          </div>
+          <Button variant="outline" size="sm" class="h-8 text-xs shrink-0" @click="reload()">
+            Retry
+          </Button>
+        </div>
+
+        <ProductGrid
+          :products="products"
+          :loading="loading"
+          :compared-ids="comparedIds"
+          @toggle-compare="(prod: Product) => emits('toggle-compare', prod)"
+          @open-copilot="(prod: Product) => emits('open-copilot', prod)"
+          @view-details="(prod: Product) => emits('view-details', prod)"
+          @reset-filters="resetFilters()"
+        />
+
+        <!-- Results count + Pagination -->
+        <div v-if="total > 0 && !loading" class="flex flex-col items-center gap-2 pt-2">
+          <p class="text-xs text-muted-foreground font-medium">
+            Showing {{ products.length }} of {{ total.toLocaleString() }} matching formulations
+          </p>
+          <nav v-if="totalPages > 1" class="flex items-center gap-1" aria-label="Catalog pages">
+            <Button
+              variant="outline"
+              size="sm"
+              class="h-8 w-8 p-0"
+              :disabled="page <= 1"
+              aria-label="Previous page"
+              @click="goToPage(page - 1)"
+            >
+              <ChevronLeft class="w-4 h-4" />
+            </Button>
+            <template v-for="(entry, idx) in pageWindow" :key="idx">
+              <span v-if="entry === '…'" class="px-1 text-xs text-muted-foreground">…</span>
+              <Button
+                v-else
+                :variant="entry === page ? 'default' : 'outline'"
+                size="sm"
+                class="h-8 w-8 p-0 text-xs"
+                :aria-current="entry === page ? 'page' : undefined"
+                @click="goToPage(entry)"
+              >
+                {{ entry }}
+              </Button>
+            </template>
+            <Button
+              variant="outline"
+              size="sm"
+              class="h-8 w-8 p-0"
+              :disabled="page >= totalPages"
+              aria-label="Next page"
+              @click="goToPage(page + 1)"
+            >
+              <ChevronRight class="w-4 h-4" />
+            </Button>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </template>

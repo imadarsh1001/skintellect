@@ -200,14 +200,17 @@ function inspectAlternative(alt: any) {
               Contraindicated
             </Badge>
             <Badge
-              v-else
+              v-else-if="detailedProduct.match_score !== undefined"
               variant="verified"
               class="font-black text-sm px-3 py-1 rounded-xl shadow-xs"
             >
-              {{ detailedProduct.match_score || 95 }}% Fit
+              {{ detailedProduct.match_score }}% Fit
             </Badge>
-            <div class="text-[10px] text-muted-foreground font-bold mt-1">
-              {{ detailedProduct.composite_score || 90 }} pts
+            <Badge v-else variant="unknown" class="font-bold text-xs px-2.5 py-1 rounded-xl shadow-xs">
+              No heuristic fit
+            </Badge>
+            <div v-if="detailedProduct.composite_score !== undefined" class="text-[10px] text-muted-foreground font-bold mt-1">
+              {{ detailedProduct.composite_score }} pts
             </div>
           </div>
         </div>
@@ -348,11 +351,14 @@ function inspectAlternative(alt: any) {
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
-                      v-for="h in (detailedProduct.analysis?.hydrators || ['Ceramides', 'Glycerin', 'Panthenol'])"
+                      v-for="h in (detailedProduct.analysis?.hydrators || [])"
                       :key="h"
                       class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
                     >
                       {{ h }}
+                    </span>
+                    <span v-if="!(detailedProduct.analysis?.hydrators || []).length" class="text-muted-foreground italic text-[11px]">
+                      No barrier lipids tagged
                     </span>
                   </div>
                 </div>
@@ -365,11 +371,14 @@ function inspectAlternative(alt: any) {
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
-                      v-for="b in (detailedProduct.analysis?.brighteners || ['Niacinamide'])"
+                      v-for="b in (detailedProduct.analysis?.brighteners || [])"
                       :key="b"
                       class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
                     >
                       {{ b }}
+                    </span>
+                    <span v-if="!(detailedProduct.analysis?.brighteners || []).length" class="text-muted-foreground italic text-[11px]">
+                      No brighteners tagged
                     </span>
                   </div>
                 </div>
@@ -382,11 +391,14 @@ function inspectAlternative(alt: any) {
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
-                      v-for="s in (detailedProduct.analysis?.smoothers || ['Allantoin', 'Centella'])"
+                      v-for="s in (detailedProduct.analysis?.smoothers || [])"
                       :key="s"
                       class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
                     >
                       {{ s }}
+                    </span>
+                    <span v-if="!(detailedProduct.analysis?.smoothers || []).length" class="text-muted-foreground italic text-[11px]">
+                      No soothing agents tagged
                     </span>
                   </div>
                 </div>

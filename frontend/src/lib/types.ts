@@ -61,6 +61,48 @@ export interface SkinPersona {
   exclude_drying_alcohols: boolean
   exclude_fragrance: boolean
   custom_exclusions: string[]
+  /** Raw backend fields (PersonaModel) preserved through the API adapter. */
+  username?: string
+  sensitivity?: string
+  description?: string
+  is_default?: number
+}
+
+export interface CatalogStats {
+  total_products: number
+  enriched_products: number
+  total_reviews: number
+  total_ingredients: number
+  category_counts: Record<string, number>
+  [key: string]: unknown
+}
+
+export interface ConnectionNode {
+  id: string
+  type: 'product' | 'ingredient' | 'reference'
+  label: string
+}
+
+export interface ConnectionEdge {
+  from: string
+  to: string
+  relation: 'recorded_contains' | 'discusses'
+  evidence_id: string
+}
+
+export interface ConnectionPath {
+  product_id: number
+  name: string
+  shared_ingredients: string[]
+  evidence_ids: string[]
+}
+
+export interface ProductConnections {
+  product_id: number
+  nodes: ConnectionNode[]
+  edges: ConnectionEdge[]
+  paths: ConnectionPath[]
+  notice: string
 }
 
 export interface PersonaEvaluation {

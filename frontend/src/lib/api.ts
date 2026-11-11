@@ -1,4 +1,6 @@
-import type { Product, SkinPersona, IngredientGraphData } from './types'
+import type { CatalogStats, Product, ProductConnections, SkinPersona } from './types'
+
+export type { CatalogStats, ProductConnections } from './types'
 
 const BASE_URL = ''
 
@@ -58,19 +60,89 @@ export async function fetchProduct(id: number, personaId = 'uap'): Promise<Produ
   return res.json()
 }
 
+/**
+ * The backend PersonaModel speaks `label` / `target_concerns` /
+ * `safety_exclusions`; the UI speaks `name` / `concerns` / `exclude_*`.
+ * Adapter keeps the API contract authoritative and the UI model ergonomic.
+ */
+interface BackendPersona {
+  id: string
+  username: string
+  label: string
+  description?: string
+  skin_type: SkinPersona['skin_type']
+  sensitivity?: string
+  target_concerns?: string[]
+  safety_exclusions?: {
+    fungal_acne_safe?: boolean
+    fragrance_free?: boolean
+    alcohol_free?: boolean
+    oil_free?: boolean
+    pore_clogger_free?: boolean
+  }
+  is_default?: number
+}
+
+function adaptPersona(raw: BackendPersona): SkinPersona {
+  return {
+    id: raw.id,
+    username: raw.username,
+    name: raw.label || raw.id,
+    skin_type: raw.skin_type,
+    concerns: raw.target_concerns ?? [],
+    goals: [],
+    exclude_fungal_acne_triggers: raw.safety_exclusions?.fungal_acne_safe ?? false,
+    exclude_drying_alcohols: raw.safety_exclusions?.alcohol_free ?? false,
+    exclude_fragrance: raw.safety_exclusions?.fragrance_free ?? false,
+    custom_exclusions: [],
+    sensitivity: raw.sensitivity,
+    description: raw.description,
+    is_default: raw.is_default,
+  }
+}
+
 export async function fetchPersonas(): Promise<SkinPersona[]> {
   const res = await fetch(`${BASE_URL}/api/personas`)
   if (!res.ok) throw new Error('Failed to fetch personas')
-  return res.json()
+  const raw: BackendPersona[] = await res.json()
+  return raw.map(adaptPersona)
 }
 
 export async function savePersona(persona: Partial<SkinPersona>): Promise<SkinPersona> {
+  const username = persona.username || persona.id || `custom_${Date.now()}`
+  const body = {
+    username,
+    label: persona.name || username,
+    description: persona.description ?? '',
+    skin_type: persona.skin_type ?? 'combination',
+    sensitivity: persona.sensitivity ?? 'slightly_sensitive',
+    target_concerns: persona.concerns ?? [],
+    safety_exclusions: {
+      fungal_acne_safe: persona.exclude_fungal_acne_triggers ?? false,
+      fragrance_free: persona.exclude_fragrance ?? false,
+      alcohol_free: persona.exclude_drying_alcohols ?? false,
+      oil_free: false,
+      pore_clogger_free: true,
+    },
+  }
   const res = await fetch(`${BASE_URL}/api/personas`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(persona),
+    body: JSON.stringify(body),
   })
-  if (!res.ok) throw new Error('Failed to save persona')
+  if (!res.ok) throw new Error(`Failed to save persona: ${res.status}`)
+  return adaptPersona(await res.json())
+}
+
+export async function fetchCatalogStats(): Promise<CatalogStats> {
+  const res = await fetch(`${BASE_URL}/api/stats`)
+  if (!res.ok) throw new Error('Failed to fetch catalog stats')
+  return res.json()
+}
+
+export async function fetchConnections(productId: number, limit = 5): Promise<ProductConnections> {
+  const res = await fetch(`${BASE_URL}/api/products/${productId}/connections?limit=${limit}`)
+  if (!res.ok) throw new Error(`Failed to fetch connections for product ${productId}`)
   return res.json()
 }
 

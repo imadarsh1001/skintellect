@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, shallowRef } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { Toaster, toast } from 'vue-sonner'
 import { useRoute, useRouter } from 'vue-router'
 import type { Product, SkinPersona } from '@/lib/types'
-import { fetchPersonas, savePersona } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import PersonaDrawer from '@/components/explore/PersonaDrawer.vue'
 import ProductDetailModal from '@/components/explore/ProductDetailModal.vue'
+import { usePersona } from '@/composables/usePersona'
+import { useCompareTray } from '@/composables/useCompareTray'
 import {
   Scale,
   LayoutGrid,
@@ -20,58 +22,50 @@ const route = useRoute()
 const router = useRouter()
 
 // Persona state (shared across views: header control, scoring, copilot context)
-const personas = ref<SkinPersona[]>([])
-const currentPersona = ref<SkinPersona>({
-  id: 'uap',
-  name: 'Universal Adult Sensitive & Acne',
-  skin_type: 'sensitive',
-  concerns: ['Acne', 'Redness'],
-  goals: ['Barrier Repair', 'Acne Fighting'],
-  exclude_fungal_acne_triggers: true,
-  exclude_drying_alcohols: true,
-  exclude_fragrance: true,
-  custom_exclusions: [],
-})
-const personaDrawerOpen = ref(false)
+const {
+  personas,
+  current: currentPersona,
+  load: loadPersonas,
+  select: selectPersona,
+  saveCustom: saveCustomPersona,
+} = usePersona()
 
 // Compare tray state (shared across explore, compare, and copilot views)
-const comparedProducts = shallowRef<Product[]>([])
+const {
+  products: comparedProducts,
+  add: addToTray,
+  remove: removeFromCompare,
+  clear: clearTray,
+  restore: restoreTray,
+} = useCompareTray({ personaId: computed(() => currentPersona.value.id) })
+
+const personaDrawerOpen = ref(false)
 
 // Product Detail Modal State
-const selectedProduct = shallowRef<Product | null>(null)
+const selectedProduct = ref<Product | null>(null)
 const detailModalOpen = ref(false)
 
 const activeTab = computed(() => String(route.name ?? 'explore'))
-const copilotProductIds = computed(() => comparedProducts.value.map(p => p.id))
 
 function handleSelectPersona(p: SkinPersona) {
-  currentPersona.value = p
+  selectPersona(p)
 }
 
 async function handleSaveCustomPersona(p: SkinPersona) {
-  currentPersona.value = p
   try {
-    await savePersona(p)
+    await saveCustomPersona(p)
+    toast.success('Skin profile saved — matches recalculated.')
   } catch (e) {
-    console.warn('Persona persisted in session state', e)
+    toast.error('Could not save the skin profile. Adjusting for this session only.')
+    console.error('Persona save failed', e)
   }
 }
 
-function toggleCompare(prod: Product) {
-  const index = comparedProducts.value.findIndex(p => p.id === prod.id)
-  if (index >= 0) {
-    comparedProducts.value = comparedProducts.value.filter(p => p.id !== prod.id)
-  } else {
-    if (comparedProducts.value.length >= 4) {
-      alert('You can compare up to 4 formulations simultaneously.')
-      return
-    }
-    comparedProducts.value = [...comparedProducts.value, prod]
+async function toggleCompare(prod: Product) {
+  const result = await addToTray(prod)
+  if (result === 'limit') {
+    toast.error('You can compare up to 4 formulations simultaneously.')
   }
-}
-
-function removeFromCompare(productId: number) {
-  comparedProducts.value = comparedProducts.value.filter(p => p.id !== productId)
 }
 
 function viewDetails(prod: Product) {
@@ -79,9 +73,10 @@ function viewDetails(prod: Product) {
   detailModalOpen.value = true
 }
 
-function openCopilot(prod: Product) {
-  if (!comparedProducts.value.some(p => p.id === prod.id)) {
-    comparedProducts.value = [...comparedProducts.value, prod]
+async function openCopilot(prod: Product) {
+  const result = await addToTray(prod)
+  if (result === 'limit') {
+    toast.error('Compare tray is full (4). Remove one to add this product.')
   }
   router.push('/copilot')
 }
@@ -90,19 +85,9 @@ function goToCopilot() {
   router.push('/copilot')
 }
 
-onMounted(async () => {
-  try {
-    const personaRes = await fetchPersonas()
-    if (personaRes && personaRes.length > 0) {
-      personas.value = personaRes
-      const defaultP = personaRes.find(p => p.id === currentPersona.value.id) || personaRes[0]
-      if (defaultP && currentPersona.value.id === 'uap') {
-        currentPersona.value = defaultP
-      }
-    }
-  } catch (err) {
-    console.error('Failed to load personas', err)
-  }
+onMounted(() => {
+  loadPersonas()
+  restoreTray()
 })
 
 function onTabSelect(value: string | number) {
@@ -233,7 +218,7 @@ function onTabSelect(value: string | number) {
           @view-details="viewDetails"
           @open-copilot="openCopilot"
           @remove="removeFromCompare"
-          @clear-all="comparedProducts = []"
+          @clear-all="clearTray"
           @ask-copilot-compare="goToCopilot"
         />
       </RouterView>
@@ -260,5 +245,7 @@ function onTabSelect(value: string | number) {
       @toggle-compare="toggleCompare"
       @select-product="viewDetails"
     />
+
+    <Toaster rich-colors position="bottom-right" />
   </div>
 </template>

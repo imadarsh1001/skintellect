@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '@/lib/types'
+import { inciNames } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -163,11 +164,11 @@ function getMatchScoreColor(score: number): string {
       </div>
 
       <!-- Formula INCI Excerpt -->
-      <div v-else-if="product.names && product.names.length > 0" class="flex flex-col gap-1">
+      <div v-else-if="inciNames(product).length > 0" class="flex flex-col gap-1">
         <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Formula Highlights</span>
         <div class="flex flex-wrap gap-1">
           <span
-            v-for="ing in product.names.slice(0, 4)"
+            v-for="ing in inciNames(product).slice(0, 4)"
             :key="ing"
             class="text-[11px] px-1.5 py-0.5 rounded bg-muted/60 text-muted-foreground capitalize"
           >

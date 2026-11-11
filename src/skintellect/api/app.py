@@ -1,4 +1,3 @@
-import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -15,8 +14,6 @@ from skintellect.config import (
     APP_DESCRIPTION,
     APP_NAME,
     APP_VERSION,
-    STATIC_DIR,
-    TEMPLATES_DIR,
 )
 from skintellect.database import migrate as migrate_foundation
 
@@ -46,9 +43,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
 FRONTEND_DIST = Path(__file__).resolve().parents[3] / "frontend" / "dist"
 if (FRONTEND_DIST / "assets").is_dir():
     app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="frontend_assets")
@@ -61,44 +55,41 @@ app.include_router(research_router)
 def health_check():
     return {'status': 'ok', 'app': APP_NAME, 'version': APP_VERSION}
 
+def _serve_spa(fallback_redirect: str) -> HTMLResponse:
+    """Serve the built SPA for a workspace route; without a build, point at
+    the canonical root (the legacy templates were retired in Stage 5)."""
+    modern_index = FRONTEND_DIST / "index.html"
+    if modern_index.is_file():
+        with open(modern_index, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return HTMLResponse(
+        "<meta http-equiv='refresh' content='0; url=" + fallback_redirect + "'>"
+    )
+
+
 @app.get('/progress', response_class=HTMLResponse)
 def progress_workspace():
-    with open(os.path.join(TEMPLATES_DIR, 'progress.html'), encoding='utf-8') as f:
-        return HTMLResponse(f.read())
+    return _serve_spa('/')
 
 @app.get('/study', response_class=HTMLResponse)
 def prepared_study_workspace():
-    with open(os.path.join(TEMPLATES_DIR,'study.html'),encoding='utf-8') as f:
-        return HTMLResponse(f.read())
+    return _serve_spa('/')
 
 @app.get('/research', response_class=HTMLResponse)
 def research_workspace():
-    with open(os.path.join(TEMPLATES_DIR, 'research.html'), encoding='utf-8') as f:
-        return HTMLResponse(f.read())
+    return _serve_spa('/')
 
 @app.get('/compare', response_class=HTMLResponse)
 def compare_workspace():
-    modern_index = FRONTEND_DIST / "index.html"
-    if modern_index.is_file():
-        with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    return HTMLResponse("<meta http-equiv='refresh' content='0; url=/#compare'>")
+    return _serve_spa('/#compare')
 
 @app.get('/graph', response_class=HTMLResponse)
 def graph_workspace():
-    modern_index = FRONTEND_DIST / "index.html"
-    if modern_index.is_file():
-        with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    return HTMLResponse("<meta http-equiv='refresh' content='0; url=/#graph'>")
+    return _serve_spa('/#graph')
 
 @app.get('/copilot', response_class=HTMLResponse)
 def copilot_workspace():
-    modern_index = FRONTEND_DIST / "index.html"
-    if modern_index.is_file():
-        with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    return HTMLResponse("<meta http-equiv='refresh' content='0; url=/#copilot'>")
+    return _serve_spa('/#copilot')
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
@@ -106,8 +97,7 @@ async def serve_index():
     if modern_index.is_file():
         with open(modern_index, "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
-    index_file = os.path.join(TEMPLATES_DIR, "index.html")
-    if not os.path.exists(index_file):
-        raise HTTPException(status_code=404, detail="index.html template not found")
-    with open(index_file, "r", encoding="utf-8") as f:
-        return HTMLResponse(content=f.read())
+    raise HTTPException(
+        status_code=503,
+        detail="The web UI is not built yet. Run `npm run build` in frontend/ (or `npm run dev` for development).",
+    )

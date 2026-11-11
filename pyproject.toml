@@ -28,10 +28,6 @@ include = ["skintellect*"]
 
 [tool.setuptools.package-data]
 skintellect = [
-    "web/templates/*.html",
-    "web/static/css/*.css",
-    "web/static/js/*.js",
-    "web/static/vendor/*.js",
     "research/reference_sources.json",
 ]
 

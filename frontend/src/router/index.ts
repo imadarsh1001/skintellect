@@ -3,14 +3,17 @@ import CompareView from '@/views/CompareView.vue'
 import CopilotView from '@/views/CopilotView.vue'
 import ExploreView from '@/views/ExploreView.vue'
 import GraphView from '@/views/GraphView.vue'
+import ProgressView from '@/views/ProgressView.vue'
+import ResearchView from '@/views/ResearchView.vue'
+import StudyView from '@/views/StudyView.vue'
 
 /**
  * One SPA route per workspace. Legacy hash deep links (`/#copilot`,
  * `/#compare`, `/#graph`) redirect to their path equivalents in
  * `beforeEach` so existing bookmarks and the legacy workspace nav
- * keep working. `/research` historically activated the copilot tab
- * in the SPA (App.vue read the pathname), so it redirects to /copilot
- * until the structured evidence route lands (Stage 5).
+ * keep working. /research, /study and /progress replace the retired
+ * legacy template pages (Stage 5), honoring `?query=` and `?demo=1`
+ * carry-over inside ResearchView.
  */
 const router = createRouter({
   history: createWebHistory(),
@@ -19,7 +22,9 @@ const router = createRouter({
     { path: '/compare', name: 'compare', component: CompareView },
     { path: '/graph', name: 'graph', component: GraphView },
     { path: '/copilot', name: 'copilot', component: CopilotView },
-    { path: '/research', redirect: '/copilot' },
+    { path: '/research', name: 'research', component: ResearchView },
+    { path: '/study', name: 'study', component: StudyView },
+    { path: '/progress', name: 'progress', component: ProgressView },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })

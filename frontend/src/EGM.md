@@ -18,7 +18,7 @@ Vue 3 application source for the "Formulation Studio" SPA. Since the router intr
 - composables: [./composables](./composables) - focused stateful capabilities: `useExploreQuery` (URL-owned explore query), `usePersona` (persona + persistence), `useCompareTray` (tray + enrichment + persistence)
 - lib: [./lib/EGM.md](./lib/EGM.md) - `api.ts` REST/SSE client (persona adapter, stats/connections), `types.ts` domain contracts, `utils.ts` (`cn` + `inciNames` ingredient-list helper)
 - router: [./router/index.ts](./router/index.ts) - route table + legacy hash redirect map
-- views: [./views](./views) - route components: `ExploreView` (domain/category strips, hero with live `/api/stats`, sidebar+grid, pagination, error/retry), `CompareView`, `GraphView`, `CopilotView` (thin wrappers delegating to feature components)
+- views: [./views](./views) - route components: `ExploreView` (domain/category strips, hero with live `/api/stats`, sidebar+grid, pagination, error/retry), `CompareView`, `GraphView`, `CopilotView` (thin wrappers delegating to feature components), and the Stage 5 fold-ins `ResearchView` (structured evidence workflow: interpret → editable filters → results with per-card evidence/review/alternatives expanders + quote explorer, honoring `?query=`/`?demo=1`), `StudyView` (prepared demo group, references library, quality checks incl. MRR/Recall@3; the dead label tab was retired), `ProgressView` (preparation-job submit/cancel with visibility-aware 5s polling and a non-reentrant load guard)
 
 ## Invariants
 - The URL query on `/` is the authoritative explore state; views restore exactly from deep links, and every filter write goes through `useExploreQuery` actions (never mutate the returned `filters` object)

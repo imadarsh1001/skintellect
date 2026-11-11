@@ -70,8 +70,6 @@ for _extra in [PROJECT_ROOT / ".runtime", PROJECT_ROOT / ".runtime" / "quality"]
 load_environment()
 
 BASE_DIR = str(PROJECT_ROOT)
-STATIC_DIR = str(PACKAGE_ROOT / "web" / "static")
-TEMPLATES_DIR = str(PACKAGE_ROOT / "web" / "templates")
 EXPORTS_DIR = str(PROJECT_ROOT / "data" / "exports")
 
 

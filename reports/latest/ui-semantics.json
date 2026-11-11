@@ -1,10 +1,10 @@
 {
   "kind": "ui_semantic_unit_checks",
   "passed": true,
-  "assertions": 31,
+  "assertions": 26,
   "contrast_pairs": [
     {
-      "name": "ready",
+      "name": "verified",
       "foreground": "#12635a",
       "background": "#e5f5f2",
       "ratio": 6.31
@@ -34,22 +34,16 @@
       "ratio": 6.19
     },
     {
-      "name": "button",
-      "foreground": "#ffffff",
-      "background": "#0e6870",
-      "ratio": 6.5
-    },
-    {
       "name": "body",
-      "foreground": "#182c42",
-      "background": "#f3f6fb",
-      "ratio": 13.12
+      "foreground": "#172940",
+      "background": "#f5f7fa",
+      "ratio": 13.71
     },
     {
       "name": "muted",
-      "foreground": "#526277",
-      "background": "#ffffff",
-      "ratio": 6.23
+      "foreground": "#606f85",
+      "background": "#f5f7fa",
+      "ratio": 4.76
     }
   ],
   "browser_layout_tested": false,

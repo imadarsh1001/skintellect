@@ -1,11 +1,63 @@
 {
   "kind": "headless_local_fixture_ui_checks",
-  "status": "browser_unavailable",
   "provider_calls": 0,
-  "all_passed": null,
-  "attempted_browsers": [
-    "Chrome",
-    "Edge"
+  "browser": "msedge.exe",
+  "results": [
+    {
+      "ok": true,
+      "kind": "study",
+      "checks": [
+        "Three prepared product cards loaded",
+        "Evidence expander is offered per product",
+        "Review summary renders counts with its denominator",
+        "Reviewer quotes render as readable text",
+        "Evidence drawer collapses on second click",
+        "Catalog text cannot create markup",
+        "Page fits the viewport without horizontal overflow"
+      ]
+    },
+    {
+      "ok": true,
+      "kind": "research",
+      "checks": [
+        "Prepared-study scope is preserved from ?demo=1",
+        "Main action enables once a question is present",
+        "Answer renders the catalog verdict",
+        "Catalog text cannot create markup",
+        "Example question fills the input",
+        "Page fits the viewport without horizontal overflow"
+      ]
+    },
+    {
+      "ok": true,
+      "kind": "error",
+      "checks": [
+        "Failed request restores the main action",
+        "Page fits the viewport without horizontal overflow"
+      ]
+    },
+    {
+      "ok": true,
+      "kind": "progress",
+      "checks": [
+        "A queued task keeps the form usable",
+        "Job reached a terminal state",
+        "Page fits the viewport without horizontal overflow"
+      ]
+    },
+    {
+      "ok": true,
+      "kind": "mobile",
+      "checks": [
+        "Three prepared product cards loaded",
+        "Evidence expander is offered per product",
+        "Review summary renders counts with its denominator",
+        "Reviewer quotes render as readable text",
+        "Evidence drawer collapses on second click",
+        "Catalog text cannot create markup",
+        "Page fits the viewport without horizontal overflow"
+      ]
+    }
   ],
-  "limitation": "Browser processes failed before the fixture UI could be exercised in this restricted execution environment. JavaScript syntax, HTML contracts, API tests and regression tests are checked separately. Visual and browser-interaction verification remains unavailable."
+  "all_passed": true
 }

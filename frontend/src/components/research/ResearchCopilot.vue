@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { toast } from 'vue-sonner'
 import type { CopilotCitation, CopilotMessage, CopilotStep } from '@/lib/types'
 import {
   askCopilot,
@@ -219,6 +220,12 @@ async function handleSend(promptText?: string) {
         const target = messages.value.find(m => m.id === tempMsgId)
         if (!target) return
         streamTick.value++
+
+        if (event.event === 'stream_fallback') {
+          // Degraded mode is observable (D1): tell the user streaming is off.
+          toast.info('Live streaming is unavailable right now — answering without it.')
+          return
+        }
 
         if (event.event === 'node_update') {
           // Workflow steps come from the backend workflow events only.

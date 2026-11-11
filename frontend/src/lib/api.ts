@@ -192,6 +192,9 @@ export async function streamCopilot(
     })
 
     if (!res.ok || !res.body) {
+      // Degraded mode must be observable, never silent (redesign D1).
+      console.warn('[copilot] SSE stream unavailable; falling back to non-streaming query')
+      onUpdate({ event: 'stream_fallback', data: { reason: 'stream_unavailable' } })
       const fallback = await askCopilot(payload)
       onUpdate({ event: 'final_result', data: fallback })
       return fallback
@@ -227,11 +230,14 @@ export async function streamCopilot(
     }
 
     if (finalData) return finalData
+    console.warn('[copilot] SSE stream ended without a final result; falling back to non-streaming query')
+    onUpdate({ event: 'stream_fallback', data: { reason: 'no_final_result' } })
     const fallback = await askCopilot(payload)
     onUpdate({ event: 'final_result', data: fallback })
     return fallback
   } catch (err) {
-    console.warn('Stream failed, falling back to standard copilot ask:', err)
+    console.warn('[copilot] Stream failed, falling back to non-streaming query:', err)
+    onUpdate({ event: 'stream_fallback', data: { reason: 'stream_error' } })
     const fallback = await askCopilot(payload)
     onUpdate({ event: 'final_result', data: fallback })
     return fallback

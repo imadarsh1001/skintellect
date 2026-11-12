@@ -1,38 +1,25 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Search, RotateCcw, Filter, Sliders, Shield } from 'lucide-vue-next'
+import { Search, RotateCcw, Filter, Shield } from 'lucide-vue-next'
 
-const props = defineProps<{
-  search: string
-  category: string
-  country: string
-  goal: string
-  priceTier: string
-  fungalSafe: boolean
-  fragranceFree: boolean
-  oilFree: boolean
-  poreFree: boolean
-  minMatch: number
-  sortBy: string
-}>()
+/**
+ * Two-way filter contracts via defineModel; the explore view owns the
+ * query state (URL), the sidebar only edits it. `reset` stays an event.
+ */
+const search = defineModel<string>('search', { required: true })
+const category = defineModel<string>('category', { required: true })
+const country = defineModel<string>('country', { required: true })
+const goal = defineModel<string>('goal', { required: true })
+const priceTier = defineModel<string>('priceTier', { required: true })
+const fungalSafe = defineModel<boolean>('fungalSafe', { required: true })
+const fragranceFree = defineModel<boolean>('fragranceFree', { required: true })
+const oilFree = defineModel<boolean>('oilFree', { required: true })
+const poreFree = defineModel<boolean>('poreFree', { required: true })
+const minMatch = defineModel<number>('minMatch', { required: true })
+const sortBy = defineModel<string>('sortBy', { required: true })
 
-const emits = defineEmits<{
-  (e: 'update:search', val: string): void
-  (e: 'update:category', val: string): void
-  (e: 'update:country', val: string): void
-  (e: 'update:goal', val: string): void
-  (e: 'update:priceTier', val: string): void
-  (e: 'update:fungalSafe', val: boolean): void
-  (e: 'update:fragranceFree', val: boolean): void
-  (e: 'update:oilFree', val: boolean): void
-  (e: 'update:poreFree', val: boolean): void
-  (e: 'update:minMatch', val: number): void
-  (e: 'update:sortBy', val: string): void
-  (e: 'reset'): void
-}>()
+const emit = defineEmits<{ (e: 'reset'): void }>()
 
 const priceTiers = [
   { label: 'All', value: 'all' },
@@ -81,21 +68,6 @@ const goals = [
   { label: '🌟 Dark Spots & Glow', value: 'brightening' },
   { label: '🌿 Texture & Calming', value: 'soothing' },
 ]
-
-const activeFilterCount = computed(() => {
-  let count = 0
-  if (props.search.trim()) count++
-  if (props.category !== 'all') count++
-  if (props.country !== 'all') count++
-  if (props.goal !== 'all') count++
-  if (props.priceTier !== 'all') count++
-  if (props.fungalSafe) count++
-  if (props.fragranceFree) count++
-  if (props.oilFree) count++
-  if (props.poreFree) count++
-  if (props.minMatch > 0) count++
-  return count
-})
 </script>
 
 <template>
@@ -110,16 +82,10 @@ const activeFilterCount = computed(() => {
         variant="ghost"
         size="sm"
         class="h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground font-semibold cursor-pointer"
-        @click="emits('reset')"
+        @click="emit('reset')"
       >
         <RotateCcw class="w-3.5 h-3.5 mr-1" />
         Reset
-        <span
-          v-if="activeFilterCount > 0"
-          class="ml-1 px-1.5 py-0.2 rounded-full bg-primary text-primary-foreground text-[10px] font-bold"
-        >
-          {{ activeFilterCount }}
-        </span>
       </Button>
     </div>
 
@@ -129,10 +95,9 @@ const activeFilterCount = computed(() => {
       <div class="relative">
         <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          :model-value="search"
+          v-model="search"
           placeholder="Brand, product, active INCI..."
           class="pl-9 h-9 text-xs"
-          @update:model-value="(v: string | number) => emits('update:search', String(v))"
         />
       </div>
     </div>
@@ -141,9 +106,8 @@ const activeFilterCount = computed(() => {
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Sort Results</label>
       <select
-        :value="sortBy"
+        v-model="sortBy"
         class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-        @change="(e: any) => emits('update:sortBy', e.target.value)"
       >
         <option v-for="s in sortOptions" :key="s.value" :value="s.value">
           {{ s.label }}
@@ -155,9 +119,8 @@ const activeFilterCount = computed(() => {
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Category</label>
       <select
-        :value="category"
+        v-model="category"
         class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-        @change="(e: any) => emits('update:category', e.target.value)"
       >
         <option v-for="c in categories" :key="c.value" :value="c.value">
           {{ c.label }}
@@ -169,9 +132,8 @@ const activeFilterCount = computed(() => {
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Origin / Beauty Heritage</label>
       <select
-        :value="country"
+        v-model="country"
         class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-        @change="(e: any) => emits('update:country', e.target.value)"
       >
         <option v-for="co in countries" :key="co.value" :value="co.value">
           {{ co.label }}
@@ -183,9 +145,8 @@ const activeFilterCount = computed(() => {
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Skin Focus Goal</label>
       <select
-        :value="goal"
+        v-model="goal"
         class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-        @change="(e: any) => emits('update:goal', e.target.value)"
       >
         <option v-for="g in goals" :key="g.value" :value="g.value">
           {{ g.label }}
@@ -203,7 +164,7 @@ const activeFilterCount = computed(() => {
           :variant="priceTier === pt.value ? 'default' : 'outline'"
           size="sm"
           class="h-8 text-xs font-semibold px-1"
-          @click="emits('update:priceTier', pt.value)"
+          @click="priceTier = pt.value"
         >
           {{ pt.label }}
         </Button>
@@ -222,10 +183,9 @@ const activeFilterCount = computed(() => {
           <span>🍄</span> Fungal Acne Safe
         </span>
         <input
-          :checked="fungalSafe"
+          v-model="fungalSafe"
           type="checkbox"
           class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-          @change="(e: any) => emits('update:fungalSafe', e.target.checked)"
         />
       </label>
 
@@ -234,10 +194,9 @@ const activeFilterCount = computed(() => {
           <span>🌸</span> Fragrance-Free
         </span>
         <input
-          :checked="fragranceFree"
+          v-model="fragranceFree"
           type="checkbox"
           class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-          @change="(e: any) => emits('update:fragranceFree', e.target.checked)"
         />
       </label>
 
@@ -246,10 +205,9 @@ const activeFilterCount = computed(() => {
           <span>💧</span> Oil-Free
         </span>
         <input
-          :checked="oilFree"
+          v-model="oilFree"
           type="checkbox"
           class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-          @change="(e: any) => emits('update:oilFree', e.target.checked)"
         />
       </label>
 
@@ -258,10 +216,9 @@ const activeFilterCount = computed(() => {
           <span>🚫</span> 0 Pore Cloggers
         </span>
         <input
-          :checked="poreFree"
+          v-model="poreFree"
           type="checkbox"
           class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-          @change="(e: any) => emits('update:poreFree', e.target.checked)"
         />
       </label>
     </div>
@@ -273,13 +230,12 @@ const activeFilterCount = computed(() => {
         <span class="text-xs font-black text-primary">{{ minMatch }}%</span>
       </div>
       <input
+        v-model.number="minMatch"
         type="range"
         min="0"
         max="95"
         step="5"
-        :value="minMatch"
         class="w-full accent-primary cursor-pointer"
-        @input="(e: any) => emits('update:minMatch', Number(e.target.value))"
       />
       <div class="flex justify-between text-[10px] text-muted-foreground font-semibold">
         <span>0% (All)</span>

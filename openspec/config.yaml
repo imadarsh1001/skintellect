@@ -1,0 +1,27 @@
+schema: spec-driven
+
+context: |
+  - Frontend UI rework already shipped on branch ui_components (PR to main pending, user merges via GitHub web flow). Planning artifacts must state they build on top of that PR; no rewrites of already-shipped screens.
+  - This effort is REFINEMENT, not redesign: preserve the established shadcn-vue + Tailwind v4 token system, visual identity, copy, and URL semantics. Follow "refinement preserves; redesign replaces".
+  - shadcn-vue CLI crashes on Node 26: author new primitives by hand from upstream shadcn-vue source (reka-ui ^2.11.0 is already installed), matching how the existing ten primitives in frontend/src/components/ui/ were delivered.
+  - Every new directory under frontend/src/components/ needs an EGM.md contract file (Peanut contract: overview, exports, boundaries) — see frontend/src/components/ui/EGM.md and per-primitive EGM.md files for the convention.
+  - Every UI pass ships with the same gates: npm run build, scripts/check.py, tests/check_ui_semantics.js, and tests/ui_smoke.py with the backend running.
+  - Design-direction skill priority for app UI: impeccable (Operate mode) > ui-taste polish/audit > ui-ux-pro-max targeted queries. Never load multiple design-direction skills on one task. Do not run design-system generators that would replace the existing token system.
+  - Design skills are ADVISORY ONLY: apply refinement-scope fixes only; any suggestion touching Tailwind config, tokens, copy, layout identity, or components outside the active change's declared screen scope is recorded in the phase PR's deferred-triage table, never applied silently; changing any of those requires its own OpenSpec change (exception: a change whose proposal explicitly sanctions token changes — e.g. add-ui-personality-and-motion — owns those tokens inside its reviewed scope).
+  - tests/ui_smoke.py must run against a local dev backend with a disposable dev database — never the default/real DB.
+  - Each phase PR commits a pre-change baseline (screenshots + incumbent-behavior notes) under tests/evidence/<phase>/ before any edit lands.
+  - Out of scope by prior decision: frontend unit-test framework (explicit non-goal), F6 claim-level inline citations (blocked on backend evidence_ids in the copilot stream).
+
+rules:
+  proposal:
+    - State explicitly what is out of scope
+    - Ground every item in the F1-F6 follow-up queue from component_map_and_gap_report.md section 5.2
+  tasks:
+    - Every implementation phase must end with the gate commands and a rendered-result visual check, not just "no build errors"
+
+operations:
+  apply:
+    guidance:
+      - Work on a feature branch off main (never commit directly to main); one branch per follow-up item or coherent group
+      - Read the pristine component's behavior first and preserve URL semantics exactly when swapping controls
+      - If the ui_components PR changed during review, rebase phase branches onto the updated main before starting work

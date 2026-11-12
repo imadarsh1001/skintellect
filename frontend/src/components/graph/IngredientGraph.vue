@@ -1,78 +1,73 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import type { Product, ProductConnections } from '@/lib/types'
+import { fetchConnections } from '@/lib/api'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Network, Table, Info, Search } from 'lucide-vue-next'
+import { AlertTriangle, FlaskConical, Info, Loader2, Network, Scale, Table } from 'lucide-vue-next'
 
-interface GraphNode {
-  id: string
-  name: string
-  category: 'barrier' | 'hydrator' | 'soother' | 'active' | 'excipient'
-  frequency: number
-  x: number
-  y: number
-  role_description: string
-}
+/**
+ * Ingredient evidence graph backed by real data: for every product in the
+ * compare tray, `/api/products/{id}/connections` returns recorded ingredient
+ * nodes, related formulas sharing them, and references that discuss them —
+ * each edge carrying its `evidence_id`. No pan/zoom/drag: the payload is a
+ * small, readable evidence graph, and the accessible table is the primary
+ * rendering for it.
+ */
+const props = defineProps<{
+  products: Product[]
+}>()
 
-interface GraphLink {
-  source: string
-  target: string
-  weight: number
-}
-
-// Curated high-fidelity moisturizer ingredient network
-const nodes = ref<GraphNode[]>([
-  { id: 'ceramide-np', name: 'Ceramide NP', category: 'barrier', frequency: 84, x: 260, y: 150, role_description: 'Essential stratum corneum lipid reinforcing skin moisture barrier.' },
-  { id: 'cholesterol', name: 'Cholesterol', category: 'barrier', frequency: 62, x: 340, y: 130, role_description: 'Physiological lipid that synergizes with ceramides and fatty acids in a 3:1:1 ratio.' },
-  { id: 'fatty-acids', name: 'Fatty Acids (Stearic/Palmitic)', category: 'barrier', frequency: 71, x: 230, y: 220, role_description: 'Lipid components crucial for lamellar phase barrier organization.' },
-  { id: 'glycerin', name: 'Glycerin', category: 'hydrator', frequency: 95, x: 420, y: 230, role_description: 'Gold-standard low-molecular-weight humectant that draws water into the epidermis.' },
-  { id: 'hyaluronic-acid', name: 'Hyaluronic Acid / Sodium Hyaluronate', category: 'hydrator', frequency: 78, x: 480, y: 160, role_description: 'High molecular water-binding glycosaminoglycan providing intense surface plumping.' },
-  { id: 'panthenol', name: 'Panthenol (Pro-Vitamin B5)', category: 'soother', frequency: 68, x: 360, y: 310, role_description: 'Calming provitamin that reduces transepidermal water loss and erythema.' },
-  { id: 'niacinamide', name: 'Niacinamide (Vitamin B3)', category: 'active', frequency: 74, x: 500, y: 300, role_description: 'Multi-functional active that stimulates ceramide biosynthesis and calms inflammation.' },
-  { id: 'allantoin', name: 'Allantoin', category: 'soother', frequency: 45, x: 270, y: 320, role_description: 'Keratolytic soothing agent that softens dry, flaky skin and mitigates irritation.' },
-  { id: 'centella', name: 'Centella Asiatica (Madecassoside)', category: 'soother', frequency: 52, x: 190, y: 290, role_description: 'Potent botanical triterpene fraction that suppresses pro-inflammatory cytokines.' },
-  { id: 'squalane', name: 'Squalane', category: 'barrier', frequency: 60, x: 380, y: 220, role_description: 'Biocompatible, non-greasy saturated emollient mirroring human sebum squalene.' },
-  { id: 'dimethicone', name: 'Dimethicone', category: 'excipient', frequency: 82, x: 550, y: 210, role_description: 'Breathable silicone occlusive that locks in hydration without suffocating pores.' },
-])
-
-const links = ref<GraphLink[]>([
-  { source: 'ceramide-np', target: 'cholesterol', weight: 4 },
-  { source: 'ceramide-np', target: 'fatty-acids', weight: 3 },
-  { source: 'ceramide-np', target: 'glycerin', weight: 5 },
-  { source: 'glycerin', target: 'hyaluronic-acid', weight: 4 },
-  { source: 'glycerin', target: 'panthenol', weight: 4 },
-  { source: 'panthenol', target: 'allantoin', weight: 3 },
-  { source: 'panthenol', target: 'centella', weight: 3 },
-  { source: 'niacinamide', target: 'glycerin', weight: 4 },
-  { source: 'niacinamide', target: 'ceramide-np', weight: 3 },
-  { source: 'squalane', target: 'ceramide-np', weight: 3 },
-  { source: 'squalane', target: 'cholesterol', weight: 2 },
-  { source: 'dimethicone', target: 'glycerin', weight: 4 },
-])
-
-const selectedNode = ref<GraphNode | null>(nodes.value[0])
 const viewMode = ref<'graph' | 'table'>('graph')
-const searchQuery = ref('')
+const connectionsByProduct = ref<Record<number, ProductConnections | 'error'>>({})
+const loading = ref(false)
 
-const filteredNodes = computed(() => {
-  if (!searchQuery.value) return nodes.value
-  const q = searchQuery.value.toLowerCase()
-  return nodes.value.filter(n => n.name.toLowerCase().includes(q) || n.role_description.toLowerCase().includes(q))
+const trayIds = computed(() => props.products.map(p => p.id))
+const idList = computed(() => trayIds.value.join(','))
+
+watch(idList, () => {
+  loadAll()
 })
 
-function getCategoryColor(category: GraphNode['category']): string {
-  switch (category) {
-    case 'barrier': return '#12635a'
-    case 'hydrator': return '#245ba9'
-    case 'soother': return '#6843a8'
-    case 'active': return '#0e6870'
-    case 'excipient': return '#526277'
-  }
+onMounted(() => {
+  loadAll()
+})
+
+async function loadAll() {
+  loading.value = trayIds.value.length > 0
+  const results: Record<number, ProductConnections | 'error'> = { ...connectionsByProduct.value }
+  for (const id of trayIds.value) delete results[id]
+  await Promise.all(
+    trayIds.value.map(async (id) => {
+      try {
+        results[id] = await fetchConnections(id, 5)
+      } catch {
+        results[id] = 'error'
+      }
+    }),
+  )
+  connectionsByProduct.value = results
+  loading.value = false
 }
 
-function getNode(id: string): GraphNode | undefined {
-  return nodes.value.find(n => n.id === id)
+function nodesOfType(conn: ProductConnections, type: ProductConnections['nodes'][number]['type']) {
+  return conn.nodes.filter(n => n.type === type)
+}
+
+function connectionsFor(id: number): ProductConnections | null {
+  const value = connectionsByProduct.value[id]
+  return value && value !== 'error' ? value : null
+}
+
+function productById(id: number) {
+  return props.products.find(p => p.id === id)
+}
+
+const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: string; label: string }> = {
+  product: { badge: 'bg-primary/10 text-primary border-primary/30', label: 'Formula' },
+  ingredient: { badge: 'bg-evidence-verified-bg text-evidence-verified border-evidence-verified/30', label: 'Recorded ingredient' },
+  reference: { badge: 'bg-evidence-source-bg text-evidence-source border-evidence-source/30', label: 'Reference' },
 }
 </script>
 
@@ -83,10 +78,10 @@ function getNode(id: string): GraphNode | undefined {
       <div>
         <h2 class="text-xl font-bold flex items-center gap-2">
           <Network class="w-5 h-5 text-primary" />
-          Ingredient Relationship Graph & Co-Occurrence Network
+          Ingredient Evidence Connections
         </h2>
         <p class="text-xs text-muted-foreground mt-0.5">
-          Explore how barrier lipids, humectants, and anti-inflammatory actives pair in validated formulations.
+          Recorded ingredients, related formulas, and reference sources for everything in your compare tray.
         </p>
       </div>
 
@@ -98,7 +93,7 @@ function getNode(id: string): GraphNode | undefined {
           @click="viewMode = 'graph'"
         >
           <Network class="w-3.5 h-3.5" />
-          Interactive Graph
+          Connections
         </Button>
         <Button
           :variant="viewMode === 'table' ? 'default' : 'outline'"
@@ -112,147 +107,150 @@ function getNode(id: string): GraphNode | undefined {
       </div>
     </div>
 
-    <!-- Graph View -->
-    <div v-if="viewMode === 'graph'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- SVG Canvas -->
-      <Card class="lg:col-span-2 overflow-hidden bg-slate-900 border-slate-800 p-2 flex flex-col justify-center items-center relative">
-        <div class="absolute top-4 left-4 z-10 flex gap-2 flex-wrap">
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#12635a] text-white">Barrier Lipids</span>
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#245ba9] text-white">Humectants</span>
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#6843a8] text-white">Soothing Actives</span>
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#526277] text-white">Occlusives</span>
-        </div>
-
-        <svg viewBox="100 80 500 300" class="w-full h-[400px] select-none">
-          <!-- Links -->
-          <g class="stroke-slate-700" stroke-linecap="round">
-            <line
-              v-for="(link, idx) in links"
-              :key="idx"
-              :x1="getNode(link.source)?.x"
-              :y1="getNode(link.source)?.y"
-              :x2="getNode(link.target)?.x"
-              :y2="getNode(link.target)?.y"
-              :stroke-width="link.weight"
-              class="opacity-60 transition-opacity hover:opacity-100"
-            />
-          </g>
-
-          <!-- Nodes -->
-          <g v-for="node in nodes" :key="node.id" class="cursor-pointer group" @click="selectedNode = node">
-            <circle
-              :cx="node.x"
-              :cy="node.y"
-              :r="selectedNode?.id === node.id ? 22 : 17"
-              :fill="getCategoryColor(node.category)"
-              :stroke="selectedNode?.id === node.id ? '#ffffff' : 'rgba(255,255,255,0.4)'"
-              :stroke-width="selectedNode?.id === node.id ? 3 : 1.5"
-              class="transition-all duration-200"
-            />
-            <text
-              :x="node.x"
-              :y="node.y + 26"
-              text-anchor="middle"
-              fill="#e2e8f0"
-              font-size="10"
-              font-weight="600"
-              class="pointer-events-none drop-shadow"
-            >
-              {{ node.name.split(' ')[0] }}
-            </text>
-          </g>
-        </svg>
-      </Card>
-
-      <!-- Selected Node Dossier -->
-      <Card class="flex flex-col justify-between">
-        <CardHeader class="pb-3 border-b">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
-              {{ selectedNode?.category }} Active
-            </span>
-            <Badge variant="verified" class="text-xs">
-              {{ selectedNode?.frequency }}% Moisturizers
-            </Badge>
-          </div>
-          <CardTitle class="text-lg font-bold text-foreground mt-1">
-            {{ selectedNode?.name }}
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent class="flex flex-col gap-4 py-4 text-xs">
-          <div>
-            <h4 class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider mb-1">
-              Physiological Role
-            </h4>
-            <p class="text-foreground leading-relaxed text-sm">
-              {{ selectedNode?.role_description }}
-            </p>
-          </div>
-
-          <div class="border-t pt-3">
-            <h4 class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider mb-2">
-              Common Synergistic Co-Ingredients
-            </h4>
-            <div class="flex flex-wrap gap-1.5">
-              <span
-                v-for="link in links.filter(l => l.source === selectedNode?.id || l.target === selectedNode?.id)"
-                :key="link.source + link.target"
-                class="px-2 py-1 rounded bg-muted text-[11px] font-medium"
-              >
-                {{ getNode(link.source === selectedNode?.id ? link.target : link.source)?.name }}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-
-        <div class="p-4 border-t bg-muted/20 flex items-center gap-2 text-xs text-muted-foreground">
-          <Info class="w-4 h-4 shrink-0 text-primary" />
-          <span>Click any node in the graph to inspect formulation relationships.</span>
-        </div>
-      </Card>
+    <!-- Empty state: nothing in the tray -->
+    <div v-if="products.length === 0" class="py-16 text-center border rounded-xl bg-card">
+      <Scale class="w-10 h-10 text-muted-foreground stroke-1 mx-auto mb-2" />
+      <h3 class="font-semibold text-sm">No products selected</h3>
+      <p class="text-xs text-muted-foreground max-w-sm mx-auto mt-1">
+        Add products to the compare tray (Compare button on any catalog card) to inspect their
+        recorded ingredient connections and the references behind them.
+      </p>
     </div>
 
-    <!-- Accessible Table View -->
-    <Card v-else class="w-full">
-      <CardHeader class="pb-3 border-b flex flex-row items-center justify-between">
-        <CardTitle class="text-base font-semibold">Moisturizer Active Ingredients Index</CardTitle>
-        <div class="relative w-64">
-          <Search class="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
-          <input
-            v-model="searchQuery"
-            placeholder="Search ingredients..."
-            class="h-8 w-full pl-8 pr-3 text-xs rounded-md border border-input bg-background"
-          />
-        </div>
-      </CardHeader>
-      <CardContent class="p-0 overflow-x-auto">
-        <table class="w-full text-xs text-left">
-          <thead class="bg-muted text-muted-foreground font-semibold uppercase text-[10px] tracking-wider">
-            <tr>
-              <th class="p-3">Ingredient</th>
-              <th class="p-3">Functional Class</th>
-              <th class="p-3">Presence in Formulas</th>
-              <th class="p-3">Scientific Role</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y">
-            <tr v-for="node in filteredNodes" :key="node.id" class="hover:bg-muted/40 transition-colors">
-              <td class="p-3 font-semibold text-foreground">{{ node.name }}</td>
-              <td class="p-3">
-                <span
-                  class="px-2 py-0.5 rounded-full text-[10px] font-medium uppercase"
-                  :style="{ backgroundColor: getCategoryColor(node.category) + '22', color: getCategoryColor(node.category) }"
-                >
-                  {{ node.category }}
-                </span>
-              </td>
-              <td class="p-3 font-medium">{{ node.frequency }}%</td>
-              <td class="p-3 text-muted-foreground max-w-md">{{ node.role_description }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </CardContent>
-    </Card>
+    <!-- Loading -->
+    <div v-else-if="loading" class="py-16 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+      <Loader2 class="w-4 h-4 animate-spin" />
+      Loading evidence connections...
+    </div>
+
+    <template v-else>
+      <!-- Graph view: per-product evidence panels -->
+      <div v-if="viewMode === 'graph'" class="flex flex-col gap-6">
+        <template v-for="product in products" :key="product.id">
+          <Card v-if="connectionsByProduct[product.id] === 'error'" class="p-4 flex items-start gap-2 text-xs">
+            <AlertTriangle class="w-4 h-4 text-evidence-unknown shrink-0 mt-0.5" />
+            <span>Connections for <strong>{{ product.brand }} {{ product.name }}</strong> could not be loaded.</span>
+          </Card>
+
+          <Card v-else-if="connectionsFor(product.id)" class="overflow-hidden">
+            <CardHeader class="pb-3 border-b bg-muted/20">
+              <div class="flex items-center justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{{ product.brand }}</span>
+                  <CardTitle class="text-base font-bold">{{ product.name }}</CardTitle>
+                </div>
+                <Badge variant="verified" class="text-[10px] shrink-0">
+                  {{ connectionsFor(product.id)!.paths.length }} related formulas
+                </Badge>
+              </div>
+            </CardHeader>
+
+            <CardContent class="pt-4 flex flex-col gap-4 text-xs">
+              <!-- Recorded ingredient nodes -->
+              <div>
+                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Recorded ingredients in evidence graph</span>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <Badge
+                    v-for="node in nodesOfType(connectionsFor(product.id)!, 'ingredient')"
+                    :key="node.id"
+                    variant="outline"
+                    class="text-[11px] font-medium capitalize"
+                    :class="NODE_STYLES.ingredient.badge"
+                  >
+                    {{ node.label.replace(/_/g, ' ') }}
+                  </Badge>
+                  <span
+                    v-if="nodesOfType(connectionsFor(product.id)!, 'ingredient').length === 0"
+                    class="text-muted-foreground italic"
+                  >
+                    No ingredient connections recorded for this product.
+                  </span>
+                </div>
+              </div>
+
+              <!-- Related formulas (paths) -->
+              <div v-if="connectionsFor(product.id)!.paths.length > 0">
+                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Related formulas sharing recorded ingredients</span>
+                <div class="mt-2 space-y-1.5">
+                  <div
+                    v-for="path in connectionsFor(product.id)!.paths"
+                    :key="path.product_id"
+                    class="p-2.5 rounded-xl border bg-background/80 flex items-center justify-between gap-2"
+                  >
+                    <div>
+                      <span class="font-bold text-foreground">{{ path.name }}</span>
+                      <span class="text-muted-foreground ml-2 text-[11px]">
+                        Shared: {{ path.shared_ingredients.join(', ') }}
+                      </span>
+                    </div>
+                    <FlaskConical class="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reference nodes -->
+              <div v-if="nodesOfType(connectionsFor(product.id)!, 'reference').length > 0">
+                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">References discussing these ingredients</span>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <Badge
+                    v-for="node in nodesOfType(connectionsFor(product.id)!, 'reference')"
+                    :key="node.id"
+                    variant="outline"
+                    class="text-[11px] font-medium"
+                    :class="NODE_STYLES.reference.badge"
+                  >
+                    {{ node.label }}
+                  </Badge>
+                </div>
+              </div>
+
+              <!-- Honest epistemics notice from the backend payload -->
+              <div class="flex items-start gap-2 p-2.5 rounded-lg bg-muted/30 border text-[11px] text-muted-foreground">
+                <Info class="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
+                <span>{{ connectionsFor(product.id)!.notice }}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </template>
+      </div>
+
+      <!-- Accessible table view -->
+      <Card v-else class="w-full">
+        <CardHeader class="pb-3 border-b">
+          <CardTitle class="text-base font-semibold">Evidence edge table</CardTitle>
+        </CardHeader>
+        <CardContent class="p-0 overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-muted text-muted-foreground font-semibold uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="p-3">Product</th>
+                <th class="p-3">Node</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">Connected via</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <template v-for="product in products" :key="product.id">
+                <template v-for="edge in connectionsFor(product.id)?.edges ?? []" :key="edge.from + edge.to">
+                  <tr class="hover:bg-muted/40 transition-colors">
+                    <td class="p-3 font-semibold text-foreground">{{ product.name }}</td>
+                    <td class="p-3">{{ connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.label ?? edge.to }}</td>
+                    <td class="p-3">
+                      <span
+                        class="px-2 py-0.5 rounded-full text-[10px] font-medium uppercase"
+                        :class="NODE_STYLES[connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.type ?? 'ingredient'].badge"
+                      >
+                        {{ connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.type ?? 'ingredient' }}
+                      </span>
+                    </td>
+                    <td class="p-3 text-muted-foreground font-mono text-[11px]">{{ edge.relation }} · {{ edge.evidence_id }}</td>
+                  </tr>
+                </template>
+              </template>
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
+    </template>
   </div>
 </template>

@@ -1,43 +1,39 @@
 # src
 
 ## Overview
-Vue 3 application source for the "Formulation Studio" SPA. `App.vue` is the single root state owner: it holds all filter, persona, comparison, tab, and modal state, loads catalog/persona data through `@/lib/api`, and wires the four feature workspaces (explore, compare, graph, copilot) mounted under `components/`. `main.ts` bootstraps the app; `vite-env.d.ts` provides type shims.
+Vue 3 application source for the "Formulation Studio" SPA. Since the router introduction (redesign Stage 2), `vue-router` owns the workspace URLs and each route view owns its page state: `/` (ExploreView, URL-owned filters via `useExploreQuery`), `/compare` (CompareView), `/graph` (GraphView), `/copilot` (CopilotView). `App.vue` is the app shell — header/tabs, persona, compare tray, and the global detail modal — and passes shared state to views through `RouterView` slot props. Cross-feature state lives in small composables (`composables/usePersona`, `useCompareTray`, `useExploreQuery`); `main.ts` bootstraps the app and registers the router; `vite-env.d.ts` provides type shims.
 
 ## Local Interface & Invariants
-- `main.ts` (`main.ts:1-5`): creates and mounts the Vue app — `createApp(App).mount('#app')`; imports the global stylesheet `./assets/index.css` (Tailwind entry) and `./App.vue`
+- `main.ts` (`main.ts:1-6`): `createApp(App).use(router).mount('#app')`; imports the global stylesheet `./assets/index.css` (Tailwind v4 entry)
 - `vite-env.d.ts` (`vite-env.d.ts:3-7`): ambient `declare module '*.vue'` shim plus `/// <reference types="vite/client" />`
-- `App.vue` local symbols:
-  - Tabs state `activeTab` (`App.vue:activeTab`, line 31): `'explore' | 'compare' | 'graph' | 'copilot'`, default `'explore'`
-  - Catalog state (`App.vue:32-35`): `products`, `loading`, `totalProducts`, `comparedProducts` (comparison set capped at 4)
-  - Persona state (`App.vue:38-50`): `personas`, `currentPersona` seeded with a hardcoded default persona `id: 'uap'` ("Universal Adult Sensitive & Acne", lines 39-49), `personaDrawerOpen`
-  - Filter state (`App.vue:57-68`): `search`, `selectedDomain` (`all|skin|hair|body|makeup` buttons, template lines 336-370), `selectedCategory`, `selectedCountry`, `selectedGoal`, `priceTier`, `fungalSafe`, `fragranceFree`, `oilFree`, `poreFree`, `minMatch`, `sortBy` (default `'composite_desc'`)
-  - `loadData()` (`App.vue:loadData`, lines 70-106): `Promise.all([fetchProducts(...), fetchPersonas()])` with all filters and `persona_id: currentPersona.value.id`; adopts the server persona with `id === 'uap'` when the current persona is still the default; `console.error('Failed to load initial catalog data', err)` on failure
-  - Filter watcher (`App.vue:109-124`): any of the 12 filter refs changing triggers `loadData()`
-  - `resetFilters()` (`App.vue:resetFilters`, lines 126-139), `quickFilter(type)` (`App.vue:quickFilter`, lines 141-151)
-  - `handleSelectPersona(p)` (`App.vue:153-156`): swaps persona and reloads
-  - `handleSaveCustomPersona(p)` (`App.vue:handleSaveCustomPersona`, lines 158-166): persists via `savePersona`; on failure logs `console.warn('Persona persisted in session state', e)` and continues with session-only persona
-  - `toggleCompare(prod)` (`App.vue:toggleCompare`, lines 168-179): id-based toggle; rejects a 5th product with `alert('You can compare up to 4 formulations simultaneously.')`
-  - `viewDetails(prod)` (`App.vue:181-184`), `openCopilot(prod)` (`App.vue:openCopilot`, lines 186-191: adds product to the comparison set if absent, then switches to the copilot tab), `handleCopilotCompare(prods)` (`App.vue:193-195`: switches tab; the passed products argument is not used)
-  - Deep-link routing in `onMounted` (`App.vue:197-210`): URL path containing `research` or hash `#copilot|#research|#chat` → copilot tab; `compare` → compare; `graph` → graph; `study` → explore
-  - Hash writer (`App.vue:212-216`): on `activeTab` change, sets `window.location.hash = tab` when on the root path
-- Rendering contract (`App.vue:template`): four workspace sections rendered with `v-show` (lines 331, 504, 514, 519) — all child components stay mounted across tab switches; static header nav anchors to `/research`, `/study`, `/progress` (lines 245-265); global overlays `PersonaDrawer` (lines 530-537) and `ProductDetailModal` (lines 540-549) are hosted here, as are the FilterSidebar filter wiring (lines 465-489) and ResearchCopilot `active-product-ids`/`persona-id` props (lines 520-522)
+- `router/index.ts`: routes `/` → ExploreView, `/compare` → CompareView, `/graph` → GraphView, `/copilot` → CopilotView, `/research` → redirect `/copilot`, catch-all → redirect `/`. `beforeEach` maps legacy hash deep links (`#copilot|#research|#chat` → `/copilot`, `#compare` → `/compare`, `#graph` → `/graph`) preserving query params
+- `composables/useExploreQuery.ts`: the URL query string is the single source of truth for explore filters, sort, and page (`readQuery` maps `?search|domain|category|country|goal|price_tier|fungal_safe|fragrance_free|oil_free|pore_free|min_match|sort_by|page`; defaults in `DEFAULT_FILTERS`); exposes reactive `products/total/loading/error/activeFilterCount/filters/page/searchInput` and actions `setFilter` (pushes URL, resets page, serializes booleans as `'true'`), `setPage`, `resetFilters`, `reload`; the search input is debounced 300 ms (`refDebounced`) before it reaches the URL; every query change aborts the in-flight request via `AbortController` (aborted/superseded results are dropped, `DOMException` name `AbortError` ignored)
+- `composables/usePersona.ts`: persona list + selection with persistence — writes `localStorage['skintellect_persona_id']` and reads it (plus legacy fallbacks `skintellect_active_persona_id`, `skinsort_active_persona_id`) on load; `saveCustom` posts via `savePersona` and re-selects
+- `composables/useCompareTray.ts`: compare tray capped at 4 — `add` is optimistic then fetches `/api/products/{id}` (fetch-detail-on-add) when the payload lacks ingredient data, merging the detail response; persists tray ids under `localStorage['skintellect_compare_ids']` and restores by re-fetching details; `add` returns `'added'|'exists'|'limit'` (UI surfaces `limit` as a toast, not a blocking dialog)
+- `App.vue` local symbols: `usePersona()` (`personas`, `currentPersona`, `selectPersona`, `saveCustomPersona` — save failure surfaces a `vue-sonner` toast), `useCompareTray()` (`comparedProducts`, `addToTray`, `removeFromCompare`, `clearTray`, `restoreTray`), `personaDrawerOpen`, detail-modal state (`selectedProduct`, `detailModalOpen`), `activeTab` derived from `route.name`, `toggleCompare`/`openCopilot` (ensure tray membership, navigate `/copilot`), `onTabSelect` (`router.push({ name })`)
+- Rendering contract: header hosts persona button + legacy workspace anchors (`/research`, `/study`, `/progress` — Stage 5 folds these); tab bar is the shadcn `Tabs` component driven by `route.name`; `<RouterView v-slot>` passes `persona-id` and `compared-products` plus events (`toggle-compare`, `view-details`, `open-copilot`, `remove`, `clear-all`, `ask-copilot-compare`) to every route view; global overlays `PersonaDrawer` and `ProductDetailModal` and the `vue-sonner` `<Toaster>` are hosted here
 
 ## Subdirectories & Boundaries
 - components: [./components/EGM.md](./components/EGM.md) - Vue component layer: `ui` primitive library plus the `compare`, `explore`, `graph`, `research` feature packages
-- lib: [./lib/EGM.md](./lib/EGM.md) - `api.ts` REST/SSE client, `types.ts` domain contracts, `utils.ts` (`cn` Tailwind merge helper)
+- composables: [./composables](./composables) - focused stateful capabilities: `useExploreQuery` (URL-owned explore query), `usePersona` (persona + persistence), `useCompareTray` (tray + enrichment + persistence)
+- lib: [./lib/EGM.md](./lib/EGM.md) - `api.ts` REST/SSE client (persona adapter, stats/connections), `types.ts` domain contracts, `utils.ts` (`cn` + `inciNames` ingredient-list helper)
+- router: [./router/index.ts](./router/index.ts) - route table + legacy hash redirect map
+- views: [./views](./views) - route components: `ExploreView` (domain/category strips, hero with live `/api/stats`, sidebar+grid, pagination, error/retry), `CompareView`, `GraphView`, `CopilotView` (thin wrappers delegating to feature components), and the Stage 5 fold-ins `ResearchView` (structured evidence workflow: interpret → editable filters → results with per-card evidence/review/alternatives expanders + quote explorer, honoring `?query=`/`?demo=1`), `StudyView` (prepared demo group, references library, quality checks incl. MRR/Recall@3; the dead label tab was retired), `ProgressView` (preparation-job submit/cancel with visibility-aware 5s polling and a non-reentrant load guard)
 
 ## Invariants
-- `App.vue` is the single source of truth for cross-feature state; feature components under `components/` are controlled and delegate all mutations back via emits (see [./components/EGM.md](./components/EGM.md))
-- All network access flows through `@/lib/api`; `App.vue` calls only `fetchProducts`, `fetchPersonas`, `savePersona` (`App.vue:4`)
-- Comparison invariant: `comparedProducts` holds at most 4 `Product`s, enforced in `toggleCompare` with a blocking `alert`
-- Persona invariant: `currentPersona.id` defaults to `'uap'` and is replaced by a server persona with the same id when `fetchPersonas` returns one; custom personas remain session-only if `savePersona` fails
-- The four workspace sections use `v-show`, so switching tabs never remounts feature components nor resets their internal state
+- The URL query on `/` is the authoritative explore state; views restore exactly from deep links, and every filter write goes through `useExploreQuery` actions (never mutate the returned `filters` object)
+- Shared cross-feature state (persona, compare tray) is owned by `App.vue` via composables and flows down as props; views emit mutations up
+- Comparison invariant: at most 4 products, enforced in `useCompareTray.add` (returns `'limit'`; UI toasts)
+- Ingredient list invariant: display/diff code consumes ingredient names only through `utils.inciNames` — no API payload carries `names`; detail payloads carry `ingredients`
+- Persona display values come from the API adapter in `api.ts` (`label` → `name`, `target_concerns` → `concerns`, `safety_exclusions` → `exclude_*`); `savePersona` maps back to the backend `PersonaCreate` contract
+- No hardcoded catalog numbers are rendered: the hero stat row renders `/api/stats` values and hides when the fetch fails
+- Router-owned workspaces mount/unmount on navigation (unlike the pre-router `v-show` tabs); any view-local state that must survive navigation lives in a composable with its own persistence
 
 ## Side Effects
-- Network: `fetchProducts`/`fetchPersonas` on mount and on every filter or persona change (`App.vue:loadData`); `savePersona` on custom persona save
-- Browser APIs: `window.location.hash` writes (`App.vue:214`), `window.location.pathname`/`hash` reads for deep-link routing (`App.vue:199-209`), blocking `alert()` on comparison overflow (`App.vue:174`)
-- Console: `console.error` in `loadData` (line 102), `console.warn` in `handleSaveCustomPersona` (line 163)
-- Styling: `main.ts:2` imports `./assets/index.css`, the Tailwind entry that registers the theme variables consumed by all components
+- Network: `useExploreQuery` fetches `/api/products` on every query/persona change with `AbortController` cancellation; `usePersona` fetches `/api/personas` on load and posts on save; `useCompareTray` fetches `/api/products/{id}` per add/restore; `ExploreView` fetches `/api/stats` on mount
+- Browser APIs: `history` writes via `vue-router` (path + query); `localStorage` keys `skintellect_persona_id` (read fallbacks: `skintellect_active_persona_id`, `skinsort_active_persona_id`) and `skintellect_compare_ids`; `window.scrollTo` on pagination
+- Toasts: `vue-sonner` for comparison-limit and persona-save outcomes
+- Styling: `main.ts:2` imports `./assets/index.css`, the Tailwind v4 entry consumed by all components
 
 ## Verification
 - Run (from `frontend/`): `npm run build`; from repo root also `node tests/check_ui_semantics.js`

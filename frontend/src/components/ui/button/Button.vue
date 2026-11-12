@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
-import { Primitive, type PrimitiveProps } from 'radix-vue'
+import { Primitive, type PrimitiveProps } from 'reka-ui'
+import { evidenceButtonVariant } from '@/lib/evidence'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const buttonVariants = cva(
@@ -15,7 +16,7 @@ const buttonVariants = cva(
         secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        evidence: 'bg-[#0e6870] text-white hover:bg-[#0c565d]',
+        evidence: evidenceButtonVariant,
       },
       size: {
         default: 'h-9 px-4 py-2',

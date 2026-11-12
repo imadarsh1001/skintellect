@@ -1,12 +1,9 @@
-"""Check source layout, page assets, documentation and read-only database integrity."""
+"""Check source layout, documentation links and read-only database integrity."""
 import ast
 import json
 import re
-import shutil
 import sqlite3
-import subprocess
 from datetime import datetime, timezone
-from html.parser import HTMLParser
 from pathlib import Path
 import sys
 
@@ -14,23 +11,9 @@ _SRC = Path(__file__).resolve().parent.parent / "src"
 if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
-from skintellect.config import DB_PATH, PROJECT_ROOT, STATIC_DIR, TEMPLATES_DIR
+from skintellect.config import DB_PATH, PROJECT_ROOT
 
 ROOT = PROJECT_ROOT
-
-
-class PageAssets(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.assets = []
-        self.ids = []
-
-    def handle_starttag(self, tag, attrs):
-        values = dict(attrs)
-        if 'id' in values:
-            self.ids.append(values['id'])
-        if tag in {'script', 'link'}:
-            self.assets.append(values.get('src', values.get('href', '')))
 
 
 def main():
@@ -46,23 +29,10 @@ def main():
                     errors.append(f'Legacy import in {path.relative_to(ROOT)}:{node.lineno}')
         except SyntaxError as exc:
             errors.append(str(exc))
-    node = shutil.which('node')
-    js_files = sorted(Path(STATIC_DIR).rglob('*.js'))
-    if not node:
-        errors.append('Node is required for JavaScript syntax checks.')
-    else:
-        for path in js_files:
-            result = subprocess.run([node, '--check', str(path)], capture_output=True, text=True, timeout=30)
-            if result.returncode:
-                errors.append(result.stderr)
+    # The legacy templates/static tree was retired in Stage 5; JavaScript
+    # syntax and UI semantics now run through tests/check_ui_semantics.js in
+    # the aggregate gate, so only Python, links and the database are audited here.
     pages = []
-    for path in sorted(Path(TEMPLATES_DIR).glob('*.html')):
-        page = PageAssets()
-        page.feed(path.read_text(encoding='utf8'))
-        missing = [asset for asset in page.assets if asset.startswith('/static/') and not (Path(STATIC_DIR) / asset.removeprefix('/static/')).is_file()]
-        if missing or len(page.ids) != len(set(page.ids)):
-            errors.append(f'Page contract failed: {path.name}; missing assets: {missing}')
-        pages.append({'page': path.stem, 'missing_assets': missing})
     broken_links = []
     for path in [ROOT / 'README.md', ROOT / 'reports/README.md', ROOT / 'data/README.md', *sorted((ROOT / 'docs').rglob('*.md'))]:
         for target in re.findall(r'(?<!!)\[[^\]]+\]\(([^)]+)\)', path.read_text(encoding='utf8')):
@@ -84,7 +54,7 @@ def main():
         'all_checked_contracts_passed': not errors,
         'errors': errors,
         'python_sources_compiled': len(python_files),
-        'javascript_syntax_checked': len(js_files),
+        'javascript_syntax_checked': 'moved to tests/check_ui_semantics.js',
         'html_contracts': pages,
         'broken_document_links': broken_links,
         'database_integrity': integrity,

@@ -1,0 +1,147 @@
+# Skintellect — Component Map & Gap Report
+
+* **Author:** Adarsh Patel
+* **Date:** 2026-11-09
+* **Companion to:** [concepts_brief.md](./concepts_brief.md) (EGM brainstorm output)
+* **Basis:** source audit of `ui_components` @ `4459c15` + live walkthrough (backend `:8000`, Vite `:5173`). Items tagged **[observed]** were exercised in the browser; **[inferred]** items come from source reading (mobile-width screenshots became unavailable mid-walkthrough).
+* **Catalogs checked (2026-11):** [shadcn-vue Components](https://www.shadcn-vue.com/docs/components), [Blocks](https://www.shadcn-vue.com/blocks), [AI Elements](https://www.shadcn-vue.com/docs/ai-elements). The `unovue/shadcn-vue` agent skill was deliberately **not** loaded or used.
+
+## 0. Inventory summary (what exists today)
+
+Local shadcn-vue primitives in `frontend/src/components/ui/` — **present locally (10)**: badge, button, card, collapsible, dialog, input, scroll-area, select, separator, tabs. **Locally customized (2)**: `badge` (evidence variants `verified|source|unknown|negative|mixed`), `button` (`evidence` variant + sizes). **Used by a screen**: card/badge/button (ProductCard, ComparisonMatrix, IngredientGraph), dialog (3 modals), input (3 places), select (copilot session picker only), tabs (App.vue tab bar only), collapsible (copilot trace), scroll-area (copilot event log), separator (unused by any screen — **present, never used**).
+
+Platform: radix-vue 1.9.11 (**dormant upstream** — last publish ~2 years; reka-ui 2.11 is the active successor, MIT, same org), Tailwind 3.4.16, Vue 3.5.13, Vite 6, Node 26. `tailwindcss-animate` installed but never registered → all `animate-*` classes are no-ops (documented invariant).
+
+Decision order used below: **Reuse** (existing/native) → **Adopt** (upstream component/block) → **Compose** (existing primitives) → **Evaluate specialist** → **Keep custom**.
+
+## 1. Component map
+
+Costs: I = integrate (one-time), M = ongoing maintenance. S/M/L = effort scale.
+
+| # | Screen / interaction | Current file | Usability issue | Recommended component (docs) | Reuse decision | Behavior to preserve | Integration / maintenance cost |
+|---|---|---|---|---|---|---|---|
+| 1 | App shell, nav, workspace switching | `App.vue:220-326` | Tab bar is state-switched (`v-show`), no URLs; navbar links jump to legacy pages with a different design language **[observed]**; `/#copilot` links only work via hash hack | vue-router routes `/`, `/compare`, `/graph`, `/copilot` (+ `/progress`); keep header; `Tabs` only if retained visually; router-link nav | **Adopt** (router) + **Compose** | Persona button, compare-count badge, deep-link redirect `/#copilot→/copilot` etc. | I: M · M: L (router is load-bearing) |
+| 2 | Domain & category quick strips | `App.vue:333-398` | Duplicated with sidebar selects; emoji-as-icon buttons; two controls own one filter **[observed]** | `ToggleGroup` (shadcn-vue) for domain/category pills; delete the duplicate sidebar category select | **Adopt** | `domain`/`category` query params to `/api/products` | I: S · M: S |
+| 3 | Search & filters (search, sort, country, goal, price, exclusions, min-match) | `FilterSidebar.vue` (291 ln) | Native `<select>`×4, native checkboxes, native range — inconsistent with the design system, no mobile drawer; every filter keystroke refires `loadData()` with no debounce/cancel **[observed flicker]** | Keep `Input`; **adopt** `Select`, `Checkbox` (or `Switch` for strict exclusions), `Slider`, `ToggleGroup` (price tiers); wrap sidebar in `Sheet` on mobile; one `useExploreQuery()` composable with `refDebounced` + `AbortController` (`@vueuse/core` already installed) | **Adopt** + **Compose** | Exact query param mapping to `/api/products` (`fungal_safe` etc. as `true`), reset behavior + active-filter count | I: M · M: S |
+| 4 | Product grid + loading/empty | `ProductGrid.vue` (67 ln) | Good skeleton + empty state already; grid shows only first 36 of 2,502 products, no pagination **[observed]** | Keep skeleton; **adopt** `Pagination` (page in URL) + `Empty` pattern for zero-results | **Reuse** + **Adopt** | `page`/`limit` params already supported by backend; reset-filters event | I: S · M: S |
+| 5 | Product card (match %, safety badges, contraindications) | `ProductCard.vue` (216 ln) | Every card at default sort shows "100% Fit" + identical 3 badges — repetitive, low signal **[observed]** | **Keep custom** — encodes persona scoring + evidence semantics; built from existing primitives. Reduce repetition: show differentiators (key actives, flags that vary) | **Keep custom** (justified: domain scoring display) | `persona_match` status/score semantics, contraindication notice, evidence badge variants | I: — · M: S |
+| 6 | Hero stats & copy | `App.vue:401-461` | Hardcoded "546 / 2,492 / 1,490+" vs `/api/stats` reality 576 / 2,502 **[observed stale]** | Bind to `/api/stats`; **adopt** nothing — replace markup numbers with data | **Reuse** + data fix | Stat semantics (verified-complete, total, ingredient dossiers) | I: S · M: S |
+| 7 | Quick filter chips | `App.vue:429-459` | Toggle chips re-implement filter state ad hoc | `ToggleGroup` single-select/multi as appropriate | **Adopt** | `quickFilter` semantics (ceramide search text, fungal/fragrance/oil toggles) | I: S · M: S |
+| 8 | Product detail modal (5 tabs: safety, INCI, dupes, reviews, raw) | `ProductDetailModal.vue` (624 ln) | Hand-rolled tab buttons — no keyboard arrow nav, no ARIA tab pattern **[inferred from markup]**; hardcoded fallbacks render fake data (`analysis?.hydrators \|\| [Ceramides…]`, `match_score \|\| 95`) **[observed]**; "Compatibility with ''" empty persona name **[observed]**; card says 1 review, tab shows 0 **[observed]** | Keep `Dialog` shell; **adopt** `Tabs` for the 5 tabs; per-tab content components; **delete all `|| fakeDefault` fallbacks** — render real empty states | **Compose** + **Adopt** | `fetchProduct(id, persona_id)` enrichment, dupes list (from detail payload), review skin-type filter, add-to-compare / ask-copilot actions, source-dossier link | I: M · M: M |
+| 9 | INCI ingredient search & list | `ProductDetailModal.vue:419-467` | Native input; works fine otherwise | `Input` (existing); list rows keep evidence badges | **Reuse** | Client-side filter over detail payload | I: S · M: S |
+| 10 | Persona drawer (presets, skin type, goals, exclusions) | `PersonaDrawer.vue` (166 ln) | Native checkboxes; preset buttons double as instant-apply — two interaction models in one dialog | Keep `Dialog`; **adopt** `ToggleGroup` (skin type), `Badge`→keep, native checkboxes→`Checkbox`/`Switch` | **Adopt** | `POST /api/personas` save; instant-apply on preset select; localStorage migration (legacy key `skintellect_active_persona_id` → new key, read old as fallback) | I: S · M: S |
+| 11 | Compare tray & cap | `App.vue:168-191` | Cap-at-4 surfaced via `alert()` **[observed]**; tray lost on reload **[observed]** | `useCompareTray()` composable + **adopt** `Sonner` toasts; persist tray (localStorage) | **Adopt** (Sonner) + **Compose** | Max-4 rule, add/remove from card/modal/copilot, badge count | I: S · M: S |
+| 12 | Comparison matrix (shared/unique ingredients, persona fit) | `ProductComparisonMatrix.vue` (200 ln) | **"0 ingredients" for grid-added products** — computes from `p.names`, which the list endpoint omits **[observed]**; `minmax(280px,1fr)` grid overflows mobile, no scroll wrapper **[inferred]** | **Keep custom** — formulation diffing IS the product; fix data by fetching `/api/products/{id}` on add (fetch-detail-on-add, ≤4 requests); wrap columns in `overflow-x-auto`; option: `Table` primitive for a row-wise diff view later | **Keep custom** (justified: core differentiator) + data fix | Shared/unique set math on full INCI names; provenance/actives sections; remove & clear-all | I: M (data) · M: M |
+| 13 | Ingredient graph | `IngredientGraph.vue` (258 ln) | **Entirely hardcoded 11-node demo SVG**; real `/api/products/{id}/connections` unused **[observed + source]**; no pan/zoom/drag | Stage: render real connections data as simple SVG + accessible table (table exists); honest empty state when no data. Specialist library **deferred**: `vue-flow` (MIT, Vue-native, active) vs `cytoscape.js` — adopt only if interactive exploration is a stated requirement | **Compose** now; **Evaluate specialist** deferred | Accessible table view toggle; category colors from evidence palette | I: M (data wiring) · M: S |
+| 14 | Copilot chat container & autoscroll | `ResearchCopilot.vue:504-1007` | No auto-scroll to newest message; fixed `h-[750px]`; message list hand-rolled | **Adopt** AI Elements `Chat` / `Message Scroller` (replaces container + scroll management) | **Adopt** | SSE `node_update`/`final_result` contract; non-streaming fallback stays but becomes observable | I: M · M: L→S (upstream-maintained) |
+| 15 | Copilot progress ("todo list") | `ResearchCopilot.vue:346-344` hand-mapping + client regex intent classes | Fake optimistic task lists; client-side regex intent classification duplicates backend routing | **Adopt** AI Elements `Plan` / `Task` (render backend `todo_list` from stream events); delete client regex classifier | **Adopt** | Backend node names (`interpret_intent`, `retrieve_candidates`, `plan_and_retrieve_evidence`, `synthesize_grounded_answer`); stage timings | I: M · M: S |
+| 16 | Copilot input & send | `ResearchCopilot.vue:1022-1042` | Single-line Input; Enter-only send; no disabled-with-streaming affordance beyond `:disabled` | **Adopt** AI Elements `Prompt Input` | **Adopt** | Enter-to-send, disabled while streaming, `persona_id`/`product_ids` context payload | I: S · M: S |
+| 17 | Suggestion chips | `ResearchCopilot.vue:52-101` `getSuggestions()` | Regex-scrapes the model's own markdown for `"quoted"` sentences — fragile, content-dependent **[source]** | **Adopt** AI Elements `Suggestion` fed by structured backend fields (sample prompts / clarification options already exist in payload) | **Adopt** | HITL clarification cards (`clarification.options`, allow_custom + custom input) — keep as `Suggestion`/custom-input composition | I: S · M: S |
+| 18 | Citations & evidence lookup | `ResearchCopilot.vue:442-453, 811-828` | Citation badges + hand-rolled Dialog fetching `/api/evidence/{id}` | **Adopt** AI Elements `Sources` + `Inline Citation` (claim-level citation where backend supplies `evidence_id`); evidence Dialog becomes the Sources viewer | **Adopt** | `/api/evidence/{id}` fetch, verbatim-quote display, source URL display | I: M · M: S |
+| 19 | Agent trace debugger | `ResearchCopilot.vue:830-1000` | 170-line Collapsible hand-rendering trace JSON (dispatch matrix, event timeline, latencies) | **Adopt** AI Elements `Trace` (+ `Tool` for tool calls, `Reasoning` if backend exposes thinking) | **Adopt** | trace fields (`intent_route`, `activated_agents`, `events[]`, `stage_timings_ms`) | I: M · M: S |
+| 20 | Markdown rendering | `marked` + `v-html` (no sanitize) | Documented trust boundary "backend content is trusted" | Keep `marked`; trust-boundary decision (D6): either keep invariant + update `frontend/EGM.md`, or add DOMPurify and flip the invariant | **Reuse** (+ recorded decision) | GFM tables/code in answers | I: S · M: S |
+| 21 | Session switcher / new chat | `ResearchCopilot.vue:178-251` | Hidden when 1 session; titles only; no delete affordance visible in UI despite API support | Keep `Select` (existing) or **adopt** `DropdownMenu`; add delete with `Sonner` confirm | **Reuse**/Adopt | Session CRUD endpoints; new-session fallback when API fails | I: S · M: S |
+| 22 | Toasts/alerts (global) | `alert()` in `App.vue:174` | Blocking, unstylable | **Adopt** `Sonner` | **Adopt** | Max-4 compare message; future error toasts | I: S · M: S |
+| 23 | Error states (global) | `App.vue:loadData` catches to console only **[observed: silent empty grid on API failure]** | No user-visible error anywhere in SPA | **Adopt** `Alert` + retry button pattern in grid/copilot; one `useApiError` helper | **Adopt** | — | I: S · M: S |
+| 24 | Dialog/select/collapsible animations | all primitives | `animate-*` classes generate no CSS today (plugin unregistered) — controls feel instant/snappy in a bad way | Fixed automatically by Tailwind v4 + `tw-animate-css`; interim (v3): register `tailwindcss-animate` (1-line) | **Adopt** (platform) | — | I: S · M: — |
+| 25 | Legacy `/research` structured evidence flow | `research.js` (169 ln) + template | Only working end-to-end evidence workflow; different design language **[observed]** | Disposition pending (brief Q1): SPA route (`/research`) composed from existing patterns (search interpret → filters → results with evidence expanders) or redirect into `/copilot` with `?query=` carry-over | **Compose** (either way) | `?query=`, `?demo=1` params; intent→filter fill; per-result evidence expanders; quote explorer | I: L (if folded) · M: M |
+| 26 | Legacy `/study` (demo group, references, quality, label) | `study.js` (165 ln) | Works except dead label tab **[observed + source]** | Disposition pending (brief Q2): prepared-demo folds into copilot suggestions; references/quality become a route or retire to docs/CLI; label tab retired (backend route does not exist) | **Compose** / retire | `/research?demo=1&query=` cross-links; MRR/Recall@3 tables | I: M · M: S |
+| 27 | Legacy `/progress` (prep jobs) | `progress.js` (93 ln) | Real features with no SPA surface; 5s polling re-render (heavy enough to block screenshot tooling) **[observed]** | Fold into SPA `/progress` route: `Progress` display + `Alert` + polling composable (`useIntervalFn`, visibility-aware) | **Adopt** (route) + **Compose** | Job submit/cancel/poll contracts; coverage bars; cost warning | I: M · M: S |
+| 28 | Legacy index template (fallback) | `templates/index.html` (2,922 ln) + `app.js` (1,017 ln) | Duplicates the SPA; 4 features post to nonexistent routes (Routine Studio, Formula Lab, AI Board/CSI) **[source + documented drift]** | Keep as rollback lever until Stage 5 parity; delete the four dead-feature sections early; delete file at defined end state | **Retire** | localStorage persona key migration | I: S (deletion) · M: — |
+
+## 2. Gap report — what I searched for and why the closest option fell short
+
+| Need | What was searched | Closest option | Why it fell short | Resolution |
+|---|---|---|---|---|
+| Formulation diff view | shadcn-vue Components + Blocks (Table, Data Table, dashboard-01) | `Table` / `Data Table` | They render tabular data but none encode product-vs-ingredient set math, persona-fit columns, or evidence semantics; the diff logic is the product's IP | **Keep custom** `ProductComparisonMatrix` (#12), optionally restyled on `Table` |
+| Persona match / evidence scoring display | all Components + Blocks | `Badge` variants (already extended) | Scoring semantics (fit %, contraindication, Darmeto pts) are domain-specific; no catalog pattern expresses them | **Keep custom** (#5, #8 content) |
+| Ingredient relationship visualization | Components catalog, AI Elements, then specialist libs | `vue-flow` (MIT, active, Vue-native, pan/zoom/drag built-in); `cytoscape.js` (MIT, heavier, imperative API) | Both are general graph engines; the actual data (`/products/{id}/connections`, small payloads) doesn't justify a graph-engine dependency yet — YAGNI, and the brief forbids speculative pan/zoom/drag | Render real data as simple SVG + keep accessible table; defer `vue-flow` until interactive exploration is a stated requirement |
+| Streaming chat transport | AI Elements docs (Vue) | AI Elements components are copy-paste patterns | The docs page does **not state** whether the Vue patterns assume Vercel AI SDK's `useChat` or any transport adapter (**unverified**) — our SSE contract is custom (`node_update`/`final_result`) | Keep `lib/api.ts` `streamCopilot` as the transport; feed AI Elements render components from our event stream. Verify component-side assumptions in Stage 4 before pulling |
+| Markdown streaming renderer | AI Elements notes mention `streamdown` (React) | `marked` (installed) | `streamdown` is React-only; Vue equivalent not offered by shadcn-vue (**unverified** — no Vue streaming-markdown component documented) | Keep `marked`; revisit if AI Elements Vue ships a renderer |
+| Accessible tabs inside modal | local `tabs` package (unused by modal) | Already installed | Not a gap — the modal simply bypasses it; hand-rolled buttons caused the keyboard-nav gap | **Adopt** local `ui/tabs` in the modal (#8) |
+| Mobile filter surface | Components: `Sheet`, `Drawer` | `Sheet` (dialog-based) | Not a gap — sidebar is `w-80` fixed and stacks above grid on mobile, pushing products below fold **[inferred]** | `Sheet` for <lg widths (#3) |
+| Duplicate category controls | — | — | Not a catalog gap; a duplication defect | Delete sidebar category select; keep strip (#2) |
+| User-facing error surface | Components: `Alert`, `Sonner` | `Alert` | Not a gap — the SPA simply never renders fetch failures | Adopt Alert + retry (#23) |
+
+## 3. Compatibility verification (requested)
+
+| Component of stack | Installed | Required by current shadcn-vue | Verdict |
+|---|---|---|---|
+| Vue | 3.5.13 | Vue 3.x | Compatible |
+| Vite | 6.0.3 | Vite 5/6 (+`@tailwindcss/vite` for v4) | Compatible; Node 26 ≫ v4's ≥20 requirement |
+| Radix Vue | 1.9.11 | **reka-ui 2.x** (radix-vue dormant ~2 yrs) | **Upgrade required** — one-time, CLI-assisted, isolated PR (brief D2) |
+| Tailwind | 3.4.16 | **v4** (CSS-first `@theme`, no config file) | **Upgrade required** — port semantic + `evidence.*` tokens, `darkMode: ['class']` → custom variant, `tailwindcss-animate` → `tw-animate-css`; animate classes go live for the first time (visual pass needed) |
+| License / a11y / mobile / popularity | reka-ui: MIT, active (publish days ago), ~3.1M weekly downloads, WAI-ARIA headless primitives, mobile via same primitives + portals | — | Verified via npm (2026-11-09) |
+
+## 4. Review outcomes (resolved 2026-11-09) & remaining pre-checks
+
+Resolved by the author during design review:
+
+1. `/research` → **fold into the SPA** as a structured evidence route (#25).
+2. `/study` → **split fold-in** (#26): demo→copilot suggestions; references/quality→small SPA route; label tab retired.
+3. Platform-upgrade time-box → **one working day**, then freeze-and-defer.
+4. v-html trust boundary → **add DOMPurify** and flip the documented invariant (#20).
+
+Remaining Stage-4 pre-checks (not blockers for Stages 0–3): AI Elements Vue transport assumptions; streamdown absence on Vue.
+
+## 5. Implementation status & post-PR follow-up queue (2026-11-12)
+
+Branch `ui_components` delivered in 8 commits: `3e45b4b` (SSE run-budget fix) → `f2a1554` (reka-ui 2 + Tailwind v4) → `e7989c9` (this map + brief) → `6aa2887` (vue-router, URL-owned state) → `9a8b486` (data wiring) → `d1a8912` (copilot AI Elements + DOMPurify) → `893a020` (legacy fold-in + retirement) → `1d79c90` (D1: stream fallbacks made observable). Delivery ledger: **+5,123 / −7,897 = net −2,774 lines** whole-effort (legacy `src/skintellect/web` ≈ 4,973 lines deleted); owned frontend `src` ≈ 9,700 → 7,690 lines. Gates green at delivery: `npm run build` (vue-tsc strict), `scripts/check.py`, `tests/check_ui_semantics.js` (26 assertions incl. v-html sanitizer contract + WCAG token contrast), `tests/ui_smoke.py` (5 headless cases against the real backend).
+
+### 5.1 Map row status (numbers refer to §1)
+
+✅ shipped as approved · 🟡 approved work shipped, the promised component adoption is deferred to §5.2 · ⏳ deferred (needs backend change or declared non-goal)
+
+| Row | Item | Status | Notes |
+|---|---|---|---|
+| 1 | Router + URL-owned state | ✅ | `6aa2887`; routes `/ /compare /graph /copilot /research /study /progress`, hash redirects, router-driven header Tabs |
+| 2 | Domain/category strips → ToggleGroup | 🟡 → F1 | Strips live in `ExploreView.vue` as hand-rolled buttons |
+| 3 | FilterSidebar → Select/Checkbox/Slider + Sheet + composable | 🟡 → F2 | `useExploreQuery` shipped (300 ms debounce, AbortController, URL-owned); native controls kept |
+| 4 | Pagination + Empty | ✅ | `9a8b486`; page in URL, 36/page (hand-built from `ui/button` — declared **Compose**, acceptable) |
+| 5 | ProductCard keep-custom | ✅ | Primitives-based, persona scoring + evidence semantics preserved |
+| 6 | Hero stats → `/api/stats` | ✅ | `9a8b486`; "Enriched Formulations" verified label |
+| 7 | Quick filter chips → ToggleGroup | 🟡 → F1 | Same pass as row 2 |
+| 8 | Detail modal → `ui/tabs`, delete fake fallbacks | 🟡 → F3 | All `\|\| fakeDefault` fallbacks deleted (`893a020`); tabs still hand-rolled |
+| 9 | INCI search → `Input` | ✅ | `inciNames()` helper (no API payload carries `names`) |
+| 10 | Persona drawer → Checkbox/ToggleGroup | 🟡 → F4 | `usePersona` + API adapter (label/concerns/exclusions) + legacy-key migration shipped; 3 native checkboxes kept |
+| 11 | Compare tray + Sonner | ✅ | `useCompareTray` (persist + fetch-detail-on-add); `alert()` gone |
+| 12 | Matrix keep-custom + data fix | ✅ | Fetch-detail-on-add fixed the "0 ingredients" bug; overflow wrapper |
+| 13 | Graph real data | ✅ | `/api/products/{id}/connections` wired + honest epistemics notice |
+| 14 | Chat container → Message Scroller | ✅ | `ai/ChatMessages` (pinned scroll), authored pattern |
+| 15 | Plan/Task | ✅ | `ai/TaskPlan` fed by backend `node_update` events |
+| 16 | Prompt Input | ✅ | `ai/PromptInput` (Enter / Shift+Enter, disabled while streaming) |
+| 17 | Suggestion | ✅ | `ai/SuggestionChip` fed by structured payload; markdown regex scraper deleted |
+| 18 | Sources + Inline Citation | 🟡 → F6 | `ai/SourcesList` shipped (per-answer citations); inline citations need per-claim evidence ids from the backend |
+| 19 | Trace | ✅ | `ai/AgentTrace` (`defineModel` open state) |
+| 20 | DOMPurify trust boundary | ✅ | Decision 4 executed; invariant flipped in `frontend/EGM.md` |
+| 21 | Session switcher | 🟡 → F5 | `Select` kept (reuse decision); delete affordance not added |
+| 22 | Toasts → Sonner | ✅ | Covered by row 11 |
+| 23 | Alert error states | ✅ | Explore error Alert + retry; all views render fetch failures |
+| 24 | Primitive animations | ✅ | Tailwind v4 + `tw-animate-css` — `animate-*` classes live for the first time |
+| 25 | `/research` fold-in | ✅ | `ResearchView` (interpret → filters → results → quote explorer) |
+| 26 | `/study` split fold-in | ✅ | `StudyView` (Products / References / Quality); dead label tab retired |
+| 27 | `/progress` fold-in | ✅ | `ProgressView` (visibility-aware 5 s poll + Recent-jobs section for terminal states) |
+| 28 | Legacy template retire | ✅ | `src/skintellect/web` deleted (≈4,973 lines incl. Stage-2 pruning) |
+
+### 5.2 Follow-up queue (mechanical adoption passes, post-PR commits)
+
+F1–F4 first need five primitives that are **not yet** in `frontend/src/components/ui/`: `toggle-group` (+ its `toggle` dep), `checkbox`, `switch`, `slider`, `sheet`. All map to reka-ui 2.11 primitives already installed; author them from upstream shadcn-vue source (the CLI crashes on Node 26), matching how the existing ten were delivered. Behavior contracts below are the map's "behavior to preserve" columns.
+
+| ID | Map row | Where | What to do | Components |
+|---|---|---|---|---|
+| F1 | #2, #7 | `ExploreView.vue` | Replace hand-rolled domain/category strip and quick-filter chip buttons with ToggleGroup (single/multi as today); keep `setFilter` URL semantics exactly | `ui/toggle-group` |
+| F2 | #3 | `FilterSidebar.vue` | Swap 4 native `<select>` → Select, checkboxes → Checkbox (Switch for strict fungal/fragrance exclusions), range → Slider, price tiers → ToggleGroup; wrap sidebar in Sheet on <lg widths | `ui/select`, `ui/checkbox`, `ui/switch`, `ui/slider`, `ui/sheet` |
+| F3 | #8 | `ProductDetailModal.vue` | Replace the 10 hand-rolled tab-button references with the installed Tabs primitive — keyboard arrow nav + ARIA tab pattern come free | `ui/tabs` |
+| F4 | #10 | `PersonaDrawer.vue` | Swap 3 native checkboxes → Checkbox/Switch; skin-type preset buttons → ToggleGroup; keep instant-apply-on-preset and `POST /api/personas` save | `ui/checkbox`, `ui/switch`, `ui/toggle-group` |
+| F5 | #21 | `ResearchCopilot.vue` | Session delete affordance with toast confirm (API already supports it); optional extraction of session logic into a composable | `ui/dropdown-menu` or inline Button |
+| F6 | #18 | `ResearchCopilot.vue` | Claim-level inline citations — **blocked on backend**: the stream must carry per-claim `evidence_id`s before `ai/InlineCitation` can render anything honest | `ai/inline-citation` |
+
+Every pass ships with the same gates: `npm run build`, `scripts/check.py`, `tests/check_ui_semantics.js`, and a `tests/ui_smoke.py` re-run with the backend up.
+
+### 5.3 Also deferred (nice-to-haves / known residuals)
+
+- Copilot session composable extraction (logic intentionally stays in `ResearchCopilot.vue` for now).
+- Header "PRO · MULTI-DOMAIN" badge wraps at 390 px viewport (cosmetic only).
+- Keyboard a11y is implemented via reka-ui primitives but not runtime-verified; F3 closes the largest hand-rolled gap.
+- Frontend unit-test framework — declared an explicit **non-goal** for this effort.
+- Specialist graph library (`vue-flow`) — deferred until interactive exploration is a stated requirement (row 13).

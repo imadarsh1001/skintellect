@@ -1,10 +1,10 @@
 # components
 
 ## Overview
-Vue 3 single-file component layer of the frontend, organized into the shared `ui` primitive library (shadcn-vue wrappers over radix-vue) and four feature packages (`compare`, `explore`, `graph`, `research`) that compose those primitives. This directory contains no direct source files; it is an architectural grouping only. All components communicate upward via emits and consume backend data exclusively through `@/lib/api`.
+Vue 3 single-file component layer of the frontend, organized into the shared `ui` primitive library (shadcn-vue wrappers over reka-ui) and five feature packages (`ai`, `compare`, `explore`, `graph`, `research`) that compose those primitives; `ai` holds the reusable shadcn-vue AI Elements pattern components (ChatMessages/Message Scroller, PromptInput, SuggestionChip, SourcesList, TaskPlan, AgentTrace). This directory contains no direct source files; it is an architectural grouping only. All components communicate upward via emits and consume backend data exclusively through `@/lib/api`.
 
 ## Subdirectories & Boundaries
-- ui: [./ui/EGM.md](./ui/EGM.md) - Shared shadcn-vue style primitive library: badge, button, card, collapsible, dialog, input, scroll-area, select, separator, tabs (radix-vue wrappers, no domain logic)
+- ui: [./ui/EGM.md](./ui/EGM.md) - Shared shadcn-vue style primitive library: badge, button, card, collapsible, dialog, input, scroll-area, select, separator, tabs (reka-ui wrappers, no domain logic)
 - compare: [./compare/EGM.md](./compare/EGM.md) - `ProductComparisonMatrix.vue`: side-by-side INCI comparison matrix; purely presentational, all state changes delegated upward via emits
 - explore: [./explore/EGM.md](./explore/EGM.md) - FilterSidebar, ProductGrid, ProductCard, ProductDetailModal, PersonaDrawer: catalog browsing; only `ProductDetailModal` fetches data (via `fetchProduct` from `@/lib/api`)
 - graph: [./graph/EGM.md](./graph/EGM.md) - `IngredientGraph.vue`: self-contained ingredient co-occurrence explorer with curated static dataset; no props, no emits, no API calls

@@ -3,30 +3,22 @@ import ast
 import subprocess
 import sys
 import unittest
-from html.parser import HTMLParser
 from pathlib import Path
 
-from skintellect.config import PACKAGE_ROOT, STATIC_DIR, TEMPLATES_DIR
+from skintellect.config import PACKAGE_ROOT
 from skintellect.research.references import SOURCE_FILE
 
 
 class StructureTests(unittest.TestCase):
-    def test_bundled_pages_reference_existing_static_assets(self):
-        assets = []
-
-        class Parser(HTMLParser):
-            def handle_starttag(self, tag, attrs):
-                values = dict(attrs)
-                if tag in {'script', 'link'}:
-                    assets.append(values.get('src', values.get('href', '')))
-
-        pages = list(Path(TEMPLATES_DIR).glob('*.html'))
-        self.assertEqual(len(pages), 4)
-        for page in pages:
-            Parser().feed(page.read_text(encoding='utf8'))
-        for asset in assets:
-            if asset.startswith('/static/'):
-                self.assertTrue((Path(STATIC_DIR) / asset.removeprefix('/static/')).is_file(), asset)
+    def test_spa_entrypoint_sources_exist(self):
+        """The legacy templates were retired in Stage 5; the UI contract is
+        now the Vite SPA entrypoint in the repository frontend tree."""
+        frontend = PACKAGE_ROOT.parents[1] / 'frontend'
+        entry = frontend / 'index.html'
+        self.assertTrue(entry.is_file(), 'frontend/index.html missing')
+        self.assertIn('/src/main.ts', entry.read_text(encoding='utf8'))
+        self.assertTrue((frontend / 'src' / 'main.ts').is_file())
+        self.assertTrue((frontend / 'src' / 'router' / 'index.ts').is_file())
         self.assertTrue(SOURCE_FILE.is_file())
 
     def test_modern_frontend_dist_assets_and_entrypoint(self):

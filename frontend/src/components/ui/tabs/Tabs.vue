@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TabsRoot, type TabsRootEmits, type TabsRootProps, useForwardPropsEmits } from 'radix-vue'
+import { TabsRoot, type TabsRootEmits, type TabsRootProps, useForwardPropsEmits } from 'reka-ui'
 
 const props = defineProps<TabsRootProps>()
 const emits = defineEmits<TabsRootEmits>()

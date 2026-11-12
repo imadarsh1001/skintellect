@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Product } from '@/lib/types'
+import { inciNames } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,17 +20,17 @@ const emits = defineEmits<{
 // Calculate shared ingredients across all compared products
 const sharedIngredients = computed(() => {
   if (props.products.length < 2) return []
-  const formulaSets = props.products.map(p => new Set((p.names || []).map(n => n.toLowerCase())))
+  const formulaSets = props.products.map(p => new Set(inciNames(p).map(n => n.toLowerCase())))
   return Array.from(formulaSets[0]).filter(name => formulaSets.every(s => s.has(name)))
 })
 
 // Calculate unique ingredients for each product
 function getUniqueIngredients(product: Product): string[] {
-  const currentSet = new Set((product.names || []).map(n => n.toLowerCase()))
+  const currentSet = new Set(inciNames(product).map(n => n.toLowerCase()))
   const otherNames = new Set(
     props.products
       .filter(p => p.id !== product.id)
-      .flatMap(p => (p.names || []).map(n => n.toLowerCase()))
+      .flatMap(p => inciNames(p).map(n => n.toLowerCase()))
   )
   return Array.from(currentSet).filter(name => !otherNames.has(name))
 }
@@ -190,7 +191,7 @@ function getUniqueIngredients(product: Product): string[] {
             <!-- Complete INCI Ingredient Count -->
             <div class="flex flex-col gap-1 border-t pt-3">
               <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Total INCI Ingredients</span>
-              <span class="font-bold text-foreground text-sm">{{ p.names?.length || 0 }} ingredients</span>
+              <span class="font-bold text-foreground text-sm">{{ inciNames(p).length }} ingredients</span>
             </div>
           </CardContent>
         </Card>

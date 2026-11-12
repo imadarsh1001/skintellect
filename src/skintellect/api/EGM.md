@@ -5,7 +5,7 @@ FastAPI application assembly and typed HTTP routers. `app.py` builds the app (li
 
 ## Interface
 - `[app.py:app]` - FastAPI instance (title `APP_NAME + " API"`, version `APP_VERSION` from `skintellect.config`); lifespan runs `[app.py:lifespan]`: `migrate` + `[research.jobs:recover_interrupted]` + `[research.references:ingest_references]`.
-- `[app.py:health_check]` - `GET /health`; workspace pages `GET /progress`, `GET /study`, `GET /research`, `GET /compare`, `GET /graph`, `GET /` (serve `templates/index.html` or `frontend/dist/index.html` when present).
+- `[app.py:health_check]` - `GET /health`; workspace routes `GET /`, `/compare`, `/graph`, `/copilot`, `/research`, `/study`, `/progress` all serve `frontend/dist/index.html` when built (Stage 5 retired the templates; without a build `/` returns 503 and the other routes meta-refresh to `/`).
 - `[catalog.py:router]` - `GET /api/products`, `GET /api/products/{product_id}`, `GET /api/domains`, `GET /api/sources`, `GET /api/ingredients`, `GET /api/ingredients/meta/functions`, `GET /api/ingredients/{ingredient_id}`, `GET/POST /api/personas`, `GET /api/personas/{persona_id}`, `GET /api/stats`.
 - `[research.py:router]` (prefix `/api`) - `GET /api/research/demo`, `GET /api/research/references`, `GET /api/products/{id}/connections`, `GET /api/research/progress`, `POST /api/research/jobs` (202), `POST /api/research/jobs/{job_id}/cancel`, `GET /api/research/status`, `POST /api/research/reviews/prepare`, `GET /api/quality`, `POST /api/search/interpret`, `POST /api/search`, `GET /api/products/{id}/review-insights`, `POST /api/alternatives`, `GET /api/evidence/{evidence_id}`, `GET /api/research/retrieve`, `POST /api/assistant/query`, `POST /api/research/copilot`, `POST /api/research/copilot/stream` (SSE), `POST /api/research/copilot/plan`, `GET/POST/DELETE /api/research/copilot/sessions[/...]`.
 - `[formulation.py:find_dupes]` - `GET /api/dupes/{product_id}`.
@@ -24,7 +24,7 @@ FastAPI application assembly and typed HTTP routers. `app.py` builds the app (li
 - Startup (`[app.py:lifespan]`): schema migration (`skintellect.database.migrate`), interruption recovery marking queued/running jobs `interrupted`, and ingestion of `reference_sources.json` into `source_documents`.
 - Per-request: background task execution of preparation jobs (`[research.py:start_preparation]` -> `jobs.execute`), Gemini provider calls and their `gemini_runs` telemetry via the research services, SSE streaming responses.
 - Static mounts: `/static` from `config.STATIC_DIR`; `/assets` from `frontend/dist/assets` when that directory exists (`[app.py]`).
-- File reads: workspace HTML templates from `TEMPLATES_DIR` (`[app.py:progress_workspace]`, `[app.py:research_workspace]`, `[app.py:serve_index]`).
+- File reads: the built SPA entry from `frontend/dist/index.html` on every workspace route (no TEMPLATES_DIR anymore).
 
 ## Verification
 - Python backend; no pytest configured. From the repository root run:

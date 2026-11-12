@@ -7,7 +7,7 @@
 
 ## 📌 Overview
 
-**Skintellect** is an open-source formulation intelligence and cosmetic research platform. Built with Python 3.12+, FastAPI, SQLite, and a buildless Vue 3 interface, it bridges cosmetic chemistry heuristics with modern AI orchestration. 
+**Skintellect** is an open-source formulation intelligence and cosmetic research platform. Built with Python 3.12+, FastAPI, SQLite, and a Vue 3 + Vite SPA, it bridges cosmetic chemistry heuristics with modern AI orchestration. 
 
 It empowers users to:
 - **Reverse-Engineer Compatibility:** Calculate 0–100% personalized formulation match scores and clinical fit points based on specific skin profiles (e.g. acne-prone, oily, sensitive) via a unified canonical scoring engine.
@@ -35,10 +35,9 @@ Skintellect is architected with a strict separation between **data collection** 
     │   ├── formulation/        # Scoring algorithms, clinical fit points, compatibility rules
     │   ├── research/           # Gemini RAG, review NLP, passage indexing, evidence attribution
     │   ├── agents/             # LangGraph copilot, specialist deliberation, CSI detective
-    │   ├── database.py         # Schema creation (init_db), migrations, reproducible audits, exports
-    │   └── web/                # Vue 3 reactive UI + Tailwind CSS interface
-    ├── tests/                  # 128 unit/architecture tests, synthetic fixture bootstrap
-    └── frontend/               # Modern Vue 3 + Vite SPA client
+    │   └── database.py         # Schema creation (init_db), migrations, reproducible audits, exports
+    ├── tests/                  # Unit/architecture tests, synthetic fixture bootstrap
+    └── frontend/               # Vue 3 + Vite + Tailwind SPA (the only UI; serves /, /compare, /graph, /copilot, /research, /study, /progress)
 ```
 
 *The public repository is 100% self-contained: it runs out-of-the-box using deterministic synthetic catalogs (`tests/bootstrap_catalog.py`) or local SQLite databases (`skintellect_moisturizers.db`) with zero external scraping dependencies.*
@@ -175,7 +174,6 @@ node tests/check_ui_semantics.js
 │   ├── agents/                # LangGraph copilot, specialist deliberation, CSI detective
 │   ├── database.py            # SQLite schema, transactions, migrations, reproducible audits
 │   ├── config.py              # Environment variable resolution & dynamic path discovery
-│   └── web/                   # Fast HTML templates, static CSS/JS, and bundled Vue 3
 ├── tests/                     # 128 unit and architecture tests with synthetic fixtures
 ├── experiments/               # Specialist board, Ingredient CSI, Formula Lab experiments
 ├── frontend/                  # Vue 3 + Tailwind CSS modern SPA interface

@@ -9,6 +9,7 @@ import {
   fetchCopilotSessions,
   createCopilotSession,
   fetchCopilotSession,
+  deleteCopilotSession,
 } from '@/lib/api'
 import { renderMarkdown } from '@/lib/markdown'
 import { Badge } from '@/components/ui/badge'
@@ -45,6 +46,7 @@ import {
   Scale,
   ShieldCheck,
   Sparkles,
+  Trash2,
   User,
 } from 'lucide-vue-next'
 
@@ -117,6 +119,34 @@ async function loadSessions() {
   } catch {
     sessions.value = [{ session_id: sessionId.value, title: 'Current Session', user_turns: 0 }]
   }
+}
+
+function confirmDeleteSession() {
+  const sid = sessionId.value
+  toast('Delete this copilot session?', {
+    description: 'The conversation and its stored history will be removed.',
+    action: {
+      label: 'Delete',
+      onClick: () => void handleDeleteSession(sid),
+    },
+  })
+}
+
+async function handleDeleteSession(sid: string) {
+  try {
+    await deleteCopilotSession(sid)
+  } catch {
+    // never-persisted local sessions 404 here; treating them as deleted is correct
+  }
+  const remaining = sessions.value.filter((s: any) => s.session_id !== sid)
+  if (remaining.length > 0) {
+    sessions.value = remaining
+    await handleSelectSession(remaining[0].session_id)
+  } else {
+    sessions.value = [{ session_id: sessionId.value, title: 'Current Session', user_turns: 0 }]
+    await handleNewChat()
+  }
+  toast.success('Session deleted.')
 }
 
 async function handleNewChat() {
@@ -366,6 +396,16 @@ const lastAssistantContent = computed(() => {
             </SelectContent>
           </Select>
         </div>
+        <Button
+          variant="outline"
+          size="sm"
+          class="h-8 px-2.5 text-xs font-semibold gap-1.5 cursor-pointer text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shadow-2xs"
+          title="Delete current session"
+          @click="confirmDeleteSession()"
+        >
+          <Trash2 class="w-3.5 h-3.5" />
+          <span class="hidden sm:inline">Delete</span>
+        </Button>
         <Button
           variant="outline"
           size="sm"

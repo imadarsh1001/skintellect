@@ -37,9 +37,9 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 6. F5 — Copilot session delete
 
-- [ ] 6.1 Capture the pre-change baseline into `tests/evidence/f5-copilot-sessions/`: incumbent session-list behavior (switch, stream continuity), plus screenshots. Verify: list behavior documented before any edit.
-- [ ] 6.2 Add a per-session delete affordance in the session list with a `vue-sonner` toast confirmation (confirm action fires the existing delete API; cancel sends nothing). Verify: confirmed delete removes the session; canceling is a no-op with no network request.
-- [ ] 6.3 Verify state validity after deletion: deleting the visible session lands on another session or an empty new-session state with no stale messages; deleting a background session leaves the open one intact. Verify: spec `copilot-sessions` scenarios demonstrated; gates pass.
+- [x] 6.1 Capture the pre-change baseline into `tests/evidence/f5-copilot-sessions/`: incumbent session-list behavior (switch, stream continuity), plus screenshots. Verify: list behavior documented before any edit.
+- [x] 6.2 Add a per-session delete affordance in the session list with a `vue-sonner` toast confirmation (confirm action fires the existing delete API; cancel sends nothing). Verify: confirmed delete removes the session; canceling is a no-op with no network request.
+- [x] 6.3 Verify state validity after deletion: deleting the visible session lands on another session or an empty new-session state with no stale messages; deleting a background session leaves the open one intact. Verify: spec `copilot-sessions` scenarios demonstrated; gates pass.
 
 ## 7. Critique, audit, and bounded polish pass
 

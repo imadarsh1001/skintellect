@@ -3,7 +3,6 @@ import CompareView from '@/views/CompareView.vue'
 import CopilotView from '@/views/CopilotView.vue'
 import ExploreView from '@/views/ExploreView.vue'
 import GraphView from '@/views/GraphView.vue'
-import PrimitiveScratch from '@/views/PrimitiveScratch.vue'
 import ProgressView from '@/views/ProgressView.vue'
 import ResearchView from '@/views/ResearchView.vue'
 import StudyView from '@/views/StudyView.vue'
@@ -26,7 +25,6 @@ const router = createRouter({
     { path: '/research', name: 'research', component: ResearchView },
     { path: '/study', name: 'study', component: StudyView },
     { path: '/progress', name: 'progress', component: ProgressView },
-    { path: '/dev-primitives', name: 'dev-primitives', component: PrimitiveScratch }, // TEMP scratch (task 1.1/1.3), removed before commit
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })

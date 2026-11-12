@@ -6,6 +6,7 @@ import { useExploreQuery, DEFAULT_FILTERS } from '@/composables/useExploreQuery'
 import FilterSidebar from '@/components/explore/FilterSidebar.vue'
 import ProductGrid from '@/components/explore/ProductGrid.vue'
 import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
   AlertTriangle,
   ChevronLeft,
@@ -94,6 +95,23 @@ const DOMAINS = [
 
 const CATEGORIES = ['Moisturizers', 'Serums', 'Toners', 'Cleansers', 'Sunscreens', 'Body Lotions']
 
+// Highlight the strip item case-insensitively (URL values may vary in case);
+// the ToggleGroup item values themselves are the canonical CATEGORIES strings.
+const activeCategory = computed(
+  () => CATEGORIES.find((c) => c.toLowerCase() === filters.value.category.toLowerCase()) ?? filters.value.category,
+)
+
+const QUICK_FILTER_KEYS = ['fungal_safe', 'fragrance_free', 'oil_free'] as const
+
+const activeQuickFilters = computed(() =>
+  QUICK_FILTER_KEYS.filter((k) => filters.value[k]).map(String),
+)
+
+function onQuickFiltersUpdate(next: unknown) {
+  const active = Array.isArray(next) ? next.map(String) : []
+  for (const key of QUICK_FILTER_KEYS) setFilter(key, active.includes(key))
+}
+
 const CATEGORY_ICONS: Record<string, string> = {
   Moisturizers: '🧴',
   Serums: '✨',
@@ -101,10 +119,6 @@ const CATEGORY_ICONS: Record<string, string> = {
   Cleansers: '🧼',
   Sunscreens: '☀️',
   'Body Lotions': '🧴',
-}
-
-function toggleQuickFilter(key: 'fungal_safe' | 'fragrance_free' | 'oil_free') {
-  setFilter(key, !filters.value[key])
 }
 
 function goToPage(target: number | '…') {
@@ -120,15 +134,22 @@ function goToPage(target: number | '…') {
     <div class="bg-card p-2.5 rounded-2xl border shadow-2xs flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-1.5 overflow-x-auto">
         <span class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mr-1.5 shrink-0">Domain:</span>
-        <button
-          v-for="domain in DOMAINS"
-          :key="domain.value"
-          class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer"
-          :class="filters.domain === domain.value ? 'bg-primary text-primary-foreground shadow-xs' : 'bg-muted text-foreground hover:bg-muted/80'"
-          @click="setFilter('domain', domain.value)"
+        <ToggleGroup
+          type="single"
+          :model-value="filters.domain"
+          :spacing="1.5"
+          class="shrink-0"
+          @update:model-value="(v: unknown) => setFilter('domain', typeof v === 'string' ? v : 'all')"
         >
-          <span>{{ domain.icon }}</span> {{ domain.label }}
-        </button>
+          <ToggleGroupItem
+            v-for="domain in DOMAINS"
+            :key="domain.value"
+            :value="domain.value"
+            class="h-auto rounded-xl px-3 py-1.5 text-xs font-bold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted/80 hover:text-foreground"
+          >
+            <span>{{ domain.icon }}</span> {{ domain.label }}
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       <div class="flex items-center gap-2 text-xs text-muted-foreground font-medium">
@@ -140,22 +161,28 @@ function goToPage(target: number | '…') {
     <!-- Quick Category Selector Strip -->
     <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
       <span class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mr-1 shrink-0">Category:</span>
-      <button
-        class="px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer shrink-0"
-        :class="filters.category === 'all' ? 'bg-primary text-primary-foreground shadow-xs' : 'bg-card border text-foreground hover:bg-muted'"
-        @click="setFilter('category', 'all')"
+      <ToggleGroup
+        type="single"
+        :model-value="activeCategory"
+        :spacing="1.5"
+        class="shrink-0"
+        @update:model-value="(v: unknown) => setFilter('category', typeof v === 'string' ? v : 'all')"
       >
-        All Categories
-      </button>
-      <button
-        v-for="cat in CATEGORIES"
-        :key="cat"
-        class="px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer shrink-0"
-        :class="filters.category.toLowerCase() === cat.toLowerCase() ? 'bg-primary text-primary-foreground font-bold shadow-xs' : 'bg-card border text-foreground hover:bg-muted'"
-        @click="setFilter('category', cat)"
-      >
-        {{ CATEGORY_ICONS[cat] }} {{ cat }}
-      </button>
+        <ToggleGroupItem
+          value="all"
+          class="h-auto rounded-full px-3 py-1 text-xs font-bold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+        >
+          All Categories
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          v-for="cat in CATEGORIES"
+          :key="cat"
+          :value="cat"
+          class="h-auto rounded-full px-3 py-1 text-xs font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:font-bold data-[state=on]:shadow-xs data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+        >
+          {{ CATEGORY_ICONS[cat] }} {{ cat }}
+        </ToggleGroupItem>
+      </ToggleGroup>
     </div>
 
     <!-- Hero Header -->
@@ -200,27 +227,31 @@ function goToPage(target: number | '…') {
           >
             Barrier Lipids (Ceramides)
           </button>
-          <button
-            class="text-xs px-3 py-1 rounded-full border transition-all cursor-pointer font-medium"
-            :class="filters.fungal_safe ? 'bg-emerald-600 text-white border-emerald-600 font-bold' : 'bg-card text-foreground border-border hover:bg-muted'"
-            @click="toggleQuickFilter('fungal_safe')"
+          <ToggleGroup
+            type="multiple"
+            :model-value="activeQuickFilters"
+            :spacing="2"
+            @update:model-value="onQuickFiltersUpdate"
           >
-            🍄 Fungal Acne Safe
-          </button>
-          <button
-            class="text-xs px-3 py-1 rounded-full border transition-all cursor-pointer font-medium"
-            :class="filters.fragrance_free ? 'bg-blue-600 text-white border-blue-600 font-bold' : 'bg-card text-foreground border-border hover:bg-muted'"
-            @click="toggleQuickFilter('fragrance_free')"
-          >
-            🌸 Fragrance-Free
-          </button>
-          <button
-            class="text-xs px-3 py-1 rounded-full border transition-all cursor-pointer font-medium"
-            :class="filters.oil_free ? 'bg-purple-600 text-white border-purple-600 font-bold' : 'bg-card text-foreground border-border hover:bg-muted'"
-            @click="toggleQuickFilter('oil_free')"
-          >
-            💧 Oil-Free
-          </button>
+            <ToggleGroupItem
+              value="fungal_safe"
+              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-emerald-600 data-[state=on]:text-white data-[state=on]:border-emerald-600 data-[state=on]:font-bold"
+            >
+              🍄 Fungal Acne Safe
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="fragrance_free"
+              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=on]:border-blue-600 data-[state=on]:font-bold"
+            >
+              🌸 Fragrance-Free
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="oil_free"
+              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-600 data-[state=on]:font-bold"
+            >
+              💧 Oil-Free
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
       </div>
     </div>

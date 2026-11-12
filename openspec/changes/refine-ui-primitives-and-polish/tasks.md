@@ -17,9 +17,9 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 3. F1 — Explore strips and chips → ToggleGroup
 
-- [ ] 3.1 Capture the pre-change baseline into `tests/evidence/f1-explore-strips/`: incumbent `setFilter`/URL semantics for the domain/category strip and quick-filter chips, plus screenshots. Verify: every strip/chip group's single-or-multi behavior documented before the swap.
-- [ ] 3.2 Swap strip and chip buttons to `ui/toggle-group`, preserving each group's selection semantics and `setFilter` calls exactly. Verify: gates pass; activating any chip updates grid + URL as before.
-- [ ] 3.3 URL round-trip verification: filtered URLs captured at baseline reproduce identical result sets after the swap. Verify: spec `explore-filtering` "shared URL reproduces the view" scenario demonstrated; rendered check desktop + 390 px.
+- [x] 3.1 Capture the pre-change baseline into `tests/evidence/f1-explore-strips/`: incumbent `setFilter`/URL semantics for the domain/category strip and quick-filter chips, plus screenshots. Verify: every strip/chip group's single-or-multi behavior documented before the swap.
+- [x] 3.2 Swap strip and chip buttons to `ui/toggle-group`, preserving each group's selection semantics and `setFilter` calls exactly. Verify: gates pass; activating any chip updates grid + URL as before.
+- [x] 3.3 URL round-trip verification: filtered URLs captured at baseline reproduce identical result sets after the swap. Verify: spec `explore-filtering` "shared URL reproduces the view" scenario demonstrated; rendered check desktop + 390 px.
 
 ## 4. F4 — Persona drawer controls
 

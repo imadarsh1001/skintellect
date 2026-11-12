@@ -11,9 +11,9 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 2. F3 — Product detail modal tabs
 
-- [ ] 2.1 Capture the pre-change baseline into `tests/evidence/f3-product-detail/` (screenshots desktop + 390 px, incumbent tab/panel mapping notes) and reference it in the PR description. Verify: every tab reference's content mapping documented before any edit.
-- [ ] 2.2 Replace the hand-rolled tab-button markup with the installed `ui/tabs` primitive, keeping content and section order identical. Verify: gates pass; keyboard-only walk-through moves sections via arrow keys and screen reader announces tab/tabpanel (spec `product-detail` scenarios).
-- [ ] 2.3 Rendered check comparing section content 1:1 against the baseline at desktop + 390 px. Verify: no content lost or reordered.
+- [x] 2.1 Capture the pre-change baseline into `tests/evidence/f3-product-detail/` (screenshots desktop + 390 px, incumbent tab/panel mapping notes) and reference it in the PR description. Verify: every tab reference's content mapping documented before any edit.
+- [x] 2.2 Replace the hand-rolled tab-button markup with the installed `ui/tabs` primitive, keeping content and section order identical. Verify: gates pass; keyboard-only walk-through moves sections via arrow keys and screen reader announces tab/tabpanel (spec `product-detail` scenarios). *(ARIA tab/tabpanel + labelled panels verified via DOM; arrow-key walk-through is reka-ui's roving-focus contract with upstream-identical wiring — same IAB trusted-input limitation as task 1.2; re-verified in task 8.3.)*
+- [x] 2.3 Rendered check comparing section content 1:1 against the baseline at desktop + 390 px. Verify: no content lost or reordered. *(All 5 tabs same labels/counts/order; underline identity preserved via computed-style match; two disclosed diffs: triggers are whitespace-nowrap (primitive default) so the bar is one row instead of wrapping, and the flask icon now renders — the pre-existing missing `FlaskConical` import was fixed in passing.)*
 
 ## 3. F1 — Explore strips and chips → ToggleGroup
 

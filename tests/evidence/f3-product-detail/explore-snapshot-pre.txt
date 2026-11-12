@@ -1,0 +1,681 @@
+- banner:
+  - link "✨ Formulation Studio PRO · MULTI-DOMAIN Universal Skin, Hair, Body & Makeup Formulation Intelligence":
+    - /url: /
+    - generic: ✨
+    - heading "Formulation Studio" [level=1]
+    - generic: PRO · MULTI-DOMAIN
+    - paragraph: Universal Skin, Hair, Body & Makeup Formulation Intelligence
+  - navigation:
+    - link "Evidence Workspace":
+      - /url: /research
+    - link "Study":
+      - /url: /study
+    - link "Data Progress":
+      - /url: /progress
+  - 'button "Profile: uap (Combination · Barrier & Dark Spots)"':
+    - generic: "Profile:"
+    - generic: uap (Combination · Barrier & Dark Spots)
+  - tablist:
+    - tab "Catalog & Explore" [selected]:
+      - text: Catalog & Explore
+    - tab "Compare Matrix":
+      - text: Compare Matrix
+    - tab "Ingredient Graph":
+      - text: Ingredient Graph
+    - tab "Research Copilot":
+      - text: Research Copilot
+- main:
+  - generic: "Domain:"
+  - button "🌐 All Domains":
+    - generic: 🌐
+    - text: All Domains
+  - button "🧴 Skin (Face)":
+    - generic: 🧴
+    - text: Skin (Face)
+  - button "💇 Hair & Scalp":
+    - generic: 💇
+    - text: Hair & Scalp
+  - button "🧼 Bath & Body":
+    - generic: 🧼
+    - text: Bath & Body
+  - button "💄 Makeup & Complexion":
+    - generic: 💄
+    - text: Makeup & Complexion
+  - generic: Cross-Domain Formulation Engine
+  - generic: "Category:"
+  - button "All Categories"
+  - button "🧴 Moisturizers"
+  - button "✨ Serums"
+  - button "💧 Toners"
+  - button "🧼 Cleansers"
+  - button "☀️ Sunscreens"
+  - button "🧴 Body Lotions"
+  - text: 576 Enriched Formulations
+  - generic: ·
+  - text: 2,502 Formulations
+  - generic: ·
+  - text: 1,490 Ingredient Dossiers
+  - heading "Universal Cosmetic Chemistry & Formulation Intelligence" [level=2]
+  - paragraph: Explore formulations across Face, Scalp, Body, and Makeup scored deterministically against your skin profile. Zero-tolerance contraindications highlight fungal acne triggers, fragrances, and drying alcohols with verifiable proof.
+  - generic: "Quick Actives:"
+  - button "Barrier Lipids (Ceramides)"
+  - button "🍄 Fungal Acne Safe"
+  - button "🌸 Fragrance-Free"
+  - button "💧 Oil-Free"
+  - complementary:
+    - text: Formulation Filters
+    - button "Reset":
+      - text: Reset
+    - generic: Search Formulations
+    - textbox "Brand, product, active INCI..."
+    - generic: Sort Results
+    - combobox:
+      - option "🏆 Best Persona Match" [selected]
+      - option "⚡ Highest Match %"
+      - option "⭐ Highest Rating"
+      - option "💬 Most Reviews"
+      - 'option "💰 Price: Low to High"'
+      - 'option "💎 Price: High to Low"'
+    - generic: Category
+    - combobox:
+      - option "All Categories" [selected]
+      - option "🧴 Moisturizers"
+      - option "✨ Serums"
+      - option "💧 Toners"
+      - option "🧼 Cleansers"
+      - option "☀️ Sunscreens"
+      - option "🧴 Body Lotions"
+      - option "💆 Hair Masks"
+    - generic: Origin / Beauty Heritage
+    - combobox:
+      - option "🌍 All Countries" [selected]
+      - option "🇰🇷 South Korea (K-Beauty)"
+      - option "🇯🇵 Japan (J-Beauty)"
+      - option "🇫🇷 France (French Pharmacy)"
+      - option "🇺🇸 United States"
+      - option "🇮🇳 India"
+      - option "🇩🇪 Germany"
+      - option "🇬🇧 United Kingdom"
+      - option "🇨🇦 Canada"
+      - option "🇦🇺 Australia"
+    - generic: Skin Focus Goal
+    - combobox:
+      - option "All Goals" [selected]
+      - option "🛡️ Barrier Repair"
+      - option "🌟 Dark Spots & Glow"
+      - option "🌿 Texture & Calming"
+    - generic: Budget Tier
+    - button "All"
+    - button "$"
+    - button "$$"
+    - button "$$$"
+    - button "$$$$"
+    - generic: Strict Exclusions
+    - generic: 🍄
+    - text: Fungal Acne Safe
+    - checkbox "🍄 Fungal Acne Safe"
+    - generic: 🌸
+    - text: Fragrance-Free
+    - checkbox "🌸 Fragrance-Free"
+    - generic: 💧
+    - text: Oil-Free
+    - checkbox "💧 Oil-Free"
+    - generic: 🚫
+    - text: 0 Pore Cloggers
+    - checkbox "🚫 0 Pore Cloggers"
+    - generic: Min Persona Match
+    - generic: 0%
+    - slider: "0"
+    - generic: 0% (All)
+    - generic: 60%
+    - generic: 95% (Strict)
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Rilastil
+  - generic: $$
+  - heading "Acnestil Cleansing Mousse" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Cleansers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Hanasui
+  - generic: $$
+  - heading "Power Serum Bright Serum" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: HOLLAFACE
+  - generic: $$
+  - heading "Pore Clarifying Brightening Serum" [level=3]
+  - text: "5.0"
+  - generic: (2 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Matas
+  - generic: $$
+  - heading "Plaisir No Shine Oil Free Gel" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Kskin
+  - generic: $$
+  - heading "Soothing Sebum Control Cream" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: IVY AÏA
+  - generic: $$
+  - heading "Hydra Boost Water Gel" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Skin Nutrition Botanicals
+  - generic: $
+  - heading "Multi-Peptide Anti-Aging Serum" [level=3]
+  - text: "5.0"
+  - generic: (2 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Sallve
+  - generic: $$
+  - heading "Hidratante Antioleosidade" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Scora
+  - generic: $$
+  - heading "5% Niacinamide Hydramoist Gel" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Cetaphil
+  - generic: $$
+  - heading "Deep Hydration Hydrating Water Gel" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Derma XP
+  - generic: $$
+  - heading "Niaclear" [level=3]
+  - text: "5.0"
+  - generic: (4 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Tunemakers
+  - generic: $$
+  - heading "Undiluted Solution Stratus Cornea Care Gel Cream" [level=3]
+  - text: "5.0"
+  - generic: (1 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Skin&Lab
+  - generic: $$
+  - heading "Ectoin Recovery Gel Cream" [level=3]
+  - text: "5.0"
+  - generic: (2 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Avajar
+  - generic: $$
+  - heading "Water Glow Squalane Moisturizing Cream" [level=3]
+  - text: "5.0"
+  - generic: (2 reviews)
+  - generic: Moisturizers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: COSRX
+  - generic: $$
+  - heading "5 PDRN B5 Vital Soothing Toner" [level=3]
+  - text: "4.8"
+  - generic: (5 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Hanasui
+  - generic: $$
+  - heading "Power Serum Post Acne Serum" [level=3]
+  - text: "4.7"
+  - generic: (3 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Hada Labo
+  - generic: $$
+  - heading "Premium Hydrating Lotion" [level=3]
+  - text: "4.6"
+  - generic: (5 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Genabelle
+  - generic: $$
+  - heading "PDRN Rejuvenating Toner" [level=3]
+  - text: "4.5"
+  - generic: (22 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Dr.G
+  - generic: $$
+  - heading "R.E.D Blemish Clear Soothing Toner" [level=3]
+  - text: "4.5"
+  - generic: (13 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Is Clinical
+  - generic: $$$$
+  - heading "Super Serum Advance+" [level=3]
+  - text: "4.5"
+  - generic: (2 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Safi
+  - generic: $$
+  - heading "Sensitive Care Probiotics & Niacinamide Toner" [level=3]
+  - text: "4.5"
+  - generic: (4 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Balea
+  - generic: $$
+  - heading "Beauty Expert Plump & Glow Serum" [level=3]
+  - text: "4.5"
+  - generic: (4 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Nineless
+  - generic: $$
+  - heading "B-Boost 1% Kojic Acid Serum" [level=3]
+  - text: "4.5"
+  - generic: (8 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Anua
+  - generic: $$
+  - heading "Azelaic Acid 15+ Intense Calming Serum" [level=3]
+  - text: "4.5"
+  - generic: (11 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Purcell
+  - generic: $$
+  - heading "L-Glutathione Flexible Liposome" [level=3]
+  - text: "4.5"
+  - generic: (4 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Her Hyness
+  - generic: $$
+  - heading "Hya+ Water Sunscreen SPF 50+ PA++++" [level=3]
+  - text: "4.4"
+  - generic: (5 reviews)
+  - generic: Sunscreens
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: QV
+  - generic: $$
+  - heading "Ceramides Cleanser" [level=3]
+  - text: "4.4"
+  - generic: (11 reviews)
+  - generic: Cleansers
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: VT Cosmetics
+  - generic: $$
+  - heading "PDRN Toner" [level=3]
+  - text: "4.3"
+  - generic: (3 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Tia’m
+  - generic: $$
+  - heading "Vita B3 Source" [level=3]
+  - text: "4.2"
+  - generic: (33 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Experiment Beauty
+  - generic: $$
+  - heading "Super Saturated" [level=3]
+  - text: "4.1"
+  - generic: (15 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Good Molecules
+  - generic: $
+  - heading "Daily Brightening Serum" [level=3]
+  - text: "4.1"
+  - generic: (18 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Peach & Lily
+  - generic: $$$
+  - heading "Glass Skin Refining Serum" [level=3]
+  - text: "4.0"
+  - generic: (51 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Kiehl's
+  - generic: $$$
+  - heading "Ultra Pure High-Potency 5.0% Niacinamide Serum" [level=3]
+  - text: "4.0"
+  - generic: (4 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Minimalist
+  - generic: $
+  - heading "Polyhydroxy Acid (PHA) 03% Toner" [level=3]
+  - text: "4.0"
+  - generic: (3 reviews)
+  - generic: Toners
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: Aroma-Zone
+  - generic: $$
+  - heading "Sérum Concentré Acide Azélaïque 10%" [level=3]
+  - text: "4.0"
+  - generic: (5 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - text: Verified INCI (Full)
+  - text: 100% Fit
+  - generic: iUNIK
+  - generic: $$
+  - heading "Tea Tree Relief Serum" [level=3]
+  - text: "4.0"
+  - generic: (108 reviews)
+  - generic: Serums
+  - generic: Fungal Safe
+  - generic: Fragrance-Free
+  - generic: Alcohol-Free
+  - button "Compare":
+    - text: Compare
+  - button "Ask Copilot":
+    - text: Ask Copilot
+  - paragraph: Showing 36 of 2,492 matching formulations
+  - navigation "Catalog pages":
+    - button "Previous page" [disabled]:
+    - button "1"
+    - button "2"
+    - generic: …
+    - button "70"
+    - button "Next page":
+- region "Notifications alt+T":
+  - list

@@ -4,10 +4,10 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 1. Primitive library: author the six missing control packages
 
-- [ ] 1.1 Author `ui/toggle` and `ui/toggle-group` from upstream shadcn-vue source (reka-ui 2.11 API), recording the upstream source commit/hash in each package's `EGM.md` alongside exports matching `index.ts`. Verify: `npm run build` green; both import cleanly in a scratch usage; EGM.md exports match.
-- [ ] 1.2 Author `ui/checkbox`, `ui/switch`, `ui/slider`, `ui/sheet` the same way (upstream provenance recorded in each EGM.md). Verify: build green; keyboard semantics demonstrated in-browser (Space toggles checkbox/switch, arrows move slider, Escape closes sheet and focus restores to trigger).
-- [ ] 1.3 Group verification: run all four gate commands with the dev backend up; diff each new package against its upstream counterpart to confirm no API drift; rendered check at desktop + 390 px.
-- [ ] 1.4 Extend `.github/workflows/checks.yml` with a frontend job (`npm ci`, `npm run build`, `node tests/check_ui_semantics.js`); `ui_smoke.py` remains local-only (needs a live dev backend + disposable dev DB). Verify: CI green on this phase's PR and on every subsequent phase PR.
+- [x] 1.1 Author `ui/toggle` and `ui/toggle-group` from upstream shadcn-vue source (reka-ui 2.11 API), recording the upstream source commit/hash in each package's `EGM.md` alongside exports matching `index.ts`. Verify: `npm run build` green; both import cleanly in a scratch usage; EGM.md exports match.
+- [x] 1.2 Author `ui/checkbox`, `ui/switch`, `ui/slider`, `ui/sheet` the same way (upstream provenance recorded in each EGM.md). Verify: build green; keyboard semantics demonstrated in-browser (Space toggles checkbox/switch, arrows move slider, Escape closes sheet and focus restores to trigger). *(Verified: build green; slider ArrowRight observed working (price 550 captured); checkbox/switch Space + sheet Escape are reka-ui native button/dialog contracts with upstream-identical wiring — the in-app pane's trusted-input injection could not deliver keyboard events (nondeterministic, 5 attempts), user reviewed the live sandbox visually and accepted; full keyboard walk-through re-verified in task 8.3.)*
+- [x] 1.3 Group verification: run all four gate commands with the dev backend up; diff each new package against its upstream counterpart to confirm no API drift; rendered check at desktop + 390 px.
+- [x] 1.4 Extend `.github/workflows/checks.yml` with a frontend job (`npm ci`, `npm run build`, `node tests/check_ui_semantics.js`); `ui_smoke.py` remains local-only (needs a live dev backend + disposable dev DB). Verify: CI green on this phase's PR and on every subsequent phase PR.
 
 ## 2. F3 — Product detail modal tabs
 

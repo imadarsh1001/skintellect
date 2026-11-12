@@ -1,4 +1,4 @@
-name: Python checks
+name: checks
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  python-checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -22,3 +22,21 @@ jobs:
             pyproject.toml
       - run: python -m pip install -e '.[dev,crawl]'
       - run: python scripts/check.py
+
+  frontend-checks:
+    # Node 26 is required: tests/check_ui_semantics.js imports .ts modules via
+    # native type-stripping (the same reason the shadcn CLI crashes locally).
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: node tests/check_ui_semantics.js

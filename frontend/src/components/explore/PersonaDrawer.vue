@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import type { SkinPersona } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
   Dialog,
   DialogContent,
@@ -43,6 +45,12 @@ function toggleGoal(goal: string) {
   } else {
     editedPersona.value.goals.push(goal)
   }
+}
+
+// reka single toggle-group deselects to undefined on re-click; the incumbent
+// no-op'd on the active skin type, so non-string updates are ignored.
+function setSkinType(v: unknown) {
+  if (typeof v === 'string') editedPersona.value.skin_type = v as SkinPersona['skin_type']
 }
 
 function applyCustom() {
@@ -86,18 +94,21 @@ function applyCustom() {
         <!-- Skin Type Selection -->
         <div class="flex flex-col gap-2">
           <label class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Skin Type</label>
-          <div class="grid grid-cols-5 gap-2">
-            <Button
+          <ToggleGroup
+            type="single"
+            :model-value="editedPersona.skin_type"
+            class="grid grid-cols-5 gap-2 w-full"
+            @update:model-value="setSkinType"
+          >
+            <ToggleGroupItem
               v-for="st in skinTypes"
               :key="st"
-              :variant="editedPersona.skin_type === st ? 'default' : 'outline'"
-              size="sm"
-              class="capitalize"
-              @click="editedPersona.skin_type = st"
+              :value="st"
+              class="h-8 px-3 text-xs capitalize data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
             >
               {{ st }}
-            </Button>
-          </div>
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
 
         <!-- Target Goals -->
@@ -128,29 +139,17 @@ function applyCustom() {
 
           <div class="flex flex-col gap-2.5 pt-1">
             <label class="flex items-center gap-3 cursor-pointer text-sm">
-              <input
-                v-model="editedPersona.exclude_fungal_acne_triggers"
-                type="checkbox"
-                class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-              />
+              <Switch id="persona-exclude-fungal" v-model="editedPersona.exclude_fungal_acne_triggers" />
               <span class="font-medium">Exclude Fungal Acne (Malassezia) Triggers</span>
             </label>
 
             <label class="flex items-center gap-3 cursor-pointer text-sm">
-              <input
-                v-model="editedPersona.exclude_fragrance"
-                type="checkbox"
-                class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-              />
+              <Switch id="persona-exclude-fragrance" v-model="editedPersona.exclude_fragrance" />
               <span class="font-medium">Exclude Fragrance & Essential Oils (Parfum, Linalool, Limonene)</span>
             </label>
 
             <label class="flex items-center gap-3 cursor-pointer text-sm">
-              <input
-                v-model="editedPersona.exclude_drying_alcohols"
-                type="checkbox"
-                class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-              />
+              <Switch id="persona-exclude-alcohols" v-model="editedPersona.exclude_drying_alcohols" />
               <span class="font-medium">Exclude Drying Alcohols (Alcohol Denat, Ethanol, Isopropyl)</span>
             </label>
           </div>

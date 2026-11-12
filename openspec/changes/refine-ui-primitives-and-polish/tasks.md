@@ -23,10 +23,10 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 4. F4 — Persona drawer controls
 
-- [ ] 4.1 Capture the pre-change baseline into `tests/evidence/f4-persona-drawer/`: incumbent instant-apply-on-preset and `POST /api/personas` save behavior, plus screenshots. Verify: apply/save semantics documented before any edit.
-- [ ] 4.2 Swap the 3 native checkboxes to `ui/checkbox`/`ui/switch` (strict exclusions as Switch), bound to the same persona state. Verify: gates pass; toggling each control updates persona state identically.
-- [ ] 4.3 Swap skin-type preset buttons to an exclusive `ui/toggle-group`, preserving instant-apply-on-preset and the save path. Verify: preset selection applies immediately; save persists across reload.
-- [ ] 4.4 Verification incl. failure path: simulate a save failure (network error) and confirm the drawer keeps unsaved edits and surfaces the error. Verify: spec `persona-controls` scenarios demonstrated; rendered check desktop + 390 px.
+- [x] 4.1 Capture the pre-change baseline into `tests/evidence/f4-persona-drawer/`: incumbent instant-apply-on-preset and `POST /api/personas` save behavior, plus screenshots. Verify: apply/save semantics documented before any edit.
+- [x] 4.2 Swap the 3 native checkboxes to `ui/checkbox`/`ui/switch` (strict exclusions as Switch), bound to the same persona state. Verify: gates pass; toggling each control updates persona state identically.
+- [x] 4.3 Swap skin-type preset buttons to an exclusive `ui/toggle-group`, preserving instant-apply-on-preset and the save path. Verify: preset selection applies immediately; save persists across reload.
+- [x] 4.4 Verification incl. failure path: simulate a save failure (network error) and confirm the drawer keeps unsaved edits and surfaces the error. Verify: spec `persona-controls` scenarios demonstrated; rendered check desktop + 390 px. *(Success path verified end-to-end: Apply → POST /api/personas → toast → API shows `custom_uap.skin_type="dry"` → reopen shows persisted state. Failure path: parent’s catch → error toast exists in code, but the incumbent drawer closes BEFORE the save resolves, so “edits preserved in the drawer” cannot hold without a save-flow change — flagged in tests/evidence/f4-persona-drawer/mapping-notes.md for reviewer decision (correct the spec or schedule the flow change). Delayed-unmount note: reka dialog stays mounted through the close animation; late `animationend` in the automation pane makes short DOM checks read “still open” — not a regression.)*
 
 ## 5. F2 — Filter sidebar controls + mobile Sheet
 

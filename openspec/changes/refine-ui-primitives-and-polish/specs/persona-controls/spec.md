@@ -22,14 +22,14 @@ The skin-type presets SHALL be presented as an exclusive grouped selection where
 - **WHEN** the user selects a skin-type preset
 - **THEN** the preset becomes the group's single selection and its values apply to the persona immediately, without a separate confirm step
 
-### Requirement: Persona save persists and reports failure without data loss
+### Requirement: Persona save persists and reports failure
 
-Saving the persona SHALL persist it via the persona save endpoint (`POST /api/personas`) as today; on failure the drawer SHALL surface the error and preserve the user's unsaved edits.
+Saving the persona SHALL persist it via the persona save endpoint (`POST /api/personas`) as today. On success the app SHALL confirm the save (toast) and the saved persona SHALL become the active one. On failure the app SHALL surface an error indication (toast) and the previously active persona SHALL remain in effect. The drawer closes on Apply before the save resolves (incumbent behavior, confirmed 2026-11-13): it does not promise to keep unsaved edits visible after a failed save.
 
 #### Scenario: Save succeeds
 - **WHEN** the user saves the persona and the endpoint accepts the request
-- **THEN** the saved persona persists across reloads
+- **THEN** a confirmation toast shows, the saved persona becomes active, and it persists across reloads
 
-#### Scenario: Save fails without losing edits
+#### Scenario: Save fails
 - **WHEN** the save request fails (network or server error)
-- **THEN** the user sees an error indication and the drawer still shows their current unsaved edits
+- **THEN** an error toast shows and the previously active persona remains in effect

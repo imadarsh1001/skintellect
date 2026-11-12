@@ -16,9 +16,9 @@ Branch: `feat/f4-persona-drawer` (stacked on `feat/ui-primitives`). Baselines: `
 
 `applyCustom` → emits `save-custom-persona` → `App.vue handleSaveCustomPersona` → `usePersona.saveCustom` → `POST /api/personas` → success toast / error toast. Live verification: edit skin→dry + fragrance off → Apply → toast "Skin profile saved — matches recalculated." → API shows `custom_uap` with `skin_type: "dry"` → reopening the drawer shows the persisted state.
 
-## ⚠️ Flagged for reviewer decision (spec vs incumbent)
+## ⚠️ Flagged for reviewer decision (spec vs incumbent) — RESOLVED 2026-11-13
 
-The `persona-controls` spec scenario says: *"Save fails → the drawer surfaces the error and preserves the user's unsaved edits."* The incumbent (and this change, unchanged) **closes the drawer immediately on Apply, before the save resolves** — on failure the error toast appears but the drawer is already closed and the edits are gone. Closing this gap requires holding the drawer open until the save resolves — a save-flow behavior change beyond F4's swap scope. Options for review: (a) correct the spec scenario to match the incumbent, or (b) schedule the drawer-stays-open-on-save change (touches `applyCustom` + `App.vue` handler). Not silently decided here.
+The `persona-controls` spec scenario originally said: *"Save fails → the drawer surfaces the error and preserves the user's unsaved edits."* The incumbent **closes the drawer immediately on Apply, before the save resolves**. User decision: **(a) correct the spec to match the incumbent.** The spec now reads: success → confirmation toast + persona active + persists; failure → error toast + previously active persona remains in effect; the drawer closes before the save resolves and does not promise visible unsaved edits. The gap-closing change (drawer stays open until save resolves) can be a future change if wanted.
 
 ## Verification notes
 

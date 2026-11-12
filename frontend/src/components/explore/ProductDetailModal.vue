@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent,
 } from '@/components/ui/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,6 +28,7 @@ import {
   MessageSquare,
   FileCode,
   Flame,
+  FlaskConical,
 } from 'lucide-vue-next'
 
 const props = defineProps<{
@@ -43,7 +45,7 @@ const emits = defineEmits<{
   (e: 'select-product', prod: Product): void
 }>()
 
-const activeTab = ref<'safety' | 'ingredients' | 'dupes' | 'reviews' | 'raw'>('safety')
+const activeTab = ref<string>('safety')
 const loading = ref(false)
 const detailedProduct = ref<any | null>(null)
 const ingredientSearch = ref('')
@@ -217,55 +219,51 @@ function inspectAlternative(alt: any) {
       </div>
 
       <!-- Navigation Tabs Bar -->
-      <div class="border-b border-border/60 px-5 flex items-center gap-1 overflow-x-auto bg-card shrink-0">
-        <button
-          class="py-3 px-3.5 border-b-2 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-          :class="activeTab === 'safety' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'"
-          @click="activeTab = 'safety'"
-        >
-          <Shield class="w-4 h-4" />
-          Safety & Clinical Fit
-        </button>
+      <Tabs v-model="activeTab" class="flex flex-col flex-1 min-h-0">
+        <TabsList class="w-full shrink-0 justify-start rounded-none h-auto bg-card border-b border-border/60 px-5 gap-1 overflow-x-auto p-0">
+          <TabsTrigger
+            value="safety"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+          >
+            <Shield class="w-4 h-4" />
+            Safety &amp; Clinical Fit
+          </TabsTrigger>
 
-        <button
-          class="py-3 px-3.5 border-b-2 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-          :class="activeTab === 'ingredients' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'"
-          @click="activeTab = 'ingredients'"
-        >
-          <FlaskConical class="w-4 h-4" />
-          Full INCI Ingredients
-          <span class="text-[10px] opacity-75">({{ detailedProduct?.ingredients?.length || detailedProduct?.names?.length || 0 }})</span>
-        </button>
+          <TabsTrigger
+            value="ingredients"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+          >
+            <FlaskConical class="w-4 h-4" />
+            Full INCI Ingredients
+            <span class="text-[10px] opacity-75">({{ detailedProduct?.ingredients?.length || detailedProduct?.names?.length || 0 }})</span>
+          </TabsTrigger>
 
-        <button
-          class="py-3 px-3.5 border-b-2 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-          :class="activeTab === 'dupes' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'"
-          @click="activeTab = 'dupes'"
-        >
-          <Scale class="w-4 h-4" />
-          Formula Alternatives
-          <span class="text-[10px] opacity-75">({{ dupesList.length }})</span>
-        </button>
+          <TabsTrigger
+            value="dupes"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+          >
+            <Scale class="w-4 h-4" />
+            Formula Alternatives
+            <span class="text-[10px] opacity-75">({{ dupesList.length }})</span>
+          </TabsTrigger>
 
-        <button
-          class="py-3 px-3.5 border-b-2 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-          :class="activeTab === 'reviews' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'"
-          @click="activeTab = 'reviews'"
-        >
-          <MessageSquare class="w-4 h-4" />
-          Reviews & Experiences
-          <span class="text-[10px] opacity-75">({{ detailedProduct?.reviews?.length || 0 }})</span>
-        </button>
+          <TabsTrigger
+            value="reviews"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+          >
+            <MessageSquare class="w-4 h-4" />
+            Reviews &amp; Experiences
+            <span class="text-[10px] opacity-75">({{ detailedProduct?.reviews?.length || 0 }})</span>
+          </TabsTrigger>
 
-        <button
-          class="py-3 px-3.5 border-b-2 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-          :class="activeTab === 'raw' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'"
-          @click="activeTab = 'raw'"
-        >
-          <FileCode class="w-4 h-4" />
-          Raw JSON
-        </button>
-      </div>
+          <TabsTrigger
+            value="raw"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+          >
+            <FileCode class="w-4 h-4" />
+            Raw JSON
+          </TabsTrigger>
+        </TabsList>
 
       <!-- Tab Content Area (Scrollable) -->
       <div class="p-6 overflow-y-auto flex-1 min-h-[380px] max-h-[60vh] space-y-6">
@@ -277,7 +275,7 @@ function inspectAlternative(alt: any) {
 
         <div v-else-if="detailedProduct" class="space-y-6">
           <!-- 1. SAFETY & CLINICAL FIT TAB -->
-          <div v-if="activeTab === 'safety'" class="space-y-5 text-xs">
+          <TabsContent value="safety" class="mt-0 space-y-5 text-xs">
             <!-- Product Description -->
             <div v-if="detailedProduct.description" class="p-4 rounded-xl border bg-muted/20 text-xs text-foreground leading-relaxed">
               <span class="font-bold text-foreground block mb-1 uppercase tracking-wider text-[10px]">Product Description</span>
@@ -425,10 +423,10 @@ function inspectAlternative(alt: any) {
                 {{ detailedProduct.persona_match?.explanation || detailedProduct.match_reasons?.join('; ') || 'Formulation satisfies active barrier goals without flagged contraindications.' }}
               </p>
             </div>
-          </div>
+          </TabsContent>
 
           <!-- 2. FULL INCI INGREDIENTS TAB -->
-          <div v-if="activeTab === 'ingredients'" class="space-y-4">
+          <TabsContent value="ingredients" class="mt-0 space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <span class="text-xs text-muted-foreground font-medium">
                 Full INCI list in decreasing concentration order ({{ filteredIngredients.length }} items):
@@ -477,10 +475,10 @@ function inspectAlternative(alt: any) {
                 </div>
               </div>
             </div>
-          </div>
+          </TabsContent>
 
           <!-- 3. FORMULA ALTERNATIVES / DUPES TAB -->
-          <div v-if="activeTab === 'dupes'" class="space-y-4">
+          <TabsContent value="dupes" class="mt-0 space-y-4">
             <span class="text-xs text-muted-foreground font-medium block">
               Algorithmic formula alternatives and budget twins sharing high active overlap:
             </span>
@@ -526,10 +524,10 @@ function inspectAlternative(alt: any) {
                 </Button>
               </div>
             </div>
-          </div>
+          </TabsContent>
 
           <!-- 4. COMMUNITY REVIEWS TAB -->
-          <div v-if="activeTab === 'reviews'" class="space-y-4">
+          <TabsContent value="reviews" class="mt-0 space-y-4">
             <!-- Review Skin Filter Chips -->
             <div class="flex items-center gap-2 flex-wrap">
               <button
@@ -584,15 +582,16 @@ function inspectAlternative(alt: any) {
                 </div>
               </div>
             </div>
-          </div>
+          </TabsContent>
 
           <!-- 5. RAW JSON TAB -->
-          <div v-if="activeTab === 'raw'" class="space-y-2">
+          <TabsContent value="raw" class="mt-0 space-y-2">
             <span class="text-xs text-muted-foreground font-mono block">FastAPI Verified Payload:</span>
             <pre class="p-4 rounded-xl bg-slate-950 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-96 border border-slate-800">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
-          </div>
+          </TabsContent>
         </div>
       </div>
+      </Tabs>
 
       <!-- Bottom Fixed Action Footer -->
       <div v-if="detailedProduct" class="p-4 border-t border-border/60 bg-muted/20 shrink-0 flex items-center justify-between gap-3">

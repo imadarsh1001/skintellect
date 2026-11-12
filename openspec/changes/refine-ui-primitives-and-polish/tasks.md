@@ -7,7 +7,7 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 - [x] 1.1 Author `ui/toggle` and `ui/toggle-group` from upstream shadcn-vue source (reka-ui 2.11 API), recording the upstream source commit/hash in each package's `EGM.md` alongside exports matching `index.ts`. Verify: `npm run build` green; both import cleanly in a scratch usage; EGM.md exports match.
 - [ ] 1.2 Author `ui/checkbox`, `ui/switch`, `ui/slider`, `ui/sheet` the same way (upstream provenance recorded in each EGM.md). Verify: build green; keyboard semantics demonstrated in-browser (Space toggles checkbox/switch, arrows move slider, Escape closes sheet and focus restores to trigger).
 - [x] 1.3 Group verification: run all four gate commands with the dev backend up; diff each new package against its upstream counterpart to confirm no API drift; rendered check at desktop + 390 px.
-- [ ] 1.4 Extend `.github/workflows/checks.yml` with a frontend job (`npm ci`, `npm run build`, `node tests/check_ui_semantics.js`); `ui_smoke.py` remains local-only (needs a live dev backend + disposable dev DB). Verify: CI green on this phase's PR and on every subsequent phase PR.
+- [x] 1.4 Extend `.github/workflows/checks.yml` with a frontend job (`npm ci`, `npm run build`, `node tests/check_ui_semantics.js`); `ui_smoke.py` remains local-only (needs a live dev backend + disposable dev DB). Verify: CI green on this phase's PR and on every subsequent phase PR.
 
 ## 2. F3 — Product detail modal tabs
 

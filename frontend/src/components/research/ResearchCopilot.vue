@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import type { CopilotCitation, CopilotMessage, CopilotStep } from '@/lib/types'
 import {
@@ -10,6 +11,7 @@ import {
   createCopilotSession,
   fetchCopilotSession,
   deleteCopilotSession,
+  fetchProduct,
 } from '@/lib/api'
 import { renderMarkdown } from '@/lib/markdown'
 import { Badge } from '@/components/ui/badge'
@@ -54,6 +56,9 @@ const props = defineProps({
   activeProductIds: Array as () => number[],
   personaId: String,
 })
+
+const route = useRoute()
+const router = useRouter()
 
 const emits = defineEmits(['view-details', 'toggle-compare'])
 
@@ -103,7 +108,27 @@ const samplePrompts = [
 
 onMounted(async () => {
   await loadSessions()
+  await consumeProductContext()
 })
+
+// "Ask Copilot About This Formula" hands off via ?product_id=<id>: make the
+// product context visible instead of opening a generic blank session.
+async function consumeProductContext() {
+  const pid = Number(route.query.product_id)
+  if (!pid) return
+  try {
+    const p = await fetchProduct(pid, props.personaId || 'uap')
+    messages.value.push({
+      id: 'ctx_' + Date.now(),
+      role: 'assistant',
+      content: `🧪 **${(p.brand ? p.brand + ' ' : '') + p.name}** is on the analysis bench — it is part of this session's product context. Ask about its INCI, your clinical fit for it, or stronger alternatives.`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    })
+  } catch {
+    // product fetch failed; leave the session as-is
+  }
+  router.replace({ query: {} })
+}
 
 async function loadSessions() {
   try {

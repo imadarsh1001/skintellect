@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import type { CopilotCitation, CopilotMessage, CopilotStep } from '@/lib/types'
 import {
@@ -9,6 +10,8 @@ import {
   fetchCopilotSessions,
   createCopilotSession,
   fetchCopilotSession,
+  deleteCopilotSession,
+  fetchProduct,
 } from '@/lib/api'
 import { renderMarkdown } from '@/lib/markdown'
 import { Badge } from '@/components/ui/badge'
@@ -45,6 +48,7 @@ import {
   Scale,
   ShieldCheck,
   Sparkles,
+  Trash2,
   User,
 } from 'lucide-vue-next'
 
@@ -52,6 +56,9 @@ const props = defineProps({
   activeProductIds: Array as () => number[],
   personaId: String,
 })
+
+const route = useRoute()
+const router = useRouter()
 
 const emits = defineEmits(['view-details', 'toggle-compare'])
 
@@ -101,7 +108,27 @@ const samplePrompts = [
 
 onMounted(async () => {
   await loadSessions()
+  await consumeProductContext()
 })
+
+// "Ask Copilot About This Formula" hands off via ?product_id=<id>: make the
+// product context visible instead of opening a generic blank session.
+async function consumeProductContext() {
+  const pid = Number(route.query.product_id)
+  if (!pid) return
+  try {
+    const p = await fetchProduct(pid, props.personaId || 'uap')
+    messages.value.push({
+      id: 'ctx_' + Date.now(),
+      role: 'assistant',
+      content: `🧪 **${(p.brand ? p.brand + ' ' : '') + p.name}** is on the analysis bench — it is part of this session's product context. Ask about its INCI, your clinical fit for it, or stronger alternatives.`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    })
+  } catch {
+    // product fetch failed; leave the session as-is
+  }
+  router.replace({ query: {} })
+}
 
 async function loadSessions() {
   try {
@@ -117,6 +144,34 @@ async function loadSessions() {
   } catch {
     sessions.value = [{ session_id: sessionId.value, title: 'Current Session', user_turns: 0 }]
   }
+}
+
+function confirmDeleteSession() {
+  const sid = sessionId.value
+  toast('Delete this copilot session?', {
+    description: 'The conversation and its stored history will be removed.',
+    action: {
+      label: 'Delete',
+      onClick: () => void handleDeleteSession(sid),
+    },
+  })
+}
+
+async function handleDeleteSession(sid: string) {
+  try {
+    await deleteCopilotSession(sid)
+  } catch {
+    // never-persisted local sessions 404 here; treating them as deleted is correct
+  }
+  const remaining = sessions.value.filter((s: any) => s.session_id !== sid)
+  if (remaining.length > 0) {
+    sessions.value = remaining
+    await handleSelectSession(remaining[0].session_id)
+  } else {
+    sessions.value = [{ session_id: sessionId.value, title: 'Current Session', user_turns: 0 }]
+    await handleNewChat()
+  }
+  toast.success('Session deleted.')
 }
 
 async function handleNewChat() {
@@ -366,6 +421,16 @@ const lastAssistantContent = computed(() => {
             </SelectContent>
           </Select>
         </div>
+        <Button
+          variant="outline"
+          size="sm"
+          class="h-8 px-2.5 text-xs font-semibold gap-1.5 cursor-pointer text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shadow-2xs"
+          title="Delete current session"
+          @click="confirmDeleteSession()"
+        >
+          <Trash2 class="w-3.5 h-3.5" />
+          <span class="hidden sm:inline">Delete</span>
+        </Button>
         <Button
           variant="outline"
           size="sm"

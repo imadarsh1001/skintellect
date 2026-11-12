@@ -78,7 +78,10 @@ async function openCopilot(prod: Product) {
   if (result === 'limit') {
     toast.error('Compare tray is full (4). Remove one to add this product.')
   }
-  router.push('/copilot')
+  // The copilot's product context IS the compare tray (product_ids on every
+  // ask). Carry the triggering product through the route so the copilot
+  // screen visibly acknowledges it instead of opening blank.
+  router.push({ path: '/copilot', query: { product_id: String(prod.id) } })
 }
 
 function goToCopilot() {

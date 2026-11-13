@@ -123,7 +123,9 @@ Branch `ui_components` delivered in 8 commits: `3e45b4b` (SSE run-budget fix) �
 | 27 | `/progress` fold-in | ✅ | `ProgressView` (visibility-aware 5 s poll + Recent-jobs section for terminal states) |
 | 28 | Legacy template retire | ✅ | `src/skintellect/web` deleted (≈4,973 lines incl. Stage-2 pruning) |
 
-### 5.2 Follow-up queue (mechanical adoption passes, post-PR commits)
+### 5.2 Follow-up queue (COMPLETE — F1-F5 landed 2026-11-13; specs in openspec/specs/ after archive)
+
+All five follow-ups shipped via openspec change `refine-ui-primitives-and-polish` (branches feat/ui-primitives, f3, f1, f4, f5 — all merged to main). Future UI sessions read `frontend/DESIGN.md` first. Original queue kept below for provenance:
 
 F1–F4 first need five primitives that are **not yet** in `frontend/src/components/ui/`: `toggle-group` (+ its `toggle` dep), `checkbox`, `switch`, `slider`, `sheet`. All map to reka-ui 2.11 primitives already installed; author them from upstream shadcn-vue source (the CLI crashes on Node 26), matching how the existing ten were delivered. Behavior contracts below are the map's "behavior to preserve" columns.
 

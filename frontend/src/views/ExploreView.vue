@@ -70,8 +70,8 @@ const verifiedCount = computed(() => {
 })
 const verifiedLabel = computed(() =>
   ((stats.value as Record<string, unknown> | null)?.['verified_complete_products']) !== undefined
-    ? 'Verified Complete Formulas'
-    : 'Enriched Formulations',
+    ? 'fully verified formulas'
+    : 'formulas with full INCI',
 )
 const totalPages = computed(() => Math.max(1, Math.ceil(total.value / PAGE_LIMIT)))
 
@@ -204,7 +204,7 @@ function goToPage(target: number | '…') {
           <span class="text-xs text-muted-foreground font-semibold">·</span>
           <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
             <Database class="w-3 h-3" />
-            {{ stats.total_products.toLocaleString() }} Formulations
+            {{ stats.total_products.toLocaleString() }} indexed formulations
           </span>
           <span class="text-xs text-muted-foreground font-semibold">·</span>
           <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">

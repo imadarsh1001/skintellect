@@ -43,8 +43,8 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 7. Critique, audit, and bounded polish pass
 
-- [ ] 7.1 Run impeccable `critique` + `audit` over the five touched screens; triage every finding with a disposition: CRITICAL/HIGH → fix in this change; everything else → deferred backlog in the PR description (Q4 cap). Verify: triage table exists with a disposition for every finding.
-- [ ] 7.2 Apply the CRITICAL/HIGH fixes only (no identity/visual-world changes; §5.3 badge-wrap cosmetic only if the user opts in). Verify: each fix demonstrated in the rendered result at desktop + 390 px; deferred items listed, not applied.
+- [x] 7.1 Run impeccable `critique` + `audit` over the five touched screens; triage every finding with a disposition: CRITICAL/HIGH → fix in this change; everything else → deferred backlog in the PR description (Q4 cap). Verify: triage table exists with a disposition for every finding.
+- [x] 7.2 Apply the CRITICAL/HIGH fixes only (no identity/visual-world changes; §5.3 badge-wrap cosmetic only if the user opts in). Verify: each fix demonstrated in the rendered result at desktop + 390 px; deferred items listed, not applied.
 - [ ] 7.3 Final integration verification: full gate suite, keyboard-only walk-through of Explore → sidebar → detail modal → persona drawer → copilot, evidence retained under `tests/evidence/final/`. Verify: all gates green and spec scenarios demonstrated end-to-end.
 
 ## 8. Design system documentation (last — describes the code that ships)

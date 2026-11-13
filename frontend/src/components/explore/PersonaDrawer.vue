@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import type { SkinPersona } from '@/lib/types'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
@@ -38,13 +37,8 @@ function selectExisting(p: SkinPersona) {
   emits('update:open', false)
 }
 
-function toggleGoal(goal: string) {
-  const index = editedPersona.value.goals.indexOf(goal)
-  if (index >= 0) {
-    editedPersona.value.goals.splice(index, 1)
-  } else {
-    editedPersona.value.goals.push(goal)
-  }
+function onGoalsUpdate(next: unknown) {
+  if (Array.isArray(next)) editedPersona.value.goals = next.map(String)
 }
 
 // reka single toggle-group deselects to undefined on re-click; the incumbent
@@ -114,17 +108,21 @@ function applyCustom() {
         <!-- Target Goals -->
         <div class="flex flex-col gap-2">
           <label class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Target Skincare Goals</label>
-          <div class="flex flex-wrap gap-2">
-            <Badge
+          <ToggleGroup
+            type="multiple"
+            :model-value="editedPersona.goals"
+            class="flex flex-wrap gap-2"
+            @update:model-value="onGoalsUpdate"
+          >
+            <ToggleGroupItem
               v-for="goal in commonGoals"
               :key="goal"
-              :variant="editedPersona.goals.includes(goal) ? 'default' : 'outline'"
-              class="cursor-pointer px-3 py-1.5 text-xs transition-colors hover:bg-primary/20"
-              @click="toggleGoal(goal)"
+              :value="goal"
+              class="h-auto rounded-full px-3 py-1.5 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
             >
               {{ goal }}
-            </Badge>
-          </div>
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
 
         <!-- Strict Sensitivity & Contraindication Rules -->

@@ -7,11 +7,13 @@ import FilterSidebar from '@/components/explore/FilterSidebar.vue'
 import ProductGrid from '@/components/explore/ProductGrid.vue'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
   Database,
+  Filter,
   FlaskConical,
   Loader2,
   ShieldCheck,
@@ -45,6 +47,8 @@ const {
 } = useExploreQuery({ personaId: computed(() => props.personaId) })
 
 const comparedIds = computed(() => props.comparedProducts.map(p => p.id))
+
+const mobileFiltersOpen = ref(false)
 
 const stats = ref<CatalogStats | null>(null)
 const statsLoading = ref(true)
@@ -258,8 +262,27 @@ function goToPage(target: number | '…') {
 
     <!-- Sidebar & Grid Layout -->
     <div class="flex flex-col lg:flex-row gap-6 items-start">
-      <FilterSidebar
-        :search="searchInput"
+      <!-- Mobile: filters live in a sheet (same query state as the desktop sidebar) -->
+      <div class="lg:hidden w-full">
+        <Button
+          variant="outline"
+          size="sm"
+          class="h-9 px-3 text-xs font-semibold gap-1.5 cursor-pointer"
+          @click="mobileFiltersOpen = true"
+        >
+          <Filter class="w-3.5 h-3.5" />
+          Filters
+        </Button>
+        <Sheet v-model:open="mobileFiltersOpen">
+          <SheetContent side="left" class="overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle class="flex items-center gap-2 text-sm font-bold">
+                <Filter class="w-4 h-4 text-primary" />
+                Formulation Filters
+              </SheetTitle>
+            </SheetHeader>
+            <FilterSidebar
+              :search="searchInput"
         :category="filters.category"
         :country="filters.country"
         :goal="filters.goal"
@@ -282,7 +305,39 @@ function goToPage(target: number | '…') {
         @update:min-match="(v: number) => setFilter('min_match', v)"
         @update:sort-by="(v: string) => setFilter('sort_by', v)"
         @reset="resetFilters()"
-      />
+        />
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      <!-- Desktop sidebar -->
+      <div class="hidden lg:block">
+        <FilterSidebar
+          :search="searchInput"
+          :category="filters.category"
+          :country="filters.country"
+          :goal="filters.goal"
+          :price-tier="filters.price_tier"
+          :fungal-safe="filters.fungal_safe"
+          :fragrance-free="filters.fragrance_free"
+          :oil-free="filters.oil_free"
+          :pore-free="filters.pore_free"
+          :min-match="filters.min_match"
+          :sort-by="filters.sort_by"
+          @update:search="(v: string) => searchInput = v"
+          @update:category="(v: string) => setFilter('category', v)"
+          @update:country="(v: string) => setFilter('country', v)"
+          @update:goal="(v: string) => setFilter('goal', v)"
+          @update:price-tier="(v: string) => setFilter('price_tier', v)"
+          @update:fungal-safe="(v: boolean) => setFilter('fungal_safe', v)"
+          @update:fragrance-free="(v: boolean) => setFilter('fragrance_free', v)"
+          @update:oil-free="(v: boolean) => setFilter('oil_free', v)"
+          @update:pore-free="(v: boolean) => setFilter('pore_free', v)"
+          @update:min-match="(v: number) => setFilter('min_match', v)"
+          @update:sort-by="(v: string) => setFilter('sort_by', v)"
+          @reset="resetFilters()"
+        />
+      </div>
 
       <div class="flex-grow flex flex-col gap-3">
         <!-- API Error State -->

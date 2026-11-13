@@ -49,8 +49,8 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 8. Design system documentation (last — describes the code that ships)
 
-- [ ] 8.1 Generate `PRODUCT.md` (impeccable `init`) and `frontend/DESIGN.md` (impeccable `document`) from the final post-polish code; hand-review every token/component claim against the actual `@theme` CSS and `components/ui/` inventory. Verify: no invented tokens (each DESIGN.md entry traceable to code); all 16 primitive packages listed.
-- [ ] 8.2 DESIGN.md-vs-code consistency check after the polish pass's changes, then wire the docs into the project's entry points: update `component_map_and_gap_report.md` §5.2 to mark F1–F5 done and point future sessions at `frontend/DESIGN.md` first. Verify: consistency check clean; report updated; docs referenced from the frontend README/AGENTS entry point.
+- [x] 8.1 Generate `PRODUCT.md` (impeccable `init`) and `frontend/DESIGN.md` (impeccable `document`) from the final post-polish code; hand-review every token/component claim against the actual `@theme` CSS and `components/ui/` inventory. Verify: no invented tokens (each DESIGN.md entry traceable to code); all 16 primitive packages listed.
+- [x] 8.2 DESIGN.md-vs-code consistency check after the polish pass's changes, then wire the docs into the project's entry points: update `component_map_and_gap_report.md` §5.2 to mark F1–F5 done and point future sessions at `frontend/DESIGN.md` first. Verify: consistency check clean; report updated; docs referenced from the frontend README/AGENTS entry point.
 
 ## Workflow follow-up
 

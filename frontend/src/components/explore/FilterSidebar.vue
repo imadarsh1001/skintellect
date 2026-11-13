@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { Slider } from '@/components/ui/slider'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Search, RotateCcw, Filter, Shield } from 'lucide-vue-next'
 
 /**
@@ -68,6 +73,14 @@ const goals = [
   { label: '🌟 Dark Spots & Glow', value: 'brightening' },
   { label: '🌿 Texture & Calming', value: 'soothing' },
 ]
+
+// reka SliderRoot carries number[]; the explore view owns a scalar.
+const minMatchSlider = computed({
+  get: () => [minMatch.value],
+  set: (v: unknown) => {
+    if (Array.isArray(v)) minMatch.value = Number(v[0])
+  },
+})
 </script>
 
 <template>
@@ -105,121 +118,116 @@ const goals = [
     <!-- Sort Strategy -->
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Sort Results</label>
-      <select
-        v-model="sortBy"
-        class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-      >
-        <option v-for="s in sortOptions" :key="s.value" :value="s.value">
-          {{ s.label }}
-        </option>
-      </select>
+      <Select v-model="sortBy">
+        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Sort Results">
+          <SelectValue placeholder="Sort Results" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="s in sortOptions" :key="s.value" :value="s.value">
+            {{ s.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </div>
 
     <!-- Category Dropdown -->
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Category</label>
-      <select
-        v-model="category"
-        class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-      >
-        <option v-for="c in categories" :key="c.value" :value="c.value">
-          {{ c.label }}
-        </option>
-      </select>
+      <Select v-model="category">
+        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Category">
+          <SelectValue placeholder="Category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="c in categories" :key="c.value" :value="c.value">
+            {{ c.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </div>
 
     <!-- Country / Origin Dropdown -->
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Origin / Beauty Heritage</label>
-      <select
-        v-model="country"
-        class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-      >
-        <option v-for="co in countries" :key="co.value" :value="co.value">
-          {{ co.label }}
-        </option>
-      </select>
+      <Select v-model="country">
+        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Origin / Beauty Heritage">
+          <SelectValue placeholder="Origin / Beauty Heritage" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="co in countries" :key="co.value" :value="co.value">
+            {{ co.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </div>
 
     <!-- Target Focus Goal -->
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Skin Focus Goal</label>
-      <select
-        v-model="goal"
-        class="w-full h-9 px-3 rounded-lg border border-input bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-      >
-        <option v-for="g in goals" :key="g.value" :value="g.value">
-          {{ g.label }}
-        </option>
-      </select>
+      <Select v-model="goal">
+        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Skin Focus Goal">
+          <SelectValue placeholder="Skin Focus Goal" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="g in goals" :key="g.value" :value="g.value">
+            {{ g.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </div>
 
     <!-- Price Tier Filter -->
     <div class="flex flex-col gap-1.5">
       <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Budget Tier</label>
-      <div class="grid grid-cols-5 gap-1">
-        <Button
+      <ToggleGroup
+        type="single"
+        :model-value="priceTier"
+        class="grid grid-cols-5 gap-1 w-full"
+        @update:model-value="(v: unknown) => (priceTier = typeof v === 'string' ? v : 'all')"
+      >
+        <ToggleGroupItem
           v-for="pt in priceTiers"
           :key="pt.value"
-          :variant="priceTier === pt.value ? 'default' : 'outline'"
-          size="sm"
-          class="h-8 text-xs font-semibold px-1"
-          @click="priceTier = pt.value"
+          :value="pt.value"
+          class="h-8 px-1 text-xs font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
         >
           {{ pt.label }}
-        </Button>
-      </div>
+        </ToggleGroupItem>
+      </ToggleGroup>
     </div>
 
-    <!-- Safety & Exclusion Checkboxes -->
+    <!-- Safety & Exclusion Switches -->
     <div class="flex flex-col gap-2 pt-3 border-t">
       <div class="flex items-center justify-between">
         <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Strict Exclusions</label>
         <Shield class="w-3.5 h-3.5 text-primary" />
       </div>
 
-      <label class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
+      <label for="f2-fungal" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
         <span class="flex items-center gap-1.5 font-medium">
           <span>🍄</span> Fungal Acne Safe
         </span>
-        <input
-          v-model="fungalSafe"
-          type="checkbox"
-          class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-        />
+        <Switch id="f2-fungal" v-model="fungalSafe" />
       </label>
 
-      <label class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
+      <label for="f2-fragrance" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
         <span class="flex items-center gap-1.5 font-medium">
           <span>🌸</span> Fragrance-Free
         </span>
-        <input
-          v-model="fragranceFree"
-          type="checkbox"
-          class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-        />
+        <Switch id="f2-fragrance" v-model="fragranceFree" />
       </label>
 
-      <label class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
+      <label for="f2-oil" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
         <span class="flex items-center gap-1.5 font-medium">
           <span>💧</span> Oil-Free
         </span>
-        <input
-          v-model="oilFree"
-          type="checkbox"
-          class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-        />
+        <Switch id="f2-oil" v-model="oilFree" />
       </label>
 
-      <label class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
+      <label for="f2-pore" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
         <span class="flex items-center gap-1.5 font-medium">
           <span>🚫</span> 0 Pore Cloggers
         </span>
-        <input
-          v-model="poreFree"
-          type="checkbox"
-          class="w-4 h-4 rounded text-primary focus:ring-primary border-input cursor-pointer"
-        />
+        <Switch id="f2-pore" v-model="poreFree" />
       </label>
     </div>
 
@@ -229,13 +237,13 @@ const goals = [
         <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Min Persona Match</label>
         <span class="text-xs font-black text-primary">{{ minMatch }}%</span>
       </div>
-      <input
-        v-model.number="minMatch"
-        type="range"
-        min="0"
-        max="95"
-        step="5"
-        class="w-full accent-primary cursor-pointer"
+      <Slider
+        v-model="minMatchSlider"
+        :min="0"
+        :max="95"
+        :step="5"
+        class="w-full"
+        aria-label="Minimum persona match percentage"
       />
       <div class="flex justify-between text-[10px] text-muted-foreground font-semibold">
         <span>0% (All)</span>

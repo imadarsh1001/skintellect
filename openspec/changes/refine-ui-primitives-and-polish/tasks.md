@@ -30,10 +30,10 @@ Gate commands used throughout: `npm run build` (includes `vue-tsc -b`), `python 
 
 ## 5. F2 — Filter sidebar controls + mobile Sheet
 
-- [ ] 5.1 Capture the pre-change baseline into `tests/evidence/f2-filter-sidebar/`: incumbent query-state mapping for all 4 selects, checkboxes, strict exclusions, range, price tiers, plus screenshots. Verify: every control's query-state binding documented before the swap.
-- [ ] 5.2 Swap the 4 native `<select>`s → `ui/select`, option checkboxes → `ui/checkbox`, strict fungal/fragrance exclusions → `ui/switch`, numeric range → `ui/slider`, price tiers → `ui/toggle-group`; keep `useExploreQuery` bindings untouched. Verify: gates pass; each control edits the same query state as the incumbent control.
-- [ ] 5.3 Wrap the sidebar in `ui/sheet` below the `lg` breakpoint; desktop rendering untouched; filter state shared between renderings. Verify: at 390 px the sheet opens with the same controls, edits apply live, closing restores focus to the trigger.
-- [ ] 5.4 Verification incl. combination semantics: strip/chip + sidebar filters combined, URL round-trip against baseline. Verify: spec `explore-filtering` scenarios demonstrated; gates pass; rendered check desktop + 390 px.
+- [x] 5.1 Capture the pre-change baseline into `tests/evidence/f2-filter-sidebar/`: incumbent query-state mapping for all 4 selects, checkboxes, strict exclusions, range, price tiers, plus screenshots. Verify: every control's query-state binding documented before the swap.
+- [x] 5.2 Swap the 4 native `<select>`s → `ui/select`, option checkboxes → `ui/checkbox`, strict fungal/fragrance exclusions → `ui/switch`, numeric range → `ui/slider`, price tiers → `ui/toggle-group`; keep `useExploreQuery` bindings untouched. Verify: gates pass; each control edits the same query state as the incumbent control.
+- [x] 5.3 Wrap the sidebar in `ui/sheet` below the `lg` breakpoint; desktop rendering untouched; filter state shared between renderings. Verify: at 390 px the sheet opens with the same controls, edits apply live, closing restores focus to the trigger.
+- [x] 5.4 Verification incl. combination semantics: strip/chip + sidebar filters combined, URL round-trip against baseline. Verify: spec `explore-filtering` scenarios demonstrated; gates pass; rendered check desktop + 390 px.
 
 ## 6. F5 — Copilot session delete
 

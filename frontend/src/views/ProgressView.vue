@@ -116,7 +116,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
     <!-- Header -->
     <div class="border-b pb-4 flex items-start justify-between flex-wrap gap-3">
       <div>
-        <span class="text-[11px] font-medium text-primary">Data progress</span>
+        <span class="text-[11px] font-medium text-foreground">Data progress</span>
         <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Preparation and indexing status</h2>
         <p class="text-sm text-muted-foreground mt-1">
           Review extraction and passage indexing run as background jobs with explicit budgets and cancellation.
@@ -127,7 +127,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       </Button>
     </div>
 
-    <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-primary mx-auto my-8" />
+    <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-foreground mx-auto my-8" />
     <p v-else-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
       <AlertTriangle class="w-3.5 h-3.5" /> {{ error }}
     </p>
@@ -140,7 +140,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
         <span class="text-evidence-verified font-medium">
           Prepared study group is {{ demo.ready ? 'ready' : 'partially prepared' }} ({{ demo.products.filter(p => p.ready).length }}/{{ demo.products.length }} products).
         </span>
-        <RouterLink to="/study" class="text-primary font-medium hover:underline">Open the study</RouterLink>
+        <RouterLink to="/study" class="text-foreground font-medium hover:underline">Open the study</RouterLink>
       </div>
 
       <!-- Coverage -->

@@ -168,7 +168,7 @@ function inspectAlternative(alt: any) {
 
             <div class="flex items-center gap-3 text-xs flex-wrap pt-0.5 text-muted-foreground">
               <span v-if="detailedProduct.rating" class="flex items-center gap-1 font-medium text-foreground">
-                <Star class="w-3.5 h-3.5 fill-primary text-primary" />
+                <Star class="w-3.5 h-3.5 fill-primary text-foreground" />
                 {{ detailedProduct.rating.toFixed(1) }}
                 <span class="text-muted-foreground font-normal">({{ detailedProduct.review_count || 0 }} reviews)</span>
               </span>
@@ -178,7 +178,7 @@ function inspectAlternative(alt: any) {
               <span v-if="detailedProduct.size" class="font-medium text-muted-foreground">
                 {{ detailedProduct.size }}
               </span>
-              <span v-if="detailedProduct.routine_step" class="text-primary font-medium">
+              <span v-if="detailedProduct.routine_step" class="text-foreground font-medium">
                 {{ detailedProduct.routine_step }}
               </span>
             </div>
@@ -225,7 +225,7 @@ function inspectAlternative(alt: any) {
         <TabsList class="w-full shrink-0 justify-start rounded-none h-auto bg-card border-b border-border px-5 gap-1 overflow-x-auto p-0">
           <TabsTrigger
             value="safety"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground data-[state=active]:border-primary"
           >
             <Shield class="w-4 h-4" />
             Safety &amp; Clinical Fit
@@ -233,7 +233,7 @@ function inspectAlternative(alt: any) {
 
           <TabsTrigger
             value="ingredients"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground data-[state=active]:border-primary"
           >
             <FlaskConical class="w-4 h-4" />
             Full INCI Ingredients
@@ -242,7 +242,7 @@ function inspectAlternative(alt: any) {
 
           <TabsTrigger
             value="dupes"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground data-[state=active]:border-primary"
           >
             <Scale class="w-4 h-4" />
             Formula Alternatives
@@ -251,7 +251,7 @@ function inspectAlternative(alt: any) {
 
           <TabsTrigger
             value="reviews"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground data-[state=active]:border-primary"
           >
             <MessageSquare class="w-4 h-4" />
             Reviews &amp; Experiences
@@ -260,7 +260,7 @@ function inspectAlternative(alt: any) {
 
           <TabsTrigger
             value="raw"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground data-[state=active]:border-primary"
           >
             <FileCode class="w-4 h-4" />
             Raw JSON
@@ -271,7 +271,7 @@ function inspectAlternative(alt: any) {
       <div class="p-6 overflow-y-auto flex-1 min-h-[380px] max-h-[60vh] space-y-6">
         <!-- Loader -->
         <div v-if="loading" class="py-16 text-center flex flex-col items-center justify-center gap-3">
-          <Loader2 class="size-8 animate-spin text-primary" />
+          <Loader2 class="size-8 animate-spin text-foreground" />
           <span class="text-xs font-medium text-muted-foreground">Loading full clinical formulation dossier...</span>
         </div>
 
@@ -566,11 +566,11 @@ function inspectAlternative(alt: any) {
                       {{ r.reviewer_skin_type || 'User' }}
                     </span>
                   </div>
-                  <div class="flex items-center gap-0.5 text-primary text-xs">
+                  <div class="flex items-center gap-0.5 text-foreground text-xs">
                     <Star
                       v-for="s in (r.rating || 5)"
                       :key="s"
-                      class="size-3 fill-primary text-primary"
+                      class="size-3 fill-primary text-foreground"
                     />
                   </div>
                 </div>

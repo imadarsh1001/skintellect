@@ -392,8 +392,8 @@ const lastAssistantContent = computed(() => {
     <!-- Header with Session Switcher and New Chat -->
     <div class="flex items-center justify-between p-4 border-b bg-muted">
       <div class="flex items-center gap-3">
-        <div class="p-2.5 rounded-lg bg-primary/10 text-primary">
-          <Sparkles class="w-5 h-5 text-primary" />
+        <div class="p-2.5 rounded-lg bg-primary/10 text-foreground">
+          <Sparkles class="w-5 h-5 text-foreground" />
         </div>
         <div>
           <h3 class="font-medium text-sm text-foreground flex items-center gap-2">
@@ -508,8 +508,8 @@ const lastAssistantContent = computed(() => {
               class="mt-4 pt-3.5 border-t border-border space-y-2.5"
             >
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-medium text-primary flex items-center gap-1.5">
-                  <Sparkles class="w-3.5 h-3.5 text-primary" />
+                <span class="text-[11px] font-medium text-foreground flex items-center gap-1.5">
+                  <Sparkles class="w-3.5 h-3.5 text-foreground" />
                   Select Formulation Focus (HITL)
                 </span>
                 <span class="text-[11px] text-muted-foreground">
@@ -526,13 +526,13 @@ const lastAssistantContent = computed(() => {
                   @click="handleSend(opt.query)"
                 >
                   <div class="flex items-center justify-between gap-1">
-                    <span class="text-xs font-medium text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
-                      <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/20 text-primary text-[11px] font-medium">
+                    <span class="text-xs font-medium text-foreground group-hover:text-foreground transition-colors flex items-center gap-1.5">
+                      <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/20 text-foreground text-[11px] font-medium">
                         {{ String.fromCharCode(65 + oIdx) }}
                       </span>
                       {{ opt.title }}
                     </span>
-                    <ChevronRight class="w-3.5 h-3.5 text-primary opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                    <ChevronRight class="w-3.5 h-3.5 text-foreground opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </div>
                   <p class="text-[11px] text-muted-foreground leading-snug line-clamp-2">
                     {{ opt.description }}
@@ -548,7 +548,7 @@ const lastAssistantContent = computed(() => {
                     class="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-muted/40"
                     @click="msg.showCustomClarification = true"
                   >
-                    <Plus class="w-3.5 h-3.5 text-primary" />
+                    <Plus class="w-3.5 h-3.5 text-foreground" />
                     <span>Other: Specify custom constraint or ingredients...</span>
                   </button>
                 </div>
@@ -609,7 +609,7 @@ const lastAssistantContent = computed(() => {
                   </div>
                   <div class="flex items-center gap-2 pt-1.5 border-t border-border text-[11px]">
                     <button
-                      class="font-medium text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                      class="font-medium text-foreground hover:underline flex items-center gap-1 cursor-pointer"
                       @click="emits('view-details', p)"
                     >
                       <ExternalLink class="w-3 h-3" /> View Dossier
@@ -679,7 +679,7 @@ const lastAssistantContent = computed(() => {
                   >
                     <div class="flex items-center justify-between font-medium">
                       <span>{{ alt.brand }} - {{ alt.name }}</span>
-                      <span class="text-primary font-mono text-[11px]">{{ alt.similarity ? alt.similarity + '%' : '' }}</span>
+                      <span class="text-foreground font-mono text-[11px]">{{ alt.similarity ? alt.similarity + '%' : '' }}</span>
                     </div>
                     <p class="text-xs text-muted-foreground">
                       <strong class="text-foreground">Shared:</strong> {{ alt.shared_ingredients?.slice(0, 4).join(', ') }}
@@ -733,7 +733,7 @@ const lastAssistantContent = computed(() => {
       <DialogContent class="max-w-lg rounded-lg">
         <DialogHeader>
           <DialogTitle class="flex items-center gap-2 text-base font-medium">
-            <Quote class="w-4 h-4 text-primary" />
+            <Quote class="w-4 h-4 text-foreground" />
             Verbatim Evidence Source
           </DialogTitle>
           <DialogDescription>
@@ -752,7 +752,7 @@ const lastAssistantContent = computed(() => {
               :href="activeCitation.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-primary flex items-center gap-1 hover:underline font-medium"
+              class="text-foreground flex items-center gap-1 hover:underline font-medium"
             >
               {{ activeCitation.url.replace(/^https?:\/\//, '').split('/')[0] }}
               <ExternalLink class="w-3 h-3" />

@@ -1,8 +1,8 @@
 /* Hallmark · built: 2026-11-15 · genre: modern-minimal
- * theme: Console (dealt 1/3, seed operator-console-evidence-first-skincare-a59a) · colourway: graphite · posture: restrained
- * scope: app · 7 screens · tokens: single source (this file) — amber means a person, cool means an instrument
- * pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E — every verdict tint pair measured to >= 4.5:1 on graphite
- * built: the project · redesign: full · copy: verbatim · v2.0.0 */
+ * theme: Furrow (by request) · posture: committed · manila paper, near-black ink rules, one tangerine signal, green for what is in date
+ * scope: app · 8 routes (/ landing + 7 screens) · tokens: single source (this file) — tangerine is a fill with ink on it, never type
+ * pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E — every verdict pair re-measured to >= 4.5:1 on light manila
+ * built: the project · redesign: full · copy: verbatim · landing: README/PRODUCT facts · v2.0.0 */
 /* Hallmark · answered F1 · the straight quotes sit inside the owner's chat copy, kept verbatim by request */
 /* Hallmark · answered F2 · the three-period marks sit inside the owner's chat copy, kept verbatim by request */
 /* Hallmark · dismissed 49 · the long clickable labels are real phrase names that would clip under nowrap at 390px */
@@ -10,59 +10,70 @@
 @import "tw-animate-css";
 /* the taste gate writes state beside the app root; keep its archives out of utility detection */
 @source not "../.taste-skill";
-@import "@fontsource/host-grotesk/400.css";
-@import "@fontsource/host-grotesk/500.css";
-@import "@fontsource/host-grotesk/700.css";
-@import "@fontsource/atkinson-hyperlegible-mono/400.css";
-@import "@fontsource/atkinson-hyperlegible-mono/500.css";
+@import "@fontsource/red-hat-display/600.css";
+@import "@fontsource/red-hat-text/400.css";
+@import "@fontsource/red-hat-text/500.css";
+@import "@fontsource/red-hat-mono/400.css";
+@import "@fontsource/red-hat-mono/500.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Console · graphite ground in three lightness steps
-     (oklch originals: 17/21/13.5% at hue 250 — values below are their sRGB form) */
-  --background: 211 19% 6.2%;
-  --foreground: 211.2 17.8% 93.7%;
+  /* Furrow · warm manila ground in three lightness steps
+     (oklch originals at hue 85: paper 96%, paper-2 99.5%, paper-3 92% — values below are their sRGB HSL form) */
+  --background: 38.2 35.5% 93.9%;
+  --foreground: 24 14.3% 6.9%;
 
-  --card: 211 14.3% 9.7%;
-  --card-foreground: 211.2 17.8% 93.7%;
+  --card: 36 100% 99%;
+  --card-foreground: 24 14.3% 6.9%;
 
-  --popover: 211 14.3% 9.7%;
-  --popover-foreground: 211.2 17.8% 93.7%;
+  --popover: 36 100% 99%;
+  --popover-foreground: 24 14.3% 6.9%;
 
-  /* amber: a person — the primary control, the current selection */
-  --primary: 39.7 91.6% 60.4%;
-  --primary-foreground: 31.3 100% 5.4%;
+  /* tangerine: ear tag and baler twine — a fill with ink on it (the primary key,
+     the selected tab, the field band, the open pin, the focus ring). Never type. */
+  --primary: 16.7 97.1% 59.4%;
+  --primary-foreground: 24 14.3% 6.9%;
 
-  --secondary: 211 13.6% 14.4%;
-  --secondary-foreground: 211.2 17.8% 93.7%;
+  /* the secondary key: the white sheet with a rule border and a lit top edge */
+  --secondary: 36 100% 99%;
+  --secondary-foreground: 24 14.3% 6.9%;
 
-  --muted: 213.2 26% 3.4%;
-  --muted-foreground: 211.1 6.5% 65.5%;
+  --muted: 41.3 26.7% 88.2%;
+  --muted-foreground: 25 7.3% 32.2%;
 
-  /* hover step: the cool instrument tint, restrained */
-  --accent: 206.7 54.4% 16.9%;
-  --accent-foreground: 211.2 17.8% 93.7%;
+  /* hover step: the tangerine-soft well (accent-soft carries the surface posture) */
+  --accent: 20.7 96.7% 88.2%;
+  --accent-foreground: 24 14.3% 6.9%;
 
-  --destructive: 358.8 63% 35.5%;
-  --destructive-foreground: 6 20.5% 95.1%;
+  /* the Furrow red: the product's own fifth-verdict extension, a sienna dealt on
+     manila-tinted hues (the theme ships no red; this pair is documented in Picks) */
+  --destructive: 0.5 53.6% 45.7%;
+  --destructive-foreground: 38.2 35.5% 93.9%;
 
-  --border: 211 8.9% 19.2%;
-  --input: 211 8% 40%;
-  --ring: 39.7 91.6% 60.4%;
+  --border: 41.5 15.3% 83.3%;
+  --input: 25 7.3% 32.2%;
+  --ring: 20.6 100% 42.4%;
 
-  /* the dialog scrim: the deepest step, never glass */
-  --scrim: 216.1 57.8% 0.8%;
+  /* the dialog scrim: the deepest ink, never glass */
+  --scrim: 15 33.3% 2.4%;
 
   --radius: 0.625rem;
 
-  /* Hallmark face roles: display/body = what a person reads, outlier = what an instrument measured */
-  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-outlier: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  /* Furrow shadows: only under floating things (menu, dialog, notebook card),
+     never on resting surfaces */
+  --shadow-card: 0 1px 2px oklch(18% 0.006 60 / 0.08), 0 14px 28px -16px oklch(18% 0.006 60 / 0.28);
+  --shadow-lift: 0 1px 1px oklch(18% 0.006 60 / 0.1), 0 2px 4px -1px oklch(18% 0.006 60 / 0.1),
+    0 24px 44px -20px oklch(18% 0.006 60 / 0.42);
+
+  /* Hallmark face roles: display/body = what a person reads, outlier = the measured figure
+     (mono-as-material: dates, times, tag numbers, doses, batches, live counts — never labels) */
+  --font-display: "Red Hat Display", "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: "Red Hat Mono", ui-monospace, monospace;
 }
 
-/* Graphite is the shipped surface: :root IS the dark theme; no .dark class is applied.
+/* Manila is the shipped surface: :root IS the light theme; no .dark class is applied.
    The @custom-variant dark and dark: fragments in primitives stay inert. */
 
 @theme inline {
@@ -92,25 +103,37 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Console faces: Host Grotesk for what a person reads, Atkinson
-     Hyperlegible Mono for what an instrument measured. */
-  --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  /* Furrow faces: Red Hat Display 600 for heads, Red Hat Text for what a
+     person reads, Red Hat Mono for what the ledger measured. */
+  --font-display: "Red Hat Display", "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Red Hat Mono", ui-monospace, monospace;
 
-  /* Evidence verdict family — meanings are product truth: verified=measured,
-     source=attributed, unknown=no reading yet, negative=contraindication,
-     mixed=conflicting. Pairs hold >= 4.5:1 on graphite (Floor 40/41;
-     asserted by tests/check_ui_semantics.js). Class strings: @/lib/evidence. */
-  --color-evidence-verified: #61cb7c;
-  --color-evidence-verified-bg: #162519;
-  --color-evidence-source: #6ebcfc;
-  --color-evidence-source-bg: #142e43;
-  --color-evidence-unknown: #9da2a8;
-  --color-evidence-unknown-bg: #20252a;
-  --color-evidence-negative: #f66d67;
-  --color-evidence-negative-bg: #2f1a18;
-  --color-evidence-mixed: #b6a1df;
-  --color-evidence-mixed-bg: #251d32;
+  /* Evidence verdict family — meanings are product truth: verified=measured
+     (green: what is in date), source=attributed (water blue on manila),
+     unknown=no reading yet (manila grey), negative=contraindication (the
+     product's own sienna extension), mixed=conflicting (violet).
+     Pairs hold >= 4.5:1 on light manila (Floor 40/41; asserted by
+     tests/check_ui_semantics.js). Class strings: @/lib/evidence. */
+  --color-evidence-verified: #246e3a;
+  --color-evidence-verified-bg: #d3edd7;
+  --color-evidence-source: #215c78;
+  --color-evidence-source-bg: #d2e9f5;
+  --color-evidence-unknown: #4d4641;
+  --color-evidence-unknown-bg: #e4e1db;
+  --color-evidence-negative: #90302e;
+  --color-evidence-negative-bg: #f8e2df;
+  --color-evidence-mixed: #554077;
+  --color-evidence-mixed-bg: #e7e1f5;
+}
+
+/* Furrow moulded keys: a lit inset top edge and a shaded inset bottom, the
+   theme-sanctioned 1px key shadow; active sinks 1px (active:translate-y-px). */
+@utility key-moulded {
+  box-shadow:
+    inset 0 1px 0 hsl(var(--card) / 0.6),
+    inset 0 -1px 0 hsl(var(--foreground) / 0.14),
+    0 1px 1px hsl(var(--border));
 }
 
 @layer base {
@@ -126,33 +149,36 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     text-wrap: pretty;
   }
+  /* Heads sit in the display face (Furrow: Red Hat Display 600, sentence case). */
   h1,
-  h2 {
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
     text-wrap: balance;
     overflow-wrap: break-word;
     min-width: 0;
+  }
+  h1,
+  h2 {
+    letter-spacing: -0.035em;
+    line-height: 1.05;
   }
   h3,
   h4 {
-    font-weight: 500;
     letter-spacing: -0.015em;
     line-height: 1.15;
-    text-wrap: balance;
-    overflow-wrap: break-word;
-    min-width: 0;
   }
-  /* What an instrument measured: figures carry tabular numerals. */
+  /* What the ledger measured: figures carry tabular numerals. */
   .font-mono,
   code {
     font-variant-numeric: tabular-nums slashed-zero;
   }
   ::selection {
-    background: color-mix(in oklab, hsl(var(--primary)) 25%, transparent);
+    background: color-mix(in oklab, hsl(var(--primary)) 30%, transparent);
   }
-  /* every focusable element gets the amber ring, instantly (Floor 15/26a) */
+  /* every focusable element gets the tangerine ring, instantly (Floor 15/26a) */
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
@@ -171,8 +197,8 @@
   }
 }
 
-/* Copilot Narrative Markdown — Console restyle: hairline table rows, no
-   side stripe (gate 3/WARN), measured face for code, quiet wells. */
+/* Copilot Narrative Markdown — Furrow restyle: ruled hairline rows, no
+   side stripe, measured face for code, quiet wells. */
 /* plain (unlayered) rule: the sloplint gate-50 parser does not read @layer blocks */
 h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot {
@@ -193,7 +219,7 @@ h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot h2,
 .prose-copilot h3,
 .prose-copilot h4 {
-  font-weight: 500;
+  font-weight: 600;
   color: inherit;
   margin-top: 0.75rem;
   margin-bottom: 0.35rem;

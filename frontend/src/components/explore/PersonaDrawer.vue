@@ -58,7 +58,7 @@ function applyCustom() {
     <DialogContent class="max-w-2xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle class="flex items-center gap-2 text-xl font-medium">
-          <SlidersHorizontal class="w-5 h-5 text-primary" />
+          <SlidersHorizontal class="w-5 h-5 text-foreground" />
           Skin Profile & Sensitivity Persona
         </DialogTitle>
         <DialogDescription>

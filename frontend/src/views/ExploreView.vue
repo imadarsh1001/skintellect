@@ -285,7 +285,7 @@ function goToPage(target: number | '…') {
           <SheetContent side="left" class="overflow-y-auto">
             <SheetHeader>
               <SheetTitle class="flex items-center gap-2 text-sm font-medium">
-                <Filter class="w-4 h-4 text-primary" />
+                <Filter class="w-4 h-4 text-foreground" />
                 Formulation Filters
               </SheetTitle>
             </SheetHeader>

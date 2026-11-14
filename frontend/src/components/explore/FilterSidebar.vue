@@ -88,7 +88,7 @@ const minMatchSlider = computed({
     <!-- Header with Reset Button -->
     <div class="flex items-center justify-between border-b pb-3">
       <div class="flex items-center gap-2 font-medium text-sm text-foreground">
-        <Filter class="w-4 h-4 text-primary" />
+        <Filter class="w-4 h-4 text-foreground" />
         Formulation Filters
       </div>
       <Button
@@ -200,7 +200,7 @@ const minMatchSlider = computed({
     <div class="flex flex-col gap-2 pt-3 border-t">
       <div class="flex items-center justify-between">
         <label class="text-[11px] font-medium text-muted-foreground">Strict Exclusions</label>
-        <Shield class="w-3.5 h-3.5 text-primary" />
+        <Shield class="w-3.5 h-3.5 text-foreground" />
       </div>
 
       <label for="f2-fungal" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
@@ -228,7 +228,7 @@ const minMatchSlider = computed({
     <div class="flex flex-col gap-1.5 pt-3 border-t">
       <div class="flex items-center justify-between">
         <label class="text-[11px] font-medium text-muted-foreground">Min Persona Match</label>
-        <span class="text-xs font-mono text-primary">{{ minMatch }}%</span>
+        <span class="text-xs font-mono text-foreground">{{ minMatch }}%</span>
       </div>
       <Slider
         v-model="minMatchSlider"

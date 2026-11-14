@@ -65,7 +65,7 @@ function productById(id: number) {
 }
 
 const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: string; label: string }> = {
-  product: { badge: 'bg-primary/10 text-primary border-primary/30', label: 'Formula' },
+  product: { badge: 'bg-primary/10 text-foreground border-primary/30', label: 'Formula' },
   ingredient: { badge: 'bg-evidence-verified-bg text-evidence-verified border-evidence-verified/30', label: 'Recorded ingredient' },
   reference: { badge: 'bg-evidence-source-bg text-evidence-source border-evidence-source/30', label: 'Reference' },
 }
@@ -77,7 +77,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
         <h2 class="text-xl font-medium flex items-center gap-2">
-          <Network class="w-5 h-5 text-primary" />
+          <Network class="w-5 h-5 text-foreground" />
           Ingredient Evidence Connections
         </h2>
         <p class="text-xs text-muted-foreground mt-0.5">
@@ -206,7 +206,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
 
               <!-- Honest epistemics notice from the backend payload -->
               <div class="flex items-start gap-2 p-2.5 rounded-lg bg-muted border text-[11px] text-muted-foreground">
-                <Info class="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
+                <Info class="w-3.5 h-3.5 shrink-0 mt-0.5 text-foreground" />
                 <span>{{ connectionsFor(product.id)!.notice }}</span>
               </div>
             </CardContent>

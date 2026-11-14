@@ -42,7 +42,7 @@ function getUniqueIngredients(product: Product): string[] {
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
         <h2 class="text-xl font-medium flex items-center gap-2">
-          <Scale class="w-5 h-5 text-primary" />
+          <Scale class="w-5 h-5 text-foreground" />
           Side-by-Side Formulation Matrix
         </h2>
         <p class="text-xs text-muted-foreground mt-0.5">

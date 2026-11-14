@@ -102,8 +102,8 @@ function onTabSelect(value: string | number) {
 
 <template>
   <div class="min-h-screen flex flex-col bg-background text-foreground font-sans">
-    <!-- Navbar Header -->
-    <header class="border-b bg-card sticky top-0 z-40">
+    <!-- Navbar Header: the manila bar (Furrow chrome) -->
+    <header class="border-b bg-background sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <!-- Brand Logo & Global Title -->
         <div class="flex items-center gap-3">
@@ -155,7 +155,7 @@ function onTabSelect(value: string | number) {
           <Button
             variant="outline"
             size="sm"
-            class="h-9 px-3.5 gap-2 text-primary font-medium rounded-sm cursor-pointer shrink min-w-0 max-w-[170px] lg:max-w-none"
+            class="h-9 px-3.5 gap-2 font-medium rounded-sm cursor-pointer shrink min-w-0 max-w-[170px] lg:max-w-none"
             @click="personaDrawerOpen = true"
           >
             <SlidersHorizontal class="w-4 h-4" aria-hidden="true" />
@@ -173,7 +173,7 @@ function onTabSelect(value: string | number) {
           <TabsList class="h-11 bg-transparent p-0 gap-4 sm:gap-8 border-b-0">
             <TabsTrigger
               value="explore"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
+              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
             >
               <LayoutGrid class="w-4 h-4" aria-hidden="true" />
               Catalog & Explore
@@ -181,7 +181,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="compare"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
+              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
             >
               <Scale class="w-4 h-4" aria-hidden="true" />
               Compare Matrix
@@ -195,7 +195,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="graph"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
+              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
             >
               <Network class="w-4 h-4" aria-hidden="true" />
               Ingredient Graph
@@ -203,7 +203,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="copilot"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
+              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
             >
               <Sparkles class="w-4 h-4" aria-hidden="true" />
               Research Copilot

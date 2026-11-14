@@ -90,14 +90,14 @@ const latestLatency = computed(() => {
   <div class="flex flex-col gap-6">
     <!-- Header -->
     <div class="border-b pb-4">
-      <span class="text-[11px] font-medium text-primary">Follow the evidence</span>
+      <span class="text-[11px] font-medium text-foreground">Follow the evidence</span>
       <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Meet the products. Follow the evidence.</h2>
       <p class="text-sm text-muted-foreground mt-1">
         Choose a product, see what reviewers noticed, then inspect the original sources.
       </p>
     </div>
 
-    <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-primary mx-auto my-8" />
+    <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-foreground mx-auto my-8" />
     <p v-else-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
       <AlertTriangle class="w-3.5 h-3.5" /> {{ error }}
       <Button variant="outline" size="sm" class="h-7 text-[11px] ml-2" @click="load">Retry</Button>
@@ -171,7 +171,7 @@ const latestLatency = computed(() => {
               </Button>
               <RouterLink
                 :to="`/research?demo=1&query=${encodeURIComponent(demo.example_query ?? 'What stands out in the reviews?')}`"
-                class="text-[11px] font-medium text-primary hover:underline"
+                class="text-[11px] font-medium text-foreground hover:underline"
               >
                 Ask about this evidence
               </RouterLink>
@@ -213,7 +213,7 @@ const latestLatency = computed(() => {
               </div>
               <span class="text-[11px] text-muted-foreground">
                 Recorded ingredients: {{ product.recorded_ingredients ?? 'not recorded' }} —
-                connections also live in the <RouterLink to="/graph" class="text-primary font-medium hover:underline">Ingredient Graph</RouterLink>.
+                connections also live in the <RouterLink to="/graph" class="text-foreground font-medium hover:underline">Ingredient Graph</RouterLink>.
               </span>
             </div>
           </CardContent>
@@ -234,7 +234,7 @@ const latestLatency = computed(() => {
             <p class="text-foreground leading-relaxed">{{ ref.summary }}</p>
             <p v-if="ref.quote" class="italic font-serif text-muted-foreground">"{{ ref.quote }}"</p>
             <p v-if="ref.limitations" class="text-xs text-evidence-unknown">Limitations: {{ ref.limitations }}</p>
-            <a v-if="ref.url" :href="ref.url" target="_blank" rel="noopener noreferrer" class="text-primary font-medium hover:underline w-fit">
+            <a v-if="ref.url" :href="ref.url" target="_blank" rel="noopener noreferrer" class="text-foreground font-medium hover:underline w-fit">
               Open source ↗
             </a>
           </CardContent>
@@ -247,7 +247,7 @@ const latestLatency = computed(() => {
         <Card>
           <CardHeader class="pb-2 border-b">
             <CardTitle class="text-sm font-medium flex items-center gap-2">
-              <FlaskConical class="w-4 h-4 text-primary" /> Retrieval evaluation
+              <FlaskConical class="w-4 h-4 text-foreground" /> Retrieval evaluation
             </CardTitle>
           </CardHeader>
           <CardContent class="pt-4 text-xs flex flex-col gap-3">
@@ -278,7 +278,7 @@ const latestLatency = computed(() => {
         <Card>
           <CardHeader class="pb-2 border-b">
             <CardTitle class="text-sm font-medium flex items-center gap-2">
-              <Scale class="w-4 h-4 text-primary" /> Catalog audit
+              <Scale class="w-4 h-4 text-foreground" /> Catalog audit
             </CardTitle>
           </CardHeader>
           <CardContent class="pt-4 text-xs grid grid-cols-2 gap-2">

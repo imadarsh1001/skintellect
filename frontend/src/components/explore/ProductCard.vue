@@ -107,7 +107,7 @@ function getMatchScoreColor(score: number): string {
       <CardTitle class="text-base font-medium text-foreground leading-snug pt-1">
         <button
           type="button"
-          class="w-full text-left py-2 -my-2 font-medium text-foreground group-hover:text-primary transition-colors cursor-pointer truncate"
+          class="w-full text-left py-2 -my-2 font-medium text-foreground group-hover:text-foreground transition-colors cursor-pointer truncate"
           :title="product.name"
           :aria-label="product.name"
           @click.stop="emits('view-details', product)"
@@ -119,7 +119,7 @@ function getMatchScoreColor(score: number): string {
       <!-- Rating and Reviews -->
       <div class="flex items-center gap-3 pt-1 text-xs text-muted-foreground">
         <span v-if="product.rating" class="flex items-center gap-1 font-medium text-foreground">
-          <Star class="w-3.5 h-3.5 fill-primary text-primary" />
+          <Star class="w-3.5 h-3.5 fill-primary text-foreground" />
           {{ product.rating.toFixed(1) }}
           <span class="text-muted-foreground font-normal">({{ product.review_count || 0 }} reviews)</span>
         </span>

@@ -266,7 +266,7 @@ const EXAMPLES = [
   <div class="flex flex-col gap-6">
     <!-- Header -->
     <div class="border-b pb-4">
-      <span class="text-[11px] font-medium text-primary">Ask a question</span>
+      <span class="text-[11px] font-medium text-foreground">Ask a question</span>
       <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Go beyond the ingredient list.</h2>
       <p class="text-sm text-muted-foreground mt-1 max-w-2xl">
         Describe the ingredients or review themes you care about. Skintellect shows matching records, supporting quotes,
@@ -317,7 +317,7 @@ const EXAMPLES = [
         <div v-if="filtersVisible" class="border-t pt-3 flex flex-col gap-2.5">
           <button
             type="button"
-            class="text-xs font-medium text-primary hover:underline flex items-center gap-1 cursor-pointer w-fit"
+            class="text-xs font-medium text-foreground hover:underline flex items-center gap-1 cursor-pointer w-fit"
             @click="filtersVisible = !filtersVisible"
           >
             <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': filtersVisible }" />
@@ -392,7 +392,7 @@ const EXAMPLES = [
     <Card v-if="answer">
       <CardHeader class="pb-3 border-b">
         <CardTitle class="text-base font-medium flex items-center gap-2">
-          <MessageSquare class="w-4 h-4 text-primary" />
+          <MessageSquare class="w-4 h-4 text-foreground" />
           Answer
         </CardTitle>
       </CardHeader>
@@ -490,7 +490,7 @@ const EXAMPLES = [
 
           <!-- Evidence drawer -->
           <div v-if="expansion(p.id).evidence" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-1.5">
-            <Loader2 v-if="expansion(p.id).evidence!.loading" class="w-4 h-4 animate-spin text-primary" />
+            <Loader2 v-if="expansion(p.id).evidence!.loading" class="w-4 h-4 animate-spin text-foreground" />
             <template v-else-if="expansion(p.id).evidence!.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).evidence!.error }}</span>
             </template>
@@ -511,7 +511,7 @@ const EXAMPLES = [
 
           <!-- Reviews drawer with quote explorer -->
           <div v-if="expansion(p.id).reviews" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2.5">
-            <Loader2 v-if="expansion(p.id).reviews!.loading" class="w-4 h-4 animate-spin text-primary" />
+            <Loader2 v-if="expansion(p.id).reviews!.loading" class="w-4 h-4 animate-spin text-foreground" />
             <template v-else-if="expansion(p.id).reviews!.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).reviews!.error }}</span>
             </template>
@@ -616,7 +616,7 @@ const EXAMPLES = [
                 <button
                   v-else-if="quoteState(p.id).shown < filterObservations(observationsOf(p.id), quoteState(p.id).aspect, quoteState(p.id).sentiment).length"
                   type="button"
-                  class="text-[11px] font-medium text-primary hover:underline w-fit cursor-pointer"
+                  class="text-[11px] font-medium text-foreground hover:underline w-fit cursor-pointer"
                   @click="quoteState(p.id).shown += QUOTE_PAGE"
                 >
                   Show more quotes
@@ -627,7 +627,7 @@ const EXAMPLES = [
 
           <!-- Alternatives drawer -->
           <div v-if="expansion(p.id).alternatives" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2">
-            <Loader2 v-if="expansion(p.id).alternatives?.loading" class="w-4 h-4 animate-spin text-primary" />
+            <Loader2 v-if="expansion(p.id).alternatives?.loading" class="w-4 h-4 animate-spin text-foreground" />
             <template v-else-if="expansion(p.id).alternatives?.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).alternatives?.error }}</span>
             </template>
@@ -642,7 +642,7 @@ const EXAMPLES = [
               >
                 <div class="flex items-center justify-between gap-2 font-medium text-foreground">
                   <span>{{ alt.brand }} — {{ alt.name }}</span>
-                  <span class="font-mono text-primary">{{ alt.weighted_similarity ? Math.round(alt.weighted_similarity * 100) + '%' : '' }}</span>
+                  <span class="font-mono text-foreground">{{ alt.weighted_similarity ? Math.round(alt.weighted_similarity * 100) + '%' : '' }}</span>
                 </div>
                 <p class="text-muted-foreground mt-0.5">
                   Shared: {{ (alt.shared_ingredients ?? []).slice(0, 5).join(', ') || '—' }}

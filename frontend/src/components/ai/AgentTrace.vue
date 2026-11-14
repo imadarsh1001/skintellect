@@ -62,7 +62,7 @@ function formatEventTime(iso?: string) {
         class="w-full flex items-center justify-between p-2 rounded-lg bg-card hover:bg-background border border-border transition-colors text-left text-xs cursor-pointer group"
       >
         <div class="flex items-center gap-2 flex-wrap">
-          <span class="flex items-center gap-1 font-medium text-primary ">
+          <span class="flex items-center gap-1 font-medium text-foreground ">
             <Zap class="w-3.5 h-3.5 fill-current" />
             Agent Trace
           </span>
@@ -92,10 +92,10 @@ function formatEventTime(iso?: string) {
         <div class="space-y-1">
           <div class="flex items-center justify-between text-[11px] font-medium text-muted-foreground">
             <span class="flex items-center gap-1">
-              <Activity class="w-3 h-3 text-primary" />
+              <Activity class="w-3 h-3 text-foreground" />
               Intent Router Decision
             </span>
-            <span class="font-mono text-[11px] lowercase text-primary font-medium">{{ trace.intent_route }}</span>
+            <span class="font-mono text-[11px] lowercase text-foreground font-medium">{{ trace.intent_route }}</span>
           </div>
           <p class="text-[11px] text-foreground bg-muted/40 p-2.5 rounded-lg border border-border font-mono leading-relaxed">
             {{ trace.route_reason || 'Route dynamically mapped from query intent patterns.' }}

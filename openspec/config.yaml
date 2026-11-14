@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  - Frontend UI rework already shipped on branch ui_components (PR to main pending, user merges via GitHub web flow). Planning artifacts must state they build on top of that PR; no rewrites of already-shipped screens.
+  - Frontend UI rework (ui_components) is merged to main; planning artifacts build on main directly; no rewrites of already-shipped screens.
   - This effort is REFINEMENT, not redesign: preserve the established shadcn-vue + Tailwind v4 token system, visual identity, copy, and URL semantics. Follow "refinement preserves; redesign replaces".
   - shadcn-vue CLI crashes on Node 26: author new primitives by hand from upstream shadcn-vue source (reka-ui ^2.11.0 is already installed), matching how the existing ten primitives in frontend/src/components/ui/ were delivered.
   - Every new directory under frontend/src/components/ needs an EGM.md contract file (Peanut contract: overview, exports, boundaries) — see frontend/src/components/ui/EGM.md and per-primitive EGM.md files for the convention.
@@ -11,6 +11,7 @@ context: |
   - tests/ui_smoke.py must run against a local dev backend with a disposable dev database — never the default/real DB.
   - Each phase PR commits a pre-change baseline (screenshots + incumbent-behavior notes) under tests/evidence/<phase>/ before any edit lands.
   - Out of scope by prior decision: frontend unit-test framework (explicit non-goal), F6 claim-level inline citations (blocked on backend evidence_ids in the copilot stream).
+  - Deletion safety: never delete or overwrite existing content (files, doc sections, code, branches, data) without verifying first — grep usages/dependents and check git history — and confirm with the user unless they explicitly approved that exact deletion. Overwriting a file the current session did not author requires reading its git history first.
 
 rules:
   proposal:
@@ -22,6 +23,5 @@ rules:
 operations:
   apply:
     guidance:
-      - Work on a feature branch off main (never commit directly to main); one branch per follow-up item or coherent group
+      - Work directly on main (trunk-based; see docs/workflow.md) with conventional commits; branches only for review/experiments, deleted after merge
       - Read the pristine component's behavior first and preserve URL semantics exactly when swapping controls
-      - If the ui_components PR changed during review, rebase phase branches onto the updated main before starting work

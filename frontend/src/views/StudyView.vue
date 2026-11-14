@@ -135,7 +135,7 @@ const latestLatency = computed(() => {
           v-for="tab in (['products', 'references', 'quality'] as const)"
           :key="tab"
           type="button"
-          class="px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition cursor-pointer"
+          class="px-3 py-1.5 min-h-8 inline-flex items-center rounded-lg text-xs font-medium capitalize transition cursor-pointer"
           :class="activeTab === tab ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'"
           @click="activeTab = tab"
         >
@@ -164,7 +164,7 @@ const latestLatency = computed(() => {
             </div>
 
             <div class="flex items-center gap-2">
-              <Button variant="outline" size="sm" class="h-7 text-[11px] gap-1" @click="toggleReviews(product.id)">
+              <Button variant="outline" size="sm" class="h-8 text-[11px] gap-1" @click="toggleReviews(product.id)">
                 <Loader2 v-if="loadingReviews[product.id]" class="w-3 h-3 animate-spin" />
                 <BookOpen v-else class="w-3 h-3" />
                 {{ reviewsByProduct[product.id] && reviewsByProduct[product.id] !== 'error' ? 'Hide evidence' : 'Uncover the evidence' }}

@@ -288,7 +288,7 @@ const EXAMPLES = [
             v-for="example in EXAMPLES"
             :key="example"
             type="button"
-            class="text-xs px-3 py-1 max-w-full truncate rounded-full border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
+            class="text-xs px-3 py-1 min-h-8 inline-flex items-center max-w-full truncate rounded-full border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
             @click="question = example"
           >
             {{ example }}

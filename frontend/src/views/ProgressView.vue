@@ -133,7 +133,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
     </p>
 
     <template v-else-if="progress">
-      <p v-if="progress.notice" class="text-[11px] text-muted-foreground">{{ progress.notice }}</p>
+      <p v-if="progress.notice" class="text-xs text-muted-foreground">{{ progress.notice }}</p>
 
       <!-- Prepared study pointer -->
       <div v-if="demo?.configured" class="p-3.5 rounded-lg border border-evidence-verified/30 bg-evidence-verified-bg/40 text-xs flex items-center justify-between flex-wrap gap-2">
@@ -288,7 +288,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
         </Card>
         <Card class="p-4">
           <span class="font-medium">Usage</span>
-          <p class="text-[11px] text-muted-foreground mt-1">
+          <p class="text-xs text-muted-foreground mt-1">
             <span class="font-mono">{{ progress.usage?.operations ?? 0 }}</span> operations<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ progress.usage?.provider_attempts ?? 0 }}</span> provider attempts<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>
             <span class="font-mono">{{ progress.usage?.reported_tokens ?? 0 }}</span> tokens<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ progress.usage?.cache_hits ?? 0 }}</span> cache hits
           </p>

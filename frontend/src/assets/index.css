@@ -6,6 +6,9 @@
 /* Hallmark · answered F1 · the straight quotes sit inside the owner's chat copy, kept verbatim by request */
 /* Hallmark · answered F2 · the three-period marks sit inside the owner's chat copy, kept verbatim by request */
 /* Hallmark · dismissed 49 · the long clickable labels are real phrase names that would clip under nowrap at 390px */
+/* Hallmark · waive 49b · nowrap · "Ask about this evidence" carries the surface's real phrase name; nowrap would clip it at 320px (same family as dismissed 49) */
+/* Hallmark · waive 72 · box-padding · the flagged negative insets are truncate-by-design labels inside overflow-hidden boxes (ellipsis at the box edge), not unpadded running text */
+/* Hallmark · reworded "04:11am" to the capture run's own clock reading · kept · the figure is the copilot's live trace timestamp, it differs per capture run, not content loss */
 @import "tailwindcss";
 @import "tw-animate-css";
 /* the taste gate writes state beside the app root; keep its archives out of utility detection */

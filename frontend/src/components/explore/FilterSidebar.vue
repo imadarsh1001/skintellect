@@ -94,7 +94,7 @@ const minMatchSlider = computed({
       <Button
         variant="ghost"
         size="sm"
-        class="h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground font-medium cursor-pointer"
+        class="h-8 px-2.5 text-xs text-muted-foreground hover:text-foreground font-medium cursor-pointer"
         @click="emit('reset')"
       >
         <RotateCcw class="w-3.5 h-3.5 mr-1" />

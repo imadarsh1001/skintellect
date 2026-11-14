@@ -184,7 +184,7 @@ function goToPage(target: number | '…') {
       >
         <ToggleGroupItem
           value="all"
-          class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="min-h-8 rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
         >
           All Categories
         </ToggleGroupItem>
@@ -192,7 +192,7 @@ function goToPage(target: number | '…') {
           v-for="cat in CATEGORIES"
           :key="cat"
           :value="cat"
-          class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="min-h-8 rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
         >
           <component :is="CATEGORY_ICONS[cat]" class="size-3.5 shrink-0" aria-hidden="true" /> {{ cat }}
         </ToggleGroupItem>

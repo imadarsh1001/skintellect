@@ -2,14 +2,15 @@ schema: spec-driven
 
 context: |
   - Frontend UI rework (ui_components) is merged to main; planning artifacts build on main directly; no rewrites of already-shipped screens.
-  - This effort is REFINEMENT, not redesign: preserve the established shadcn-vue + Tailwind v4 token system, visual identity, copy, and URL semantics. Follow "refinement preserves; redesign replaces".
+  - Full visual retheme authorized 2026-11-14 (user instruction): design system and composition are REPLACED; content, routes, links, forms, fields, handlers, and copy are preserved byte-identical. Evidence-verdict MEANINGS (verified/source/unknown/negative/mixed) are preserved; their hues re-deal with the new theme. Token replacement is limited to frontend/src/assets/index.css — never a second token source (tokens.css/base.css).
+  - The retheme runs on branch redesign/hallmark-retheme (user-sanctioned exception to trunk; delete after merge). add-ui-personality-and-motion is PARKED pending the retheme; motion is re-planned on the new system after merge.
   - shadcn-vue CLI crashes on Node 26: author new primitives by hand from upstream shadcn-vue source (reka-ui ^2.11.0 is already installed), matching how the existing ten primitives in frontend/src/components/ui/ were delivered.
   - Every new directory under frontend/src/components/ needs an EGM.md contract file (Peanut contract: overview, exports, boundaries) — see frontend/src/components/ui/EGM.md and per-primitive EGM.md files for the convention.
   - Every UI pass ships with the same gates: npm run build, scripts/check.py, tests/check_ui_semantics.js, and tests/ui_smoke.py with the backend running.
-  - Design-direction skill priority for app UI: impeccable (Operate mode) > ui-taste polish/audit > ui-ux-pro-max targeted queries. Never load multiple design-direction skills on one task. Do not run design-system generators that would replace the existing token system.
+  - Design-direction skill priority for app UI: during the sanctioned retheme, hallmark's dealt theme governs and frontend-design calibrates its Picks; design-taste-frontend is verification-only (gate/checker, never its static kit or dealt palette); impeccable critique/audit reviews. Never load multiple design-direction skills on one task outside this sanctioned pipeline.
   - Design skills are ADVISORY ONLY: apply refinement-scope fixes only; any suggestion touching Tailwind config, tokens, copy, layout identity, or components outside the active change's declared screen scope is recorded in the phase PR's deferred-triage table, never applied silently; changing any of those requires its own OpenSpec change (exception: a change whose proposal explicitly sanctions token changes — e.g. add-ui-personality-and-motion — owns those tokens inside its reviewed scope).
   - tests/ui_smoke.py must run against a local dev backend with a disposable dev database — never the default/real DB.
-  - Each phase PR commits a pre-change baseline (screenshots + incumbent-behavior notes) under tests/evidence/<phase>/ before any edit lands.
+  - Each phase commits a pre-change baseline (screenshots + incumbent-behavior notes) under tests/evidence/<phase>/ or .redesign/ before any edit lands.
   - Out of scope by prior decision: frontend unit-test framework (explicit non-goal), F6 claim-level inline citations (blocked on backend evidence_ids in the copilot stream).
   - Deletion safety: never delete or overwrite existing content (files, doc sections, code, branches, data) without verifying first — grep usages/dependents and check git history — and confirm with the user unless they explicitly approved that exact deletion. Overwriting a file the current session did not author requires reading its git history first.
 

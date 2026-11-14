@@ -3,12 +3,14 @@ import CompareView from '@/views/CompareView.vue'
 import CopilotView from '@/views/CopilotView.vue'
 import ExploreView from '@/views/ExploreView.vue'
 import GraphView from '@/views/GraphView.vue'
+import HomeView from '@/views/HomeView.vue'
 import ProgressView from '@/views/ProgressView.vue'
 import ResearchView from '@/views/ResearchView.vue'
 import StudyView from '@/views/StudyView.vue'
 
 /**
- * One SPA route per workspace. Legacy hash deep links (`/#copilot`,
+ * One SPA route per workspace, plus the landing home at `/` (the
+ * catalog lives at `/explore`). Legacy hash deep links (`/#copilot`,
  * `/#compare`, `/#graph`) redirect to their path equivalents in
  * `beforeEach` so existing bookmarks and the legacy workspace nav
  * keep working. /research, /study and /progress replace the retired
@@ -18,7 +20,8 @@ import StudyView from '@/views/StudyView.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', name: 'explore', component: ExploreView },
+    { path: '/', name: 'home', component: HomeView },
+    { path: '/explore', name: 'explore', component: ExploreView },
     { path: '/compare', name: 'compare', component: CompareView },
     { path: '/graph', name: 'graph', component: GraphView },
     { path: '/copilot', name: 'copilot', component: CopilotView },

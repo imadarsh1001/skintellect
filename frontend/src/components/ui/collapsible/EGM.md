@@ -12,7 +12,7 @@ Generic shadcn-vue style collapsible primitive wrapping the reka-ui collapsible 
 ## Invariants
 - Generic primitive only: no app-domain logic and no API calls
 - `Collapsible` is the state owner (reka-ui `CollapsibleRoot`); `Trigger`/`Content` must be used within it to receive state
-- The classes `animate-collapsible-up`/`animate-collapsible-down` (`CollapsibleContent.vue:10`) are referenced but not defined by any theme source: `tailwind.config.js:plugins` is `[]` and `src/assets/index.css` declares no such keyframes, so they currently resolve to no-op classes; open/close behavior still works via reka-ui state-driven visibility
+- The classes `animate-collapsible-up`/`animate-collapsible-down` (`CollapsibleContent.vue:10`) depend on `tw-animate-css`, already imported by the Tailwind entry (`src/assets/index.css`); open/close behavior also works via reka-ui state-driven visibility
 
 ## Side Effects
 - None (state transitions are local component state managed by reka-ui)

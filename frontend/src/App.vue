@@ -252,6 +252,6 @@ function onTabSelect(value: string | number) {
       @select-product="viewDetails"
     />
 
-    <Toaster rich-colors position="bottom-right" />
+    <Toaster rich-colors theme="dark" position="bottom-right" />
   </div>
 </template>

@@ -41,9 +41,9 @@
     },
     {
       "name": "muted",
-      "foreground": "#9da2a8",
+      "foreground": "#a1a7ad",
       "background": "#0d1013",
-      "ratio": 7.42
+      "ratio": 7.86
     }
   ],
   "browser_layout_tested": false,

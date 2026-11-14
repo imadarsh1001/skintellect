@@ -4,7 +4,7 @@
  * Single source of truth kept OUTSIDE the generated files under
  * `components/ui/` (which the shadcn-vue CLI overwrites on re-pull).
  * After any CLI re-pull, re-attach these variants in `badge/badgeVariants`
- * and `button/buttonVariants` by importing and spreading them.
+ * by importing and spreading them.
  *
  * Colors resolve through the `--color-evidence-*` token family in
  * `src/assets/index.css` (Console retheme: verdict pairs measured >= 4.5:1
@@ -18,4 +18,3 @@ export const evidenceBadgeVariants = {
   mixed: 'border-evidence-mixed/40 bg-evidence-mixed-bg text-evidence-mixed font-medium',
 } as const
 
-export const evidenceButtonVariant = 'bg-evidence-verified text-primary-foreground hover:bg-evidence-verified/90' as const

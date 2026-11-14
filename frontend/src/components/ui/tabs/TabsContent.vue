@@ -8,7 +8,7 @@ const props = defineProps<TabsContentProps & { class?: HTMLAttributes['class'] }
 
 <template>
   <TabsContent
-    :class="cn('mt-2 focus-visible:', props.class)"
+    :class="cn('mt-2', props.class)"
     :value="props.value"
   >
     <slot />

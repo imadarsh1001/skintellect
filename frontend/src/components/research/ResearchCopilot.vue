@@ -556,7 +556,7 @@ const lastAssistantContent = computed(() => {
                   <input
                     v-model="msg.customClarificationText"
                     placeholder="e.g. Under $25, fungal-acne safe with no niacinamide"
-                    class="h-8 text-xs flex-grow rounded-lg border border-input bg-background px-3 focus:ring-1 focus:ring-primary"
+                    class="h-8 text-xs flex-grow rounded-lg border border-input bg-background px-3"
                     @keydown.enter="submitCustomClarification(msg)"
                   />
                   <Button
@@ -640,7 +640,7 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="(obs, oIdx) in (revGroup.observations || []).filter((o: any) => o.span || o.quote || o.text).slice(0, 3)"
                     :key="oIdx"
-                    class="p-2.5 rounded-sm bg-muted text-xs flex flex-col gap-1"
+                    class="p-2.5 rounded-sm bg-muted border border-border text-xs flex flex-col gap-1"
                   >
                     <div class="flex items-center justify-between gap-2">
                       <span class="font-medium text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground">
@@ -648,12 +648,12 @@ const lastAssistantContent = computed(() => {
                       </span>
                       <span
                         class="text-[11px] font-medium px-1.5 py-0.2 rounded"
-                        :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : 'bg-purple-100 text-evidence-mixed'"
+                        :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : 'bg-evidence-mixed-bg text-evidence-mixed'"
                       >
                         {{ obs.sentiment || 'observed' }}
                       </span>
                     </div>
-                    <p class="italic text-foreground/90 font-serif text-[11px] leading-relaxed">
+                    <p class="italic text-foreground/90 text-[11px] leading-relaxed">
                       "{{ obs.span || obs.quote || obs.text }}"
                     </p>
                   </div>
@@ -675,7 +675,7 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="alt in (altGroup.alternatives || []).slice(0, 2)"
                     :key="alt.id"
-                    class="p-2.5 rounded-sm bg-muted text-xs space-y-1"
+                    class="p-2.5 rounded-sm bg-muted border border-border text-xs space-y-1"
                   >
                     <div class="flex items-center justify-between font-medium">
                       <span>{{ alt.brand }} - {{ alt.name }}</span>

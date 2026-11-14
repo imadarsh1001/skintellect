@@ -9,10 +9,10 @@ Authored from upstream shadcn-vue `unovue/shadcn-vue` commit `d1bf1b3a2d1a824b19
 - Exported by `index.ts`: `Sheet`, `SheetClose`, `SheetContent`, `SheetDescription`, `SheetFooter`, `SheetHeader`, `SheetTitle`, `SheetTrigger`
 - `Sheet` (`Sheet.vue`): wraps reka-ui `DialogRoot`; props `DialogRootProps`, emits `DialogRootEmits`, forwarded via `useForwardPropsEmits` — owns open state (`v-model:open` / `defaultOpen`), focus trap, Escape-to-close
 - `SheetTrigger` (`SheetTrigger.vue`): wraps reka-ui `DialogTrigger`, opens the sheet
-- `SheetContent` (`SheetContent.vue`): renders `DialogPortal` + `SheetOverlay` + reka-ui `DialogContent`; props extend `DialogContentProps` with `side?: 'top'|'right'|'bottom'|'left'` (default `'right'`); side-specific slide-in/out animation classes; built-in `DialogClose` button (X icon + sr-only label) top-right; `inheritAttrs: false` with `$attrs` merged after forwarded props
-- `SheetOverlay` (`SheetOverlay.vue`): reka-ui `DialogOverlay`, fixed backdrop `bg-black/80` with fade animation
+- `SheetContent` (`SheetContent.vue`): renders `DialogPortal` + `SheetOverlay` + reka-ui `DialogContent`; props extend `DialogContentProps` with `side?: 'top'|'right'|'bottom'|'left'` (default `'right'`); side-specific slide-in/out animation classes; built-in `DialogClose` button (X icon + sr-only label) top-right; forwarded props merged after `$attrs`
+- `SheetOverlay` (`SheetOverlay.vue`): reka-ui `DialogOverlay`, fixed backdrop `bg-scrim/80` with fade animation
 - `SheetHeader` / `SheetFooter` (`*.vue`): layout stacks (`flex flex-col gap-1.5 p-4` / `mt-auto … p-4`)
-- `SheetTitle` / `SheetDescription` (`*.vue`): reka-ui `DialogTitle`/`DialogDescription` with muted text styling
+- `SheetTitle` / `SheetDescription` (`*.vue`): reka-ui `DialogTitle`/`DialogDescription`; title in foreground weight 500, description muted
 - `SheetClose` (`SheetClose.vue`): reka-ui `DialogClose` for custom close affordances
 
 ## Invariants

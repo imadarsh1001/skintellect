@@ -223,7 +223,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2">
               <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[11px] font-medium">{{ job.status }}</Badge>
-              <span class="font-bold">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
+              <span class="font-medium">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
               <span class="text-muted-foreground text-[11px]">
                 <span class="font-mono">{{ job.calls ?? 0 }}/{{ job.max_calls }}</span> calls<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ job.selected ?? 0 }}/{{ job.limit_count ?? '—' }}</span> records
                 <template v-if="job.product_id"><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>product {{ job.product_id }}</template>
@@ -250,7 +250,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2">
               <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[11px] font-medium">{{ job.status }}</Badge>
-              <span class="font-bold">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
+              <span class="font-medium">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
               <span class="text-muted-foreground text-[11px]">
                 <span class="font-mono">{{ job.completed ?? 0 }}/{{ job.limit_count ?? '—' }}</span> records<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ job.calls ?? 0 }}/{{ job.max_calls }}</span> calls
                 <template v-if="job.product_id"><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>product {{ job.product_id }}</template>
@@ -279,7 +279,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         <Card class="p-4">
           <div class="flex items-center justify-between">
-            <span class="font-bold">Model</span>
+            <span class="font-medium">Model</span>
             <Badge :variant="progress.model?.enabled ? 'verified' : 'unknown'" class="text-[11px]">
               {{ progress.model?.enabled ? 'enabled' : 'disabled' }}
             </Badge>
@@ -287,7 +287,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
           <p class="font-mono text-[11px] text-muted-foreground mt-1">{{ progress.model?.model ?? '—' }}</p>
         </Card>
         <Card class="p-4">
-          <span class="font-bold">Usage</span>
+          <span class="font-medium">Usage</span>
           <p class="text-[11px] text-muted-foreground mt-1">
             <span class="font-mono">{{ progress.usage?.operations ?? 0 }}</span> operations<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ progress.usage?.provider_attempts ?? 0 }}</span> provider attempts<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>
             <span class="font-mono">{{ progress.usage?.reported_tokens ?? 0 }}</span> tokens<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span><span class="font-mono">{{ progress.usage?.cache_hits ?? 0 }}</span> cache hits

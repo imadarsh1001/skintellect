@@ -8,16 +8,11 @@
 /* Hallmark · dismissed 49 · the long clickable labels are real phrase names that would clip under nowrap at 390px */
 @import "tailwindcss";
 @import "tw-animate-css";
-/* evidence archives hold old class strings; keep them out of utility detection */
-@source not "../../../.hallmark";
-@source not "../../../.redesign";
-@source not "../../../reports";
-@source not "../../../.taste-skill";
-@source not "../../../docs";
-@source not "../../../openspec";
-@source not "../../../tests";
+/* the taste gate writes state beside the app root; keep its archives out of utility detection */
+@source not "../.taste-skill";
 @import "@fontsource/host-grotesk/400.css";
 @import "@fontsource/host-grotesk/500.css";
+@import "@fontsource/host-grotesk/700.css";
 @import "@fontsource/atkinson-hyperlegible-mono/400.css";
 @import "@fontsource/atkinson-hyperlegible-mono/500.css";
 
@@ -65,48 +60,10 @@
   --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-outlier: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
-
-  /* Evidence verdict family — the product's own instrument statuses,
-     re-dealt onto the graphite ground. MEANINGS are product truth:
-     verified=measured, source=attributed, unknown=no reading yet,
-     negative=contraindication, mixed=conflicting. Text/bg pairs hold
-     >= 4.5:1 (Floor 40/41; asserted by tests/check_ui_semantics.js).
-     Class strings live in `@/lib/evidence`. */
-  --color-evidence-verified: #61cb7c;
-  --color-evidence-verified-bg: #162519;
-  --color-evidence-source: #6ebcfc;
-  --color-evidence-source-bg: #142e43;
-  --color-evidence-unknown: #9da2a8;
-  --color-evidence-unknown-bg: #20252a;
-  --color-evidence-negative: #f66d67;
-  --color-evidence-negative-bg: #2f1a18;
-  --color-evidence-mixed: #b6a1df;
-  --color-evidence-mixed-bg: #251d32;
 }
 
-/* Graphite is the shipped surface; the dark variant resolves to the same tokens. */
-.dark {
-  --background: 211 19% 6.2%;
-  --foreground: 211.2 17.8% 93.7%;
-  --card: 211 14.3% 9.7%;
-  --card-foreground: 211.2 17.8% 93.7%;
-  --popover: 211 14.3% 9.7%;
-  --popover-foreground: 211.2 17.8% 93.7%;
-  --primary: 39.7 91.6% 60.4%;
-  --primary-foreground: 31.3 100% 5.4%;
-  --secondary: 211 13.6% 14.4%;
-  --secondary-foreground: 211.2 17.8% 93.7%;
-  --muted: 213.2 26% 3.4%;
-  --muted-foreground: 211.1 6.5% 65.5%;
-  --accent: 206.7 54.4% 16.9%;
-  --accent-foreground: 211.2 17.8% 93.7%;
-  --destructive: 358.8 63% 35.5%;
-  --destructive-foreground: 6 20.5% 95.1%;
-  --border: 211 8.9% 19.2%;
-  --input: 211 8% 40%;
-  --ring: 39.7 91.6% 60.4%;
-  --scrim: 216.1 57.8% 0.8%;
-}
+/* Graphite is the shipped surface: :root IS the dark theme; no .dark class is applied.
+   The @custom-variant dark and dark: fragments in primitives stay inert. */
 
 @theme inline {
   --color-background: hsl(var(--background));
@@ -139,21 +96,21 @@
      Hyperlegible Mono for what an instrument measured. */
   --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
-  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-outlier: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
 
-  /* The evidence family maps 1:1 — utilities regenerate from these names. */
-  --color-evidence-verified: var(--color-evidence-verified);
-  --color-evidence-verified-bg: var(--color-evidence-verified-bg);
-  --color-evidence-source: var(--color-evidence-source);
-  --color-evidence-source-bg: var(--color-evidence-source-bg);
-  --color-evidence-unknown: var(--color-evidence-unknown);
-  --color-evidence-unknown-bg: var(--color-evidence-unknown-bg);
-  --color-evidence-negative: var(--color-evidence-negative);
-  --color-evidence-negative-bg: var(--color-evidence-negative-bg);
-  --color-evidence-mixed: var(--color-evidence-mixed);
-  --color-evidence-mixed-bg: var(--color-evidence-mixed-bg);
+  /* Evidence verdict family — meanings are product truth: verified=measured,
+     source=attributed, unknown=no reading yet, negative=contraindication,
+     mixed=conflicting. Pairs hold >= 4.5:1 on graphite (Floor 40/41;
+     asserted by tests/check_ui_semantics.js). Class strings: @/lib/evidence. */
+  --color-evidence-verified: #61cb7c;
+  --color-evidence-verified-bg: #162519;
+  --color-evidence-source: #6ebcfc;
+  --color-evidence-source-bg: #142e43;
+  --color-evidence-unknown: #9da2a8;
+  --color-evidence-unknown-bg: #20252a;
+  --color-evidence-negative: #f66d67;
+  --color-evidence-negative-bg: #2f1a18;
+  --color-evidence-mixed: #b6a1df;
+  --color-evidence-mixed-bg: #251d32;
 }
 
 @layer base {
@@ -216,6 +173,7 @@
 
 /* Copilot Narrative Markdown — Console restyle: hairline table rows, no
    side stripe (gate 3/WARN), measured face for code, quiet wells. */
+/* plain (unlayered) rule: the sloplint gate-50 parser does not read @layer blocks */
 h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot {
   color: inherit;
@@ -267,7 +225,7 @@ h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot code {
   background-color: hsl(var(--muted));
   padding: 0.15rem 0.35rem;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.85em;
 }
@@ -295,7 +253,7 @@ h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot blockquote {
   background-color: hsl(var(--muted));
   color: hsl(var(--foreground));
-  border-radius: 0.375rem;
+  border-radius: var(--radius-sm);
   padding: 0.5rem 0.75rem;
   margin: 0.5rem 0;
 }

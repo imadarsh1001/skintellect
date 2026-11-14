@@ -8,7 +8,7 @@ Generic shadcn-vue style text input primitive: a styled native `<input>` element
 - Props (`Input.vue:Props`): `defaultValue?: string | number`, `modelValue?: string | number`, `class?: HTMLAttributes['class']`
 - Emits (`Input.vue:defineEmits`): `'update:modelValue'` with payload `string | number`
 - Two-way binding (`Input.vue:modelValue`): `useVModel(props, 'modelValue', emits, { passive: true, defaultValue: props.defaultValue })`
-- Renders `Input.vue:template`: native `<input v-model="modelValue">` styled `flex h-9 w-full rounded-md border border-input ... disabled:cursor-not-allowed disabled:opacity-50`
+- Renders `Input.vue:template`: native `<input v-model="modelValue">` styled `flex h-9 w-full rounded-sm border border-input bg-muted ... disabled:cursor-not-allowed disabled:opacity-55`
 
 ## Invariants
 - Generic primitive only: no app-domain logic and no API calls

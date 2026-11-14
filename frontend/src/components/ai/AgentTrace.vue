@@ -134,7 +134,7 @@ function formatEventTime(iso?: string) {
         <!-- Event timeline -->
         <div v-if="trace.events && trace.events.length > 0" class="space-y-1.5">
           <div class="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
-            <Clock class="w-3 h-3 text-primary" />
+            <Clock class="w-3 h-3 text-muted-foreground" />
             Event Audit Timeline ({{ trace.events.length }} events)
           </div>
           <ScrollArea class="h-48 rounded-lg border p-2.5 bg-muted/20 font-mono text-[11px]">

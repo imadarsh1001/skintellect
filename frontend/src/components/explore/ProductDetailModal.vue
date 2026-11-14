@@ -439,7 +439,7 @@ function inspectAlternative(alt: any) {
                   v-model="ingredientSearch"
                   type="text"
                   placeholder="Filter ingredients..."
-                  class="w-full h-8 pl-8 pr-3 text-xs rounded-lg border border-input bg-background focus:ring-1 focus:ring-primary"
+                  class="w-full h-8 pl-8 pr-3 text-xs rounded-lg border border-input bg-background"
                 />
               </div>
             </div>
@@ -501,7 +501,7 @@ function inspectAlternative(alt: any) {
                       <span class="text-[11px] font-medium text-muted-foreground">{{ d.brand }}</span>
                       <h4 class="font-medium text-foreground text-sm leading-snug">{{ d.name }}</h4>
                     </div>
-                    <Badge variant="verified" class="text-xs shrink-0 font-extrabold">
+                    <Badge variant="verified" class="text-xs shrink-0 font-medium">
                       {{ d.similarity }}% Match
                     </Badge>
                   </div>

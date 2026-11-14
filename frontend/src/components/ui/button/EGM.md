@@ -6,9 +6,8 @@ Generic shadcn-vue style button primitive wrapping the reka-ui `Primitive` eleme
 ## Interface
 - `Button` (exported by `index.ts:1`, re-exporting `./Button.vue`)
 - Props (`Button.vue:Props extends PrimitiveProps`): `variant?`, `size?`, `class?`, plus reka-ui `PrimitiveProps` (`as`, `asChild`); `as` defaults to `'button'` (`Button.vue:withDefaults`)
-- Variant contract (`Button.vue:buttonVariants`): `default | destructive | outline | secondary | ghost | link | evidence`; default is `default`
+- Variant contract (`Button.vue:buttonVariants`): `default | destructive | outline | secondary | ghost | link`; default is `default`
 - Size contract (`Button.vue:buttonVariants`): `default | sm | lg | icon`; default is `default`
-- `evidence` variant (`Button.vue:buttonVariants`): verified-green token scheme (`bg-evidence-verified text-primary-foreground`) via `evidenceButtonVariant` in `@/lib/evidence`
 - Renders `Button.vue:template`: `<Primitive :as="as" :as-child="asChild" :class="cn(buttonVariants({ variant, size }), props.class)">` with a default slot
 
 ## Invariants

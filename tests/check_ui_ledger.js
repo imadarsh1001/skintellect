@@ -2,7 +2,7 @@
 /**
  * Content-preservation ledger for the hallmark retheme (local-only check).
  *
- * The redesign must preserve every interactive element. This script scans the
+ * The redesign must preserve the count of every structural interactive marker. This script scans the
  * Vue sources for structural markers (links, form fields, interactive
  * primitives, event bindings) and compares them against the baseline recorded
  * in .redesign/before/ledger.json before any redesign edit landed.

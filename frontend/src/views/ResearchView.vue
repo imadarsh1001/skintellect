@@ -281,7 +281,7 @@ const EXAMPLES = [
           v-model="question"
           rows="3"
           placeholder="e.g. Find moisturizers with ceramides. Summarize texture evidence and suggest one alternative."
-          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed focus:ring-1 focus:ring-primary"
+          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed"
         />
         <div class="flex flex-wrap items-center gap-1.5">
           <button
@@ -413,7 +413,7 @@ const EXAMPLES = [
               </span>
               <Badge v-if="sel.kind === 'reported_experience'" variant="source" class="text-[11px] py-0">Reviewer experience</Badge>
             </div>
-            <p class="italic text-foreground/90 font-serif text-[11px]">"{{ sel.span || sel.quote }}"</p>
+            <p class="italic text-foreground/90 text-[11px]">"{{ sel.span || sel.quote }}"</p>
           </div>
         </div>
         <p v-if="answer.synthesis?.unanswered_topics?.length" class="text-[11px] text-muted-foreground">
@@ -500,7 +500,7 @@ const EXAMPLES = [
                 <p class="text-muted-foreground">{{ evidenceDataOf(p.id)?.description || 'Not recorded.' }}</p>
               </template>
               <template v-else-if="evidenceDataOf(p.id)?.kind === 'reported_experience'">
-                <p class="italic font-serif text-foreground/90">"{{ evidenceDataOf(p.id)?.cleaned_text || evidenceDataOf(p.id)?.review_text }}"</p>
+                <p class="italic text-foreground/90">"{{ evidenceDataOf(p.id)?.cleaned_text || evidenceDataOf(p.id)?.review_text }}"</p>
                 <span class="text-muted-foreground">Recorded {{ evidenceDataOf(p.id)?.date_posted || 'date unknown' }}</span>
               </template>
               <template v-else>
@@ -599,12 +599,12 @@ const EXAMPLES = [
                     <span class="font-medium px-1.5 py-0.5 rounded bg-muted text-foreground">{{ obs.aspect || obs.topic }}</span>
                     <span
                       class="font-medium px-1.5 py-0.5 rounded"
-                      :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : obs.sentiment === 'mixed' ? 'bg-purple-100 text-evidence-mixed' : 'bg-muted text-muted-foreground'"
+                      :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : obs.sentiment === 'mixed' ? 'bg-evidence-mixed-bg text-evidence-mixed' : 'bg-muted text-muted-foreground'"
                     >
                       {{ obs.sentiment || 'observed' }}
                     </span>
                   </div>
-                  <p class="italic font-serif text-foreground/90 mt-1">"{{ obs.span || obs.quote }}"</p>
+                  <p class="italic text-foreground/90 mt-1">"{{ obs.span || obs.quote }}"</p>
                 </div>
 
                 <p

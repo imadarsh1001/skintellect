@@ -1,7 +1,7 @@
 # Badge
 
 ## Overview
-Generic shadcn-vue style badge primitive. A purely presentational labeled pill rendered as a styled `<div>` with a default slot; no app-domain logic and no API calls. Variant styling is defined via `class-variance-authority`.
+Generic shadcn-vue style badge primitive. A purely presentational labeled chip rendered as a styled `<div>` with a default slot; no app-domain logic and no API calls. Variant styling is defined via `class-variance-authority`.
 
 ## Interface
 - `Badge` (exported by `index.ts:1`, re-exporting `./Badge.vue`)

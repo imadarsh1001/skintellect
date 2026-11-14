@@ -9,7 +9,7 @@ Generic shadcn-vue style card primitive: a set of six purely presentational layo
 - Element and styling contract per component (each in its own `.vue` template):
   - `Card.vue:template`: `<div>` with `rounded-lg border bg-card text-card-foreground` (hairline panel; no shadow — Console surface rule)
   - `CardHeader.vue:template`: `<div>` with `flex flex-col gap-1.5 p-5`
-  - `CardTitle.vue:template`: `<h3>` with `font-semibold leading-none tracking-tight text-foreground text-base`
+  - `CardTitle.vue:template`: `<h3>` with `font-medium leading-none tracking-tight text-foreground text-base`
   - `CardDescription.vue:template`: `<p>` with `text-sm text-muted-foreground leading-relaxed`
   - `CardContent.vue:template`: `<div>` with `p-5 pt-0`
   - `CardFooter.vue:template`: `<div>` with `flex items-center p-5 pt-0`

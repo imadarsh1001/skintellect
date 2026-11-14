@@ -41,16 +41,16 @@ Backend term (`verified_complete_products`, defined in the table above as *verif
 ## Evidence verdicts
 
 **Verified**:
-Full verified INCI present (teal badge family).
+Full verified INCI present (green badge family).
 
 **Source**:
 Claim backed by an attributed source (blue).
 
 **Unknown**:
-Claim that could not be verified (amber).
+Claim that could not be verified (neutral grey).
 
 **Negative**:
-Contraindication or flagged trigger (rose).
+Contraindication or flagged trigger (red).
 
 **Mixed**:
 Conflicting evidence (purple).

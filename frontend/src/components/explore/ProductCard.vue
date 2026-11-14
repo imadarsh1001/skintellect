@@ -100,7 +100,7 @@ function getMatchScoreColor(score: number): string {
     <CardHeader class="pt-4 pb-2 px-5 cursor-pointer" @click="emits('view-details', product)">
       <div class="flex items-center justify-between gap-2 text-xs font-medium text-muted-foreground">
         <span>{{ product.brand }}</span>
-        <span class="text-foreground font-extrabold px-1.5 py-0.5 rounded bg-muted/60 text-[11px]">
+        <span class="text-foreground font-medium px-1.5 py-0.5 rounded bg-muted/60 text-[11px]">
           {{ product.price_tier || '$$' }}
         </span>
       </div>
@@ -147,7 +147,7 @@ function getMatchScoreColor(score: number): string {
         </span>
         <span
           v-if="product.alcohol_free === 1"
-          class="px-2 py-0.5 rounded-full bg-evidence-unknown-bg text-evidence-unknown font-medium"
+          class="px-2 py-0.5 rounded-full bg-evidence-unknown-bg text-evidence-unknown font-medium border border-evidence-unknown/40"
         >
           Alcohol-Free
         </span>
@@ -192,7 +192,7 @@ function getMatchScoreColor(score: number): string {
       >
         <AlertTriangle class="w-4 h-4 shrink-0 text-evidence-negative mt-0.5" />
         <div>
-          <span class="font-bold">Avoid:</span>
+          <span class="font-medium">Avoid:</span>
           {{ product.persona_match.contraindications_found.join(', ') }}
         </div>
       </div>
@@ -214,10 +214,10 @@ function getMatchScoreColor(score: number): string {
       <Button
         variant="ghost"
         size="sm"
-        class="h-8 text-xs gap-1.5 text-primary font-medium hover:text-primary hover:bg-primary/10"
+        class="h-8 text-xs gap-1.5 text-evidence-source font-medium hover:text-evidence-source hover:bg-evidence-source-bg"
         @click="emits('open-copilot', product)"
       >
-        <Sparkles class="w-3.5 h-3.5 text-primary" />
+        <Sparkles class="w-3.5 h-3.5 text-evidence-source" />
         Ask Copilot
       </Button>
     </CardFooter>

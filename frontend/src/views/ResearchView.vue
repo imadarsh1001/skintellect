@@ -288,7 +288,7 @@ const EXAMPLES = [
             v-for="example in EXAMPLES"
             :key="example"
             type="button"
-            class="text-xs px-3 py-1 rounded-full border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
+            class="text-xs px-3 py-1 max-w-full truncate rounded-full border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
             @click="question = example"
           >
             {{ example }}
@@ -416,7 +416,7 @@ const EXAMPLES = [
             <p class="italic text-foreground/90 text-[11px]">"{{ sel.span || sel.quote }}"</p>
           </div>
         </div>
-        <p v-if="answer.synthesis?.unanswered_topics?.length" class="text-[11px] text-muted-foreground">
+        <p v-if="answer.synthesis?.unanswered_topics?.length" class="text-xs text-muted-foreground">
           <span class="font-medium text-evidence-unknown">Not answered by the collected evidence:</span>
           {{ answer.synthesis.unanswered_topics.join(', ') }}
         </p>
@@ -442,7 +442,7 @@ const EXAMPLES = [
           <template v-if="results.failed_count"><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ results.failed_count }} unusable</template>
         </span>
       </div>
-      <p v-if="results.notice" class="text-[11px] text-muted-foreground">{{ results.notice }}</p>
+      <p v-if="results.notice" class="text-xs text-muted-foreground">{{ results.notice }}</p>
 
       <div v-if="results.products.length === 0" class="py-10 text-center border rounded-lg bg-card text-sm text-muted-foreground">
         No records match these constraints. Try relaxing an exclusion or widening the category.
@@ -551,7 +551,7 @@ const EXAMPLES = [
                   </div>
                 </div>
               </div>
-              <p v-if="reviewSummaryOf(p.id).oneSidedSample" class="text-[11px] text-muted-foreground italic">
+              <p v-if="reviewSummaryOf(p.id).oneSidedSample" class="text-xs text-muted-foreground italic">
                 A one-sided extracted sample does not establish that reviewers agree.
               </p>
 
@@ -654,6 +654,6 @@ const EXAMPLES = [
       </Card>
     </div>
 
-    <p v-else-if="notice" class="text-[11px] text-muted-foreground">{{ notice }}</p>
+    <p v-else-if="notice" class="text-xs text-muted-foreground">{{ notice }}</p>
   </div>
 </template>

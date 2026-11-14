@@ -1,0 +1,385 @@
+{
+  "collections": [
+    {
+      "name": "Brand",
+      "modes": [
+        "light"
+      ],
+      "variables": [
+        {
+          "name": "color/primary",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.9686274509803922,
+              "g": 0.7215686274509804,
+              "b": 0.24313725490196078,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/secondary",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.43137254901960786,
+              "g": 0.7372549019607844,
+              "b": 0.9882352941176471,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/neutral/50",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.17647058823529413,
+              "g": 0.19215686274509805,
+              "b": 0.20784313725490197,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/neutral/100",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.6313725490196078,
+              "g": 0.6549019607843137,
+              "b": 0.6784313725490196,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/neutral/200",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.3686274509803922,
+              "g": 0.4,
+              "b": 0.43137254901960786,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/neutral/300",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.12549019607843137,
+              "g": 0.1450980392156863,
+              "b": 0.16470588235294117,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/neutral/400",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.10980392156862745,
+              "g": 0.054901960784313725,
+              "b": 0,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/background/default",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.050980392156862744,
+              "g": 0.06274509803921569,
+              "b": 0.07450980392156863,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/background/1",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.08235294117647059,
+              "g": 0.09803921568627451,
+              "b": 0.10980392156862745,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/text/default",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.9254901960784314,
+              "g": 0.9372549019607843,
+              "b": 0.9490196078431372,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/text/1",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.3803921568627451,
+              "g": 0.796078431372549,
+              "b": 0.48627450980392156,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/text/2",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.6313725490196078,
+              "g": 0.6549019607843137,
+              "b": 0.6784313725490196,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/text/3",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.43137254901960786,
+              "g": 0.7372549019607844,
+              "b": 0.9882352941176471,
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "color/text/4",
+          "type": "COLOR",
+          "values": {
+            "light": {
+              "r": 0.615686274509804,
+              "g": 0.6352941176470588,
+              "b": 0.6588235294117647,
+              "a": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Typography",
+      "modes": [
+        "default"
+      ],
+      "variables": [
+        {
+          "name": "font/size/30",
+          "type": "FLOAT",
+          "values": {
+            "default": 30
+          }
+        },
+        {
+          "name": "font/weight/30",
+          "type": "FLOAT",
+          "values": {
+            "default": 500
+          }
+        },
+        {
+          "name": "font/lineHeight/30",
+          "type": "FLOAT",
+          "values": {
+            "default": 36
+          }
+        },
+        {
+          "name": "font/size/20",
+          "type": "FLOAT",
+          "values": {
+            "default": 20
+          }
+        },
+        {
+          "name": "font/weight/20",
+          "type": "FLOAT",
+          "values": {
+            "default": 500
+          }
+        },
+        {
+          "name": "font/lineHeight/20",
+          "type": "FLOAT",
+          "values": {
+            "default": 28
+          }
+        },
+        {
+          "name": "font/size/16",
+          "type": "FLOAT",
+          "values": {
+            "default": 16
+          }
+        },
+        {
+          "name": "font/weight/16",
+          "type": "FLOAT",
+          "values": {
+            "default": 400
+          }
+        },
+        {
+          "name": "font/lineHeight/16",
+          "type": "FLOAT",
+          "values": {
+            "default": 24
+          }
+        },
+        {
+          "name": "font/size/14",
+          "type": "FLOAT",
+          "values": {
+            "default": 14
+          }
+        },
+        {
+          "name": "font/weight/14",
+          "type": "FLOAT",
+          "values": {
+            "default": 500
+          }
+        },
+        {
+          "name": "font/lineHeight/14",
+          "type": "FLOAT",
+          "values": {
+            "default": 20
+          }
+        },
+        {
+          "name": "font/size/12",
+          "type": "FLOAT",
+          "values": {
+            "default": 12
+          }
+        },
+        {
+          "name": "font/weight/12",
+          "type": "FLOAT",
+          "values": {
+            "default": 400
+          }
+        },
+        {
+          "name": "font/lineHeight/12",
+          "type": "FLOAT",
+          "values": {
+            "default": 16
+          }
+        },
+        {
+          "name": "font/size/11",
+          "type": "FLOAT",
+          "values": {
+            "default": 11
+          }
+        },
+        {
+          "name": "font/weight/11",
+          "type": "FLOAT",
+          "values": {
+            "default": 500
+          }
+        },
+        {
+          "name": "font/lineHeight/11",
+          "type": "FLOAT",
+          "values": {
+            "default": 16.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spacing",
+      "modes": [
+        "default"
+      ],
+      "variables": [
+        {
+          "name": "spacing/4",
+          "type": "FLOAT",
+          "values": {
+            "default": 4
+          }
+        },
+        {
+          "name": "spacing/8",
+          "type": "FLOAT",
+          "values": {
+            "default": 8
+          }
+        },
+        {
+          "name": "spacing/12",
+          "type": "FLOAT",
+          "values": {
+            "default": 12
+          }
+        },
+        {
+          "name": "spacing/16",
+          "type": "FLOAT",
+          "values": {
+            "default": 16
+          }
+        },
+        {
+          "name": "spacing/20",
+          "type": "FLOAT",
+          "values": {
+            "default": 20
+          }
+        },
+        {
+          "name": "spacing/24",
+          "type": "FLOAT",
+          "values": {
+            "default": 24
+          }
+        },
+        {
+          "name": "spacing/32",
+          "type": "FLOAT",
+          "values": {
+            "default": 32
+          }
+        },
+        {
+          "name": "radius/sm",
+          "type": "FLOAT",
+          "values": {
+            "default": 4
+          }
+        },
+        {
+          "name": "radius/md",
+          "type": "FLOAT",
+          "values": {
+            "default": 10
+          }
+        }
+      ]
+    }
+  ]
+}

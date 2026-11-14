@@ -1,0 +1,26 @@
+Build a landing page with this exact visual language.
+COLORS:
+  #2d3135
+  #eceff2
+  #61cb7c
+  #6ebcfc
+  #a1a7ad
+  #162519
+  #06080b
+  #f7b83e
+  #5e666e
+  #142e43
+  #20252a
+  #1c0e00
+  #0d1013
+FONTS: [object Object], [object Object]
+SPACING: 4, 8, 12, 16, 20, 24, 32
+RADIUS: 4, 10
+SHADOWS: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px | rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(236, 239, 242) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px
+MATERIAL LANGUAGE: flat
+VOICE: Tone: friendly · Headings: Title Case · CTA verbs: [object Object], [object Object], [object Object], [object Object], [object Object], [object Object]
+LIBRARY: Use shadcn/ui components (Button, Card, Dialog, Input, Sheet, Tabs). Pair with Tailwind.
+SECTIONS (in order):
+- pricing — heading: "Universal Cosmetic Chemistry & Formulation Intelligence"
+- sidebar
+Use Tailwind. Match these tokens exactly. Keep the material language consistent.

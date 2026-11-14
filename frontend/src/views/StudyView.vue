@@ -110,21 +110,21 @@ const latestLatency = computed(() => {
           <CardContent class="p-4">
             <span class="text-[11px] font-medium text-evidence-verified">Prepared study</span>
             <p class="text-2xl text-evidence-verified">{{ readyCount }} / {{ demo.products.length }}</p>
-            <p class="text-[11px] text-muted-foreground">Products with selected evidence prepared.</p>
+            <p class="text-xs text-muted-foreground">Products with selected evidence prepared.</p>
           </CardContent>
         </Card>
         <Card class="border-evidence-source/30 bg-evidence-source-bg/40">
           <CardContent class="p-4">
             <span class="text-[11px] font-medium text-evidence-source">Follow the sources</span>
             <p class="text-2xl text-evidence-source">{{ totalReviews }} reviews</p>
-            <p class="text-[11px] text-muted-foreground">Analyzed reviewer experiences with recorded quotes.</p>
+            <p class="text-xs text-muted-foreground">Analyzed reviewer experiences with recorded quotes.</p>
           </CardContent>
         </Card>
         <Card class="border-evidence-unknown/30 bg-evidence-unknown-bg/40">
           <CardContent class="p-4">
             <span class="text-[11px] font-medium text-evidence-unknown">Keep the limits visible</span>
             <p class="text-2xl text-evidence-unknown">Lists unverified</p>
-            <p class="text-[11px] text-muted-foreground">Missing text does not establish absence.</p>
+            <p class="text-xs text-muted-foreground">Missing text does not establish absence.</p>
           </CardContent>
         </Card>
       </div>
@@ -192,7 +192,7 @@ const latestLatency = computed(() => {
                   <div class="text-muted-foreground text-[11px]">{{ card.mentioning }} of {{ card.denominator }}</div>
                 </div>
               </div>
-              <p v-if="buildSummaryModel(reviewsByProduct[product.id] as ReviewInsights).oneSidedSample" class="text-[11px] text-muted-foreground italic">
+              <p v-if="buildSummaryModel(reviewsByProduct[product.id] as ReviewInsights).oneSidedSample" class="text-xs text-muted-foreground italic">
                 A one-sided extracted sample does not establish that reviewers agree.
               </p>
               <div class="flex flex-col gap-1.5">
@@ -233,7 +233,7 @@ const latestLatency = computed(() => {
           <CardContent class="pb-4 text-xs flex flex-col gap-2">
             <p class="text-foreground leading-relaxed">{{ ref.summary }}</p>
             <p v-if="ref.quote" class="italic font-serif text-muted-foreground">"{{ ref.quote }}"</p>
-            <p v-if="ref.limitations" class="text-[11px] text-evidence-unknown">Limitations: {{ ref.limitations }}</p>
+            <p v-if="ref.limitations" class="text-xs text-evidence-unknown">Limitations: {{ ref.limitations }}</p>
             <a v-if="ref.url" :href="ref.url" target="_blank" rel="noopener noreferrer" class="text-primary font-medium hover:underline w-fit">
               Open source ↗
             </a>
@@ -264,11 +264,11 @@ const latestLatency = computed(() => {
               </div>
             </template>
             <p v-else class="text-muted-foreground italic">No retrieval evaluation has been recorded yet.</p>
-            <p v-if="demo.evaluation?.latency?.limitation" class="text-[11px] text-muted-foreground italic">
+            <p v-if="demo.evaluation?.latency?.limitation" class="text-xs text-muted-foreground italic">
               {{ demo.evaluation.latency.limitation }}
             </p>
-            <p v-if="latestLatency" class="text-[11px] text-muted-foreground">Latest measured latency: {{ latestLatency }} ms</p>
-            <p class="text-[11px] text-muted-foreground flex items-center gap-1">
+            <p v-if="latestLatency" class="text-xs text-muted-foreground">Latest measured latency: {{ latestLatency }} ms</p>
+            <p class="text-xs text-muted-foreground flex items-center gap-1">
               <ShieldCheck class="w-3 h-3 text-evidence-verified" />
               {{ demo.evaluation_current ? 'Evaluation matches the current prepared data.' : 'Evaluation is stale relative to the prepared data.' }}
             </p>

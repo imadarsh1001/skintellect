@@ -1,0 +1,10 @@
+Clone the design language of this landing page and build a fresh equivalent.
+Visual feel: flat. Tone: friendly · Headings: Title Case · CTA verbs: [object Object], [object Object], [object Object], [object Object], [object Object], [object Object]
+Primary palette: #2d3135, #eceff2, #61cb7c, #6ebcfc, #a1a7ad.
+Typography: [object Object], [object Object].
+Corner radius vocabulary: 4, 10.
+Shadow vocabulary: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px | rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(236, 239, 242) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px.
+Use: Use shadcn/ui components (Button, Card, Dialog, Input, Sheet, Tabs). Pair with Tailwind.
+Page structure:
+- pricing — heading: "Universal Cosmetic Chemistry & Formulation Intelligence"
+- sidebar

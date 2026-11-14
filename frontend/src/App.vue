@@ -120,7 +120,7 @@ function onTabSelect(value: string | number) {
                   <span>Multi-domain</span>
                 </Badge>
               </div>
-              <p class="text-[11px] text-muted-foreground hidden sm:block">
+              <p class="text-xs text-muted-foreground hidden sm:block">
                 Universal Skin, Hair, Body & Makeup Formulation Intelligence
               </p>
             </div>

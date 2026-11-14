@@ -401,7 +401,7 @@ const lastAssistantContent = computed(() => {
             <Badge variant="verified" class="text-[11px] py-0 px-1.5 font-medium">Deep Agents</Badge>
             <Badge variant="source" class="text-[11px] py-0 px-1.5 font-medium">LangGraph</Badge>
           </h3>
-          <p class="text-[11px] text-muted-foreground">
+          <p class="text-xs text-muted-foreground">
             Multi-domain formulation reasoning with verbatim quotation enforcement and task decomposition.
           </p>
         </div>
@@ -681,7 +681,7 @@ const lastAssistantContent = computed(() => {
                       <span>{{ alt.brand }} - {{ alt.name }}</span>
                       <span class="text-primary font-mono text-[11px]">{{ alt.similarity ? alt.similarity + '%' : '' }}</span>
                     </div>
-                    <p class="text-[11px] text-muted-foreground">
+                    <p class="text-xs text-muted-foreground">
                       <strong class="text-foreground">Shared:</strong> {{ alt.shared_ingredients?.slice(0, 4).join(', ') }}
                     </p>
                   </div>

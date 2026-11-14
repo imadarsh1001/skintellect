@@ -160,7 +160,7 @@ function goToPage(target: number | '…') {
             v-for="domain in DOMAINS"
             :key="domain.value"
             :value="domain.value"
-            class="h-auto min-h-[44px] sm:min-h-0 sm:py-1.5 rounded-sm px-3 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted hover:text-foreground"
+            class="h-auto min-h-[44px] sm:min-h-[32px] rounded-sm px-3 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted hover:text-foreground"
           >
             <component :is="domain.icon" class="size-3.5" aria-hidden="true" /> {{ domain.label }}
           </ToggleGroupItem>
@@ -233,7 +233,7 @@ function goToPage(target: number | '…') {
         <div class="flex flex-wrap items-center gap-2 pt-2">
           <span class="text-xs font-medium text-muted-foreground mr-1">Quick Actives:</span>
           <button
-            class="text-xs px-3 py-1 min-h-[44px] sm:min-h-0 sm:py-1 rounded-[4px] border border-input transition-colors cursor-pointer font-medium"
+            class="text-xs px-3 py-1 min-h-[44px] sm:min-h-[32px] rounded-[4px] border border-input transition-colors cursor-pointer font-medium"
             :class="searchInput.toLowerCase().includes('ceramide') ? 'bg-primary text-primary-foreground border-primary font-medium' : 'bg-card text-foreground border-border hover:bg-muted'"
             @click="searchInput = searchInput.toLowerCase().includes('ceramide') ? '' : 'ceramide'"
           >
@@ -247,19 +247,19 @@ function goToPage(target: number | '…') {
           >
             <ToggleGroupItem
               value="fungal_safe"
-              class="h-auto min-h-[44px] sm:min-h-0 sm:py-1 rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-verified data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-verified"
+              class="h-auto min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-verified data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-verified"
             >
               Fungal Acne Safe
             </ToggleGroupItem>
             <ToggleGroupItem
               value="fragrance_free"
-              class="h-auto min-h-[44px] sm:min-h-0 sm:py-1 rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-source data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-source"
+              class="h-auto min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-source data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-source"
             >
               Fragrance-Free
             </ToggleGroupItem>
             <ToggleGroupItem
               value="oil_free"
-              class="h-auto min-h-[44px] sm:min-h-0 sm:py-1 rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-mixed data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-mixed"
+              class="h-auto min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-mixed data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-mixed"
             >
               Oil-Free
             </ToggleGroupItem>

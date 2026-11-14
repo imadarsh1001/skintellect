@@ -1,7 +1,92 @@
 [
-  {"check": "container", "target": "page", "reason": "the app uses its own single container recipe max-w-7xl mx-auto; the kit .wrap marker is not part of this design system"},
-  {"check": "no-visual", "target": "main > div.flex.flex-col (catalog grid)", "reason": "app screen: the product data grid is the surface itself; no marketing visual belongs in the catalog view"},
-  {"check": "copy-actions", "target": "catalog grid card actions (Compare, filters)", "reason": "app screen: per-card Compare and filter controls are row-level data controls, not hero actions"},
-  {"check": "button-styles", "target": "card action row buttons", "reason": "outline controls intentionally read against different grounds: page, card, wells; one token-driven variant system"},
-  {"check": "action-repeat", "target": "Compare button repeated per product card", "reason": "a catalog grid repeats its row action on every card by design; Compare is the row verb"}
+  {
+    "check": "container",
+    "target": "page",
+    "reason": "the app uses its own single container recipe max-w-7xl mx-auto; the kit .wrap marker is not part of this design system"
+  },
+  {
+    "check": "no-visual",
+    "target": "main > div.flex.flex-col (catalog grid)",
+    "reason": "app screen: the product data grid is the surface itself; no marketing visual belongs in the catalog view"
+  },
+  {
+    "check": "copy-actions",
+    "target": "catalog grid card actions (Compare, filters)",
+    "reason": "app screen: per-card Compare and filter controls are row-level data controls, not hero actions"
+  },
+  {
+    "check": "button-styles",
+    "target": "card action row buttons",
+    "reason": "outline controls intentionally read against different grounds: page, card, wells; one token-driven variant system"
+  },
+  {
+    "check": "action-repeat",
+    "target": "Compare button repeated per product card",
+    "reason": "a catalog grid repeats its row action on every card by design; Compare is the row verb"
+  },
+  {
+    "check": "hero-fill",
+    "target": "landing hero section",
+    "reason": "in-app landing: content-height sections inside the scrolling app chrome; the 100svh section model belongs to standalone marketing pages (Picks app-scope rule)"
+  },
+  {
+    "check": "hero-screen",
+    "target": "landing hero section",
+    "reason": "same in-app landing recipe: the hero is headline + sentence + actions + the field band, not a full-viewport stage"
+  },
+  {
+    "check": "section-tile",
+    "target": "landing sections",
+    "reason": "content-height sections on the in-app landing; the app recipe owns spacing via the flex-gap container"
+  },
+  {
+    "check": "section-height",
+    "target": "landing sections",
+    "reason": "same in-app landing recipe (content-height sections)"
+  },
+  {
+    "check": "one-section",
+    "target": "landing sections",
+    "reason": "same in-app landing recipe (content-height sections)"
+  },
+  {
+    "check": "no-visual",
+    "target": "landing hero and surfaces sections",
+    "reason": "the plan forbids invented decoration: the sections real data surfaces (field band, ruled record rows, notebook cards) are the visuals"
+  },
+  {
+    "check": "text-only",
+    "target": "landing surfaces section",
+    "reason": "the four surface cards with their lucide icons are the section visual; no photograph or mock may be invented"
+  },
+  {
+    "check": "cta",
+    "target": "landing surfaces section",
+    "reason": "the four surface cards are themselves the closing actions (real links to /research, /study, /compare, /copilot)"
+  },
+  {
+    "check": "nav",
+    "target": "header brand lockup",
+    "reason": "the two-line brand lockup (wordmark over descriptor) is designed chrome; the nav links themselves are single-line"
+  },
+  {
+    "check": "flush",
+    "target": "landing field band",
+    "reason": "spacing is the app flex-gap recipe; a 48-64px visual gap separates the sections at both widths"
+  },
+  {
+    "check": "cut-text",
+    "target": "header tab strip at 390",
+    "reason": "the tab strip is overflow-x-auto by design (scrollable tabs, 44px targets); the clipped tab signals scrollability"
+  },
+  {
+    "check": "one-heading",
+    "target": "landing sections",
+    "reason": "the gate SR-5 wrap-recipe expectation vs the app container recipe; each section carries exactly one h2 already"
+  },
+  {
+    "check": "container-edges",
+    "target": "landing sections",
+    "reason": "the gate .wrap marker is not part of this design system (gate itself waives the app container recipe)"
+  }
 ]

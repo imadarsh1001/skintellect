@@ -5,45 +5,45 @@
   "contrast_pairs": [
     {
       "name": "verified",
-      "foreground": "#61cb7c",
-      "background": "#162519",
-      "ratio": 7.88
+      "foreground": "#246e3a",
+      "background": "#d3edd7",
+      "ratio": 5.01
     },
     {
       "name": "source",
-      "foreground": "#6ebcfc",
-      "background": "#142e43",
-      "ratio": 6.83
+      "foreground": "#215c78",
+      "background": "#d2e9f5",
+      "ratio": 5.83
     },
     {
       "name": "unknown",
-      "foreground": "#9da2a8",
-      "background": "#20252a",
-      "ratio": 6.01
+      "foreground": "#4d4641",
+      "background": "#e4e1db",
+      "ratio": 7.1
     },
     {
       "name": "negative",
-      "foreground": "#f66d67",
-      "background": "#2f1a18",
-      "ratio": 5.7
+      "foreground": "#90302e",
+      "background": "#f8e2df",
+      "ratio": 6.4
     },
     {
       "name": "mixed",
-      "foreground": "#b6a1df",
-      "background": "#251d32",
-      "ratio": 7.04
+      "foreground": "#554077",
+      "background": "#e7e1f5",
+      "ratio": 6.91
     },
     {
       "name": "body",
-      "foreground": "#eceff2",
-      "background": "#0d1013",
-      "ratio": 16.53
+      "foreground": "#14110f",
+      "background": "#f5f1ea",
+      "ratio": 16.7
     },
     {
       "name": "muted",
-      "foreground": "#a1a7ad",
-      "background": "#0d1013",
-      "ratio": 7.86
+      "foreground": "#58514c",
+      "background": "#f5f1ea",
+      "ratio": 6.92
     }
   ],
   "browser_layout_tested": false,

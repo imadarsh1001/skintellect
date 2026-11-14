@@ -4,8 +4,8 @@
  "root": null,
  "kind": null,
  "category": "formulation intelligence",
- "primary": "explore formulations",
+ "primary": "explore the catalog",
  "rounds": 3,
- "start": "2026-11-14T20:25:00.344Z",
+ "start": "2026-11-14T23:38:08.679Z",
  "by": "gate.mjs --start"
 }

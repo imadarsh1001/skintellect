@@ -106,19 +106,19 @@ const surfaces = [
         class="mt-10 grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-y-0 sm:divide-x sm:divide-primary-foreground/25 rounded-xl overflow-hidden bg-primary text-primary-foreground"
       >
         <div class="px-6 py-5">
-          <div class="font-mono text-3xl tabular-nums leading-none">
+          <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
             {{ stats.total_products.toLocaleString() }}
           </div>
           <div class="mt-2 text-sm">indexed formulations</div>
         </div>
         <div class="px-6 py-5">
-          <div class="font-mono text-3xl tabular-nums leading-none">
+          <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
             {{ stats.enriched_products.toLocaleString() }}
           </div>
           <div class="mt-2 text-sm">with full INCI parsed</div>
         </div>
         <div class="px-6 py-5">
-          <div class="font-mono text-3xl tabular-nums leading-none">
+          <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
             {{ stats.total_ingredients.toLocaleString() }}
           </div>
           <div class="mt-2 text-sm">ingredient dossiers</div>
@@ -143,7 +143,7 @@ const surfaces = [
           <span v-if="p.category_display" class="text-xs text-muted-foreground">
             {{ p.category_display }}
           </span>
-          <span class="ml-auto inline-flex items-center">
+          <span class="inline-flex items-center sm:ml-auto">
             <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="gap-1 text-[11px]">
               <ShieldCheck class="w-3.5 h-3.5" aria-hidden="true" />
               Verified INCI ({{ p.names?.length || p.ingredients?.length || 'Full' }})

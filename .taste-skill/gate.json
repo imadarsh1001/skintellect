@@ -1,26 +1,17 @@
 {
- "start": "2026-11-14T20:25:00.344Z",
- "round": 2,
+ "start": "2026-11-14T23:38:08.679Z",
+ "round": 1,
  "idle": 0,
  "errors": 0,
  "status": "fail",
  "history": [
   {
-   "at": "2026-11-14T20:27:08.856Z",
+   "at": "2026-11-14T23:39:35.136Z",
    "mode": "manual",
    "status": "fail",
-   "fails": 23,
+   "fails": 18,
    "round": 1,
    "reused": false,
-   "stopHookActive": false
-  },
-  {
-   "at": "2026-11-14T20:28:11.225Z",
-   "mode": "manual",
-   "status": "fail",
-   "fails": 22,
-   "round": 2,
-   "reused": true,
    "stopHookActive": false
   }
  ],
@@ -31,23 +22,57 @@
   "root": null,
   "kind": null,
   "category": "formulation intelligence",
-  "primary": "explore formulations",
+  "primary": "explore the catalog",
   "rounds": 3,
-  "start": "2026-11-14T20:25:00.344Z",
+  "start": "2026-11-14T23:38:08.679Z",
   "by": "gate.mjs --start"
  },
  "manual": true,
- "roundKey": "576f835c19e41ee7:b12637d2",
+ "roundKey": "dd476b1b5cef11bf:b12637d2",
  "roundFree": false,
  "idleFree": false,
  "blockKey": null,
- "fp": "576f835c19e41ee7",
+ "fp": "dd476b1b5cef11bf",
  "page": "http://localhost:5173/",
  "found": {
   "fails": [
    {
+    "check": "hero-fill",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+    "msg": "the next section shows on the first screen: it starts at 570px on a 900px screen (the hero ends at 508px)",
+    "fix": "let the hero fill the first screen alone (min-height: 100svh, less above it): nothing of the next section on load",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "hero-fill"
+    ],
+    "wheres": [
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
+    ]
+   },
+   {
+    "check": "flush",
+    "where": "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502 indexed formulations 576 with full\"",
+    "msg": "its last line sits 0px above the lower edge of section.pt-2, where the ground changes to section:nth-of-type(2)",
+    "fix": "give the section its padding at the edge where the ground changes (the closing call keeps a clear gap above the footer)",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "flush"
+    ],
+    "wheres": [
+     "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502 indexed formulations 576 with full\""
+    ]
+   },
+   {
     "check": "nav",
-    "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
     "msg": "nav link wraps to a second line",
     "fix": "make the nav one bar from the content's left edge to its right edge, with every link and action inside it",
     "widths": [
@@ -58,45 +83,12 @@
      "nav"
     ],
     "wheres": [
-     "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\""
-    ]
-   },
-   {
-    "check": "overlap-text",
-    "where": "div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(15) \"Verified INCI (Full) 100% Fit COSRX $$ 5\"",
-    "msg": "lies over the text \"Water Glow Squalane Moisturizing Cream\" (h3.tracking-tight.text-base > button.w-full.text-left)",
-    "fix": "move the box off the text (or the text off the box)",
-    "widths": [
-     1440
-    ],
-    "from": "consistency",
-    "ids": [
-     "overlap-text"
-    ],
-    "wheres": [
-     "div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(15) \"Verified INCI (Full) 100% Fit COSRX $$ 5\""
-    ]
-   },
-   {
-    "check": "cut-text",
-    "where": "div.border.text-card-foreground:nth-of-type(12) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Undiluted Solution Stratus Cornea Care G\"",
-    "msg": "cut 88px at the right by the overflow of div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(12) (and 6 more like it: \"Water Glow Squalane Mois\", \"Sensitive Care Probiotic\", \"Azelaic Acid 15+ Intense\", \"Hya+ Water Sunscreen SPF\", ...)",
-    "fix": "give the text room: no overflow clipping a line, no line past its box",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency",
-    "ids": [
-     "cut-text"
-    ],
-    "wheres": [
-     "div.border.text-card-foreground:nth-of-type(12) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Undiluted Solution Stratus Cornea Care G\""
+     "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\""
     ]
    },
    {
     "check": "no-visual",
-    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Universal Cosmetic Chemistry & Formulati\"",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\"",
     "msg": "no picture, effect or mock in this section; a feature section needs a visual",
     "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
     "widths": [
@@ -108,93 +100,81 @@
      "no-visual"
     ],
     "wheres": [
-     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Universal Cosmetic Chemistry & Formulati\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\""
     ]
    },
    {
-    "check": "button-styles",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\"",
-    "msg": "one button style (soft, outline #5e666e) in 2 heights: 26, 32px (\"Compare\" 32px, \"Barrier Lipids (Ceramides)\" 26px)",
-    "fix": "one primary and one secondary button: one shape, one height per size, one label size",
+    "check": "cta",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+    "msg": "the last section before the footer ends with no button",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
     "widths": [
-     1440
+     1440,
+     390
     ],
     "from": "consistency",
     "ids": [
-     "button-styles"
+     "cta"
     ],
     "wheres": [
-     "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
     ]
    },
    {
-    "check": "copy-actions",
-    "where": "div.hidden > aside.flex.flex-col > div.flex.flex-col:nth-of-type(4) > button.flex.items-center \"All Categories\"",
-    "msg": "41 actions in the hero (\"Barrier Lipids (Ceramides)\", \"Best Persona Match\", \"All Categories\", \"All Countries\", \"All Goals\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\"); at most 2",
-    "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+    "check": "section-tile",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\"",
+    "msg": "the header and the first section fill 508px (0.56 screens at 1440x900; the section is 375px), shorter than the screen: the first screen shows 375px of it and 270px of the next section, its heading \"The book as an index\" on screen",
+    "fix": "make the hero exactly one screen (height: 100svh) with its content between the nav and 24px above the fold",
     "widths": [
-     1440
+     1440,
+     390
     ],
     "from": "consistency",
     "ids": [
-     "copy-actions"
+     "section-tile"
     ],
     "wheres": [
-     "div.hidden > aside.flex.flex-col > div.flex.flex-col:nth-of-type(4) > button.flex.items-center \"All Categories\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\""
     ]
    },
    {
-    "check": "off-grid",
-    "where": "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\"",
-    "msg": "left edge at 769.5px, 18.5px off a common edge of its section at 751px (12 elements, like div.border.text-card-foreground:nth-of-type(35))",
-    "fix": "move it onto the page margin, or the column edge its section uses",
+    "check": "section-tile",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+    "msg": "the section is 270px tall (0.30 screens at 1440x900), shorter than the screen: its tile, held at the page's end (scroll 308px) shows 270px of it and 278px of the next section, its heading \"Four working surfaces\" on screen",
+    "fix": "set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb",
     "widths": [
-     1440
+     1440,
+     390
     ],
     "from": "consistency",
     "ids": [
-     "off-grid"
+     "section-tile"
     ],
     "wheres": [
-     "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
     ]
    },
    {
-    "check": "action-repeat",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(1) \"compare\"",
-    "msg": "\"compare\" shows 3 times on the first screen at 1440px (hero, hero, hero): three copies of one action on a screen read as clutter",
-    "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
+    "check": "section-tile",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+    "msg": "the section is 278px tall (0.31 screens at 1440x900), shorter than the screen: its tile, held at the page's end (scroll 308px) shows 278px of it and 270px of the section above, its heading \"The book as an index\" on screen",
+    "fix": "set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb",
     "widths": [
-     1440
+     1440,
+     390
     ],
     "from": "consistency",
     "ids": [
-     "action-repeat"
+     "section-tile"
     ],
     "wheres": [
-     "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(1) \"compare\""
-    ]
-   },
-   {
-    "check": "action-repeat",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(2) \"ask copilot\"",
-    "msg": "\"ask copilot\" shows 3 times on the first screen at 1440px (hero, hero, hero): three copies of one action on a screen read as clutter",
-    "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
-    "widths": [
-     1440
-    ],
-    "from": "consistency",
-    "ids": [
-     "action-repeat"
-    ],
-    "wheres": [
-     "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(2) \"ask copilot\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
     ]
    },
    {
     "check": "hero-screen",
-    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
-    "msg": "the hero ends at 4144px on a 900px screen, 3244px below the fold: it ends at the fold, 1px either way (SR-1)",
+    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
+    "msg": "the hero ends at 1184px on a 900px screen, 284px below the fold: it ends at the fold, 1px either way (SR-1)",
     "fix": "make the hero exactly one screen (height: 100svh, its content fitted inside), never taller or shorter",
     "widths": [
      1440
@@ -204,12 +184,12 @@
      "hero-screen"
     ],
     "wheres": [
-     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
     ]
    },
    {
     "check": "section-height",
-    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
+    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
     "msg": "the section starts at 133px, 133px below the screen grid (0 x 900px): sections start on whole screens (SR-2)",
     "fix": "make every section above it exactly one or two screens tall, so this one starts on a whole screen",
     "widths": [
@@ -220,12 +200,12 @@
      "section-height"
     ],
     "wheres": [
-     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
     ]
    },
    {
     "check": "one-section",
-    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
+    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
     "msg": "a <div> sits directly in <main>: every part of <main> is a <section> (SR-4)",
     "fix": "put every block of <main> in a <section>, and give a band its own section instead of a ground inside one",
     "widths": [
@@ -236,13 +216,13 @@
      "one-section"
     ],
     "wheres": [
-     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
     ]
    },
    {
     "check": "one-section",
-    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) \"576 formulas with full INCI 2,502 indexe\"",
-    "msg": "a band: a box 100% of the section wide on a ground of its own that holds the heading or the intro: the section's own ground is the band (SR-4)",
+    "where": "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502indexed formulations576with full IN\"",
+    "msg": "a band: a box 100% of the section wide on a ground of its own that holds only text: the section's own ground is the band (SR-4)",
     "fix": "put every block of <main> in a <section>, and give a band its own section instead of a ground inside one",
     "widths": [
      1440
@@ -252,13 +232,13 @@
      "one-section"
     ],
     "wheres": [
-     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) \"576 formulas with full INCI 2,502 indexe\""
+     "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502indexed formulations576with full IN\""
     ]
    },
    {
     "check": "one-heading",
-    "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\"",
-    "msg": "the hero holds an h2 (1): its heading is the h1, and an h2 opens the next section (SR-5)",
+    "where": "div.flex.flex-col > section:nth-of-type(2) > div.flex.items-baseline > h2.text-2xl.text-foreground \"The book as an index\"",
+    "msg": "the hero holds an h2 (2): its heading is the h1, and an h2 opens the next section (SR-5)",
     "fix": "give each section one h2, first in its .wrap, and the hero only its h1",
     "widths": [
      1440
@@ -268,7 +248,7 @@
      "one-heading"
     ],
     "wheres": [
-     "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\""
+     "div.flex.flex-col > section:nth-of-type(2) > div.flex.items-baseline > h2.text-2xl.text-foreground \"The book as an index\""
     ]
    },
    {
@@ -289,8 +269,8 @@
    },
    {
     "check": "container-edges",
-    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
-    "msg": "the section needs exactly one in-flow child .wrap (it has 4 in-flow children, 0 .wrap) (SR-6)",
+    "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
+    "msg": "the section needs exactly one in-flow child .wrap (it has 3 in-flow children, 0 .wrap) (SR-6)",
     "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
     "widths": [
      1440
@@ -300,55 +280,7 @@
      "container-edges"
     ],
     "wheres": [
-     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
-    ]
-   },
-   {
-    "check": "container-edges",
-    "where": "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\"",
-    "msg": "1 text block starts on a left line at x 769, 665px from the container's left: text starts on the container's left, or on one split line (x 627, 732, 837) (SR-6)",
-    "fix": "start the text on the container's left, or on the one split line every split shares",
-    "widths": [
-     1440
-    ],
-    "from": "consistency",
-    "ids": [
-     "container-edges"
-    ],
-    "wheres": [
-     "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\""
-    ]
-   },
-   {
-    "check": "container-edges",
-    "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\"",
-    "msg": "3 text blocks start on a left line at x 137, 33px from the container's left: text starts on the container's left, or on one split line (x 627, 732, 837) (also \"Explore formulations across Face\", \"Quick Actives:\") (SR-6)",
-    "fix": "start the text on the container's left, or on the one split line every split shares",
-    "widths": [
-     1440
-    ],
-    "from": "consistency",
-    "ids": [
-     "container-edges"
-    ],
-    "wheres": [
-     "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\""
-    ]
-   },
-   {
-    "check": "split-pair",
-    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.flex.flex-col \"Filters Formulation Filters Reset Search\"",
-    "msg": "the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)",
-    "fix": "put the text in the left column and the visual in the right, on every split",
-    "widths": [
-     1440
-    ],
-    "from": "consistency",
-    "ids": [
-     "split-pair"
-    ],
-    "wheres": [
-     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.flex.flex-col \"Filters Formulation Filters Reset Search\""
+     "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
     ]
    },
    {
@@ -368,35 +300,35 @@
     ]
    },
    {
-    "check": "button-styles",
-    "where": "div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.flex-wrap:nth-of-type(2) > button.text-xs.px-3 \"Barrier Lipids (Ceramides)\"",
-    "msg": "one button style (soft, outline #5e666e) in 2 heights: 32, 44px (\"Barrier Lipids (Ceramides)\" 44px, \"Compare\" 32px)",
-    "fix": "one primary and one secondary button: one shape, one height per size, one label size",
+    "check": "no-visual",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
     "widths": [
      390
     ],
     "from": "consistency",
     "ids": [
-     "button-styles"
+     "no-visual"
     ],
     "wheres": [
-     "div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.flex-wrap:nth-of-type(2) > button.text-xs.px-3 \"Barrier Lipids (Ceramides)\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
     ]
    },
    {
-    "check": "copy-actions",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\"",
-    "msg": "38 actions in the hero (\"Barrier Lipids (Ceramides)\", \"Filters\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\"); at most 2",
-    "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+    "check": "text-only",
+    "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+    "msg": "the closing section is only text: no picture, icon, mock or effect in it",
+    "fix": "give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground",
     "widths": [
      390
     ],
     "from": "consistency",
     "ids": [
-     "copy-actions"
+     "text-only"
     ],
     "wheres": [
-     "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\""
+     "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
     ]
    },
    {
@@ -419,40 +351,29 @@
   ],
   "warns": [
    {
-    "check": "fold-card",
-    "where": "div.flex.flex-col > div.flex.flex-col > div.hidden > aside.flex.flex-col \"Formulation Filters Reset Search Formula\"",
-    "msg": "the 320x789 card starts on the first screen and runs 402px past its bottom",
-    "fix": "end the card inside the first screen, or start it lower, so its whole edge shows",
+    "check": "nav",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
+    "msg": "the nav is lopsided: its first item starts 10px inside the content's edge (104px), while its last ends on the other edge",
+    "fix": "start the nav's first item and end its last on the content's two edges",
     "widths": [
      1440
     ],
     "from": "consistency"
    },
    {
-    "check": "cut-text",
-    "where": "div.border.text-card-foreground:nth-of-type(10) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Deep Hydration Hydrating Water Gel\"",
-    "msg": "shortened with an ellipsis (and 3 more like it: \"R.E.D Blemish Clear Soot\", \"Beauty Expert Plump & Gl\", \"Polyhydroxy Acid (PHA) 0\")",
-    "fix": "give the text room: no overflow clipping a line, no line past its box",
+    "check": "copy-headings",
+    "where": "main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) > h2.text-2xl.text-foreground \"Four working surfaces\"",
+    "msg": "\"Four working surfaces\" names no product, part, place or section (the one brand line a page may have)",
+    "fix": "name the thing in every heading: the product, a part, the place or a section noun",
     "widths": [
      1440
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "card-visual",
-    "where": "div.flex.flex-col > div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 \"Verified INCI (Full) 100% Fit Rilastil $\"",
-    "msg": "36 cards hold only text: no picture, icon, UI fragment or effect in any of them",
-    "fix": "give the cards a visual: an inset panel with a UI fragment, a photograph or real icons",
-    "widths": [
-     1440,
-     390
     ],
     "from": "consistency"
    },
    {
     "check": "copy-buttons",
-    "where": "div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.flex-wrap:nth-of-type(2) > button.text-xs.px-3 \"Barrier Lipids (Ceramides)\"",
-    "msg": "\"Barrier Lipids (Ceramides)\" does not start with a verb (book, buy, try, start, get, see...) (and 4 more like it: \"Best Persona Match\", \"All Categories\", \"All Countries\", \"All Goals\")",
+    "where": "div.flex.flex-col > section.pt-2 > div.mt-6.flex > a.inline-flex.items-center:nth-of-type(2) \"GitHub\"",
+    "msg": "\"GitHub\" does not start with a verb (book, buy, try, start, get, see...)",
     "fix": "label buttons with a verb and what the visitor gets (\"Book a room\", \"Start free trial\")",
     "widths": [
      1440
@@ -460,13 +381,12 @@
     "from": "consistency"
    },
    {
-    "check": "heading-scale",
+    "check": "copy-actions",
     "where": "(the page)",
-    "msg": "the page has no visible h1",
-    "fix": "size headings by level: the h1 largest, one size per level, each level below the one above",
+    "msg": "the main action \"explore the catalog\" does not read word for word the same in the nav or hero and the closing section",
+    "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
     "widths": [
-     1440,
-     390
+     1440
     ],
     "from": "consistency"
    },
@@ -481,381 +401,8 @@
     "from": "consistency"
    },
    {
-    "check": "fold-action",
-    "where": "div.hidden > aside.flex.flex-col > div.flex.flex-col:nth-of-type(6) > button.flex.items-center",
-    "msg": "the hero's second button \"All Goals\" starts 12px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(4) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 140px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(5) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 140px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(6) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 140px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(7) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 438px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(8) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 438px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(9) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 438px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(10) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 736px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(11) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 736px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(12) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 736px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(13) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1034px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(14) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1034px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(15) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1034px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(16) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1331px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(17) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1331px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(18) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1331px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(19) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1629px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(20) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1629px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(21) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1629px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(22) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1927px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(23) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1927px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(24) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 1927px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(25) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2225px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(26) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2225px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(27) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2225px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(28) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2523px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(29) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2523px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(30) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2523px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(31) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2821px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(32) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2821px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(33) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 2821px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(34) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 3119px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(35) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 3119px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(36) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 3119px below the first screen (900px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     1440,
-     390
-    ],
-    "from": "consistency"
-   },
-   {
     "check": "skip-link",
-    "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
     "msg": "the first Tab stop is \"Formulation Studio Pro Multi-domain Universal Skin\", not a skip link: a keyboard user tabs through the whole nav on every visit",
     "fix": "add the starter's skip link as the header's first child: <a class=\"skip-link\" href=\"#top\">Skip to content</a>",
     "widths": [
@@ -884,138 +431,40 @@
     "from": "consistency"
    },
    {
-    "check": "tap-size",
-    "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio\"",
-    "msg": "a 211x40px tap target: under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(2) > button.inline-flex.items-center \"uap (Combination · Barrier & Dark Spots)\"",
-    "msg": "a 131x36px tap target: under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.flex.flex-col > div.flex.items-center:nth-of-type(2) > div.flex.w-fit > button.inline-flex.items-center:nth-of-type(1) \"All Categories\"",
-    "msg": "a 100x24px tap target: under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.flex.flex-col > div.flex.items-center:nth-of-type(2) > div.flex.w-fit > button.inline-flex.items-center:nth-of-type(2) \"Moisturizers\"",
-    "msg": "a 114x26px tap target (and 5 more like it on this screen): under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.flex.flex-col > div.flex.flex-col > div.w-full > button.inline-flex.items-center \"Filters\"",
-    "msg": "a 78x36px tap target: under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.border.text-card-foreground:nth-of-type(1) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Acnestil Cleansing Mousse\"",
-    "msg": "a 316x38px tap target (and 2 more like it on this screen): under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\"",
-    "msg": "a 97x32px tap target (and 1 more like it on this screen): under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(2) \"Ask Copilot\"",
-    "msg": "a 106x32px tap target (and 1 more like it on this screen): under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.flex-grow.flex > div.flex.flex-col > nav.flex.items-center > button.inline-flex.items-center:nth-of-type(2) \"1\"",
-    "msg": "a 32x32px tap target: under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "tap-size",
-    "where": "div.flex-grow.flex > div.flex.flex-col > nav.flex.items-center > button.inline-flex.items-center:nth-of-type(3) \"2\"",
-    "msg": "a 32x32px tap target (and 2 more like it on this screen): under the 44px a phone needs",
-    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
-    "widths": [
-     390,
-     320
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "cut-text",
-    "where": "div.border.text-card-foreground:nth-of-type(21) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Sensitive Care Probiotics & Niacinamide \"",
-    "msg": "shortened with an ellipsis",
-    "fix": "give the text room: no overflow clipping a line, no line past its box",
+    "check": "nav",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio\"",
+    "msg": "the nav is lopsided: its first item starts 10px inside the content's edge (16px), while its last ends on the other edge",
+    "fix": "start the nav's first item and end its last on the content's two edges",
     "widths": [
      390
     ],
     "from": "consistency"
    },
    {
-    "check": "stagger",
-    "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.items-center:nth-of-type(1) \"576 formulas with full INCI 2,502 indexe\"",
-    "msg": "3 rows start at 2 different left offsets (+0, +4, +4px)",
-    "fix": "start every row of the list on one left edge",
+    "check": "tap-size",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio\"",
+    "msg": "a 212x40px tap target: under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
     "widths": [
-     390
+     390,
+     320
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "tap-size",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(2) > button.inline-flex.items-center \"uap (Combination · Barrier & Dark Spots)\"",
+    "msg": "a 130x36px tap target: under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     390,
+     320
     ],
     "from": "consistency"
    },
    {
     "check": "label-centre",
-    "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(2) > button.inline-flex.items-center \"uap (Combination · Barrier & Dark Spots)\"",
+    "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(2) > button.inline-flex.items-center \"uap (Combination · Barrier & Dark Spots)\"",
     "msg": "its label sits 139px off-centre (15px of room at the left, -124px at the right)",
     "fix": "centre the label in its button, or fill the empty side with an icon",
     "widths": [
@@ -1024,38 +473,8 @@
     "from": "consistency"
    },
    {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 225px below the first screen (844px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(2) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 497px below the first screen (844px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     390
-    ],
-    "from": "consistency"
-   },
-   {
-    "check": "fold-action",
-    "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(3) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1)",
-    "msg": "the hero's second button \"Compare\" starts 768px below the first screen (844px tall): it is not seen on load",
-    "fix": "bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons",
-    "widths": [
-     390
-    ],
-    "from": "consistency"
-   },
-   {
     "check": "fold-cut",
-    "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > p.text-sm.text-muted-foreground \"Explore formulations across Face, Scalp,\"",
+    "where": "section.pt-2 > div.mt-10.grid > div.px-6.py-5:nth-of-type(2) > div.font-mono.text-2xl \"576\"",
     "msg": "a line of the hero text is sliced by the bottom of the first screen",
     "fix": "size the hero so the heading ends above the fold, or starts below it",
     "widths": [
@@ -1069,20 +488,54 @@
     "fix": "a strip only of figures the brief gives (a price, hours, a count); otherwise put each number in the sentence it proves, or leave it out (references/copy-tells.md)",
     "widths": [],
     "from": "copy",
-    "where": "copy x1: \"0% / 60% / 5.0 / 5.0 ...\"",
+    "where": "copy x1: \"2,502 / 576 / 1,490\"",
     "exact": false
    }
   ],
   "crashed": [],
   "seconds": {
-   "consistency": 112,
-   "layout": 16
+   "consistency": 71,
+   "layout": 15
   }
  },
  "open": [
   {
+   "check": "hero-fill",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+   "msg": "the next section shows on the first screen: it starts at 570px on a 900px screen (the hero ends at 508px)",
+   "fix": "let the hero fill the first screen alone (min-height: 100svh, less above it): nothing of the next section on load",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "hero-fill"
+   ],
+   "wheres": [
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
+   ]
+  },
+  {
+   "check": "flush",
+   "where": "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502 indexed formulations 576 with full\"",
+   "msg": "its last line sits 0px above the lower edge of section.pt-2, where the ground changes to section:nth-of-type(2)",
+   "fix": "give the section its padding at the edge where the ground changes (the closing call keeps a clear gap above the footer)",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "flush"
+   ],
+   "wheres": [
+    "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502 indexed formulations 576 with full\""
+   ]
+  },
+  {
    "check": "nav",
-   "where": "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
+   "where": "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\"",
    "msg": "nav link wraps to a second line",
    "fix": "make the nav one bar from the content's left edge to its right edge, with every link and action inside it",
    "widths": [
@@ -1093,45 +546,12 @@
     "nav"
    ],
    "wheres": [
-    "header.border-b.bg-card > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\""
-   ]
-  },
-  {
-   "check": "overlap-text",
-   "where": "div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(15) \"Verified INCI (Full) 100% Fit COSRX $$ 5\"",
-   "msg": "lies over the text \"Water Glow Squalane Moisturizing Cream\" (h3.tracking-tight.text-base > button.w-full.text-left)",
-   "fix": "move the box off the text (or the text off the box)",
-   "widths": [
-    1440
-   ],
-   "from": "consistency",
-   "ids": [
-    "overlap-text"
-   ],
-   "wheres": [
-    "div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(15) \"Verified INCI (Full) 100% Fit COSRX $$ 5\""
-   ]
-  },
-  {
-   "check": "cut-text",
-   "where": "div.border.text-card-foreground:nth-of-type(12) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Undiluted Solution Stratus Cornea Care G\"",
-   "msg": "cut 88px at the right by the overflow of div.flex-grow.flex > div.flex-grow > div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(12) (and 6 more like it: \"Water Glow Squalane Mois\", \"Sensitive Care Probiotic\", \"Azelaic Acid 15+ Intense\", \"Hya+ Water Sunscreen SPF\", ...)",
-   "fix": "give the text room: no overflow clipping a line, no line past its box",
-   "widths": [
-    1440,
-    390
-   ],
-   "from": "consistency",
-   "ids": [
-    "cut-text"
-   ],
-   "wheres": [
-    "div.border.text-card-foreground:nth-of-type(12) > div.flex.flex-col:nth-of-type(2) > h3.tracking-tight.text-base > button.w-full.text-left \"Undiluted Solution Stratus Cornea Care G\""
+    "header.border-b.bg-background > div.max-w-7xl.mx-auto:nth-of-type(1) > div.flex.items-center:nth-of-type(1) > a.router-link-active.router-link-exact-active \"Formulation Studio Pro Multi-domain Univ\""
    ]
   },
   {
    "check": "no-visual",
-   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Universal Cosmetic Chemistry & Formulati\"",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\"",
    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
    "widths": [
@@ -1143,93 +563,81 @@
     "no-visual"
    ],
    "wheres": [
-    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Universal Cosmetic Chemistry & Formulati\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\""
    ]
   },
   {
-   "check": "button-styles",
-   "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\"",
-   "msg": "one button style (soft, outline #5e666e) in 2 heights: 26, 32px (\"Compare\" 32px, \"Barrier Lipids (Ceramides)\" 26px)",
-   "fix": "one primary and one secondary button: one shape, one height per size, one label size",
+   "check": "cta",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+   "msg": "the last section before the footer ends with no button",
+   "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
    "widths": [
-    1440
+    1440,
+    390
    ],
    "from": "consistency",
    "ids": [
-    "button-styles"
+    "cta"
    ],
    "wheres": [
-    "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
    ]
   },
   {
-   "check": "copy-actions",
-   "where": "div.hidden > aside.flex.flex-col > div.flex.flex-col:nth-of-type(4) > button.flex.items-center \"All Categories\"",
-   "msg": "41 actions in the hero (\"Barrier Lipids (Ceramides)\", \"Best Persona Match\", \"All Categories\", \"All Countries\", \"All Goals\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\"); at most 2",
-   "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+   "check": "section-tile",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\"",
+   "msg": "the header and the first section fill 508px (0.56 screens at 1440x900; the section is 375px), shorter than the screen: the first screen shows 375px of it and 270px of the next section, its heading \"The book as an index\" on screen",
+   "fix": "make the hero exactly one screen (height: 100svh) with its content between the nav and 24px above the fold",
    "widths": [
-    1440
+    1440,
+    390
    ],
    "from": "consistency",
    "ids": [
-    "copy-actions"
+    "section-tile"
    ],
    "wheres": [
-    "div.hidden > aside.flex.flex-col > div.flex.flex-col:nth-of-type(4) > button.flex.items-center \"All Categories\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 \"The formulation index that shows its wor\""
    ]
   },
   {
-   "check": "off-grid",
-   "where": "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\"",
-   "msg": "left edge at 769.5px, 18.5px off a common edge of its section at 751px (12 elements, like div.border.text-card-foreground:nth-of-type(35))",
-   "fix": "move it onto the page margin, or the column edge its section uses",
+   "check": "section-tile",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+   "msg": "the section is 270px tall (0.30 screens at 1440x900), shorter than the screen: its tile, held at the page's end (scroll 308px) shows 270px of it and 278px of the next section, its heading \"Four working surfaces\" on screen",
+   "fix": "set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb",
    "widths": [
-    1440
+    1440,
+    390
    ],
    "from": "consistency",
    "ids": [
-    "off-grid"
+    "section-tile"
    ],
    "wheres": [
-    "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
    ]
   },
   {
-   "check": "action-repeat",
-   "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(1) \"compare\"",
-   "msg": "\"compare\" shows 3 times on the first screen at 1440px (hero, hero, hero): three copies of one action on a screen read as clutter",
-   "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
+   "check": "section-tile",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+   "msg": "the section is 278px tall (0.31 screens at 1440x900), shorter than the screen: its tile, held at the page's end (scroll 308px) shows 278px of it and 270px of the section above, its heading \"The book as an index\" on screen",
+   "fix": "set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb",
    "widths": [
-    1440
+    1440,
+    390
    ],
    "from": "consistency",
    "ids": [
-    "action-repeat"
+    "section-tile"
    ],
    "wheres": [
-    "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(1) \"compare\""
-   ]
-  },
-  {
-   "check": "action-repeat",
-   "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(2) \"ask copilot\"",
-   "msg": "\"ask copilot\" shows 3 times on the first screen at 1440px (hero, hero, hero): three copies of one action on a screen read as clutter",
-   "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
-   "widths": [
-    1440
-   ],
-   "from": "consistency",
-   "ids": [
-    "action-repeat"
-   ],
-   "wheres": [
-    "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3:nth-of-type(4) > button.inline-flex.items-center:nth-of-type(2) \"ask copilot\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
    ]
   },
   {
    "check": "hero-screen",
-   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
-   "msg": "the hero ends at 4144px on a 900px screen, 3244px below the fold: it ends at the fold, 1px either way (SR-1)",
+   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
+   "msg": "the hero ends at 1184px on a 900px screen, 284px below the fold: it ends at the fold, 1px either way (SR-1)",
    "fix": "make the hero exactly one screen (height: 100svh, its content fitted inside), never taller or shorter",
    "widths": [
     1440
@@ -1239,12 +647,12 @@
     "hero-screen"
    ],
    "wheres": [
-    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
    ]
   },
   {
    "check": "section-height",
-   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
+   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
    "msg": "the section starts at 133px, 133px below the screen grid (0 x 900px): sections start on whole screens (SR-2)",
    "fix": "make every section above it exactly one or two screens tall, so this one starts on a whole screen",
    "widths": [
@@ -1255,12 +663,12 @@
     "section-height"
    ],
    "wheres": [
-    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
    ]
   },
   {
    "check": "one-section",
-   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
+   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
    "msg": "a <div> sits directly in <main>: every part of <main> is a <section> (SR-4)",
    "fix": "put every block of <main> in a <section>, and give a band its own section instead of a ground inside one",
    "widths": [
@@ -1271,13 +679,13 @@
     "one-section"
    ],
    "wheres": [
-    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
+    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
    ]
   },
   {
    "check": "one-section",
-   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) \"576 formulas with full INCI 2,502 indexe\"",
-   "msg": "a band: a box 100% of the section wide on a ground of its own that holds the heading or the intro: the section's own ground is the band (SR-4)",
+   "where": "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502indexed formulations576with full IN\"",
+   "msg": "a band: a box 100% of the section wide on a ground of its own that holds only text: the section's own ground is the band (SR-4)",
    "fix": "put every block of <main> in a <section>, and give a band its own section instead of a ground inside one",
    "widths": [
     1440
@@ -1287,13 +695,13 @@
     "one-section"
    ],
    "wheres": [
-    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) \"576 formulas with full INCI 2,502 indexe\""
+    "main.flex-grow.max-w-7xl > div.flex.flex-col > section.pt-2 > div.mt-10.grid \"2,502indexed formulations576with full IN\""
    ]
   },
   {
    "check": "one-heading",
-   "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\"",
-   "msg": "the hero holds an h2 (1): its heading is the h1, and an h2 opens the next section (SR-5)",
+   "where": "div.flex.flex-col > section:nth-of-type(2) > div.flex.items-baseline > h2.text-2xl.text-foreground \"The book as an index\"",
+   "msg": "the hero holds an h2 (2): its heading is the h1, and an h2 opens the next section (SR-5)",
    "fix": "give each section one h2, first in its .wrap, and the hero only its h1",
    "widths": [
     1440
@@ -1303,7 +711,7 @@
     "one-heading"
    ],
    "wheres": [
-    "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\""
+    "div.flex.flex-col > section:nth-of-type(2) > div.flex.items-baseline > h2.text-2xl.text-foreground \"The book as an index\""
    ]
   },
   {
@@ -1324,8 +732,8 @@
   },
   {
    "check": "container-edges",
-   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\"",
-   "msg": "the section needs exactly one in-flow child .wrap (it has 4 in-flow children, 0 .wrap) (SR-6)",
+   "where": "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\"",
+   "msg": "the section needs exactly one in-flow child .wrap (it has 3 in-flow children, 0 .wrap) (SR-6)",
    "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
    "widths": [
     1440
@@ -1335,55 +743,7 @@
     "container-edges"
    ],
    "wheres": [
-    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"Domain: All Domains Skin (Face) Hair & S\""
-   ]
-  },
-  {
-   "check": "container-edges",
-   "where": "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\"",
-   "msg": "1 text block starts on a left line at x 769, 665px from the container's left: text starts on the container's left, or on one split line (x 627, 732, 837) (SR-6)",
-   "fix": "start the text on the container's left, or on the one split line every split shares",
-   "widths": [
-    1440
-   ],
-   "from": "consistency",
-   "ids": [
-    "container-edges"
-   ],
-   "wheres": [
-    "div.flex.flex-col > div.flex-grow.flex > div.flex.flex-col > p.text-xs.text-muted-foreground \"Showing 36 of 2,492 matching formulation\""
-   ]
-  },
-  {
-   "check": "container-edges",
-   "where": "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\"",
-   "msg": "3 text blocks start on a left line at x 137, 33px from the container's left: text starts on the container's left, or on one split line (x 627, 732, 837) (also \"Explore formulations across Face\", \"Quick Actives:\") (SR-6)",
-   "fix": "start the text on the container's left, or on the one split line every split shares",
-   "widths": [
-    1440
-   ],
-   "from": "consistency",
-   "ids": [
-    "container-edges"
-   ],
-   "wheres": [
-    "div.flex.flex-col > div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > h2.text-2xl.text-foreground \"Universal Cosmetic Chemistry & Formulati\""
-   ]
-  },
-  {
-   "check": "split-pair",
-   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.flex.flex-col \"Filters Formulation Filters Reset Search\"",
-   "msg": "the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)",
-   "fix": "put the text in the left column and the visual in the right, on every split",
-   "widths": [
-    1440
-   ],
-   "from": "consistency",
-   "ids": [
-    "split-pair"
-   ],
-   "wheres": [
-    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > div.flex.flex-col \"Filters Formulation Filters Reset Search\""
+    "div#app > div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col \"The formulation index that shows its wor\""
    ]
   },
   {
@@ -1403,35 +763,35 @@
    ]
   },
   {
-   "check": "button-styles",
-   "where": "div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.flex-wrap:nth-of-type(2) > button.text-xs.px-3 \"Barrier Lipids (Ceramides)\"",
-   "msg": "one button style (soft, outline #5e666e) in 2 heights: 32, 44px (\"Barrier Lipids (Ceramides)\" 44px, \"Compare\" 32px)",
-   "fix": "one primary and one secondary button: one shape, one height per size, one label size",
+   "check": "no-visual",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\"",
+   "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
    "widths": [
     390
    ],
    "from": "consistency",
    "ids": [
-    "button-styles"
+    "no-visual"
    ],
    "wheres": [
-    "div.rounded-lg.border:nth-of-type(3) > div.max-w-3xl.flex > div.flex.flex-wrap:nth-of-type(2) > button.text-xs.px-3 \"Barrier Lipids (Ceramides)\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(2) \"The book as an index\""
    ]
   },
   {
-   "check": "copy-actions",
-   "where": "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\"",
-   "msg": "38 actions in the hero (\"Barrier Lipids (Ceramides)\", \"Filters\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\", \"Compare\"); at most 2",
-   "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+   "check": "text-only",
+   "where": "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\"",
+   "msg": "the closing section is only text: no picture, icon, mock or effect in it",
+   "fix": "give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground",
    "widths": [
     390
    ],
    "from": "consistency",
    "ids": [
-    "copy-actions"
+    "text-only"
    ],
    "wheres": [
-    "div.grid.grid-cols-1 > div.border.text-card-foreground:nth-of-type(1) > div.p-5.pt-3 > button.inline-flex.items-center:nth-of-type(1) \"Compare\""
+    "div.min-h-screen.flex > main.flex-grow.max-w-7xl > div.flex.flex-col > section:nth-of-type(3) \"Four working surfaces\""
    ]
   }
  ],
@@ -1455,6 +815,6 @@
    "reason": "the app uses its own single container recipe max-w-7xl mx-auto; the kit .wrap marker is not part of this design system"
   }
  ],
- "warnCount": 61,
- "at": "2026-11-14T20:28:11.227Z"
+ "warnCount": 14,
+ "at": "2026-11-14T23:39:35.138Z"
 }

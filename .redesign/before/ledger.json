@@ -59,8 +59,8 @@
   },
   "static": {
     "totals": {
-      "routerLinks": 7,
-      "anchorLinks": 3,
+      "routerLinks": 10,
+      "anchorLinks": 4,
       "inputTags": 11,
       "textareaTags": 2,
       "selectTriggers": 6,
@@ -68,7 +68,7 @@
       "checkboxTags": 0,
       "sliderTags": 1,
       "toggleGroupTags": 6,
-      "buttonTags": 53,
+      "buttonTags": 55,
       "clickHandlers": 54,
       "updateHandlers": 35,
       "submitHandlers": 1
@@ -1075,6 +1075,21 @@
         "sliderTags": 0,
         "toggleGroupTags": 0,
         "buttonTags": 0,
+        "clickHandlers": 0,
+        "updateHandlers": 0,
+        "submitHandlers": 0
+      },
+      "views\\HomeView.vue": {
+        "routerLinks": 3,
+        "anchorLinks": 1,
+        "inputTags": 0,
+        "textareaTags": 0,
+        "selectTriggers": 0,
+        "switchTags": 0,
+        "checkboxTags": 0,
+        "sliderTags": 0,
+        "toggleGroupTags": 0,
+        "buttonTags": 2,
         "clickHandlers": 0,
         "updateHandlers": 0,
         "submitHandlers": 0

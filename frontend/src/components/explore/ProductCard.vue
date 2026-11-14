@@ -104,10 +104,12 @@ function getMatchScoreColor(score: number): string {
           {{ product.price_tier || '$$' }}
         </span>
       </div>
-      <CardTitle class="line-clamp-2 text-base font-medium text-foreground leading-snug pt-1">
+      <CardTitle class="text-base font-medium text-foreground leading-snug pt-1">
         <button
           type="button"
-          class="w-full text-left font-medium text-foreground group-hover:text-primary transition-colors cursor-pointer"
+          class="w-full text-left py-2 -my-2 font-medium text-foreground group-hover:text-primary transition-colors cursor-pointer truncate"
+          :title="product.name"
+          :aria-label="product.name"
           @click.stop="emits('view-details', product)"
         >
           {{ product.name }}

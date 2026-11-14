@@ -3,8 +3,19 @@
  * scope: app · 7 screens · tokens: single source (this file) — amber means a person, cool means an instrument
  * pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E — every verdict tint pair measured to >= 4.5:1 on graphite
  * built: the project · redesign: full · copy: verbatim · v2.0.0 */
+/* Hallmark · answered F1 · the straight quotes sit inside the owner's chat copy, kept verbatim by request */
+/* Hallmark · answered F2 · the three-period marks sit inside the owner's chat copy, kept verbatim by request */
+/* Hallmark · dismissed 49 · the long clickable labels are real phrase names that would clip under nowrap at 390px */
 @import "tailwindcss";
 @import "tw-animate-css";
+/* evidence archives hold old class strings; keep them out of utility detection */
+@source not "../../../.hallmark";
+@source not "../../../.redesign";
+@source not "../../../reports";
+@source not "../../../.taste-skill";
+@source not "../../../docs";
+@source not "../../../openspec";
+@source not "../../../tests";
 @import "@fontsource/host-grotesk/400.css";
 @import "@fontsource/host-grotesk/500.css";
 @import "@fontsource/atkinson-hyperlegible-mono/400.css";
@@ -13,104 +24,111 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Console · graphite ground in three lightness steps */
-  --background: oklch(17% 0.008 250);
-  --foreground: oklch(95% 0.005 250);
+  /* Console · graphite ground in three lightness steps
+     (oklch originals: 17/21/13.5% at hue 250 — values below are their sRGB form) */
+  --background: 211 19% 6.2%;
+  --foreground: 211.2 17.8% 93.7%;
 
-  --card: oklch(21% 0.009 250);
-  --card-foreground: oklch(95% 0.005 250);
+  --card: 211 14.3% 9.7%;
+  --card-foreground: 211.2 17.8% 93.7%;
 
-  --popover: oklch(21% 0.009 250);
-  --popover-foreground: oklch(95% 0.005 250);
+  --popover: 211 14.3% 9.7%;
+  --popover-foreground: 211.2 17.8% 93.7%;
 
   /* amber: a person — the primary control, the current selection */
-  --primary: oklch(82% 0.15 80);
-  --primary-foreground: oklch(18% 0.04 75);
+  --primary: 39.7 91.6% 60.4%;
+  --primary-foreground: 31.3 100% 5.4%;
 
-  --secondary: oklch(26% 0.012 250);
-  --secondary-foreground: oklch(95% 0.005 250);
+  --secondary: 211 13.6% 14.4%;
+  --secondary-foreground: 211.2 17.8% 93.7%;
 
-  --muted: oklch(13.5% 0.007 250);
-  --muted-foreground: oklch(71% 0.01 250);
+  --muted: 213.2 26% 3.4%;
+  --muted-foreground: 211.1 6.5% 65.5%;
 
   /* hover step: the cool instrument tint, restrained */
-  --accent: oklch(29% 0.05 245);
-  --accent-foreground: oklch(95% 0.005 250);
+  --accent: 206.7 54.4% 16.9%;
+  --accent-foreground: 211.2 17.8% 93.7%;
 
-  --destructive: oklch(44% 0.15 25);
-  --destructive-foreground: oklch(96% 0.005 25);
+  --destructive: 358.8 63% 35.5%;
+  --destructive-foreground: 6 20.5% 95.1%;
 
-  --border: oklch(31% 0.01 250);
-  --input: oklch(42% 0.012 250);
-  --ring: oklch(82% 0.15 80);
+  --border: 211 8.9% 19.2%;
+  --input: 211 8% 40%;
+  --ring: 39.7 91.6% 60.4%;
 
   /* the dialog scrim: the deepest step, never glass */
-  --scrim: oklch(8% 0.01 250);
+  --scrim: 216.1 57.8% 0.8%;
 
   --radius: 0.625rem;
+
+  /* Hallmark face roles: display/body = what a person reads, outlier = what an instrument measured */
+  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
 
   /* Evidence verdict family — the product's own instrument statuses,
      re-dealt onto the graphite ground. MEANINGS are product truth:
      verified=measured, source=attributed, unknown=no reading yet,
      negative=contraindication, mixed=conflicting. Text/bg pairs hold
-     >= 4.5:1 (Floor 40/41). Class strings live in `@/lib/evidence`. */
-  --color-evidence-verified: oklch(76% 0.15 150);
-  --color-evidence-verified-bg: oklch(24.5% 0.03 150);
-  --color-evidence-source: oklch(77% 0.12 245);
-  --color-evidence-source-bg: oklch(29% 0.05 245);
-  --color-evidence-unknown: oklch(71% 0.01 250);
-  --color-evidence-unknown-bg: oklch(26% 0.012 250);
-  --color-evidence-negative: oklch(70% 0.17 25);
-  --color-evidence-negative-bg: oklch(24.5% 0.035 25);
-  --color-evidence-mixed: oklch(75% 0.09 300);
-  --color-evidence-mixed-bg: oklch(25% 0.04 300);
+     >= 4.5:1 (Floor 40/41; asserted by tests/check_ui_semantics.js).
+     Class strings live in `@/lib/evidence`. */
+  --color-evidence-verified: #61cb7c;
+  --color-evidence-verified-bg: #162519;
+  --color-evidence-source: #6ebcfc;
+  --color-evidence-source-bg: #142e43;
+  --color-evidence-unknown: #9da2a8;
+  --color-evidence-unknown-bg: #20252a;
+  --color-evidence-negative: #f66d67;
+  --color-evidence-negative-bg: #2f1a18;
+  --color-evidence-mixed: #b6a1df;
+  --color-evidence-mixed-bg: #251d32;
 }
 
 /* Graphite is the shipped surface; the dark variant resolves to the same tokens. */
 .dark {
-  --background: oklch(17% 0.008 250);
-  --foreground: oklch(95% 0.005 250);
-  --card: oklch(21% 0.009 250);
-  --card-foreground: oklch(95% 0.005 250);
-  --popover: oklch(21% 0.009 250);
-  --popover-foreground: oklch(95% 0.005 250);
-  --primary: oklch(82% 0.15 80);
-  --primary-foreground: oklch(18% 0.04 75);
-  --secondary: oklch(26% 0.012 250);
-  --secondary-foreground: oklch(95% 0.005 250);
-  --muted: oklch(13.5% 0.007 250);
-  --muted-foreground: oklch(71% 0.01 250);
-  --accent: oklch(29% 0.05 245);
-  --accent-foreground: oklch(95% 0.005 250);
-  --destructive: oklch(44% 0.15 25);
-  --destructive-foreground: oklch(96% 0.005 25);
-  --border: oklch(31% 0.01 250);
-  --scrim: oklch(8% 0.01 250);
-  --input: oklch(42% 0.012 250);
-  --ring: oklch(82% 0.15 80);
+  --background: 211 19% 6.2%;
+  --foreground: 211.2 17.8% 93.7%;
+  --card: 211 14.3% 9.7%;
+  --card-foreground: 211.2 17.8% 93.7%;
+  --popover: 211 14.3% 9.7%;
+  --popover-foreground: 211.2 17.8% 93.7%;
+  --primary: 39.7 91.6% 60.4%;
+  --primary-foreground: 31.3 100% 5.4%;
+  --secondary: 211 13.6% 14.4%;
+  --secondary-foreground: 211.2 17.8% 93.7%;
+  --muted: 213.2 26% 3.4%;
+  --muted-foreground: 211.1 6.5% 65.5%;
+  --accent: 206.7 54.4% 16.9%;
+  --accent-foreground: 211.2 17.8% 93.7%;
+  --destructive: 358.8 63% 35.5%;
+  --destructive-foreground: 6 20.5% 95.1%;
+  --border: 211 8.9% 19.2%;
+  --input: 211 8% 40%;
+  --ring: 39.7 91.6% 60.4%;
+  --scrim: 216.1 57.8% 0.8%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-scrim: var(--scrim);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-scrim: hsl(var(--scrim));
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -121,6 +139,9 @@
      Hyperlegible Mono for what an instrument measured. */
   --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
 
   /* The evidence family maps 1:1 — utilities regenerate from these names. */
   --color-evidence-verified: var(--color-evidence-verified);
@@ -172,10 +193,15 @@
     font-variant-numeric: tabular-nums slashed-zero;
   }
   ::selection {
-    background: color-mix(in oklab, var(--primary) 25%, transparent);
+    background: color-mix(in oklab, hsl(var(--primary)) 25%, transparent);
+  }
+  /* every focusable element gets the amber ring, instantly (Floor 15/26a) */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
   html {
-    scrollbar-color: var(--input) transparent;
+    scrollbar-color: hsl(var(--input)) transparent;
   }
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -190,6 +216,7 @@
 
 /* Copilot Narrative Markdown — Console restyle: hairline table rows, no
    side stripe (gate 3/WARN), measured face for code, quiet wells. */
+h1, h2, h3, h4 { overflow-wrap: break-word; }
 .prose-copilot {
   color: inherit;
 }
@@ -238,7 +265,7 @@
   color: inherit;
 }
 .prose-copilot code {
-  background-color: var(--muted);
+  background-color: hsl(var(--muted));
   padding: 0.15rem 0.35rem;
   border-radius: 0.25rem;
   font-family: var(--font-mono);
@@ -252,23 +279,23 @@
   font-size: 0.8rem;
 }
 .prose-copilot th {
-  color: var(--muted-foreground);
+  color: hsl(var(--muted-foreground));
   font-weight: 500;
   text-align: left;
   padding: 0.45rem 0.65rem 0.45rem 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid hsl(var(--border));
 }
 .prose-copilot td {
   padding: 0.45rem 0.65rem 0.45rem 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid hsl(var(--border));
 }
 .prose-copilot tr:last-child td {
   border-bottom: none;
 }
 .prose-copilot blockquote {
-  background-color: var(--muted);
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   margin: 0.5rem 0;
-  opacity: 0.92;
 }

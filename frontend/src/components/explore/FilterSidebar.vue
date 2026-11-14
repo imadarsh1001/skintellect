@@ -104,10 +104,11 @@ const minMatchSlider = computed({
 
     <!-- Search Input -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-medium text-muted-foreground">Search Formulations</label>
+      <label for="f2-search" class="text-[11px] font-medium text-muted-foreground">Search Formulations</label>
       <div class="relative">
         <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
+          id="f2-search"
           v-model="search"
           placeholder="Brand, product, active INCI..."
           class="pl-9 h-9 text-xs"

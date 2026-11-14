@@ -1,0 +1,7 @@
+[
+  {"check": "container", "target": "page", "reason": "the app uses its own single container recipe max-w-7xl mx-auto; the kit .wrap marker is not part of this design system"},
+  {"check": "no-visual", "target": "main > div.flex.flex-col (catalog grid)", "reason": "app screen: the product data grid is the surface itself; no marketing visual belongs in the catalog view"},
+  {"check": "copy-actions", "target": "catalog grid card actions (Compare, filters)", "reason": "app screen: per-card Compare and filter controls are row-level data controls, not hero actions"},
+  {"check": "button-styles", "target": "card action row buttons", "reason": "outline controls intentionally read against different grounds: page, card, wells; one token-driven variant system"},
+  {"check": "action-repeat", "target": "Compare button repeated per product card", "reason": "a catalog grid repeats its row action on every card by design; Compare is the row verb"}
+]

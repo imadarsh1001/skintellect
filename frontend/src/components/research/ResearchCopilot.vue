@@ -522,7 +522,7 @@ const lastAssistantContent = computed(() => {
                   v-for="(opt, oIdx) in msg.clarification.options"
                   :key="opt.id || oIdx"
                   type="button"
-                  class="p-2.5 rounded-lg border border-border hover:border-primary/50 bg-card hover:bg-accent text-left transition-colors cursor-pointer group flex flex-col justify-between gap-1"
+                  class="p-2.5 rounded-sm bg-muted hover:bg-accent text-left transition-colors cursor-pointer group flex flex-col justify-between gap-1"
                   @click="handleSend(opt.query)"
                 >
                   <div class="flex items-center justify-between gap-1">
@@ -556,7 +556,7 @@ const lastAssistantContent = computed(() => {
                   <input
                     v-model="msg.customClarificationText"
                     placeholder="e.g. Under $25, fungal-acne safe with no niacinamide"
-                    class="h-8 text-xs flex-grow rounded-lg border border-input bg-background px-3 focus:outline-none focus:ring-1 focus:ring-primary"
+                    class="h-8 text-xs flex-grow rounded-lg border border-input bg-background px-3 focus:ring-1 focus:ring-primary"
                     @keydown.enter="submitCustomClarification(msg)"
                   />
                   <Button
@@ -592,7 +592,7 @@ const lastAssistantContent = computed(() => {
                 <div
                   v-for="p in msg.matching_products.slice(0, 4)"
                   :key="p.id"
-                  class="p-3 rounded-lg border bg-card hover:border-primary/50 transition-colors flex flex-col justify-between gap-2"
+                  class="p-3 rounded-sm bg-muted hover:bg-accent transition-colors flex flex-col justify-between gap-2"
                 >
                   <div>
                     <div class="flex items-start justify-between gap-1.5">
@@ -614,7 +614,7 @@ const lastAssistantContent = computed(() => {
                     >
                       <ExternalLink class="w-3 h-3" /> View Dossier
                     </button>
-                    <span class="text-muted-foreground text-[11px]">·</span>
+                    <span aria-hidden="true" class="h-2.5 w-px bg-border inline-block"></span>
                     <button
                       class="font-medium text-muted-foreground hover:text-foreground cursor-pointer"
                       @click="emits('toggle-compare', p)"
@@ -640,7 +640,7 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="(obs, oIdx) in (revGroup.observations || []).filter((o: any) => o.span || o.quote || o.text).slice(0, 3)"
                     :key="oIdx"
-                    class="p-2.5 rounded-lg border bg-card text-xs flex flex-col gap-1"
+                    class="p-2.5 rounded-sm bg-muted text-xs flex flex-col gap-1"
                   >
                     <div class="flex items-center justify-between gap-2">
                       <span class="font-medium text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground">
@@ -675,7 +675,7 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="alt in (altGroup.alternatives || []).slice(0, 2)"
                     :key="alt.id"
-                    class="p-2.5 rounded-lg border bg-card text-xs space-y-1"
+                    class="p-2.5 rounded-sm bg-muted text-xs space-y-1"
                   >
                     <div class="flex items-center justify-between font-medium">
                       <span>{{ alt.brand }} - {{ alt.name }}</span>

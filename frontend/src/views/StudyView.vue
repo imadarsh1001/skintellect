@@ -173,7 +173,7 @@ const latestLatency = computed(() => {
                 :to="`/research?demo=1&query=${encodeURIComponent(demo.example_query ?? 'What stands out in the reviews?')}`"
                 class="text-[11px] font-medium text-primary hover:underline"
               >
-                Ask about this evidence →
+                Ask about this evidence
               </RouterLink>
             </div>
 
@@ -228,7 +228,7 @@ const latestLatency = computed(() => {
               <CardTitle class="text-sm font-medium">{{ ref.title }}</CardTitle>
               <Badge variant="source" class="text-[11px] shrink-0">{{ ref.source_type?.replace(/_/g, ' ') }}</Badge>
             </div>
-            <span class="text-[11px] text-muted-foreground">{{ ref.publisher }} · retrieved {{ ref.retrieved_at?.slice(0, 10) }}</span>
+            <span class="text-[11px] text-muted-foreground">{{ ref.publisher }}<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>retrieved {{ ref.retrieved_at?.slice(0, 10) }}</span>
           </CardHeader>
           <CardContent class="pb-4 text-xs flex flex-col gap-2">
             <p class="text-foreground leading-relaxed">{{ ref.summary }}</p>
@@ -258,8 +258,8 @@ const latestLatency = computed(() => {
                 class="flex items-center justify-between p-2 rounded-lg border bg-muted/20"
               >
                 <span class="font-medium capitalize">{{ mode }}</span>
-                <span class="font-mono text-[11px] text-muted-foreground">
-                  MRR {{ summary.mrr?.toFixed(3) ?? '—' }} · Recall@3 {{ summary.recall_at_3?.toFixed(3) ?? '—' }}
+                <span class="text-[11px] text-muted-foreground">
+                  MRR <span class="font-mono">{{ summary.mrr?.toFixed(3) ?? '—' }}</span><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>Recall@3 <span class="font-mono">{{ summary.recall_at_3?.toFixed(3) ?? '—' }}</span>
                 </span>
               </div>
             </template>

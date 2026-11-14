@@ -162,7 +162,7 @@ function inspectAlternative(alt: any) {
               </span>
             </div>
 
-            <h2 class="text-foreground text-lg sm:text-xl leading-tight">
+            <h2 class="detail-name text-foreground text-lg sm:text-xl leading-tight">
               {{ detailedProduct.name }}
             </h2>
 
@@ -173,7 +173,7 @@ function inspectAlternative(alt: any) {
                 <span class="text-muted-foreground font-normal">({{ detailedProduct.review_count || 0 }} reviews)</span>
               </span>
               <span class="font-medium text-foreground px-2 py-0.5 rounded border border-border bg-background">
-                {{ detailedProduct.price_tier || '$$' }} · {{ detailedProduct.price_range || '$15-$30' }}
+                {{ detailedProduct.price_tier || '$$' }}<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ detailedProduct.price_range || '$15-$30' }}
               </span>
               <span v-if="detailedProduct.size" class="font-medium text-muted-foreground">
                 {{ detailedProduct.size }}
@@ -439,7 +439,7 @@ function inspectAlternative(alt: any) {
                   v-model="ingredientSearch"
                   type="text"
                   placeholder="Filter ingredients..."
-                  class="w-full h-8 pl-8 pr-3 text-xs rounded-lg border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary"
+                  class="w-full h-8 pl-8 pr-3 text-xs rounded-lg border border-input bg-background focus:ring-1 focus:ring-primary"
                 />
               </div>
             </div>
@@ -588,8 +588,8 @@ function inspectAlternative(alt: any) {
 
           <!-- 5. RAW JSON TAB -->
           <TabsContent value="raw" class="mt-0 space-y-2">
-            <span class="text-xs text-muted-foreground font-mono block">FastAPI Verified Payload:</span>
-            <pre class="p-4 rounded-lg bg-slate-950 text-evidence-verified font-mono text-[11px] overflow-x-auto max-h-96 border border-evidence-unknown/40">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
+            <span class="text-xs text-muted-foreground block">FastAPI Verified Payload:</span>
+            <pre class="p-4 rounded-sm bg-muted text-evidence-verified font-mono text-[11px] overflow-x-auto max-h-96 border border-border">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
           </TabsContent>
         </div>
       </div>
@@ -635,3 +635,10 @@ function inspectAlternative(alt: any) {
     </DialogContent>
   </Dialog>
 </template>
+
+<style scoped>
+.detail-name {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+</style>

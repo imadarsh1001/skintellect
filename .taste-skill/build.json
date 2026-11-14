@@ -1,0 +1,11 @@
+{
+ "page": null,
+ "url": "http://localhost:5173/",
+ "root": null,
+ "kind": null,
+ "category": "formulation intelligence",
+ "primary": "explore formulations",
+ "rounds": 3,
+ "start": "2026-11-14T20:25:00.344Z",
+ "by": "gate.mjs --start"
+}

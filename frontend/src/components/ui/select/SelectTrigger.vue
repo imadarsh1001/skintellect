@@ -19,7 +19,7 @@ const forwardedProps = useForwardProps(delegatedProps)
     v-bind="forwardedProps"
     :class="
       cn(
-        'flex h-10 w-full items-center justify-between rounded-sm border border-input bg-muted px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-55 [&>span]:line-clamp-1',
+        'flex h-10 w-full items-center justify-between rounded-sm border border-input bg-muted px-3 py-2 text-sm placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-55 [&>span]:line-clamp-1',
         props.class,
       )
     "

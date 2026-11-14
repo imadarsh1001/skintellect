@@ -107,14 +107,14 @@ function onTabSelect(value: string | number) {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <!-- Brand Logo & Global Title -->
         <div class="flex items-center gap-3">
-          <RouterLink to="/" class="flex items-center gap-3">
+          <RouterLink to="/" class="flex items-center gap-3 min-w-0">
             <div class="size-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
               <FlaskConical class="size-5" aria-hidden="true" />
             </div>
-            <div>
+            <div class="min-w-0">
               <div class="flex items-center gap-2">
-                <h1 class="text-xl text-foreground">Formulation Studio</h1>
-                <Badge variant="verified" class="gap-1.5 text-[10px] py-0.5 px-2 font-medium">
+                <h1 class="text-xl text-foreground truncate">Formulation Studio</h1>
+                <Badge variant="verified" class="hidden sm:inline-flex gap-1.5 text-[11px] py-0.5 px-2 font-medium shrink-0">
                   <span>Pro</span>
                   <span aria-hidden="true" class="h-2.5 w-px bg-evidence-verified/60"></span>
                   <span>Multi-domain</span>
@@ -128,25 +128,25 @@ function onTabSelect(value: string | number) {
         </div>
 
         <!-- Workspaces & Persona Control -->
-        <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
           <nav class="hidden lg:flex items-center gap-1 text-xs text-muted-foreground mr-1">
             <RouterLink
               to="/research"
-              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium"
+              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
               title="Structured evidence workspace with quote explorer"
             >
               Evidence Workspace
             </RouterLink>
             <RouterLink
               to="/study"
-              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium"
+              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
               title="Prepared study, references and quality checks"
             >
               Study
             </RouterLink>
             <RouterLink
               to="/progress"
-              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium"
+              class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
               title="Preparation and indexing status"
             >
               Data Progress
@@ -155,12 +155,12 @@ function onTabSelect(value: string | number) {
           <Button
             variant="outline"
             size="sm"
-            class="h-9 px-3.5 gap-2 text-primary font-medium rounded-sm cursor-pointer"
+            class="h-9 px-3.5 gap-2 text-primary font-medium rounded-sm cursor-pointer shrink min-w-0 max-w-[170px] lg:max-w-none"
             @click="personaDrawerOpen = true"
           >
             <SlidersHorizontal class="w-4 h-4" aria-hidden="true" />
             <span class="hidden md:inline text-xs">Profile:</span>
-            <span class="text-xs truncate max-w-[160px] text-foreground font-medium">
+            <span class="text-xs truncate min-w-0 max-w-[110px] sm:max-w-[160px] lg:max-w-none text-foreground font-medium">
               {{ currentPersona.name }}
             </span>
           </Button>
@@ -173,7 +173,7 @@ function onTabSelect(value: string | number) {
           <TabsList class="h-11 bg-transparent p-0 gap-4 sm:gap-8 border-b-0">
             <TabsTrigger
               value="explore"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
             >
               <LayoutGrid class="w-4 h-4" aria-hidden="true" />
               Catalog & Explore
@@ -181,7 +181,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="compare"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
             >
               <Scale class="w-4 h-4" aria-hidden="true" />
               Compare Matrix
@@ -195,7 +195,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="graph"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
             >
               <Network class="w-4 h-4" aria-hidden="true" />
               Ingredient Graph
@@ -203,7 +203,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="copilot"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0"
             >
               <Sparkles class="w-4 h-4" aria-hidden="true" />
               Research Copilot

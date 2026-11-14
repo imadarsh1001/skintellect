@@ -66,7 +66,7 @@ function formatEventTime(iso?: string) {
             <Zap class="w-3.5 h-3.5 fill-current" />
             Agent Trace
           </span>
-          <Badge variant="outline" class="text-[11px] py-0 px-1.5 font-mono font-medium bg-muted border-border">
+          <Badge variant="outline" class="text-[11px] py-0 px-1.5 font-medium bg-muted border-border">
             Route: {{ trace.intent_route || 'auto' }}
           </Badge>
           <Badge
@@ -163,16 +163,16 @@ function formatEventTime(iso?: string) {
         <!-- Stage latencies -->
         <div
           v-if="trace.stage_timings_ms"
-          class="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border pt-2 font-mono flex-wrap gap-2"
+          class="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border pt-2 flex-wrap gap-2"
         >
           <div class="flex items-center gap-2">
-            <span class="border-l border-border pl-2 first:border-l-0 first:pl-0">Interpret: <strong>{{ trace.stage_timings_ms.interpret || 0 }}ms</strong></span>
-            <span class="border-l border-border pl-2">Search: <strong>{{ trace.stage_timings_ms.search || 0 }}ms</strong></span>
-            <span class="border-l border-border pl-2">Evidence: <strong>{{ trace.stage_timings_ms.evidence || 0 }}ms</strong></span>
-            <span class="border-l border-border pl-2">Synthesis: <strong>{{ trace.stage_timings_ms.synthesis || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2 first:border-l-0 first:pl-0">Interpret: <strong class="font-mono">{{ trace.stage_timings_ms.interpret || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Search: <strong class="font-mono">{{ trace.stage_timings_ms.search || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Evidence: <strong class="font-mono">{{ trace.stage_timings_ms.evidence || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Synthesis: <strong class="font-mono">{{ trace.stage_timings_ms.synthesis || 0 }}ms</strong></span>
           </div>
           <div class="font-medium text-foreground">
-            Total: {{ trace.stage_timings_ms.elapsed_ms || trace.elapsed_ms }}ms
+            Total: <span class="font-mono">{{ trace.stage_timings_ms.elapsed_ms || trace.elapsed_ms }}ms</span>
           </div>
         </div>
       </div>

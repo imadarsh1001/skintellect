@@ -243,7 +243,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
                         {{ connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.type ?? 'ingredient' }}
                       </span>
                     </td>
-                    <td class="p-3 text-muted-foreground font-mono text-[11px]">{{ edge.relation }} · {{ edge.evidence_id }}</td>
+                    <td class="p-3 text-muted-foreground font-mono text-[11px]">{{ edge.relation }}<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ edge.evidence_id }}</td>
                   </tr>
                 </template>
               </template>

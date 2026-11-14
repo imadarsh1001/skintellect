@@ -281,7 +281,7 @@ const EXAMPLES = [
           v-model="question"
           rows="3"
           placeholder="e.g. Find moisturizers with ceramides. Summarize texture evidence and suggest one alternative."
-          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary"
+          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed focus:ring-1 focus:ring-primary"
         />
         <div class="flex flex-wrap items-center gap-1.5">
           <button
@@ -438,8 +438,8 @@ const EXAMPLES = [
         <h3 class="text-base font-medium">Matching records</h3>
         <span class="text-xs text-muted-foreground">
           {{ results.total }} match<template v-if="results.total !== 1">es</template>
-          <template v-if="results.unknown_count"> · {{ results.unknown_count }} with unknown ingredients</template>
-          <template v-if="results.failed_count"> · {{ results.failed_count }} unusable</template>
+          <template v-if="results.unknown_count"><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ results.unknown_count }} with unknown ingredients</template>
+          <template v-if="results.failed_count"><span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ results.failed_count }} unusable</template>
         </span>
       </div>
       <p v-if="results.notice" class="text-[11px] text-muted-foreground">{{ results.notice }}</p>
@@ -520,7 +520,7 @@ const EXAMPLES = [
                 <span class="font-medium text-foreground">
                   {{ reviewHeaderOf(p.id).unique }} unique reviews
                   <template v-if="reviewHeaderOf(p.id).analyzed !== null">
-                    · {{ reviewHeaderOf(p.id).analyzed }} analyzed
+                    <span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ reviewHeaderOf(p.id).analyzed }} analyzed
                   </template>
                 </span>
                 <Button

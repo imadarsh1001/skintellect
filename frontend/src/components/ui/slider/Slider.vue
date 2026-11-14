@@ -2,6 +2,7 @@
 import type { SliderRootEmits, SliderRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
+import { useAttrs } from 'vue'
 import { cn } from '@/lib/utils'
 import { SliderRange, SliderRoot, SliderThumb, SliderTrack, useForwardPropsEmits } from 'reka-ui'
 
@@ -9,6 +10,7 @@ const props = defineProps<SliderRootProps & { class?: HTMLAttributes['class'] }>
 const emits = defineEmits<SliderRootEmits>()
 
 const delegatedProps = reactiveOmit(props, 'class')
+const attrs = useAttrs()
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
@@ -35,7 +37,8 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <SliderThumb
       v-for="(_, key) in modelValue"
       :key="key"
-      class="bg-foreground border-primary ring-ring/50 block size-4 shrink-0 rounded-full border transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-55"
+      :aria-label="typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined"
+      class="bg-foreground border-primary block size-4 shrink-0 rounded-full border transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-55"
     />
   </SliderRoot>
 </template>

@@ -41,7 +41,7 @@ function getUniqueIngredients(product: Product): string[] {
     <!-- Comparison Header -->
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
-        <h2 class="text-xl font-bold flex items-center gap-2">
+        <h2 class="text-xl font-medium flex items-center gap-2">
           <Scale class="w-5 h-5 text-primary" />
           Side-by-Side Formulation Matrix
         </h2>
@@ -72,9 +72,9 @@ function getUniqueIngredients(product: Product): string[] {
     </div>
 
     <!-- Empty State -->
-    <div v-if="products.length === 0" class="py-16 text-center border rounded-xl bg-card">
+    <div v-if="products.length === 0" class="py-16 text-center border rounded-lg bg-card">
       <Scale class="w-10 h-10 text-muted-foreground stroke-1 mx-auto mb-2" />
-      <h3 class="font-semibold text-sm">No products selected for comparison</h3>
+      <h3 class="font-medium text-sm">No products selected for comparison</h3>
       <p class="text-xs text-muted-foreground max-w-sm mx-auto mt-1">
         Select "Compare" on 2 or more products from the catalog to see their side-by-side chemical difference.
       </p>
@@ -82,8 +82,8 @@ function getUniqueIngredients(product: Product): string[] {
 
     <div v-else class="flex flex-col gap-6">
       <!-- Shared Ingredients Banner -->
-      <div v-if="sharedIngredients.length > 0" class="rounded-xl border border-evidence-verified/20 bg-evidence-verified-bg/50 p-4">
-        <div class="flex items-center gap-2 text-evidence-verified font-semibold text-sm mb-2">
+      <div v-if="sharedIngredients.length > 0" class="rounded-lg border border-evidence-verified/20 bg-evidence-verified-bg/50 p-4">
+        <div class="flex items-center gap-2 text-evidence-verified font-medium text-sm mb-2">
           <ShieldCheck class="w-4 h-4" />
           <span>{{ sharedIngredients.length }} Common Shared Ingredients Across All Selected:</span>
         </div>
@@ -119,38 +119,38 @@ function getUniqueIngredients(product: Product): string[] {
           </button>
 
           <CardHeader class="pb-3 pr-8">
-            <span class="text-xs uppercase font-semibold text-muted-foreground">{{ p.brand }}</span>
-            <CardTitle class="text-base font-bold">{{ p.name }}</CardTitle>
+            <span class="text-xs font-medium text-muted-foreground">{{ p.brand }}</span>
+            <CardTitle class="text-base font-medium">{{ p.name }}</CardTitle>
             <div class="flex items-center gap-2 pt-1">
               <Badge
                 v-if="p.persona_match?.match_status === 'match'"
                 variant="verified"
-                class="text-xs font-semibold"
+                class="text-xs font-medium"
               >
                 {{ p.persona_match.score }}% Persona Fit
               </Badge>
               <Badge
                 v-else-if="p.persona_match?.match_status === 'contraindicated'"
                 variant="negative"
-                class="text-xs gap-1 font-semibold"
+                class="text-xs gap-1 font-medium"
               >
                 <AlertTriangle class="w-3 h-3" />
                 Contraindicated
               </Badge>
-              <Badge v-else-if="p.match_score !== undefined" variant="verified" class="text-xs font-semibold">
+              <Badge v-else-if="p.match_score !== undefined" variant="verified" class="text-xs font-medium">
                 {{ p.match_score }}% Persona Fit
               </Badge>
               <Badge v-else variant="unknown" class="text-xs">
                 Unknown Fit
               </Badge>
-              <span class="text-xs font-bold text-foreground">{{ p.price_tier }}</span>
+              <span class="text-xs font-medium text-foreground">{{ p.price_tier }}</span>
             </div>
           </CardHeader>
 
           <CardContent class="flex flex-col gap-4 text-xs">
             <!-- Formula Provenance -->
             <div class="flex flex-col gap-1 border-t pt-3">
-              <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Formula Provenance</span>
+              <span class="font-medium text-muted-foreground text-[11px]">Formula Provenance</span>
               <div class="flex items-center gap-1.5 font-medium">
                 <ShieldCheck v-if="p.formula_status === 'verified_complete'" class="w-3.5 h-3.5 text-evidence-verified" />
                 <HelpCircle v-else class="w-3.5 h-3.5 text-evidence-unknown" />
@@ -160,7 +160,7 @@ function getUniqueIngredients(product: Product): string[] {
 
             <!-- Key Actives -->
             <div class="flex flex-col gap-1.5 border-t pt-3">
-              <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Key Actives</span>
+              <span class="font-medium text-muted-foreground text-[11px]">Key Actives</span>
               <div v-if="p.key_actives && p.key_actives.length > 0" class="flex flex-wrap gap-1">
                 <Badge v-for="act in p.key_actives" :key="act" variant="secondary" class="text-[11px]">
                   {{ act }}
@@ -171,14 +171,14 @@ function getUniqueIngredients(product: Product): string[] {
 
             <!-- Unique Ingredients -->
             <div class="flex flex-col gap-1.5 border-t pt-3">
-              <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">
+              <span class="font-medium text-muted-foreground text-[11px]">
                 Unique Ingredients ({{ getUniqueIngredients(p).length }})
               </span>
               <div class="flex flex-wrap gap-1 max-h-48 overflow-y-auto pr-1">
                 <span
                   v-for="u in getUniqueIngredients(p)"
                   :key="u"
-                  class="text-[11px] px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 capitalize"
+                  class="text-[11px] px-1.5 py-0.5 rounded bg-evidence-source-bg text-evidence-source capitalize"
                 >
                   {{ u }}
                 </span>
@@ -190,8 +190,8 @@ function getUniqueIngredients(product: Product): string[] {
 
             <!-- Complete INCI Ingredient Count -->
             <div class="flex flex-col gap-1 border-t pt-3">
-              <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Total INCI Ingredients</span>
-              <span class="font-bold text-foreground text-sm">{{ inciNames(p).length }} ingredients</span>
+              <span class="font-medium text-muted-foreground text-[11px]">Total INCI Ingredients</span>
+              <span class="font-medium text-foreground text-sm">{{ inciNames(p).length }} ingredients</span>
             </div>
           </CardContent>
         </Card>

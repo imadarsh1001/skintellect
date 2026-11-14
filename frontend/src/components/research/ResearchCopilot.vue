@@ -388,18 +388,18 @@ const lastAssistantContent = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-[750px] rounded-2xl border bg-card shadow-xs overflow-hidden">
+  <div class="flex flex-col h-[750px] rounded-lg border bg-card overflow-hidden">
     <!-- Header with Session Switcher and New Chat -->
-    <div class="flex items-center justify-between p-4 border-b bg-muted/30">
+    <div class="flex items-center justify-between p-4 border-b bg-muted">
       <div class="flex items-center gap-3">
-        <div class="p-2.5 rounded-xl bg-primary/10 text-primary">
+        <div class="p-2.5 rounded-lg bg-primary/10 text-primary">
           <Sparkles class="w-5 h-5 text-primary" />
         </div>
         <div>
-          <h3 class="font-bold text-sm text-foreground flex items-center gap-2">
+          <h3 class="font-medium text-sm text-foreground flex items-center gap-2">
             Formulation Research Copilot
-            <Badge variant="verified" class="text-[10px] py-0 px-1.5 font-bold">Deep Agents</Badge>
-            <Badge variant="source" class="text-[10px] py-0 px-1.5 font-bold">LangGraph</Badge>
+            <Badge variant="verified" class="text-[11px] py-0 px-1.5 font-medium">Deep Agents</Badge>
+            <Badge variant="source" class="text-[11px] py-0 px-1.5 font-medium">LangGraph</Badge>
           </h3>
           <p class="text-[11px] text-muted-foreground">
             Multi-domain formulation reasoning with verbatim quotation enforcement and task decomposition.
@@ -411,7 +411,7 @@ const lastAssistantContent = computed(() => {
       <div class="flex items-center gap-2">
         <div v-if="sessions.length > 1">
           <Select :model-value="sessionId" @update:model-value="(val) => handleSelectSession(String(val))">
-            <SelectTrigger class="h-8 text-xs max-w-[170px] truncate shadow-2xs">
+            <SelectTrigger class="h-8 text-xs max-w-[170px] truncate">
               <SelectValue placeholder="Select session" />
             </SelectTrigger>
             <SelectContent>
@@ -424,7 +424,7 @@ const lastAssistantContent = computed(() => {
         <Button
           variant="outline"
           size="sm"
-          class="h-8 px-2.5 text-xs font-semibold gap-1.5 cursor-pointer text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shadow-2xs"
+          class="h-8 px-2.5 text-xs font-medium gap-1.5 cursor-pointer text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
           title="Delete current session"
           @click="confirmDeleteSession()"
         >
@@ -434,7 +434,7 @@ const lastAssistantContent = computed(() => {
         <Button
           variant="outline"
           size="sm"
-          class="h-8 px-2.5 text-xs font-semibold gap-1.5 cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shadow-2xs"
+          class="h-8 px-2.5 text-xs font-medium gap-1.5 cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
           @click="handleNewChat()"
           title="Start fresh session"
         >
@@ -454,29 +454,29 @@ const lastAssistantContent = computed(() => {
       >
         <!-- Avatar -->
         <div
-          class="size-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow-xs"
+          class="size-8 rounded-full flex items-center justify-center shrink-0 text-xs font-medium"
           :class="msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground border'"
         >
           <User v-if="msg.role === 'user'" class="w-4 h-4" />
-          <Bot v-else class="w-4 h-4 text-primary" />
+          <Bot v-else class="w-4 h-4 text-evidence-source" />
         </div>
 
         <!-- Bubble -->
         <div class="flex flex-col gap-2 max-w-[90%] sm:max-w-[85%]">
           <div
-            class="p-4 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs relative group/bubble"
-            :class="msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted/40 border text-foreground'"
+            class="p-4 rounded-lg text-xs sm:text-sm leading-relaxed relative group/bubble"
+            :class="msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted border text-foreground'"
           >
             <!-- Header bar: identity, live stage, copy -->
-            <div v-if="msg.role === 'assistant'" class="flex items-center justify-between mb-2 pb-1.5 border-b border-border/30">
+            <div v-if="msg.role === 'assistant'" class="flex items-center justify-between mb-2 pb-1.5 border-b border-border">
               <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
-                  <Sparkles class="w-3 h-3 text-primary" />
+                <span class="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                  <Sparkles class="w-3 h-3 text-evidence-source" />
                   Formulation Copilot
                 </span>
                 <span
                   v-if="loading && msg.streamingStage && msg.id === messages[messages.length - 1]?.id"
-                  class="inline-flex items-center gap-1 text-[10px] font-medium text-primary animate-pulse"
+                  class="inline-flex items-center gap-1 text-[11px] font-medium text-evidence-source animate-pulse"
                 >
                   {{ msg.streamingStage }}
                 </span>
@@ -484,10 +484,10 @@ const lastAssistantContent = computed(() => {
               <button
                 type="button"
                 @click="copyMessage(msg.id, msg.content)"
-                class="opacity-60 hover:opacity-100 p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                class="opacity-60 hover:opacity-100 p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-opacity cursor-pointer"
                 :title="copiedMsgId === msg.id ? 'Copied!' : 'Copy response'"
               >
-                <Check v-if="copiedMsgId === msg.id" class="w-3.5 h-3.5 text-emerald-600" />
+                <Check v-if="copiedMsgId === msg.id" class="w-3.5 h-3.5 text-evidence-verified" />
                 <Copy v-else class="w-3.5 h-3.5" />
               </button>
             </div>
@@ -505,14 +505,14 @@ const lastAssistantContent = computed(() => {
             <!-- Interactive Suggestion Chips (structured backend fields only) -->
             <div
               v-if="msg.clarification && msg.clarification.options && msg.clarification.options.length > 0"
-              class="mt-4 pt-3.5 border-t border-border/60 space-y-2.5"
+              class="mt-4 pt-3.5 border-t border-border space-y-2.5"
             >
               <div class="flex items-center justify-between">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+                <span class="text-[11px] font-medium text-primary flex items-center gap-1.5">
                   <Sparkles class="w-3.5 h-3.5 text-primary" />
                   Select Formulation Focus (HITL)
                 </span>
-                <span class="text-[10px] text-muted-foreground">
+                <span class="text-[11px] text-muted-foreground">
                   Click to explore or customize below
                 </span>
               </div>
@@ -522,17 +522,17 @@ const lastAssistantContent = computed(() => {
                   v-for="(opt, oIdx) in msg.clarification.options"
                   :key="opt.id || oIdx"
                   type="button"
-                  class="p-2.5 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 text-left transition-all cursor-pointer shadow-2xs group flex flex-col justify-between gap-1"
+                  class="p-2.5 rounded-lg border border-border hover:border-primary/50 bg-card hover:bg-accent text-left transition-colors cursor-pointer group flex flex-col justify-between gap-1"
                   @click="handleSend(opt.query)"
                 >
                   <div class="flex items-center justify-between gap-1">
-                    <span class="text-xs font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
-                      <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/20 text-primary text-[10px] font-bold">
+                    <span class="text-xs font-medium text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/20 text-primary text-[11px] font-medium">
                         {{ String.fromCharCode(65 + oIdx) }}
                       </span>
                       {{ opt.title }}
                     </span>
-                    <ChevronRight class="w-3.5 h-3.5 text-primary opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    <ChevronRight class="w-3.5 h-3.5 text-primary opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </div>
                   <p class="text-[11px] text-muted-foreground leading-snug line-clamp-2">
                     {{ opt.description }}
@@ -541,11 +541,11 @@ const lastAssistantContent = computed(() => {
               </div>
 
               <!-- Custom Option Toggle & Input -->
-              <div v-if="msg.clarification.allow_custom" class="mt-2 pt-2 border-t border-border/30">
+              <div v-if="msg.clarification.allow_custom" class="mt-2 pt-2 border-t border-border">
                 <div v-if="!msg.showCustomClarification">
                   <button
                     type="button"
-                    class="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-muted/40"
+                    class="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-muted/40"
                     @click="msg.showCustomClarification = true"
                   >
                     <Plus class="w-3.5 h-3.5 text-primary" />
@@ -582,41 +582,41 @@ const lastAssistantContent = computed(() => {
             <!-- Matching Formulations Cards -->
             <div
               v-if="msg.matching_products && msg.matching_products.length > 0"
-              class="mt-4 pt-3.5 border-t border-border/60 space-y-2.5"
+              class="mt-4 pt-3.5 border-t border-border space-y-2.5"
             >
-              <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+              <span class="text-[11px] font-medium text-muted-foreground flex items-center gap-1.5">
+                <ShieldCheck class="w-3.5 h-3.5 text-evidence-verified" />
                 Matching Formulations (Top {{ Math.min(msg.matching_products.length, 4) }} of {{ msg.total_matches || msg.matching_products.length }})
               </span>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div
                   v-for="p in msg.matching_products.slice(0, 4)"
                   :key="p.id"
-                  class="p-3 rounded-xl border bg-card/90 hover:border-primary/50 transition-all flex flex-col justify-between gap-2 shadow-2xs"
+                  class="p-3 rounded-lg border bg-card hover:border-primary/50 transition-colors flex flex-col justify-between gap-2"
                 >
                   <div>
                     <div class="flex items-start justify-between gap-1.5">
-                      <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground truncate">{{ p.brand }}</span>
-                      <span class="text-xs font-bold text-foreground">{{ p.price_tier || '$$' }}</span>
+                      <span class="text-[11px] font-medium text-muted-foreground truncate">{{ p.brand }}</span>
+                      <span class="text-xs font-medium text-foreground">{{ p.price_tier || '$$' }}</span>
                     </div>
-                    <h5 class="font-bold text-xs text-foreground line-clamp-1 mt-0.5">{{ p.name }}</h5>
+                    <h5 class="font-medium text-xs text-foreground line-clamp-1 mt-0.5">{{ p.name }}</h5>
                     <div class="flex items-center gap-1 mt-1.5 flex-wrap">
-                      <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="text-[9px] py-0 px-1 font-bold">
+                      <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="text-[11px] py-0 px-1 font-medium">
                         Verified INCI
                       </Badge>
-                      <Badge v-else variant="unknown" class="text-[9px] py-0 px-1 font-bold">Unverified</Badge>
+                      <Badge v-else variant="unknown" class="text-[11px] py-0 px-1 font-medium">Unverified</Badge>
                     </div>
                   </div>
-                  <div class="flex items-center gap-2 pt-1.5 border-t border-border/40 text-[11px]">
+                  <div class="flex items-center gap-2 pt-1.5 border-t border-border text-[11px]">
                     <button
-                      class="font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                      class="font-medium text-primary hover:underline flex items-center gap-1 cursor-pointer"
                       @click="emits('view-details', p)"
                     >
                       <ExternalLink class="w-3 h-3" /> View Dossier
                     </button>
-                    <span class="text-muted-foreground text-[10px]">·</span>
+                    <span class="text-muted-foreground text-[11px]">·</span>
                     <button
-                      class="font-semibold text-muted-foreground hover:text-foreground cursor-pointer"
+                      class="font-medium text-muted-foreground hover:text-foreground cursor-pointer"
                       @click="emits('toggle-compare', p)"
                     >
                       + Compare
@@ -629,10 +629,10 @@ const lastAssistantContent = computed(() => {
             <!-- Review Aspect Observations -->
             <div
               v-if="msg.review_insights && msg.review_insights.length > 0"
-              class="mt-4 pt-3.5 border-t border-border/60 space-y-2"
+              class="mt-4 pt-3.5 border-t border-border space-y-2"
             >
-              <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <MessageSquare class="w-3.5 h-3.5 text-purple-600" />
+              <span class="text-[11px] font-medium text-muted-foreground flex items-center gap-1.5">
+                <MessageSquare class="w-3.5 h-3.5 text-evidence-mixed" />
                 Reported Review Experiences & Aspect Observations
               </span>
               <div class="space-y-1.5">
@@ -640,15 +640,15 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="(obs, oIdx) in (revGroup.observations || []).filter((o: any) => o.span || o.quote || o.text).slice(0, 3)"
                     :key="oIdx"
-                    class="p-2.5 rounded-xl border bg-background/80 text-xs flex flex-col gap-1 shadow-2xs"
+                    class="p-2.5 rounded-lg border bg-card text-xs flex flex-col gap-1"
                   >
                     <div class="flex items-center justify-between gap-2">
-                      <span class="font-bold text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-muted text-foreground">
+                      <span class="font-medium text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground">
                         {{ obs.aspect || 'Texture' }}
                       </span>
                       <span
-                        class="text-[10px] font-bold px-1.5 py-0.2 rounded"
-                        :class="obs.sentiment === 'negative' ? 'bg-rose-100 text-rose-800' : obs.sentiment === 'positive' ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-purple-800'"
+                        class="text-[11px] font-medium px-1.5 py-0.2 rounded"
+                        :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : 'bg-purple-100 text-evidence-mixed'"
                       >
                         {{ obs.sentiment || 'observed' }}
                       </span>
@@ -664,10 +664,10 @@ const lastAssistantContent = computed(() => {
             <!-- Formula Alternatives / Dupes -->
             <div
               v-if="msg.alternatives && msg.alternatives.length > 0"
-              class="mt-4 pt-3.5 border-t border-border/60 space-y-2"
+              class="mt-4 pt-3.5 border-t border-border space-y-2"
             >
-              <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Scale class="w-3.5 h-3.5 text-blue-600" />
+              <span class="text-[11px] font-medium text-muted-foreground flex items-center gap-1.5">
+                <Scale class="w-3.5 h-3.5 text-evidence-source" />
                 Formula Alternatives & Shared Ingredients
               </span>
               <div class="space-y-2">
@@ -675,9 +675,9 @@ const lastAssistantContent = computed(() => {
                   <div
                     v-for="alt in (altGroup.alternatives || []).slice(0, 2)"
                     :key="alt.id"
-                    class="p-2.5 rounded-xl border bg-background/80 text-xs space-y-1 shadow-2xs"
+                    class="p-2.5 rounded-lg border bg-card text-xs space-y-1"
                   >
-                    <div class="flex items-center justify-between font-bold">
+                    <div class="flex items-center justify-between font-medium">
                       <span>{{ alt.brand }} - {{ alt.name }}</span>
                       <span class="text-primary font-mono text-[11px]">{{ alt.similarity ? alt.similarity + '%' : '' }}</span>
                     </div>
@@ -699,7 +699,7 @@ const lastAssistantContent = computed(() => {
             <!-- Agent Trace (AI Elements Trace pattern) -->
             <AgentTrace v-if="msg.role === 'assistant' && msg.trace" :trace="msg.trace" v-model:open="msg.showDebugger" />
           </div>
-          <span class="text-[10px] text-muted-foreground px-1" :class="msg.role === 'user' ? 'text-right' : ''">
+          <span class="text-[11px] text-muted-foreground px-1" :class="msg.role === 'user' ? 'text-right' : ''">
             {{ msg.timestamp }}
           </span>
         </div>
@@ -708,7 +708,7 @@ const lastAssistantContent = computed(() => {
 
     <!-- Starter Suggestions (structured, only on a fresh conversation) -->
     <div v-if="messages.length <= 2" class="p-3 border-t bg-muted/20 flex items-center gap-2 overflow-x-auto">
-      <span class="text-[11px] font-bold text-muted-foreground shrink-0">Try asking:</span>
+      <span class="text-[11px] font-medium text-muted-foreground shrink-0">Try asking:</span>
       <div class="flex items-center gap-1.5">
         <SuggestionChip
           v-for="prompt in samplePrompts"
@@ -730,9 +730,9 @@ const lastAssistantContent = computed(() => {
 
     <!-- Verbatim Citation Modal -->
     <Dialog :open="citationModalOpen" @update:open="(val: boolean) => citationModalOpen = val">
-      <DialogContent class="max-w-lg rounded-2xl">
+      <DialogContent class="max-w-lg rounded-lg">
         <DialogHeader>
-          <DialogTitle class="flex items-center gap-2 text-base font-bold">
+          <DialogTitle class="flex items-center gap-2 text-base font-medium">
             <Quote class="w-4 h-4 text-primary" />
             Verbatim Evidence Source
           </DialogTitle>
@@ -742,17 +742,17 @@ const lastAssistantContent = computed(() => {
         </DialogHeader>
 
         <div class="flex flex-col gap-3 py-3 text-xs">
-          <div class="p-3 rounded-xl border bg-muted/40 font-mono text-xs leading-relaxed text-foreground">
+          <div class="p-3 rounded-lg border bg-muted/40 font-mono text-xs leading-relaxed text-foreground">
             {{ citationEvidence?.quote || activeCitation?.quote || 'Loading excerpt from secure corpus...' }}
           </div>
 
           <div v-if="activeCitation?.url" class="flex items-center justify-between text-xs pt-2">
-            <span class="text-muted-foreground font-semibold">Source URL:</span>
+            <span class="text-muted-foreground font-medium">Source URL:</span>
             <a
               :href="activeCitation.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-primary flex items-center gap-1 hover:underline font-bold"
+              class="text-primary flex items-center gap-1 hover:underline font-medium"
             >
               {{ activeCitation.url.replace(/^https?:\/\//, '').split('/')[0] }}
               <ExternalLink class="w-3 h-3" />

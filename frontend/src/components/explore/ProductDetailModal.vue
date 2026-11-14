@@ -29,6 +29,8 @@ import {
   FileCode,
   Flame,
   FlaskConical,
+  Check,
+  TriangleAlert,
 } from 'lucide-vue-next'
 
 const props = defineProps<{
@@ -141,42 +143,42 @@ function inspectAlternative(alt: any) {
 
 <template>
   <Dialog :open="open" @update:open="(val: boolean) => emits('update:open', val)">
-    <DialogContent class="max-w-4xl max-h-[90vh] p-0 overflow-hidden flex flex-col gap-0 rounded-2xl bg-card border-border/80 shadow-2xl">
+    <DialogContent class="max-w-4xl max-h-[90vh] p-0 overflow-hidden flex flex-col gap-0 rounded-lg bg-card border-border">
       <!-- Top Fixed Header -->
-      <div v-if="detailedProduct" class="p-5 border-b border-border/60 bg-muted/20 shrink-0 flex items-start justify-between gap-4">
+      <div v-if="detailedProduct" class="p-5 border-b border-border bg-muted/20 shrink-0 flex items-start justify-between gap-4">
         <div class="flex items-start gap-4">
           <!-- Icon / Avatar -->
-          <div class="size-16 sm:size-20 rounded-2xl bg-background border border-border/80 flex items-center justify-center text-3xl shadow-xs shrink-0 select-none">
-            🧴
+          <div class="size-16 sm:size-20 rounded-lg bg-background border border-border flex items-center justify-center shrink-0 select-none">
+            <FlaskConical class="size-8 text-muted-foreground" aria-hidden="true" />
           </div>
 
           <div class="flex flex-col gap-1">
             <div class="flex items-center gap-2 flex-wrap text-xs">
-              <span class="font-extrabold uppercase tracking-wider text-muted-foreground">{{ detailedProduct.brand }}</span>
-              <span class="text-muted-foreground font-semibold">·</span>
+              <span class="font-medium text-muted-foreground">{{ detailedProduct.brand }}</span>
+              <span aria-hidden="true" class="h-2.5 w-px bg-border"></span>
               <span class="text-muted-foreground font-medium">{{ detailedProduct.brand_country || 'International' }}</span>
-              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-muted text-foreground">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-muted text-foreground">
                 {{ detailedProduct.category_display || detailedProduct.category || 'Moisturizer' }}
               </span>
             </div>
 
-            <h2 class="font-extrabold text-foreground text-lg sm:text-xl leading-tight">
+            <h2 class="text-foreground text-lg sm:text-xl leading-tight">
               {{ detailedProduct.name }}
             </h2>
 
             <div class="flex items-center gap-3 text-xs flex-wrap pt-0.5 text-muted-foreground">
-              <span v-if="detailedProduct.rating" class="flex items-center gap-1 font-bold text-foreground">
-                <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+              <span v-if="detailedProduct.rating" class="flex items-center gap-1 font-medium text-foreground">
+                <Star class="w-3.5 h-3.5 fill-primary text-primary" />
                 {{ detailedProduct.rating.toFixed(1) }}
                 <span class="text-muted-foreground font-normal">({{ detailedProduct.review_count || 0 }} reviews)</span>
               </span>
-              <span class="font-bold text-foreground px-2 py-0.5 rounded border border-border bg-background">
+              <span class="font-medium text-foreground px-2 py-0.5 rounded border border-border bg-background">
                 {{ detailedProduct.price_tier || '$$' }} · {{ detailedProduct.price_range || '$15-$30' }}
               </span>
               <span v-if="detailedProduct.size" class="font-medium text-muted-foreground">
                 {{ detailedProduct.size }}
               </span>
-              <span v-if="detailedProduct.routine_step" class="text-primary font-semibold">
+              <span v-if="detailedProduct.routine_step" class="text-primary font-medium">
                 {{ detailedProduct.routine_step }}
               </span>
             </div>
@@ -189,14 +191,14 @@ function inspectAlternative(alt: any) {
             <Badge
               v-if="detailedProduct.persona_match?.match_status === 'match'"
               variant="verified"
-              class="font-black text-sm px-3 py-1 rounded-xl shadow-xs"
+              class="text-sm px-3 py-1 rounded-lg"
             >
               {{ detailedProduct.persona_match.score }}% Fit
             </Badge>
             <Badge
               v-else-if="detailedProduct.persona_match?.match_status === 'contraindicated'"
               variant="negative"
-              class="font-bold text-xs px-2.5 py-1 rounded-xl shadow-xs gap-1"
+              class="font-medium text-xs px-2.5 py-1 rounded-lg gap-1"
             >
               <AlertTriangle class="w-3.5 h-3.5" />
               Contraindicated
@@ -204,14 +206,14 @@ function inspectAlternative(alt: any) {
             <Badge
               v-else-if="detailedProduct.match_score !== undefined"
               variant="verified"
-              class="font-black text-sm px-3 py-1 rounded-xl shadow-xs"
+              class="text-sm px-3 py-1 rounded-lg"
             >
               {{ detailedProduct.match_score }}% Fit
             </Badge>
-            <Badge v-else variant="unknown" class="font-bold text-xs px-2.5 py-1 rounded-xl shadow-xs">
+            <Badge v-else variant="unknown" class="font-medium text-xs px-2.5 py-1 rounded-lg">
               No heuristic fit
             </Badge>
-            <div v-if="detailedProduct.composite_score !== undefined" class="text-[10px] text-muted-foreground font-bold mt-1">
+            <div v-if="detailedProduct.composite_score !== undefined" class="text-[11px] text-muted-foreground font-medium mt-1">
               {{ detailedProduct.composite_score }} pts
             </div>
           </div>
@@ -220,10 +222,10 @@ function inspectAlternative(alt: any) {
 
       <!-- Navigation Tabs Bar -->
       <Tabs v-model="activeTab" class="flex flex-col flex-1 min-h-0">
-        <TabsList class="w-full shrink-0 justify-start rounded-none h-auto bg-card border-b border-border/60 px-5 gap-1 overflow-x-auto p-0">
+        <TabsList class="w-full shrink-0 justify-start rounded-none h-auto bg-card border-b border-border px-5 gap-1 overflow-x-auto p-0">
           <TabsTrigger
             value="safety"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
           >
             <Shield class="w-4 h-4" />
             Safety &amp; Clinical Fit
@@ -231,34 +233,34 @@ function inspectAlternative(alt: any) {
 
           <TabsTrigger
             value="ingredients"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
           >
             <FlaskConical class="w-4 h-4" />
             Full INCI Ingredients
-            <span class="text-[10px] opacity-75">({{ detailedProduct?.ingredients?.length || detailedProduct?.names?.length || 0 }})</span>
+            <span class="text-[11px] opacity-75">({{ detailedProduct?.ingredients?.length || detailedProduct?.names?.length || 0 }})</span>
           </TabsTrigger>
 
           <TabsTrigger
             value="dupes"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
           >
             <Scale class="w-4 h-4" />
             Formula Alternatives
-            <span class="text-[10px] opacity-75">({{ dupesList.length }})</span>
+            <span class="text-[11px] opacity-75">({{ dupesList.length }})</span>
           </TabsTrigger>
 
           <TabsTrigger
             value="reviews"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
           >
             <MessageSquare class="w-4 h-4" />
             Reviews &amp; Experiences
-            <span class="text-[10px] opacity-75">({{ detailedProduct?.reviews?.length || 0 }})</span>
+            <span class="text-[11px] opacity-75">({{ detailedProduct?.reviews?.length || 0 }})</span>
           </TabsTrigger>
 
           <TabsTrigger
             value="raw"
-            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-bold border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
+            class="gap-1.5 py-3 px-3.5 border-b-2 rounded-none text-xs font-medium border-transparent text-muted-foreground hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-primary data-[state=active]:border-primary"
           >
             <FileCode class="w-4 h-4" />
             Raw JSON
@@ -270,65 +272,65 @@ function inspectAlternative(alt: any) {
         <!-- Loader -->
         <div v-if="loading" class="py-16 text-center flex flex-col items-center justify-center gap-3">
           <Loader2 class="size-8 animate-spin text-primary" />
-          <span class="text-xs font-bold text-muted-foreground">Loading full clinical formulation dossier...</span>
+          <span class="text-xs font-medium text-muted-foreground">Loading full clinical formulation dossier...</span>
         </div>
 
         <div v-else-if="detailedProduct" class="space-y-6">
           <!-- 1. SAFETY & CLINICAL FIT TAB -->
           <TabsContent value="safety" class="mt-0 space-y-5 text-xs">
             <!-- Product Description -->
-            <div v-if="detailedProduct.description" class="p-4 rounded-xl border bg-muted/20 text-xs text-foreground leading-relaxed">
-              <span class="font-bold text-foreground block mb-1 uppercase tracking-wider text-[10px]">Product Description</span>
+            <div v-if="detailedProduct.description" class="p-4 rounded-lg border bg-muted/20 text-xs text-foreground leading-relaxed">
+              <span class="font-medium text-foreground block mb-1 text-[11px]">Product Description</span>
               <p>{{ detailedProduct.description }}</p>
             </div>
 
             <!-- Provenance & Safety Certifications -->
             <div>
-              <h4 class="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
+              <h4 class="text-xs font-medium text-muted-foreground mb-2.5">
                 Formula Provenance & Safety Certifications
               </h4>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-if="detailedProduct.formula_status === 'verified_complete'"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-verified-bg text-evidence-verified border border-evidence-verified/40 flex items-center gap-1.5"
                 >
-                  <ShieldCheck class="w-4 h-4 text-emerald-600" />
+                  <ShieldCheck class="w-4 h-4 text-evidence-verified" />
                   Verified INCI List (Complete)
                 </span>
                 <span
                   v-if="detailedProduct.fungal_acne_safe === 1"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-verified-bg text-evidence-verified border border-evidence-verified/40 "
                 >
-                  🍄 Fungal Acne Safe
+                  Fungal Acne Safe
                 </span>
                 <span
                   v-if="detailedProduct.fragrance_free === 1"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-source-bg text-evidence-source border border-evidence-source/40 "
                 >
-                  🌸 Fragrance-Free
+                  Fragrance-Free
                 </span>
                 <span
                   v-if="detailedProduct.alcohol_free === 1"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-unknown-bg text-evidence-unknown border border-evidence-unknown/40 "
                 >
-                  🌿 Alcohol-Free
+                  Alcohol-Free
                 </span>
                 <span
                   v-if="detailedProduct.oil_free === 1"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-300 border border-teal-200 dark:border-teal-800"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-verified-bg text-evidence-verified border border-evidence-verified/40 "
                 >
-                  💧 Oil-Free
+                  Oil-Free
                 </span>
                 <span
                   v-if="detailedProduct.silicone_free === 1"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-purple-50 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-200 dark:border-purple-800"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-evidence-mixed-bg text-evidence-mixed border border-evidence-mixed/40 "
                 >
-                  🌿 Silicone-Free
+                  Silicone-Free
                 </span>
                 <span
                   v-for="b in (detailedProduct.badges || [])"
                   :key="b"
-                  class="px-3 py-1 rounded-xl text-xs font-bold bg-muted text-foreground border"
+                  class="px-2 py-0.5 rounded-[4px] text-xs font-medium bg-muted text-foreground border"
                 >
                   ✓ {{ b }}
                 </span>
@@ -337,21 +339,21 @@ function inspectAlternative(alt: any) {
 
             <!-- Actives Functional Grid -->
             <div>
-              <h4 class="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
+              <h4 class="text-xs font-medium text-muted-foreground mb-2.5">
                 Functional Actives Classification
               </h4>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <!-- Barrier Lipids -->
-                <div class="bg-emerald-50/50 dark:bg-emerald-950/20 p-4 rounded-xl border border-emerald-200/60 dark:border-emerald-800/40 space-y-2">
-                  <span class="text-xs font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5">
-                    <ShieldCheck class="w-4 h-4 text-emerald-600" />
+                <div class="bg-evidence-verified-bg p-4 rounded-lg border border-evidence-verified/40 space-y-2">
+                  <span class="text-xs font-medium text-evidence-verified flex items-center gap-1.5">
+                    <ShieldCheck class="w-4 h-4 text-evidence-verified" />
                     Barrier & Hydrators
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
                       v-for="h in (detailedProduct.analysis?.hydrators || [])"
                       :key="h"
-                      class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
+                      class="px-2 py-0.5 bg-background border rounded text-xs font-medium"
                     >
                       {{ h }}
                     </span>
@@ -362,16 +364,16 @@ function inspectAlternative(alt: any) {
                 </div>
 
                 <!-- Brighteners & Glow -->
-                <div class="bg-blue-50/50 dark:bg-blue-950/20 p-4 rounded-xl border border-blue-200/60 dark:border-blue-800/40 space-y-2">
-                  <span class="text-xs font-bold text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
-                    <Sparkles class="w-4 h-4 text-blue-600" />
+                <div class="bg-evidence-source-bg p-4 rounded-lg border border-evidence-source/40 space-y-2">
+                  <span class="text-xs font-medium text-evidence-source flex items-center gap-1.5">
+                    <Sparkles class="w-4 h-4 text-evidence-source" />
                     Brighteners & Tone
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
                       v-for="b in (detailedProduct.analysis?.brighteners || [])"
                       :key="b"
-                      class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
+                      class="px-2 py-0.5 bg-background border rounded text-xs font-medium"
                     >
                       {{ b }}
                     </span>
@@ -382,16 +384,16 @@ function inspectAlternative(alt: any) {
                 </div>
 
                 <!-- Soothing Agents -->
-                <div class="bg-purple-50/50 dark:bg-purple-950/20 p-4 rounded-xl border border-purple-200/60 dark:border-purple-800/40 space-y-2">
-                  <span class="text-xs font-bold text-purple-900 dark:text-purple-300 flex items-center gap-1.5">
-                    <Leaf class="w-4 h-4 text-purple-600" />
+                <div class="bg-evidence-mixed-bg p-4 rounded-lg border border-evidence-mixed/40 space-y-2">
+                  <span class="text-xs font-medium text-evidence-mixed flex items-center gap-1.5">
+                    <Leaf class="w-4 h-4 text-evidence-mixed" />
                     Soothing & Anti-Redness
                   </span>
                   <div class="flex flex-wrap gap-1">
                     <span
                       v-for="s in (detailedProduct.analysis?.smoothers || [])"
                       :key="s"
-                      class="px-2 py-0.5 bg-background border rounded text-xs font-semibold"
+                      class="px-2 py-0.5 bg-background border rounded text-xs font-medium"
                     >
                       {{ s }}
                     </span>
@@ -404,21 +406,21 @@ function inspectAlternative(alt: any) {
             </div>
 
             <!-- Pore Clogging Comedogenic Profile -->
-            <div class="p-4 rounded-xl border bg-muted/20 space-y-1.5">
-              <span class="font-bold text-foreground text-xs block">Comedogenic & Pore Clogging Analysis:</span>
-              <div v-if="detailedProduct.analysis?.pore_cloggers?.length" class="text-rose-700 dark:text-rose-400 font-bold flex items-center gap-1.5">
+            <div class="p-4 rounded-lg border bg-muted/20 space-y-1.5">
+              <span class="font-medium text-foreground text-xs block">Comedogenic & Pore Clogging Analysis:</span>
+              <div v-if="detailedProduct.analysis?.pore_cloggers?.length" class="text-evidence-negative font-medium flex items-center gap-1.5">
                 <AlertTriangle class="w-4 h-4 shrink-0" />
                 <span>{{ detailedProduct.analysis.pore_cloggers.join(', ') }}</span>
               </div>
-              <div v-else class="text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
+              <div v-else class="text-evidence-verified font-medium flex items-center gap-1.5">
                 <CheckCircle2 class="w-4 h-4 shrink-0" />
                 <span>0 High Pore Cloggers — Non-comedogenic formulation profile</span>
               </div>
             </div>
 
             <!-- Persona Alignment Breakdown -->
-            <div class="p-4 rounded-xl border bg-muted/10 space-y-2">
-              <span class="font-bold text-foreground text-xs block">Compatibility with {{ currentPersona.name }}:</span>
+            <div class="p-4 rounded-lg border bg-muted/10 space-y-2">
+              <span class="font-medium text-foreground text-xs block">Compatibility with {{ currentPersona.name }}:</span>
               <p class="text-muted-foreground leading-relaxed">
                 {{ detailedProduct.persona_match?.explanation || detailedProduct.match_reasons?.join('; ') || 'Formulation satisfies active barrier goals without flagged contraindications.' }}
               </p>
@@ -442,7 +444,7 @@ function inspectAlternative(alt: any) {
               </div>
             </div>
 
-            <div v-if="filteredIngredients.length === 0" class="p-8 text-center border rounded-xl bg-muted/20 text-xs text-muted-foreground">
+            <div v-if="filteredIngredients.length === 0" class="p-8 text-center border rounded-lg bg-muted/20 text-xs text-muted-foreground">
               No ingredients matching "{{ ingredientSearch }}".
             </div>
 
@@ -450,11 +452,11 @@ function inspectAlternative(alt: any) {
               <div
                 v-for="(ing, idx) in filteredIngredients"
                 :key="idx"
-                class="p-3 rounded-xl border bg-card hover:bg-muted/30 transition-colors flex items-center justify-between text-xs gap-3"
+                class="p-3 rounded-lg border bg-card hover:bg-muted transition-colors flex items-center justify-between text-xs gap-3"
               >
                 <div>
-                  <div class="font-bold text-foreground flex items-center gap-2">
-                    <span class="text-muted-foreground text-[10px] w-5">{{ idx + 1 }}.</span>
+                  <div class="font-medium text-foreground flex items-center gap-2">
+                    <span class="text-muted-foreground text-[11px] w-5">{{ idx + 1 }}.</span>
                     <span>{{ ing.name || 'Ingredient' }}</span>
                   </div>
                   <div class="text-[11px] text-muted-foreground pl-7">
@@ -463,13 +465,13 @@ function inspectAlternative(alt: any) {
                 </div>
 
                 <div class="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
-                  <span v-if="ing.fungal_trigger" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
-                    🍄 {{ ing.fungal_trigger }}
+                  <span v-if="ing.fungal_trigger" class="px-2 py-0.5 rounded-[4px] text-[11px] font-medium bg-primary text-primary-foreground border border-primary/40">
+                    {{ ing.fungal_trigger }}
                   </span>
-                  <span v-if="ing.is_pore_clogging || (ing.comedogenic && ing.comedogenic >= 3)" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                    ⚠️ Pore Clogger
+                  <span v-if="ing.is_pore_clogging || (ing.comedogenic && ing.comedogenic >= 3)" class="px-2 py-0.5 rounded text-[11px] font-medium bg-evidence-negative-bg text-evidence-negative border border-evidence-negative/40">
+                    <TriangleAlert class="size-3" aria-hidden="true" /> Pore Clogger
                   </span>
-                  <span v-if="ing.comedogenic !== null && ing.comedogenic !== undefined" class="px-2 py-0.5 rounded text-[10px] font-bold border" :class="ing.comedogenic >= 3 ? 'bg-rose-100 text-rose-800 border-rose-200' : 'bg-muted text-foreground border-border'">
+                  <span v-if="ing.comedogenic !== null && ing.comedogenic !== undefined" class="px-2 py-0.5 rounded text-[11px] font-medium border" :class="ing.comedogenic >= 3 ? 'bg-evidence-negative-bg text-evidence-negative border-evidence-negative/40' : 'bg-muted text-foreground border-border'">
                     Comedo: {{ ing.comedogenic }}
                   </span>
                 </div>
@@ -483,7 +485,7 @@ function inspectAlternative(alt: any) {
               Algorithmic formula alternatives and budget twins sharing high active overlap:
             </span>
 
-            <div v-if="!dupesList.length" class="p-8 text-center border rounded-xl bg-muted/20 text-xs text-muted-foreground">
+            <div v-if="!dupesList.length" class="p-8 text-center border rounded-lg bg-muted/20 text-xs text-muted-foreground">
               No formula twins or alternatives currently indexed for this product.
             </div>
 
@@ -491,13 +493,13 @@ function inspectAlternative(alt: any) {
               <div
                 v-for="d in dupesList"
                 :key="d.id"
-                class="p-4 rounded-xl border bg-card hover:border-primary/50 transition-colors flex flex-col justify-between gap-3 shadow-xs"
+                class="p-4 rounded-lg border bg-card hover:border-primary/50 transition-colors flex flex-col justify-between gap-3"
               >
                 <div>
                   <div class="flex items-start justify-between gap-2">
                     <div>
-                      <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{{ d.brand }}</span>
-                      <h4 class="font-bold text-foreground text-sm leading-snug">{{ d.name }}</h4>
+                      <span class="text-[11px] font-medium text-muted-foreground">{{ d.brand }}</span>
+                      <h4 class="font-medium text-foreground text-sm leading-snug">{{ d.name }}</h4>
                     </div>
                     <Badge variant="verified" class="text-xs shrink-0 font-extrabold">
                       {{ d.similarity }}% Match
@@ -505,10 +507,10 @@ function inspectAlternative(alt: any) {
                   </div>
 
                   <div class="flex items-center gap-2 mt-2 text-xs">
-                    <span class="font-bold text-foreground">{{ d.price_tier }}</span>
+                    <span class="font-medium text-foreground">{{ d.price_tier }}</span>
                     <span class="text-muted-foreground text-[11px]">({{ d.price_range }})</span>
-                    <span v-if="d.is_cheaper" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                      💰 Budget Twin
+                    <span v-if="d.is_cheaper" class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-evidence-verified-bg text-evidence-verified ">
+                      Budget Twin
                     </span>
                   </div>
                 </div>
@@ -516,7 +518,7 @@ function inspectAlternative(alt: any) {
                 <Button
                   variant="outline"
                   size="sm"
-                  class="w-full text-xs font-semibold gap-1.5"
+                  class="w-full text-xs font-medium gap-1.5"
                   @click="inspectAlternative(d)"
                 >
                   <FlaskConical class="w-3.5 h-3.5" />
@@ -539,15 +541,15 @@ function inspectAlternative(alt: any) {
                   { id: 'combination', label: 'Combination' }
                 ]"
                 :key="st.id"
-                class="px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer border"
-                :class="reviewSkinFilter === st.id ? 'bg-primary text-primary-foreground border-primary font-bold shadow-xs' : 'bg-card text-foreground border-border hover:bg-muted'"
+                class="px-3 py-1 rounded-full text-xs font-medium transition cursor-pointer border"
+                :class="reviewSkinFilter === st.id ? 'bg-primary text-primary-foreground border-primary font-medium' : 'bg-card text-foreground border-border hover:bg-muted'"
                 @click="reviewSkinFilter = st.id"
               >
                 {{ st.label }} ({{ reviewSkinCounts[st.id] || 0 }})
               </button>
             </div>
 
-            <div v-if="filteredReviews.length === 0" class="p-8 text-center border rounded-xl bg-muted/20 text-xs text-muted-foreground">
+            <div v-if="filteredReviews.length === 0" class="p-8 text-center border rounded-lg bg-muted/20 text-xs text-muted-foreground">
               No community reviews found matching {{ reviewSkinFilter }} skin for this formulation.
             </div>
 
@@ -555,20 +557,20 @@ function inspectAlternative(alt: any) {
               <div
                 v-for="(r, idx) in filteredReviews"
                 :key="idx"
-                class="p-4 rounded-xl border bg-card space-y-2 shadow-xs"
+                class="p-4 rounded-lg border bg-card space-y-2"
               >
-                <div class="flex items-center justify-between border-b border-border/40 pb-2">
+                <div class="flex items-center justify-between border-b border-border pb-2">
                   <div class="flex items-center gap-2">
-                    <span class="font-bold text-foreground text-xs">{{ r.author || 'Verified User' }}</span>
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-muted text-muted-foreground">
+                    <span class="font-medium text-foreground text-xs">{{ r.author || 'Verified User' }}</span>
+                    <span class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-muted text-muted-foreground">
                       {{ r.reviewer_skin_type || 'User' }}
                     </span>
                   </div>
-                  <div class="flex items-center gap-0.5 text-amber-500 text-xs">
+                  <div class="flex items-center gap-0.5 text-primary text-xs">
                     <Star
                       v-for="s in (r.rating || 5)"
                       :key="s"
-                      class="size-3 fill-amber-400 text-amber-500"
+                      class="size-3 fill-primary text-primary"
                     />
                   </div>
                 </div>
@@ -577,7 +579,7 @@ function inspectAlternative(alt: any) {
                   "{{ r.review_text || '' }}"
                 </p>
 
-                <div class="text-[10px] text-muted-foreground pt-1">
+                <div class="text-[11px] text-muted-foreground pt-1">
                   {{ r.date_posted || 'Recorded review' }}
                 </div>
               </div>
@@ -587,21 +589,21 @@ function inspectAlternative(alt: any) {
           <!-- 5. RAW JSON TAB -->
           <TabsContent value="raw" class="mt-0 space-y-2">
             <span class="text-xs text-muted-foreground font-mono block">FastAPI Verified Payload:</span>
-            <pre class="p-4 rounded-xl bg-slate-950 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-96 border border-slate-800">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
+            <pre class="p-4 rounded-lg bg-slate-950 text-evidence-verified font-mono text-[11px] overflow-x-auto max-h-96 border border-evidence-unknown/40">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
           </TabsContent>
         </div>
       </div>
       </Tabs>
 
       <!-- Bottom Fixed Action Footer -->
-      <div v-if="detailedProduct" class="p-4 border-t border-border/60 bg-muted/20 shrink-0 flex items-center justify-between gap-3">
+      <div v-if="detailedProduct" class="p-4 border-t border-border bg-muted/20 shrink-0 flex items-center justify-between gap-3">
         <div>
           <a
             v-if="detailedProduct.url"
             :href="detailedProduct.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors"
+            class="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors"
           >
             <span>View Source Dossier</span>
             <ExternalLink class="w-3.5 h-3.5" />
@@ -612,7 +614,7 @@ function inspectAlternative(alt: any) {
           <Button
             variant="outline"
             size="sm"
-            class="h-9 px-3 text-xs gap-1.5 font-semibold"
+            class="h-9 px-3 text-xs gap-1.5 font-medium"
             @click="emits('toggle-compare', detailedProduct)"
           >
             <Scale class="w-3.5 h-3.5" />
@@ -622,7 +624,7 @@ function inspectAlternative(alt: any) {
           <Button
             variant="default"
             size="sm"
-            class="h-9 px-4 text-xs gap-1.5 font-bold shadow-xs"
+            class="h-9 px-4 text-xs gap-1.5 font-medium"
             @click="emits('open-copilot', detailedProduct)"
           >
             <Sparkles class="w-3.5 h-3.5" />

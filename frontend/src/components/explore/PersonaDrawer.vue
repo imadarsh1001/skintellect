@@ -57,7 +57,7 @@ function applyCustom() {
   <Dialog :open="open" @update:open="(val: boolean) => emits('update:open', val)">
     <DialogContent class="max-w-2xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle class="flex items-center gap-2 text-xl font-bold">
+        <DialogTitle class="flex items-center gap-2 text-xl font-medium">
           <SlidersHorizontal class="w-5 h-5 text-primary" />
           Skin Profile & Sensitivity Persona
         </DialogTitle>
@@ -69,7 +69,7 @@ function applyCustom() {
       <div class="flex flex-col gap-6 py-4">
         <!-- Preset Selector -->
         <div class="flex flex-col gap-2">
-          <label class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select Preset Profile</label>
+          <label class="text-xs font-medium text-muted-foreground">Select Preset Profile</label>
           <div class="flex flex-wrap gap-2">
             <Button
               v-for="p in availablePersonas"
@@ -87,7 +87,7 @@ function applyCustom() {
 
         <!-- Skin Type Selection -->
         <div class="flex flex-col gap-2">
-          <label class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Skin Type</label>
+          <label class="text-xs font-medium text-muted-foreground">Skin Type</label>
           <ToggleGroup
             type="single"
             :model-value="editedPersona.skin_type"
@@ -98,7 +98,7 @@ function applyCustom() {
               v-for="st in skinTypes"
               :key="st"
               :value="st"
-              class="h-8 px-3 text-xs capitalize data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
+              class="h-8 px-3 text-xs capitalize data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
             >
               {{ st }}
             </ToggleGroupItem>
@@ -107,7 +107,7 @@ function applyCustom() {
 
         <!-- Target Goals -->
         <div class="flex flex-col gap-2">
-          <label class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Target Skincare Goals</label>
+          <label class="text-xs font-medium text-muted-foreground">Target Skincare Goals</label>
           <ToggleGroup
             type="multiple"
             :model-value="editedPersona.goals"
@@ -118,7 +118,7 @@ function applyCustom() {
               v-for="goal in commonGoals"
               :key="goal"
               :value="goal"
-              class="h-auto rounded-full px-3 py-1.5 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
+              class="h-auto rounded-[4px] px-3 py-1.5 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
             >
               {{ goal }}
             </ToggleGroupItem>
@@ -129,7 +129,7 @@ function applyCustom() {
         <div class="flex flex-col gap-3 rounded-lg border border-evidence-unknown/30 bg-evidence-unknown-bg/40 p-4">
           <div class="flex items-center gap-2">
             <AlertCircle class="w-4 h-4 text-evidence-unknown" />
-            <h4 class="text-sm font-semibold text-evidence-unknown">Strict Ingredient Contraindications</h4>
+            <h4 class="text-sm font-medium text-evidence-unknown">Strict Ingredient Contraindications</h4>
           </div>
           <p class="text-xs text-muted-foreground">
             Enforces zero-tolerance contraindication filtering against cosmetic formulations.

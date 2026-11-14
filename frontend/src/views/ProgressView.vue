@@ -116,8 +116,8 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
     <!-- Header -->
     <div class="border-b pb-4 flex items-start justify-between flex-wrap gap-3">
       <div>
-        <span class="text-[11px] font-bold uppercase tracking-wider text-primary">Data progress</span>
-        <h2 class="text-2xl sm:text-3xl font-black tracking-tight mt-1">Preparation and indexing status</h2>
+        <span class="text-[11px] font-medium text-primary">Data progress</span>
+        <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Preparation and indexing status</h2>
         <p class="text-sm text-muted-foreground mt-1">
           Review extraction and passage indexing run as background jobs with explicit budgets and cancellation.
         </p>
@@ -128,7 +128,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
     </div>
 
     <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-primary mx-auto my-8" />
-    <p v-else-if="error" class="text-xs text-evidence-negative font-semibold flex items-center gap-1.5" role="alert">
+    <p v-else-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
       <AlertTriangle class="w-3.5 h-3.5" /> {{ error }}
     </p>
 
@@ -136,18 +136,18 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       <p v-if="progress.notice" class="text-[11px] text-muted-foreground">{{ progress.notice }}</p>
 
       <!-- Prepared study pointer -->
-      <div v-if="demo?.configured" class="p-3.5 rounded-xl border border-evidence-verified/30 bg-evidence-verified-bg/40 text-xs flex items-center justify-between flex-wrap gap-2">
-        <span class="text-evidence-verified font-bold">
+      <div v-if="demo?.configured" class="p-3.5 rounded-lg border border-evidence-verified/30 bg-evidence-verified-bg/40 text-xs flex items-center justify-between flex-wrap gap-2">
+        <span class="text-evidence-verified font-medium">
           Prepared study group is {{ demo.ready ? 'ready' : 'partially prepared' }} ({{ demo.products.filter(p => p.ready).length }}/{{ demo.products.length }} products).
         </span>
-        <RouterLink to="/study" class="text-primary font-bold hover:underline">Open the study →</RouterLink>
+        <RouterLink to="/study" class="text-primary font-medium hover:underline">Open the study →</RouterLink>
       </div>
 
       <!-- Coverage -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Card>
           <CardHeader class="pb-2">
-            <CardTitle class="text-sm font-bold">Review extraction</CardTitle>
+            <CardTitle class="text-sm font-medium">Review extraction</CardTitle>
           </CardHeader>
           <CardContent class="text-xs flex flex-col gap-1.5">
             <div class="flex justify-between font-mono text-[11px] text-muted-foreground">
@@ -161,7 +161,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
         </Card>
         <Card>
           <CardHeader class="pb-2">
-            <CardTitle class="text-sm font-bold">Passage indexing</CardTitle>
+            <CardTitle class="text-sm font-medium">Passage indexing</CardTitle>
           </CardHeader>
           <CardContent class="text-xs flex flex-col gap-1.5">
             <div class="flex justify-between font-mono text-[11px] text-muted-foreground">
@@ -178,37 +178,37 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       <!-- Job submission form -->
       <Card>
         <CardHeader class="pb-2 border-b">
-          <CardTitle class="text-sm font-bold">Start a preparation job</CardTitle>
+          <CardTitle class="text-sm font-medium">Start a preparation job</CardTitle>
         </CardHeader>
         <CardContent class="pt-4 grid grid-cols-2 sm:grid-cols-5 gap-2.5 items-end text-xs">
           <label class="flex flex-col gap-1">
-            <span class="font-semibold text-muted-foreground">Kind</span>
-            <select v-model="form.kind" class="h-9 rounded-lg border border-input bg-background px-2 cursor-pointer">
+            <span class="font-medium text-muted-foreground">Kind</span>
+            <select v-model="form.kind" class="h-9 rounded-sm border border-input bg-muted px-2 cursor-pointer">
               <option value="reviews">Analyze collected reviews</option>
               <option value="embed">Make passages searchable by meaning</option>
             </select>
           </label>
           <label class="flex flex-col gap-1">
-            <span class="font-semibold text-muted-foreground">Record limit</span>
+            <span class="font-medium text-muted-foreground">Record limit</span>
             <input v-model.number="form.limit" type="number" min="1" max="5000" class="h-9 rounded-lg border border-input bg-background px-2" />
           </label>
           <label class="flex flex-col gap-1">
-            <span class="font-semibold text-muted-foreground">Product id (optional)</span>
+            <span class="font-medium text-muted-foreground">Product id (optional)</span>
             <input v-model="form.product_id" type="number" min="1" class="h-9 rounded-lg border border-input bg-background px-2" placeholder="all" />
           </label>
           <label class="flex flex-col gap-1">
-            <span class="font-semibold text-muted-foreground">Max API attempts</span>
+            <span class="font-medium text-muted-foreground">Max API attempts</span>
             <input v-model.number="form.max_calls" type="number" min="1" max="1000" class="h-9 rounded-lg border border-input bg-background px-2" />
           </label>
           <label class="flex flex-col gap-1">
-            <span class="font-semibold text-muted-foreground">Time limit (s)</span>
+            <span class="font-medium text-muted-foreground">Time limit (s)</span>
             <input v-model.number="form.max_seconds" type="number" min="10" max="3600" class="h-9 rounded-lg border border-input bg-background px-2" />
           </label>
           <div class="col-span-2 sm:col-span-5 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-muted-foreground">
               Jobs spend the configured Gemini budget ({{ form.max_calls }} calls / {{ form.max_seconds }} s) and stop cleanly at the limit.
             </span>
-            <Button size="sm" class="gap-1.5 font-bold" :disabled="submitting" @click="submitJob">
+            <Button size="sm" class="gap-1.5 font-medium" :disabled="submitting" @click="submitJob">
               <Loader2 v-if="submitting" class="w-3.5 h-3.5 animate-spin" />
               Queue job
             </Button>
@@ -218,11 +218,11 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
 
       <!-- Active jobs -->
       <div v-if="activeJobs.length" class="flex flex-col gap-2">
-        <h3 class="text-sm font-bold">Active jobs</h3>
+        <h3 class="text-sm font-medium">Active jobs</h3>
         <Card v-for="job in activeJobs" :key="job.id" class="p-4">
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2">
-              <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[10px] font-bold uppercase">{{ job.status }}</Badge>
+              <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[11px] font-medium">{{ job.status }}</Badge>
               <span class="font-bold">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
               <span class="text-muted-foreground font-mono text-[11px]">
                 {{ job.calls ?? 0 }}/{{ job.max_calls }} calls · {{ job.selected ?? 0 }}/{{ job.limit_count ?? '—' }} records
@@ -238,18 +238,18 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
             >
               <XCircle class="w-3 h-3" /> Stop after current batch
             </Button>
-            <span v-else class="text-[11px] text-evidence-unknown font-semibold">Cancellation requested — finishing the current batch</span>
+            <span v-else class="text-[11px] text-evidence-unknown font-medium">Cancellation requested — finishing the current batch</span>
           </div>
         </Card>
       </div>
 
       <!-- Recent terminal jobs (failed/cancelled/completed) -->
       <div v-if="finishedJobs.length" class="flex flex-col gap-2">
-        <h3 class="text-sm font-bold">Recent jobs</h3>
+        <h3 class="text-sm font-medium">Recent jobs</h3>
         <Card v-for="job in finishedJobs.slice(0, 6)" :key="job.id" class="p-4">
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2">
-              <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[10px] font-bold uppercase">{{ job.status }}</Badge>
+              <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[11px] font-medium">{{ job.status }}</Badge>
               <span class="font-bold">{{ job.kind === 'reviews' ? 'Review analysis' : 'Passage indexing' }}</span>
               <span class="text-muted-foreground font-mono text-[11px]">
                 {{ job.completed ?? 0 }}/{{ job.limit_count ?? '—' }} records · {{ job.calls ?? 0 }}/{{ job.max_calls }} calls
@@ -264,11 +264,11 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       <!-- Recent operations -->
       <Card>
         <CardHeader class="pb-2 border-b">
-          <CardTitle class="text-sm font-bold">Recent operations</CardTitle>
+          <CardTitle class="text-sm font-medium">Recent operations</CardTitle>
         </CardHeader>
         <CardContent class="pt-3 text-[11px] font-mono flex flex-col gap-1">
-          <div v-for="(op, idx) in progress.recent_operations ?? []" :key="idx" class="flex items-center justify-between gap-2 border-b border-border/30 pb-1 last:border-0">
-            <span class="font-bold text-foreground">{{ op.task }}</span>
+          <div v-for="(op, idx) in progress.recent_operations ?? []" :key="idx" class="flex items-center justify-between gap-2 border-b border-border pb-1 last:border-0">
+            <span class="font-medium text-foreground">{{ op.task }}</span>
             <span class="text-muted-foreground">{{ op.status }} · {{ op.attempts }} attempt(s) · {{ Math.round(op.elapsed_ms ?? 0) }} ms</span>
           </div>
           <p v-if="(progress.recent_operations ?? []).length === 0" class="text-muted-foreground italic">No operations recorded yet.</p>
@@ -280,7 +280,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
         <Card class="p-4">
           <div class="flex items-center justify-between">
             <span class="font-bold">Model</span>
-            <Badge :variant="progress.model?.enabled ? 'verified' : 'unknown'" class="text-[10px]">
+            <Badge :variant="progress.model?.enabled ? 'verified' : 'unknown'" class="text-[11px]">
               {{ progress.model?.enabled ? 'enabled' : 'disabled' }}
             </Badge>
           </div>

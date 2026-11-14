@@ -25,7 +25,7 @@ const emits = defineEmits<{
       <div
         v-for="i in 6"
         :key="i"
-        class="h-72 rounded-xl border bg-card/60 animate-pulse p-5 flex flex-col justify-between"
+        class="h-72 rounded-lg border bg-card/60 animate-pulse p-5 flex flex-col justify-between"
       >
         <div class="space-y-3">
           <div class="h-4 bg-muted rounded w-1/3"></div>
@@ -39,10 +39,10 @@ const emits = defineEmits<{
     <!-- Empty State -->
     <div
       v-else-if="products.length === 0"
-      class="flex flex-col items-center justify-center py-20 px-4 text-center rounded-xl border border-dashed bg-card/40"
+      class="flex flex-col items-center justify-center py-20 px-4 text-center rounded-lg border border-dashed bg-card/40"
     >
       <Inbox class="w-12 h-12 text-muted-foreground stroke-1 mb-3" />
-      <h3 class="text-base font-semibold text-foreground">No matching moisturizers found</h3>
+      <h3 class="text-base font-medium text-foreground">No matching moisturizers found</h3>
       <p class="text-sm text-muted-foreground max-w-sm mt-1 mb-4">
         Try relaxing sensitivity contraindications or clearing ingredient search filters.
       </p>

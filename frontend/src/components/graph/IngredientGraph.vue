@@ -76,7 +76,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
     <!-- Header -->
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
-        <h2 class="text-xl font-bold flex items-center gap-2">
+        <h2 class="text-xl font-medium flex items-center gap-2">
           <Network class="w-5 h-5 text-primary" />
           Ingredient Evidence Connections
         </h2>
@@ -108,9 +108,9 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
     </div>
 
     <!-- Empty state: nothing in the tray -->
-    <div v-if="products.length === 0" class="py-16 text-center border rounded-xl bg-card">
+    <div v-if="products.length === 0" class="py-16 text-center border rounded-lg bg-card">
       <Scale class="w-10 h-10 text-muted-foreground stroke-1 mx-auto mb-2" />
-      <h3 class="font-semibold text-sm">No products selected</h3>
+      <h3 class="font-medium text-sm">No products selected</h3>
       <p class="text-xs text-muted-foreground max-w-sm mx-auto mt-1">
         Add products to the compare tray (Compare button on any catalog card) to inspect their
         recorded ingredient connections and the references behind them.
@@ -136,10 +136,10 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
             <CardHeader class="pb-3 border-b bg-muted/20">
               <div class="flex items-center justify-between gap-2">
                 <div>
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{{ product.brand }}</span>
-                  <CardTitle class="text-base font-bold">{{ product.name }}</CardTitle>
+                  <span class="text-[11px] font-medium text-muted-foreground">{{ product.brand }}</span>
+                  <CardTitle class="text-base font-medium">{{ product.name }}</CardTitle>
                 </div>
-                <Badge variant="verified" class="text-[10px] shrink-0">
+                <Badge variant="verified" class="text-[11px] shrink-0">
                   {{ connectionsFor(product.id)!.paths.length }} related formulas
                 </Badge>
               </div>
@@ -148,7 +148,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
             <CardContent class="pt-4 flex flex-col gap-4 text-xs">
               <!-- Recorded ingredient nodes -->
               <div>
-                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Recorded ingredients in evidence graph</span>
+                <span class="font-medium text-muted-foreground text-[11px]">Recorded ingredients in evidence graph</span>
                 <div class="flex flex-wrap gap-1.5 mt-2">
                   <Badge
                     v-for="node in nodesOfType(connectionsFor(product.id)!, 'ingredient')"
@@ -170,15 +170,15 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
 
               <!-- Related formulas (paths) -->
               <div v-if="connectionsFor(product.id)!.paths.length > 0">
-                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Related formulas sharing recorded ingredients</span>
+                <span class="font-medium text-muted-foreground text-[11px]">Related formulas sharing recorded ingredients</span>
                 <div class="mt-2 space-y-1.5">
                   <div
                     v-for="path in connectionsFor(product.id)!.paths"
                     :key="path.product_id"
-                    class="p-2.5 rounded-xl border bg-background/80 flex items-center justify-between gap-2"
+                    class="p-2.5 rounded-lg border bg-card flex items-center justify-between gap-2"
                   >
                     <div>
-                      <span class="font-bold text-foreground">{{ path.name }}</span>
+                      <span class="font-medium text-foreground">{{ path.name }}</span>
                       <span class="text-muted-foreground ml-2 text-[11px]">
                         Shared: {{ path.shared_ingredients.join(', ') }}
                       </span>
@@ -190,7 +190,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
 
               <!-- Reference nodes -->
               <div v-if="nodesOfType(connectionsFor(product.id)!, 'reference').length > 0">
-                <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">References discussing these ingredients</span>
+                <span class="font-medium text-muted-foreground text-[11px]">References discussing these ingredients</span>
                 <div class="flex flex-wrap gap-1.5 mt-2">
                   <Badge
                     v-for="node in nodesOfType(connectionsFor(product.id)!, 'reference')"
@@ -205,7 +205,7 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
               </div>
 
               <!-- Honest epistemics notice from the backend payload -->
-              <div class="flex items-start gap-2 p-2.5 rounded-lg bg-muted/30 border text-[11px] text-muted-foreground">
+              <div class="flex items-start gap-2 p-2.5 rounded-lg bg-muted border text-[11px] text-muted-foreground">
                 <Info class="w-3.5 h-3.5 shrink-0 mt-0.5 text-primary" />
                 <span>{{ connectionsFor(product.id)!.notice }}</span>
               </div>
@@ -217,11 +217,11 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
       <!-- Accessible table view -->
       <Card v-else class="w-full">
         <CardHeader class="pb-3 border-b">
-          <CardTitle class="text-base font-semibold">Evidence edge table</CardTitle>
+          <CardTitle class="text-base font-medium">Evidence edge table</CardTitle>
         </CardHeader>
         <CardContent class="p-0 overflow-x-auto">
           <table class="w-full text-xs text-left">
-            <thead class="bg-muted text-muted-foreground font-semibold uppercase text-[10px] tracking-wider">
+            <thead class="bg-muted text-muted-foreground font-medium text-[11px]">
               <tr>
                 <th class="p-3">Product</th>
                 <th class="p-3">Node</th>
@@ -233,11 +233,11 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
               <template v-for="product in products" :key="product.id">
                 <template v-for="edge in connectionsFor(product.id)?.edges ?? []" :key="edge.from + edge.to">
                   <tr class="hover:bg-muted/40 transition-colors">
-                    <td class="p-3 font-semibold text-foreground">{{ product.name }}</td>
+                    <td class="p-3 font-medium text-foreground">{{ product.name }}</td>
                     <td class="p-3">{{ connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.label ?? edge.to }}</td>
                     <td class="p-3">
                       <span
-                        class="px-2 py-0.5 rounded-full text-[10px] font-medium uppercase"
+                        class="px-2 py-0.5 rounded-full text-[11px] font-medium"
                         :class="NODE_STYLES[connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.type ?? 'ingredient'].badge"
                       >
                         {{ connectionsFor(product.id)!.nodes.find(n => n.id === edge.to)?.type ?? 'ingredient' }}

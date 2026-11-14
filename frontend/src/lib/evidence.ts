@@ -6,15 +6,16 @@
  * After any CLI re-pull, re-attach these variants in `badge/badgeVariants`
  * and `button/buttonVariants` by importing and spreading them.
  *
- * Colors mirror the `evidence.*` token family (see `tailwind.config.js`
- * history / `@theme` block in `src/assets/index.css`).
+ * Colors resolve through the `--color-evidence-*` token family in
+ * `src/assets/index.css` (Console retheme: verdict pairs measured >= 4.5:1
+ * on the graphite ground).
  */
 export const evidenceBadgeVariants = {
-  verified: 'border-[#12635a]/20 bg-[#e5f5f2] text-[#12635a] font-medium',
-  source: 'border-[#245ba9]/20 bg-[#eaf2ff] text-[#245ba9] font-medium',
-  unknown: 'border-[#805309]/20 bg-[#fff4da] text-[#805309] font-medium',
-  negative: 'border-[#a63244]/20 bg-[#fff0f2] text-[#a63244] font-medium',
-  mixed: 'border-[#6843a8]/20 bg-[#f2edfc] text-[#6843a8] font-medium',
+  verified: 'border-evidence-verified/40 bg-evidence-verified-bg text-evidence-verified font-medium',
+  source: 'border-evidence-source/40 bg-evidence-source-bg text-evidence-source font-medium',
+  unknown: 'border-evidence-unknown/40 bg-evidence-unknown-bg text-evidence-unknown font-medium',
+  negative: 'border-evidence-negative/40 bg-evidence-negative-bg text-evidence-negative font-medium',
+  mixed: 'border-evidence-mixed/40 bg-evidence-mixed-bg text-evidence-mixed font-medium',
 } as const
 
-export const evidenceButtonVariant = 'bg-[#0e6870] text-white hover:bg-[#0c565d]' as const
+export const evidenceButtonVariant = 'bg-evidence-verified text-primary-foreground hover:bg-evidence-verified/90' as const

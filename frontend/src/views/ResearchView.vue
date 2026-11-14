@@ -266,8 +266,8 @@ const EXAMPLES = [
   <div class="flex flex-col gap-6">
     <!-- Header -->
     <div class="border-b pb-4">
-      <span class="text-[11px] font-bold uppercase tracking-wider text-primary">Ask a question</span>
-      <h2 class="text-2xl sm:text-3xl font-black tracking-tight mt-1">Go beyond the ingredient list.</h2>
+      <span class="text-[11px] font-medium text-primary">Ask a question</span>
+      <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Go beyond the ingredient list.</h2>
       <p class="text-sm text-muted-foreground mt-1 max-w-2xl">
         Describe the ingredients or review themes you care about. Skintellect shows matching records, supporting quotes,
         and what remains unknown.
@@ -281,7 +281,7 @@ const EXAMPLES = [
           v-model="question"
           rows="3"
           placeholder="e.g. Find moisturizers with ceramides. Summarize texture evidence and suggest one alternative."
-          class="w-full rounded-xl border border-input bg-background p-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary"
+          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <div class="flex flex-wrap items-center gap-1.5">
           <button
@@ -296,7 +296,7 @@ const EXAMPLES = [
         </div>
 
         <div class="flex flex-wrap items-center gap-2 pt-1">
-          <Button size="sm" class="gap-1.5 font-bold" :disabled="answering || !question.trim()" @click="runAssistant">
+          <Button size="sm" class="gap-1.5 font-medium" :disabled="answering || !question.trim()" @click="runAssistant">
             <Loader2 v-if="answering" class="w-4 h-4 animate-spin" />
             <Search v-else class="w-4 h-4" />
             Find products & explain
@@ -308,7 +308,7 @@ const EXAMPLES = [
           <span v-if="demoScope" class="text-[11px] text-muted-foreground">{{ DEMO_HINT }}</span>
         </div>
 
-        <p v-if="error" class="text-xs text-evidence-negative font-semibold flex items-center gap-1.5" role="alert">
+        <p v-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
           <AlertTriangle class="w-3.5 h-3.5" />
           {{ error }}
         </p>
@@ -317,7 +317,7 @@ const EXAMPLES = [
         <div v-if="filtersVisible" class="border-t pt-3 flex flex-col gap-2.5">
           <button
             type="button"
-            class="text-xs font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer w-fit"
+            class="text-xs font-medium text-primary hover:underline flex items-center gap-1 cursor-pointer w-fit"
             @click="filtersVisible = !filtersVisible"
           >
             <ChevronDown class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': filtersVisible }" />
@@ -325,7 +325,7 @@ const EXAMPLES = [
           </button>
           <div v-if="filtersVisible" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <label class="text-xs flex flex-col gap-1">
-              <span class="font-semibold text-muted-foreground">Category</span>
+              <span class="font-medium text-muted-foreground">Category</span>
               <select v-model="filters.category" class="h-9 rounded-lg border border-input bg-background px-2 text-xs cursor-pointer">
                 <option value="all">All categories</option>
                 <option value="Moisturizers">Moisturizers</option>
@@ -338,7 +338,7 @@ const EXAMPLES = [
               </select>
             </label>
             <label class="text-xs flex flex-col gap-1">
-              <span class="font-semibold text-muted-foreground">Domain</span>
+              <span class="font-medium text-muted-foreground">Domain</span>
               <select v-model="filters.domain" class="h-9 rounded-lg border border-input bg-background px-2 text-xs cursor-pointer">
                 <option value="skin">Skin</option>
                 <option value="hair">Hair</option>
@@ -348,15 +348,15 @@ const EXAMPLES = [
               </select>
             </label>
             <label class="text-xs flex flex-col gap-1">
-              <span class="font-semibold text-muted-foreground">Required ingredients (comma-separated)</span>
+              <span class="font-medium text-muted-foreground">Required ingredients (comma-separated)</span>
               <input v-model="filters.required_ingredients" class="h-9 rounded-lg border border-input bg-background px-2 text-xs" placeholder="ceramide, glycerin" />
             </label>
             <label class="text-xs flex flex-col gap-1">
-              <span class="font-semibold text-muted-foreground">Excluded ingredients</span>
+              <span class="font-medium text-muted-foreground">Excluded ingredients</span>
               <input v-model="filters.excluded_ingredients" class="h-9 rounded-lg border border-input bg-background px-2 text-xs" placeholder="fragrance, denatured alcohol" />
             </label>
             <label class="text-xs flex flex-col gap-1">
-              <span class="font-semibold text-muted-foreground">Preferred price tier</span>
+              <span class="font-medium text-muted-foreground">Preferred price tier</span>
               <select v-model="filters.price" class="h-9 rounded-lg border border-input bg-background px-2 text-xs cursor-pointer">
                 <option value="">Any price</option>
                 <option value="$">$</option>
@@ -380,10 +380,10 @@ const EXAMPLES = [
     <!-- Unresolved terms clarification -->
     <div
       v-if="unresolved.length > 0"
-      class="p-3.5 rounded-xl border border-evidence-unknown/30 bg-evidence-unknown-bg/50 text-xs"
+      class="p-3.5 rounded-lg border border-evidence-unknown/30 bg-evidence-unknown-bg/50 text-xs"
       role="status"
     >
-      <span class="font-bold text-evidence-unknown">Unresolved terms:</span>
+      <span class="font-medium text-evidence-unknown">Unresolved terms:</span>
       {{ unresolved.join(', ') }} —
       refine the filters above so the search can apply verified constraints.
     </div>
@@ -391,7 +391,7 @@ const EXAMPLES = [
     <!-- Assistant answer -->
     <Card v-if="answer">
       <CardHeader class="pb-3 border-b">
-        <CardTitle class="text-base font-bold flex items-center gap-2">
+        <CardTitle class="text-base font-medium flex items-center gap-2">
           <MessageSquare class="w-4 h-4 text-primary" />
           Answer
         </CardTitle>
@@ -401,31 +401,31 @@ const EXAMPLES = [
 
         <!-- Synthesis observations -->
         <div v-if="answer.synthesis?.selections?.length" class="flex flex-col gap-2">
-          <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">Supporting quotes</span>
+          <span class="font-medium text-muted-foreground text-[11px]">Supporting quotes</span>
           <div
             v-for="(sel, idx) in answer.synthesis.selections.slice(0, 6)"
             :key="idx"
-            class="p-2.5 rounded-xl border bg-background/80 flex flex-col gap-1"
+            class="p-2.5 rounded-lg border bg-card flex flex-col gap-1"
           >
             <div class="flex items-center justify-between gap-2">
-              <span class="font-bold text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-muted text-foreground">
+              <span class="font-medium text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground">
                 {{ sel.aspect || sel.topic }}
               </span>
-              <Badge v-if="sel.kind === 'reported_experience'" variant="source" class="text-[9px] py-0">Reviewer experience</Badge>
+              <Badge v-if="sel.kind === 'reported_experience'" variant="source" class="text-[11px] py-0">Reviewer experience</Badge>
             </div>
             <p class="italic text-foreground/90 font-serif text-[11px]">"{{ sel.span || sel.quote }}"</p>
           </div>
         </div>
         <p v-if="answer.synthesis?.unanswered_topics?.length" class="text-[11px] text-muted-foreground">
-          <span class="font-bold text-evidence-unknown">Not answered by the collected evidence:</span>
+          <span class="font-medium text-evidence-unknown">Not answered by the collected evidence:</span>
           {{ answer.synthesis.unanswered_topics.join(', ') }}
         </p>
 
         <!-- References -->
         <div v-if="answer.references?.length" class="flex flex-col gap-1.5">
-          <span class="font-semibold text-muted-foreground uppercase text-[10px] tracking-wider">References</span>
+          <span class="font-medium text-muted-foreground text-[11px]">References</span>
           <div v-for="ref in answer.references.slice(0, 4)" :key="ref.evidence_id ?? ref.title" class="text-[11px] text-muted-foreground">
-            <span class="font-bold text-foreground">{{ ref.title }}</span>
+            <span class="font-medium text-foreground">{{ ref.title }}</span>
             <template v-if="ref.summary"> — {{ ref.summary.slice(0, 180) }}</template>
           </div>
         </div>
@@ -435,7 +435,7 @@ const EXAMPLES = [
     <!-- Results -->
     <div v-if="results" class="flex flex-col gap-3">
       <div class="flex items-baseline justify-between flex-wrap gap-2">
-        <h3 class="text-base font-bold">Matching records</h3>
+        <h3 class="text-base font-medium">Matching records</h3>
         <span class="text-xs text-muted-foreground">
           {{ results.total }} match<template v-if="results.total !== 1">es</template>
           <template v-if="results.unknown_count"> · {{ results.unknown_count }} with unknown ingredients</template>
@@ -444,7 +444,7 @@ const EXAMPLES = [
       </div>
       <p v-if="results.notice" class="text-[11px] text-muted-foreground">{{ results.notice }}</p>
 
-      <div v-if="results.products.length === 0" class="py-10 text-center border rounded-xl bg-card text-sm text-muted-foreground">
+      <div v-if="results.products.length === 0" class="py-10 text-center border rounded-lg bg-card text-sm text-muted-foreground">
         No records match these constraints. Try relaxing an exclusion or widening the category.
       </div>
 
@@ -452,13 +452,13 @@ const EXAMPLES = [
         <CardHeader class="pb-2">
           <div class="flex items-start justify-between gap-2 flex-wrap">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{{ p.brand }}</span>
-              <CardTitle class="text-sm font-bold">{{ p.name }}</CardTitle>
+              <span class="text-[11px] font-medium text-muted-foreground">{{ p.brand }}</span>
+              <CardTitle class="text-sm font-medium">{{ p.name }}</CardTitle>
             </div>
             <div class="flex items-center gap-1.5">
-              <Badge variant="outline" class="text-[10px]">{{ p.price_tier || '$$' }}</Badge>
-              <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="text-[10px]">Verified INCI</Badge>
-              <Badge v-else variant="unknown" class="text-[10px]">Unverified list</Badge>
+              <Badge variant="outline" class="text-[11px]">{{ p.price_tier || '$$' }}</Badge>
+              <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="text-[11px]">Verified INCI</Badge>
+              <Badge v-else variant="unknown" class="text-[11px]">Unverified list</Badge>
             </div>
           </div>
         </CardHeader>
@@ -468,10 +468,10 @@ const EXAMPLES = [
             <div v-for="(check, idx) in p.checks" :key="idx" class="flex items-center gap-1.5 text-[11px]">
               <span
                 class="w-1.5 h-1.5 rounded-full shrink-0"
-                :class="check.status === 'pass' ? 'bg-emerald-500' : check.status === 'fail' ? 'bg-rose-500' : 'bg-amber-400'"
+                :class="check.status === 'pass' ? 'bg-evidence-verified' : check.status === 'fail' ? 'bg-rose-500' : 'bg-primary'"
               />
               <span class="text-muted-foreground">{{ check.constraint }}</span>
-              <span v-if="check.matched_names?.length" class="text-foreground font-semibold">{{ check.matched_names.join(', ') }}</span>
+              <span v-if="check.matched_names?.length" class="text-foreground font-medium">{{ check.matched_names.join(', ') }}</span>
             </div>
           </div>
 
@@ -489,14 +489,14 @@ const EXAMPLES = [
           </div>
 
           <!-- Evidence drawer -->
-          <div v-if="expansion(p.id).evidence" class="p-3 rounded-xl border bg-muted/20 text-[11px] flex flex-col gap-1.5">
+          <div v-if="expansion(p.id).evidence" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-1.5">
             <Loader2 v-if="expansion(p.id).evidence!.loading" class="w-4 h-4 animate-spin text-primary" />
             <template v-else-if="expansion(p.id).evidence!.error">
-              <span class="text-evidence-negative font-semibold">{{ expansion(p.id).evidence!.error }}</span>
+              <span class="text-evidence-negative font-medium">{{ expansion(p.id).evidence!.error }}</span>
             </template>
             <template v-else-if="evidenceDataOf(p.id)">
               <template v-if="evidenceDataOf(p.id)?.kind === 'catalog_record'">
-                <span class="font-bold text-foreground">Recorded description</span>
+                <span class="font-medium text-foreground">Recorded description</span>
                 <p class="text-muted-foreground">{{ evidenceDataOf(p.id)?.description || 'Not recorded.' }}</p>
               </template>
               <template v-else-if="evidenceDataOf(p.id)?.kind === 'reported_experience'">
@@ -504,20 +504,20 @@ const EXAMPLES = [
                 <span class="text-muted-foreground">Recorded {{ evidenceDataOf(p.id)?.date_posted || 'date unknown' }}</span>
               </template>
               <template v-else>
-                <pre class="font-mono text-[10px] whitespace-pre-wrap max-h-40 overflow-y-auto">{{ JSON.stringify(evidenceDataOf(p.id), null, 2) }}</pre>
+                <pre class="font-mono text-[11px] whitespace-pre-wrap max-h-40 overflow-y-auto">{{ JSON.stringify(evidenceDataOf(p.id), null, 2) }}</pre>
               </template>
             </template>
           </div>
 
           <!-- Reviews drawer with quote explorer -->
-          <div v-if="expansion(p.id).reviews" class="p-3 rounded-xl border bg-muted/20 text-[11px] flex flex-col gap-2.5">
+          <div v-if="expansion(p.id).reviews" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2.5">
             <Loader2 v-if="expansion(p.id).reviews!.loading" class="w-4 h-4 animate-spin text-primary" />
             <template v-else-if="expansion(p.id).reviews!.error">
-              <span class="text-evidence-negative font-semibold">{{ expansion(p.id).reviews!.error }}</span>
+              <span class="text-evidence-negative font-medium">{{ expansion(p.id).reviews!.error }}</span>
             </template>
             <template v-else-if="expansion(p.id).reviews?.data">
               <div class="flex items-center justify-between flex-wrap gap-2">
-                <span class="font-bold text-foreground">
+                <span class="font-medium text-foreground">
                   {{ reviewHeaderOf(p.id).unique }} unique reviews
                   <template v-if="reviewHeaderOf(p.id).analyzed !== null">
                     · {{ reviewHeaderOf(p.id).analyzed }} analyzed
@@ -526,7 +526,7 @@ const EXAMPLES = [
                 <Button
                   variant="outline"
                   size="sm"
-                  class="h-6 text-[10px]"
+                  class="h-6 text-[11px]"
                   :disabled="expansion(p.id).reviews!.preparing"
                   @click="analyzeMoreReviews(p)"
                 >
@@ -542,16 +542,16 @@ const EXAMPLES = [
                   :key="card.aspect"
                   class="p-2 rounded-lg border bg-card"
                 >
-                  <div class="font-bold text-foreground">{{ card.label }}</div>
+                  <div class="font-medium text-foreground">{{ card.label }}</div>
                   <div class="text-muted-foreground">{{ card.mentioning }} of {{ card.denominator }}</div>
-                  <div class="flex items-center gap-1 mt-0.5 text-[10px]">
-                    <span v-if="card.positive" class="text-emerald-700">+{{ card.positive }}</span>
-                    <span v-if="card.negative" class="text-rose-700">−{{ card.negative }}</span>
-                    <span v-if="card.mixed" class="text-purple-700">±{{ card.mixed }}</span>
+                  <div class="flex items-center gap-1 mt-0.5 text-[11px]">
+                    <span v-if="card.positive" class="text-evidence-verified">+{{ card.positive }}</span>
+                    <span v-if="card.negative" class="text-evidence-negative">−{{ card.negative }}</span>
+                    <span v-if="card.mixed" class="text-evidence-mixed">±{{ card.mixed }}</span>
                   </div>
                 </div>
               </div>
-              <p v-if="reviewSummaryOf(p.id).oneSidedSample" class="text-[10px] text-muted-foreground italic">
+              <p v-if="reviewSummaryOf(p.id).oneSidedSample" class="text-[11px] text-muted-foreground italic">
                 A one-sided extracted sample does not establish that reviewers agree.
               </p>
 
@@ -582,7 +582,7 @@ const EXAMPLES = [
                   </select>
                   <button
                     type="button"
-                    class="text-[10px] font-semibold text-muted-foreground hover:text-foreground cursor-pointer"
+                    class="text-[11px] font-medium text-muted-foreground hover:text-foreground cursor-pointer"
                     :disabled="!quoteState(p.id).aspect && !quoteState(p.id).sentiment"
                     @click="resetQuoteFilters(p.id)"
                   >
@@ -593,13 +593,13 @@ const EXAMPLES = [
                 <div
                   v-for="obs in filterObservations(observationsOf(p.id), quoteState(p.id).aspect, quoteState(p.id).sentiment).slice(0, quoteState(p.id).shown)"
                   :key="(obs.evidence_id ?? obs.span) as string"
-                  class="p-2 rounded-lg border bg-background/80"
+                  class="p-2 rounded-lg border bg-card"
                 >
-                  <div class="flex items-center justify-between gap-2 text-[10px]">
-                    <span class="font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-muted text-foreground">{{ obs.aspect || obs.topic }}</span>
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="font-medium px-1.5 py-0.5 rounded bg-muted text-foreground">{{ obs.aspect || obs.topic }}</span>
                     <span
-                      class="font-bold px-1.5 py-0.5 rounded"
-                      :class="obs.sentiment === 'negative' ? 'bg-rose-100 text-rose-800' : obs.sentiment === 'positive' ? 'bg-emerald-100 text-emerald-800' : obs.sentiment === 'mixed' ? 'bg-purple-100 text-purple-800' : 'bg-muted text-muted-foreground'"
+                      class="font-medium px-1.5 py-0.5 rounded"
+                      :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : obs.sentiment === 'mixed' ? 'bg-purple-100 text-evidence-mixed' : 'bg-muted text-muted-foreground'"
                     >
                       {{ obs.sentiment || 'observed' }}
                     </span>
@@ -616,7 +616,7 @@ const EXAMPLES = [
                 <button
                   v-else-if="quoteState(p.id).shown < filterObservations(observationsOf(p.id), quoteState(p.id).aspect, quoteState(p.id).sentiment).length"
                   type="button"
-                  class="text-[10px] font-bold text-primary hover:underline w-fit cursor-pointer"
+                  class="text-[11px] font-medium text-primary hover:underline w-fit cursor-pointer"
                   @click="quoteState(p.id).shown += QUOTE_PAGE"
                 >
                   Show more quotes
@@ -626,10 +626,10 @@ const EXAMPLES = [
           </div>
 
           <!-- Alternatives drawer -->
-          <div v-if="expansion(p.id).alternatives" class="p-3 rounded-xl border bg-muted/20 text-[11px] flex flex-col gap-2">
+          <div v-if="expansion(p.id).alternatives" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2">
             <Loader2 v-if="expansion(p.id).alternatives?.loading" class="w-4 h-4 animate-spin text-primary" />
             <template v-else-if="expansion(p.id).alternatives?.error">
-              <span class="text-evidence-negative font-semibold">{{ expansion(p.id).alternatives?.error }}</span>
+              <span class="text-evidence-negative font-medium">{{ expansion(p.id).alternatives?.error }}</span>
             </template>
             <template v-else-if="expansion(p.id).alternatives?.data">
               <div v-if="alternativesOf(p.id).length === 0" class="text-muted-foreground italic">
@@ -638,9 +638,9 @@ const EXAMPLES = [
               <div
                 v-for="alt in alternativesOf(p.id).slice(0, 3)"
                 :key="alt.evidence_id ?? alt.name"
-                class="p-2 rounded-lg border bg-background/80"
+                class="p-2 rounded-lg border bg-card"
               >
-                <div class="flex items-center justify-between gap-2 font-bold text-foreground">
+                <div class="flex items-center justify-between gap-2 font-medium text-foreground">
                   <span>{{ alt.brand }} — {{ alt.name }}</span>
                   <span class="font-mono text-primary">{{ alt.weighted_similarity ? Math.round(alt.weighted_similarity * 100) + '%' : '' }}</span>
                 </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
 import { computed, onMounted, ref } from 'vue'
 import type { Product } from '@/lib/types'
 import { fetchCatalogStats, type CatalogStats } from '@/lib/api'
@@ -10,13 +11,23 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   AlertTriangle,
+  Bath,
+  Brush,
   ChevronLeft,
   ChevronRight,
   Database,
+  Droplet,
+  Droplets,
   Filter,
   FlaskConical,
+  GlassWater,
+  Globe,
   Loader2,
+  Scissors,
   ShieldCheck,
+  Sparkles,
+  SprayCan,
+  Sun,
 } from 'lucide-vue-next'
 
 const props = defineProps<{
@@ -90,11 +101,11 @@ const pageWindow = computed<(number | '…')[]>(() => {
 })
 
 const DOMAINS = [
-  { value: 'all', label: 'All Domains', icon: '🌐' },
-  { value: 'skin', label: 'Skin (Face)', icon: '🧴' },
-  { value: 'hair', label: 'Hair & Scalp', icon: '💇' },
-  { value: 'body', label: 'Bath & Body', icon: '🧼' },
-  { value: 'makeup', label: 'Makeup & Complexion', icon: '💄' },
+  { value: 'all', label: 'All Domains', icon: Globe },
+  { value: 'skin', label: 'Skin (Face)', icon: Droplets },
+  { value: 'hair', label: 'Hair & Scalp', icon: Scissors },
+  { value: 'body', label: 'Bath & Body', icon: Bath },
+  { value: 'makeup', label: 'Makeup & Complexion', icon: Brush },
 ]
 
 const CATEGORIES = ['Moisturizers', 'Serums', 'Toners', 'Cleansers', 'Sunscreens', 'Body Lotions']
@@ -116,13 +127,13 @@ function onQuickFiltersUpdate(next: unknown) {
   for (const key of QUICK_FILTER_KEYS) setFilter(key, active.includes(key))
 }
 
-const CATEGORY_ICONS: Record<string, string> = {
-  Moisturizers: '🧴',
-  Serums: '✨',
-  Toners: '💧',
-  Cleansers: '🧼',
-  Sunscreens: '☀️',
-  'Body Lotions': '🧴',
+const CATEGORY_ICONS: Record<string, Component> = {
+  Moisturizers: Droplet,
+  Serums: Sparkles,
+  Toners: GlassWater,
+  Cleansers: SprayCan,
+  Sunscreens: Sun,
+  'Body Lotions': Droplets,
 }
 
 function goToPage(target: number | '…') {
@@ -135,9 +146,9 @@ function goToPage(target: number | '…') {
 <template>
   <div class="flex flex-col gap-5">
     <!-- Multi-Domain Selector Strip -->
-    <div class="bg-card p-2.5 rounded-2xl border shadow-2xs flex items-center justify-between flex-wrap gap-2">
+    <div class="bg-card p-2.5 rounded-lg border flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-1.5 overflow-x-auto">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mr-1.5 shrink-0">Domain:</span>
+        <span class="text-[11px] font-medium text-muted-foreground mr-1.5 shrink-0">Domain:</span>
         <ToggleGroup
           type="single"
           :model-value="filters.domain"
@@ -149,22 +160,21 @@ function goToPage(target: number | '…') {
             v-for="domain in DOMAINS"
             :key="domain.value"
             :value="domain.value"
-            class="h-auto rounded-xl px-3 py-1.5 text-xs font-bold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted/80 hover:text-foreground"
+            class="h-auto rounded-sm px-3 py-1.5 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted hover:text-foreground"
           >
-            <span>{{ domain.icon }}</span> {{ domain.label }}
+            <component :is="domain.icon" class="size-3.5" aria-hidden="true" /> {{ domain.label }}
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div class="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-        <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
         Cross-Domain Formulation Engine
       </div>
     </div>
 
     <!-- Quick Category Selector Strip -->
     <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
-      <span class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mr-1 shrink-0">Category:</span>
+      <span class="text-[11px] font-medium text-muted-foreground mr-1 shrink-0">Category:</span>
       <ToggleGroup
         type="single"
         :model-value="activeCategory"
@@ -174,7 +184,7 @@ function goToPage(target: number | '…') {
       >
         <ToggleGroupItem
           value="all"
-          class="h-auto rounded-full px-3 py-1 text-xs font-bold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
         >
           All Categories
         </ToggleGroupItem>
@@ -182,38 +192,36 @@ function goToPage(target: number | '…') {
           v-for="cat in CATEGORIES"
           :key="cat"
           :value="cat"
-          class="h-auto rounded-full px-3 py-1 text-xs font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:font-bold data-[state=on]:shadow-xs data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
         >
-          {{ CATEGORY_ICONS[cat] }} {{ cat }}
+          <component :is="CATEGORY_ICONS[cat]" class="size-3.5 shrink-0" aria-hidden="true" /> {{ cat }}
         </ToggleGroupItem>
       </ToggleGroup>
     </div>
 
     <!-- Hero Header -->
-    <div class="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-card p-6 sm:p-8 shadow-xs relative overflow-hidden">
+    <div class="rounded-lg border bg-card p-6 sm:p-8 relative overflow-hidden">
       <div class="max-w-3xl flex flex-col gap-3 relative z-10">
         <div v-if="statsLoading" class="flex items-center gap-2 text-xs text-muted-foreground">
           <Loader2 class="w-3.5 h-3.5 animate-spin" />
           Loading catalog metrics...
         </div>
         <div v-else-if="stats" class="flex items-center gap-2 flex-wrap">
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#12635a] bg-[#e5f5f2] border border-[#12635a]/30 px-2.5 py-0.5 rounded-full">
-            <ShieldCheck class="w-3.5 h-3.5" />
+          <span class="inline-flex items-center gap-1 text-[11px] font-medium text-evidence-verified bg-evidence-verified-bg border border-evidence-verified/40 px-2 py-0.5 rounded-[4px]">
+            <ShieldCheck class="w-3.5 h-3.5" aria-hidden="true" />
             {{ verifiedCount ?? 0 }} {{ verifiedLabel }}
           </span>
-          <span class="text-xs text-muted-foreground font-semibold">·</span>
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
-            <Database class="w-3 h-3" />
+          <span class="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground border-l border-border pl-3">
+            <Database class="w-3 h-3" aria-hidden="true" />
             {{ stats.total_products.toLocaleString() }} indexed formulations
           </span>
-          <span class="text-xs text-muted-foreground font-semibold">·</span>
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
-            <FlaskConical class="w-3 h-3" />
+          <span class="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground border-l border-border pl-3">
+            <FlaskConical class="w-3 h-3" aria-hidden="true" />
             {{ stats.total_ingredients.toLocaleString() }} Ingredient Dossiers
           </span>
         </div>
 
-        <h2 class="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+        <h2 class="text-2xl sm:text-3xl text-foreground">
           Universal Cosmetic Chemistry & Formulation Intelligence
         </h2>
         <p class="text-sm text-muted-foreground leading-relaxed">
@@ -223,10 +231,10 @@ function goToPage(target: number | '…') {
 
         <!-- Quick Filter Chips -->
         <div class="flex flex-wrap items-center gap-2 pt-2">
-          <span class="text-xs font-bold text-muted-foreground mr-1">Quick Actives:</span>
+          <span class="text-xs font-medium text-muted-foreground mr-1">Quick Actives:</span>
           <button
-            class="text-xs px-3 py-1 rounded-full border transition-all cursor-pointer font-medium"
-            :class="searchInput.toLowerCase().includes('ceramide') ? 'bg-primary text-primary-foreground border-primary font-bold' : 'bg-card text-foreground border-border hover:bg-muted'"
+            class="text-xs px-3 py-1 rounded-[4px] border transition-colors cursor-pointer font-medium"
+            :class="searchInput.toLowerCase().includes('ceramide') ? 'bg-primary text-primary-foreground border-primary font-medium' : 'bg-card text-foreground border-border hover:bg-muted'"
             @click="searchInput = searchInput.toLowerCase().includes('ceramide') ? '' : 'ceramide'"
           >
             Barrier Lipids (Ceramides)
@@ -239,21 +247,21 @@ function goToPage(target: number | '…') {
           >
             <ToggleGroupItem
               value="fungal_safe"
-              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-emerald-600 data-[state=on]:text-white data-[state=on]:border-emerald-600 data-[state=on]:font-bold"
+              class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-verified data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-verified"
             >
-              🍄 Fungal Acne Safe
+              Fungal Acne Safe
             </ToggleGroupItem>
             <ToggleGroupItem
               value="fragrance_free"
-              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=on]:border-blue-600 data-[state=on]:font-bold"
+              class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-source data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-source"
             >
-              🌸 Fragrance-Free
+              Fragrance-Free
             </ToggleGroupItem>
             <ToggleGroupItem
               value="oil_free"
-              class="h-auto rounded-full px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-600 data-[state=on]:font-bold"
+              class="h-auto rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted data-[state=on]:bg-evidence-mixed data-[state=on]:text-primary-foreground data-[state=on]:border-evidence-mixed"
             >
-              💧 Oil-Free
+              Oil-Free
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
@@ -267,7 +275,7 @@ function goToPage(target: number | '…') {
         <Button
           variant="outline"
           size="sm"
-          class="h-9 px-3 text-xs font-semibold gap-1.5 cursor-pointer"
+          class="h-9 px-3 text-xs font-medium gap-1.5 cursor-pointer"
           @click="mobileFiltersOpen = true"
         >
           <Filter class="w-3.5 h-3.5" />
@@ -276,7 +284,7 @@ function goToPage(target: number | '…') {
         <Sheet v-model:open="mobileFiltersOpen">
           <SheetContent side="left" class="overflow-y-auto">
             <SheetHeader>
-              <SheetTitle class="flex items-center gap-2 text-sm font-bold">
+              <SheetTitle class="flex items-center gap-2 text-sm font-medium">
                 <Filter class="w-4 h-4 text-primary" />
                 Formulation Filters
               </SheetTitle>
@@ -343,13 +351,13 @@ function goToPage(target: number | '…') {
         <!-- API Error State -->
         <div
           v-if="error"
-          class="p-4 rounded-xl border border-evidence-negative/30 bg-evidence-negative-bg/60 flex items-start justify-between gap-3"
+          class="p-4 rounded-lg border border-evidence-negative/30 bg-evidence-negative-bg/60 flex items-start justify-between gap-3"
           role="alert"
         >
           <div class="flex items-start gap-2 text-xs">
             <AlertTriangle class="w-4 h-4 text-evidence-negative shrink-0 mt-0.5" />
             <div>
-              <p class="font-bold text-evidence-negative">Couldn't reach the formulation catalog.</p>
+              <p class="font-medium text-evidence-negative">Couldn't reach the formulation catalog.</p>
               <p class="text-muted-foreground mt-0.5">{{ error }}</p>
             </div>
           </div>

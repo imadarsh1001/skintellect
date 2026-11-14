@@ -33,7 +33,7 @@ const doneCount = () => props.steps.filter(s => s.status === 'completed').length
     <CollapsibleTrigger as-child>
       <button
         type="button"
-        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-background/80 hover:bg-background border border-border/60 text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-2xs group"
+        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-medium bg-card hover:bg-secondary border border-border text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
         :title="open ? 'Hide the workflow plan' : 'Inspect the workflow plan and progress'"
       >
         <Clock class="w-3 h-3 text-primary group-hover:rotate-45 transition-transform" />
@@ -43,18 +43,18 @@ const doneCount = () => props.steps.filter(s => s.status === 'completed').length
     </CollapsibleTrigger>
 
     <CollapsibleContent>
-      <div class="mt-2 p-3 rounded-xl bg-background/95 border text-xs space-y-1.5 shadow-2xs">
-        <div class="font-bold text-muted-foreground uppercase text-[10px] tracking-wider mb-1 flex items-center justify-between">
+      <div class="mt-2 p-3 rounded-lg bg-card border text-xs space-y-1.5">
+        <div class="font-medium text-muted-foreground text-[11px] mb-1 flex items-center justify-between">
           <span class="flex items-center gap-1.5">
             <Clock class="w-3.5 h-3.5 text-primary" />
             Workflow Steps
           </span>
-          <span class="text-[10px] font-normal text-muted-foreground">
+          <span class="text-[11px] font-normal text-muted-foreground">
             {{ doneCount() }} / {{ steps.length }} done
           </span>
         </div>
         <div v-for="(step, idx) in steps" :key="idx" class="flex items-center gap-2 text-xs">
-          <CheckCircle2 v-if="step.status === 'completed'" class="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          <CheckCircle2 v-if="step.status === 'completed'" class="w-3.5 h-3.5 text-evidence-verified shrink-0" />
           <Loader2 v-else-if="step.status === 'in_progress'" class="w-3.5 h-3.5 animate-spin text-primary shrink-0" />
           <Circle v-else class="w-3.5 h-3.5 text-muted-foreground shrink-0" />
           <span :class="step.status === 'completed' ? 'text-foreground font-medium' : 'text-muted-foreground'">

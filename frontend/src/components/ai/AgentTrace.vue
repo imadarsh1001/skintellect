@@ -55,61 +55,61 @@ function formatEventTime(iso?: string) {
 </script>
 
 <template>
-  <Collapsible v-model:open="open" class="mt-4 pt-3.5 border-t border-border/60">
+  <Collapsible v-model:open="open" class="mt-4 pt-3.5 border-t border-border">
     <CollapsibleTrigger as-child>
       <button
         type="button"
-        class="w-full flex items-center justify-between p-2 rounded-xl bg-background/90 hover:bg-background border border-border/70 transition-colors text-left text-xs cursor-pointer group shadow-2xs"
+        class="w-full flex items-center justify-between p-2 rounded-lg bg-card hover:bg-background border border-border transition-colors text-left text-xs cursor-pointer group"
       >
         <div class="flex items-center gap-2 flex-wrap">
-          <span class="flex items-center gap-1 font-bold text-amber-600 dark:text-amber-400">
+          <span class="flex items-center gap-1 font-medium text-primary ">
             <Zap class="w-3.5 h-3.5 fill-current" />
             Agent Trace
           </span>
-          <Badge variant="outline" class="text-[10px] py-0 px-1.5 uppercase font-mono font-bold bg-muted/50 border-border/80">
+          <Badge variant="outline" class="text-[11px] py-0 px-1.5 font-mono font-medium bg-muted border-border">
             Route: {{ trace.intent_route || 'auto' }}
           </Badge>
           <Badge
             :variant="((trace.activated_agents || []).length <= 2) ? 'verified' : 'source'"
-            class="text-[10px] py-0 px-1.5 font-bold"
+            class="text-[11px] py-0 px-1.5 font-medium"
           >
             {{ (trace.activated_agents || []).length }} Active · {{ (trace.bypassed_agents || []).length }} Bypassed
           </Badge>
-          <span v-if="trace.elapsed_ms" class="text-[10px] text-muted-foreground font-mono">
+          <span v-if="trace.elapsed_ms" class="text-[11px] text-muted-foreground font-mono">
             {{ trace.elapsed_ms }}ms
           </span>
         </div>
         <div class="flex items-center gap-1 text-muted-foreground group-hover:text-foreground">
-          <span class="text-[10px] font-semibold">{{ open ? 'Hide' : 'Inspect' }}</span>
+          <span class="text-[11px] font-medium">{{ open ? 'Hide' : 'Inspect' }}</span>
           <ChevronDown class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" />
         </div>
       </button>
     </CollapsibleTrigger>
 
     <CollapsibleContent>
-      <div class="mt-2.5 p-3 rounded-xl border bg-card/95 text-xs flex flex-col gap-3 font-sans shadow-xs">
+      <div class="mt-2.5 p-3 rounded-lg border bg-card text-xs flex flex-col gap-3 font-sans">
         <!-- Routing decision -->
         <div class="space-y-1">
-          <div class="flex items-center justify-between text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+          <div class="flex items-center justify-between text-[11px] font-medium text-muted-foreground">
             <span class="flex items-center gap-1">
               <Activity class="w-3 h-3 text-primary" />
               Intent Router Decision
             </span>
-            <span class="font-mono text-[10px] lowercase text-primary font-bold">{{ trace.intent_route }}</span>
+            <span class="font-mono text-[11px] lowercase text-primary font-medium">{{ trace.intent_route }}</span>
           </div>
-          <p class="text-[11px] text-foreground bg-muted/40 p-2.5 rounded-lg border border-border/50 font-mono leading-relaxed">
+          <p class="text-[11px] text-foreground bg-muted/40 p-2.5 rounded-lg border border-border font-mono leading-relaxed">
             {{ trace.route_reason || 'Route dynamically mapped from query intent patterns.' }}
           </p>
         </div>
 
         <!-- Dispatch matrix -->
         <div class="space-y-1.5">
-          <div class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center justify-between">
+          <div class="text-[11px] font-medium text-muted-foreground flex items-center justify-between">
             <span class="flex items-center gap-1">
-              <Layers class="w-3 h-3 text-indigo-500" />
+              <Layers class="w-3 h-3 text-evidence-source" />
               Agent Dispatch Matrix
             </span>
-            <span class="text-[10px] font-normal text-muted-foreground">
+            <span class="text-[11px] font-normal text-muted-foreground">
               {{ trace.agents_summary || 'Selective tool activation' }}
             </span>
           </div>
@@ -118,12 +118,12 @@ function formatEventTime(iso?: string) {
               v-for="agent in AGENTS"
               :key="agent.key"
               class="p-2 rounded-lg border flex items-center justify-between text-[11px]"
-              :class="isAgentActive(agent.key) ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-950 dark:text-emerald-100 font-medium' : 'bg-muted/30 border-dashed border-border/60 text-muted-foreground'"
+              :class="isAgentActive(agent.key) ? 'bg-evidence-verified-bg border-evidence-verified/40 text-evidence-verified font-medium' : 'bg-muted border-dashed border-border text-muted-foreground'"
             >
               <span>{{ agent.label }}</span>
               <Badge
                 :variant="isAgentActive(agent.key) ? 'verified' : 'outline'"
-                class="text-[9px] py-0 px-1 font-mono uppercase"
+                class="text-[11px] py-0 px-1 font-mono"
               >
                 {{ isAgentActive(agent.key) ? 'Active' : 'Bypassed' }}
               </Badge>
@@ -133,23 +133,23 @@ function formatEventTime(iso?: string) {
 
         <!-- Event timeline -->
         <div v-if="trace.events && trace.events.length > 0" class="space-y-1.5">
-          <div class="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+          <div class="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
             <Clock class="w-3 h-3 text-primary" />
             Event Audit Timeline ({{ trace.events.length }} events)
           </div>
-          <ScrollArea class="h-48 rounded-lg border p-2.5 bg-muted/20 font-mono text-[10px]">
+          <ScrollArea class="h-48 rounded-lg border p-2.5 bg-muted/20 font-mono text-[11px]">
             <div class="space-y-1 pr-3">
               <div
                 v-for="(evt, idx) in trace.events"
                 :key="idx"
-                class="flex items-start justify-between py-1 border-b border-border/30 last:border-0 gap-2"
+                class="flex items-start justify-between py-1 border-b border-border last:border-0 gap-2"
               >
                 <div class="flex items-center gap-1.5 min-w-0">
                   <span
                     class="w-1.5 h-1.5 rounded-full shrink-0"
-                    :class="evt.action === 'executed' || evt.action === 'completed' ? 'bg-emerald-500' : evt.action === 'bypassed' ? 'bg-amber-400' : 'bg-primary'"
+                    :class="evt.action === 'executed' || evt.action === 'completed' ? 'bg-evidence-verified' : evt.action === 'bypassed' ? 'bg-primary' : 'bg-primary'"
                   />
-                  <span class="font-bold text-foreground truncate">{{ evt.stage }}</span>
+                  <span class="font-medium text-foreground truncate">{{ evt.stage }}</span>
                   <span class="text-muted-foreground truncate">
                     [{{ evt.action }}<template v-if="evt.reason">: {{ evt.reason }}</template><template v-if="evt.products_curated">: {{ evt.products_curated }} prods</template><template v-if="evt.candidates_found">: {{ evt.candidates_found }} found</template>]
                   </span>
@@ -163,18 +163,15 @@ function formatEventTime(iso?: string) {
         <!-- Stage latencies -->
         <div
           v-if="trace.stage_timings_ms"
-          class="flex items-center justify-between text-[10px] text-muted-foreground border-t border-border/40 pt-2 font-mono flex-wrap gap-2"
+          class="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border pt-2 font-mono flex-wrap gap-2"
         >
           <div class="flex items-center gap-2">
-            <span>Interpret: <strong>{{ trace.stage_timings_ms.interpret || 0 }}ms</strong></span>
-            <span>·</span>
-            <span>Search: <strong>{{ trace.stage_timings_ms.search || 0 }}ms</strong></span>
-            <span>·</span>
-            <span>Evidence: <strong>{{ trace.stage_timings_ms.evidence || 0 }}ms</strong></span>
-            <span>·</span>
-            <span>Synthesis: <strong>{{ trace.stage_timings_ms.synthesis || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2 first:border-l-0 first:pl-0">Interpret: <strong>{{ trace.stage_timings_ms.interpret || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Search: <strong>{{ trace.stage_timings_ms.search || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Evidence: <strong>{{ trace.stage_timings_ms.evidence || 0 }}ms</strong></span>
+            <span class="border-l border-border pl-2">Synthesis: <strong>{{ trace.stage_timings_ms.synthesis || 0 }}ms</strong></span>
           </div>
-          <div class="font-bold text-foreground">
+          <div class="font-medium text-foreground">
             Total: {{ trace.stage_timings_ms.elapsed_ms || trace.elapsed_ms }}ms
           </div>
         </div>

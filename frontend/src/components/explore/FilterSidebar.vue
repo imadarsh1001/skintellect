@@ -35,43 +35,43 @@ const priceTiers = [
 ]
 
 const sortOptions = [
-  { label: '🏆 Best Persona Match', value: 'composite_desc' },
-  { label: '⚡ Highest Match %', value: 'match_desc' },
-  { label: '⭐ Highest Rating', value: 'rating_desc' },
-  { label: '💬 Most Reviews', value: 'reviews_desc' },
-  { label: '💰 Price: Low to High', value: 'price_asc' },
-  { label: '💎 Price: High to Low', value: 'price_desc' },
+  { label: 'Best Persona Match', value: 'composite_desc' },
+  { label: 'Highest Match %', value: 'match_desc' },
+  { label: 'Highest Rating', value: 'rating_desc' },
+  { label: 'Most Reviews', value: 'reviews_desc' },
+  { label: 'Price: Low to High', value: 'price_asc' },
+  { label: 'Price: High to Low', value: 'price_desc' },
 ]
 
 const categories = [
   { label: 'All Categories', value: 'all' },
-  { label: '🧴 Moisturizers', value: 'Moisturizers' },
-  { label: '✨ Serums', value: 'Serums' },
-  { label: '💧 Toners', value: 'Toners' },
-  { label: '🧼 Cleansers', value: 'Cleansers' },
-  { label: '☀️ Sunscreens', value: 'Sunscreens' },
-  { label: '🧴 Body Lotions', value: 'Body Lotions' },
-  { label: '💆 Hair Masks', value: 'Hair Masks' },
+  { label: 'Moisturizers', value: 'Moisturizers' },
+  { label: 'Serums', value: 'Serums' },
+  { label: 'Toners', value: 'Toners' },
+  { label: 'Cleansers', value: 'Cleansers' },
+  { label: 'Sunscreens', value: 'Sunscreens' },
+  { label: 'Body Lotions', value: 'Body Lotions' },
+  { label: 'Hair Masks', value: 'Hair Masks' },
 ]
 
 const countries = [
-  { label: '🌍 All Countries', value: 'all' },
-  { label: '🇰🇷 South Korea (K-Beauty)', value: 'South Korea' },
-  { label: '🇯🇵 Japan (J-Beauty)', value: 'Japan' },
-  { label: '🇫🇷 France (French Pharmacy)', value: 'France' },
-  { label: '🇺🇸 United States', value: 'United States' },
-  { label: '🇮🇳 India', value: 'India' },
-  { label: '🇩🇪 Germany', value: 'Germany' },
-  { label: '🇬🇧 United Kingdom', value: 'United Kingdom' },
-  { label: '🇨🇦 Canada', value: 'Canada' },
-  { label: '🇦🇺 Australia', value: 'Australia' },
+  { label: 'All Countries', value: 'all' },
+  { label: 'South Korea (K-Beauty)', value: 'South Korea' },
+  { label: 'Japan (J-Beauty)', value: 'Japan' },
+  { label: 'France (French Pharmacy)', value: 'France' },
+  { label: 'United States', value: 'United States' },
+  { label: 'India', value: 'India' },
+  { label: 'Germany', value: 'Germany' },
+  { label: 'United Kingdom', value: 'United Kingdom' },
+  { label: 'Canada', value: 'Canada' },
+  { label: 'Australia', value: 'Australia' },
 ]
 
 const goals = [
   { label: 'All Goals', value: 'all' },
-  { label: '🛡️ Barrier Repair', value: 'barrier' },
-  { label: '🌟 Dark Spots & Glow', value: 'brightening' },
-  { label: '🌿 Texture & Calming', value: 'soothing' },
+  { label: 'Barrier Repair', value: 'barrier' },
+  { label: 'Dark Spots & Glow', value: 'brightening' },
+  { label: 'Texture & Calming', value: 'soothing' },
 ]
 
 // reka SliderRoot carries number[]; the explore view owns a scalar.
@@ -84,17 +84,17 @@ const minMatchSlider = computed({
 </script>
 
 <template>
-  <aside class="flex flex-col gap-4 p-4 sm:p-5 rounded-2xl border bg-card shadow-xs w-full lg:w-80 shrink-0">
+  <aside class="flex flex-col gap-4 p-4 sm:p-5 rounded-lg border bg-card w-full lg:w-80 shrink-0">
     <!-- Header with Reset Button -->
     <div class="flex items-center justify-between border-b pb-3">
-      <div class="flex items-center gap-2 font-bold text-sm text-foreground">
+      <div class="flex items-center gap-2 font-medium text-sm text-foreground">
         <Filter class="w-4 h-4 text-primary" />
         Formulation Filters
       </div>
       <Button
         variant="ghost"
         size="sm"
-        class="h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground font-semibold cursor-pointer"
+        class="h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground font-medium cursor-pointer"
         @click="emit('reset')"
       >
         <RotateCcw class="w-3.5 h-3.5 mr-1" />
@@ -104,7 +104,7 @@ const minMatchSlider = computed({
 
     <!-- Search Input -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Search Formulations</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Search Formulations</label>
       <div class="relative">
         <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
@@ -117,9 +117,9 @@ const minMatchSlider = computed({
 
     <!-- Sort Strategy -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Sort Results</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Sort Results</label>
       <Select v-model="sortBy">
-        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Sort Results">
+        <SelectTrigger class="w-full h-9 text-xs font-medium" aria-label="Sort Results">
           <SelectValue placeholder="Sort Results" />
         </SelectTrigger>
         <SelectContent>
@@ -132,9 +132,9 @@ const minMatchSlider = computed({
 
     <!-- Category Dropdown -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Category</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Category</label>
       <Select v-model="category">
-        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Category">
+        <SelectTrigger class="w-full h-9 text-xs font-medium" aria-label="Category">
           <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
@@ -147,9 +147,9 @@ const minMatchSlider = computed({
 
     <!-- Country / Origin Dropdown -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Origin / Beauty Heritage</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Origin / Beauty Heritage</label>
       <Select v-model="country">
-        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Origin / Beauty Heritage">
+        <SelectTrigger class="w-full h-9 text-xs font-medium" aria-label="Origin / Beauty Heritage">
           <SelectValue placeholder="Origin / Beauty Heritage" />
         </SelectTrigger>
         <SelectContent>
@@ -162,9 +162,9 @@ const minMatchSlider = computed({
 
     <!-- Target Focus Goal -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Skin Focus Goal</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Skin Focus Goal</label>
       <Select v-model="goal">
-        <SelectTrigger class="w-full h-9 text-xs font-semibold" aria-label="Skin Focus Goal">
+        <SelectTrigger class="w-full h-9 text-xs font-medium" aria-label="Skin Focus Goal">
           <SelectValue placeholder="Skin Focus Goal" />
         </SelectTrigger>
         <SelectContent>
@@ -177,7 +177,7 @@ const minMatchSlider = computed({
 
     <!-- Price Tier Filter -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Budget Tier</label>
+      <label class="text-[11px] font-medium text-muted-foreground">Budget Tier</label>
       <ToggleGroup
         type="single"
         :model-value="priceTier"
@@ -188,7 +188,7 @@ const minMatchSlider = computed({
           v-for="pt in priceTiers"
           :key="pt.value"
           :value="pt.value"
-          class="h-8 px-1 text-xs font-semibold data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-xs data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
+          class="h-8 px-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:border data-[state=off]:bg-background hover:bg-accent"
         >
           {{ pt.label }}
         </ToggleGroupItem>
@@ -198,35 +198,27 @@ const minMatchSlider = computed({
     <!-- Safety & Exclusion Switches -->
     <div class="flex flex-col gap-2 pt-3 border-t">
       <div class="flex items-center justify-between">
-        <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Strict Exclusions</label>
+        <label class="text-[11px] font-medium text-muted-foreground">Strict Exclusions</label>
         <Shield class="w-3.5 h-3.5 text-primary" />
       </div>
 
       <label for="f2-fungal" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
-        <span class="flex items-center gap-1.5 font-medium">
-          <span>🍄</span> Fungal Acne Safe
-        </span>
+        <span class="font-medium">Fungal Acne Safe</span>
         <Switch id="f2-fungal" v-model="fungalSafe" />
       </label>
 
       <label for="f2-fragrance" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
-        <span class="flex items-center gap-1.5 font-medium">
-          <span>🌸</span> Fragrance-Free
-        </span>
+        <span class="font-medium">Fragrance-Free</span>
         <Switch id="f2-fragrance" v-model="fragranceFree" />
       </label>
 
       <label for="f2-oil" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
-        <span class="flex items-center gap-1.5 font-medium">
-          <span>💧</span> Oil-Free
-        </span>
+        <span class="font-medium">Oil-Free</span>
         <Switch id="f2-oil" v-model="oilFree" />
       </label>
 
       <label for="f2-pore" class="flex items-center justify-between py-1 text-xs cursor-pointer hover:text-foreground">
-        <span class="flex items-center gap-1.5 font-medium">
-          <span>🚫</span> 0 Pore Cloggers
-        </span>
+        <span class="font-medium">0 Pore Cloggers</span>
         <Switch id="f2-pore" v-model="poreFree" />
       </label>
     </div>
@@ -234,8 +226,8 @@ const minMatchSlider = computed({
     <!-- Minimum Persona Match Slider -->
     <div class="flex flex-col gap-1.5 pt-3 border-t">
       <div class="flex items-center justify-between">
-        <label class="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Min Persona Match</label>
-        <span class="text-xs font-black text-primary">{{ minMatch }}%</span>
+        <label class="text-[11px] font-medium text-muted-foreground">Min Persona Match</label>
+        <span class="text-xs font-mono text-primary">{{ minMatch }}%</span>
       </div>
       <Slider
         v-model="minMatchSlider"
@@ -245,7 +237,7 @@ const minMatchSlider = computed({
         class="w-full"
         aria-label="Minimum persona match percentage"
       />
-      <div class="flex justify-between text-[10px] text-muted-foreground font-semibold">
+      <div class="flex justify-between text-[11px] text-muted-foreground font-medium">
         <span>0% (All)</span>
         <span>60%</span>
         <span>95% (Strict)</span>

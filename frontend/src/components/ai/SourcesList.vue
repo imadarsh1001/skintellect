@@ -21,8 +21,8 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div v-if="citations.length > 0" class="mt-4 pt-3 border-t border-border/60">
-    <span class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
+  <div v-if="citations.length > 0" class="mt-4 pt-3 border-t border-border">
+    <span class="text-[11px] font-medium text-muted-foreground block mb-1.5">
       Scientific & Catalog Evidence
     </span>
     <div class="flex flex-wrap gap-1.5">
@@ -30,7 +30,7 @@ const emit = defineEmits<{
         v-for="cit in citations"
         :key="cit.id"
         variant="source"
-        class="cursor-pointer text-[11px] gap-1 hover:bg-blue-100 transition-colors font-semibold"
+        class="cursor-pointer text-[11px] gap-1 hover:bg-evidence-source-bg transition-colors font-medium"
         @click="emit('inspect', cit)"
       >
         <BookOpen class="w-3 h-3" />

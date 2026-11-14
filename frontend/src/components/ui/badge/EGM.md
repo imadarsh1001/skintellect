@@ -7,7 +7,7 @@ Generic shadcn-vue style badge primitive. A purely presentational labeled pill r
 - `Badge` (exported by `index.ts:1`, re-exporting `./Badge.vue`)
 - Props (`Badge.vue:Props`): `variant?: BadgeVariants['variant']`, `class?: HTMLAttributes['class']`
 - Variant contract (`Badge.vue:badgeVariants`): `default | secondary | destructive | outline | verified | source | unknown | negative | mixed`; default variant is `default` (`Badge.vue:defaultVariants`)
-- Domain-styled variants (`Badge.vue:badgeVariants`): `verified` (teal `#12635a`), `source` (blue `#245ba9`), `unknown` (amber `#805309`), `negative` (red `#a63244`), `mixed` (purple `#6843a8`)
+- Domain-styled variants (`Badge.vue:badgeVariants` via `@/lib/evidence`): `verified`, `source`, `unknown`, `negative`, `mixed` — tint pairs resolving through the `--color-evidence-*` tokens in `src/assets/index.css`
 - Renders `Badge.vue:template`: `<div :class="cn(badgeVariants({ variant }), props.class)">` with a default slot
 
 ## Invariants

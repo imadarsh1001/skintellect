@@ -1,122 +1,195 @@
+/* Hallmark · built: 2026-11-15 · genre: modern-minimal
+ * theme: Console (dealt 1/3, seed operator-console-evidence-first-skincare-a59a) · colourway: graphite · posture: restrained
+ * scope: app · 7 screens · tokens: single source (this file) — amber means a person, cool means an instrument
+ * pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E — every verdict tint pair measured to >= 4.5:1 on graphite
+ * built: the project · redesign: full · copy: verbatim · v2.0.0 */
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@fontsource/host-grotesk/400.css";
+@import "@fontsource/host-grotesk/500.css";
+@import "@fontsource/atkinson-hyperlegible-mono/400.css";
+@import "@fontsource/atkinson-hyperlegible-mono/500.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: 216 33% 97%;
-  --foreground: 213 47% 17%;
+  /* Console · graphite ground in three lightness steps */
+  --background: oklch(17% 0.008 250);
+  --foreground: oklch(95% 0.005 250);
 
-  --card: 0 0% 100%;
-  --card-foreground: 213 47% 17%;
+  --card: oklch(21% 0.009 250);
+  --card-foreground: oklch(95% 0.005 250);
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 213 47% 17%;
+  --popover: oklch(21% 0.009 250);
+  --popover-foreground: oklch(95% 0.005 250);
 
-  --primary: 184 78% 25%;
-  --primary-foreground: 0 0% 100%;
+  /* amber: a person — the primary control, the current selection */
+  --primary: oklch(82% 0.15 80);
+  --primary-foreground: oklch(18% 0.04 75);
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary: oklch(26% 0.012 250);
+  --secondary-foreground: oklch(95% 0.005 250);
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 45%;
+  --muted: oklch(13.5% 0.007 250);
+  --muted-foreground: oklch(71% 0.01 250);
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  /* hover step: the cool instrument tint, restrained */
+  --accent: oklch(29% 0.05 245);
+  --accent-foreground: oklch(95% 0.005 250);
 
-  --destructive: 351 54% 42%;
-  --destructive-foreground: 0 0% 100%;
+  --destructive: oklch(44% 0.15 25);
+  --destructive-foreground: oklch(96% 0.005 25);
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 184 78% 25%;
+  --border: oklch(31% 0.01 250);
+  --input: oklch(42% 0.012 250);
+  --ring: oklch(82% 0.15 80);
 
-  --radius: 0.5rem;
+  /* the dialog scrim: the deepest step, never glass */
+  --scrim: oklch(8% 0.01 250);
+
+  --radius: 0.625rem;
+
+  /* Evidence verdict family — the product's own instrument statuses,
+     re-dealt onto the graphite ground. MEANINGS are product truth:
+     verified=measured, source=attributed, unknown=no reading yet,
+     negative=contraindication, mixed=conflicting. Text/bg pairs hold
+     >= 4.5:1 (Floor 40/41). Class strings live in `@/lib/evidence`. */
+  --color-evidence-verified: oklch(76% 0.15 150);
+  --color-evidence-verified-bg: oklch(24.5% 0.03 150);
+  --color-evidence-source: oklch(77% 0.12 245);
+  --color-evidence-source-bg: oklch(29% 0.05 245);
+  --color-evidence-unknown: oklch(71% 0.01 250);
+  --color-evidence-unknown-bg: oklch(26% 0.012 250);
+  --color-evidence-negative: oklch(70% 0.17 25);
+  --color-evidence-negative-bg: oklch(24.5% 0.035 25);
+  --color-evidence-mixed: oklch(75% 0.09 300);
+  --color-evidence-mixed-bg: oklch(25% 0.04 300);
 }
 
+/* Graphite is the shipped surface; the dark variant resolves to the same tokens. */
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-
-  --primary: 184 78% 40%;
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-
-  --destructive: 350 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 184 78% 40%;
+  --background: oklch(17% 0.008 250);
+  --foreground: oklch(95% 0.005 250);
+  --card: oklch(21% 0.009 250);
+  --card-foreground: oklch(95% 0.005 250);
+  --popover: oklch(21% 0.009 250);
+  --popover-foreground: oklch(95% 0.005 250);
+  --primary: oklch(82% 0.15 80);
+  --primary-foreground: oklch(18% 0.04 75);
+  --secondary: oklch(26% 0.012 250);
+  --secondary-foreground: oklch(95% 0.005 250);
+  --muted: oklch(13.5% 0.007 250);
+  --muted-foreground: oklch(71% 0.01 250);
+  --accent: oklch(29% 0.05 245);
+  --accent-foreground: oklch(95% 0.005 250);
+  --destructive: oklch(44% 0.15 25);
+  --destructive-foreground: oklch(96% 0.005 25);
+  --border: oklch(31% 0.01 250);
+  --scrim: oklch(8% 0.01 250);
+  --input: oklch(42% 0.012 250);
+  --ring: oklch(82% 0.15 80);
 }
 
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-scrim: var(--scrim);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Evidence token family — semantic verdict colors used across cards,
-     badges, and evidence surfaces. Class strings for the badge/button
-     variants live in `@/lib/evidence`. */
-  --color-evidence-verified: #12635a;
-  --color-evidence-verified-bg: #e5f5f2;
-  --color-evidence-source: #245ba9;
-  --color-evidence-source-bg: #eaf2ff;
-  --color-evidence-unknown: #805309;
-  --color-evidence-unknown-bg: #fff4da;
-  --color-evidence-negative: #a63244;
-  --color-evidence-negative-bg: #fff0f2;
-  --color-evidence-mixed: #6843a8;
-  --color-evidence-mixed-bg: #f2edfc;
+  /* Console faces: Host Grotesk for what a person reads, Atkinson
+     Hyperlegible Mono for what an instrument measured. */
+  --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+
+  /* The evidence family maps 1:1 — utilities regenerate from these names. */
+  --color-evidence-verified: var(--color-evidence-verified);
+  --color-evidence-verified-bg: var(--color-evidence-verified-bg);
+  --color-evidence-source: var(--color-evidence-source);
+  --color-evidence-source-bg: var(--color-evidence-source-bg);
+  --color-evidence-unknown: var(--color-evidence-unknown);
+  --color-evidence-unknown-bg: var(--color-evidence-unknown-bg);
+  --color-evidence-negative: var(--color-evidence-negative);
+  --color-evidence-negative-bg: var(--color-evidence-negative-bg);
+  --color-evidence-mixed: var(--color-evidence-mixed);
+  --color-evidence-mixed-bg: var(--color-evidence-mixed-bg);
 }
 
 @layer base {
   * {
     @apply border-border;
   }
+  html,
+  body {
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    text-wrap: pretty;
+  }
+  h1,
+  h2 {
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  h3,
+  h4 {
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  /* What an instrument measured: figures carry tabular numerals. */
+  .font-mono,
+  code {
+    font-variant-numeric: tabular-nums slashed-zero;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 25%, transparent);
+  }
+  html {
+    scrollbar-color: var(--input) transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Copilot Narrative Markdown Typography & Table Styling */
+/* Copilot Narrative Markdown — Console restyle: hairline table rows, no
+   side stripe (gate 3/WARN), measured face for code, quiet wells. */
 .prose-copilot {
   color: inherit;
 }
@@ -135,7 +208,7 @@
 .prose-copilot h2,
 .prose-copilot h3,
 .prose-copilot h4 {
-  font-weight: 700;
+  font-weight: 500;
   color: inherit;
   margin-top: 0.75rem;
   margin-bottom: 0.35rem;
@@ -165,10 +238,10 @@
   color: inherit;
 }
 .prose-copilot code {
-  background-color: hsl(var(--muted));
+  background-color: var(--muted);
   padding: 0.15rem 0.35rem;
   border-radius: 0.25rem;
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.85em;
 }
 .prose-copilot table {
@@ -177,29 +250,25 @@
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   font-size: 0.8rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 .prose-copilot th {
-  background-color: hsl(var(--muted) / 0.8);
-  font-weight: 600;
+  color: var(--muted-foreground);
+  font-weight: 500;
   text-align: left;
-  padding: 0.45rem 0.65rem;
-  border: 1px solid hsl(var(--border));
+  padding: 0.45rem 0.65rem 0.45rem 0;
+  border-bottom: 1px solid var(--border);
 }
 .prose-copilot td {
-  padding: 0.45rem 0.65rem;
-  border: 1px solid hsl(var(--border));
-  background-color: hsl(var(--card) / 0.6);
+  padding: 0.45rem 0.65rem 0.45rem 0;
+  border-bottom: 1px solid var(--border);
 }
-.prose-copilot tr:nth-child(even) td {
-  background-color: hsl(var(--muted) / 0.25);
+.prose-copilot tr:last-child td {
+  border-bottom: none;
 }
 .prose-copilot blockquote {
-  border-left: 3px solid hsl(var(--primary));
-  padding-left: 0.75rem;
+  background-color: var(--muted);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
   margin: 0.5rem 0;
-  font-style: italic;
-  opacity: 0.85;
+  opacity: 0.92;
 }

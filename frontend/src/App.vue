@@ -16,6 +16,7 @@ import {
   Network,
   SlidersHorizontal,
   Sparkles,
+  FlaskConical,
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -100,24 +101,26 @@ function onTabSelect(value: string | number) {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
+  <div class="min-h-screen flex flex-col bg-background text-foreground font-sans">
     <!-- Navbar Header -->
-    <header class="border-b bg-card/85 backdrop-blur-md sticky top-0 z-40 shadow-xs">
+    <header class="border-b bg-card sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <!-- Brand Logo & Global Title -->
         <div class="flex items-center gap-3">
           <RouterLink to="/" class="flex items-center gap-3">
-            <div class="size-10 rounded-xl bg-gradient-to-tr from-primary to-emerald-600 text-primary-foreground flex items-center justify-center font-black text-xl shadow-md">
-              ✨
+            <div class="size-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
+              <FlaskConical class="size-5" aria-hidden="true" />
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h1 class="text-xl font-black tracking-tight text-foreground">Formulation Studio</h1>
-                <Badge variant="verified" class="text-[10px] py-0.5 px-2 font-bold uppercase tracking-wider">
-                  PRO · MULTI-DOMAIN
+                <h1 class="text-xl text-foreground">Formulation Studio</h1>
+                <Badge variant="verified" class="gap-1.5 text-[10px] py-0.5 px-2 font-medium">
+                  <span>Pro</span>
+                  <span aria-hidden="true" class="h-2.5 w-px bg-evidence-verified/60"></span>
+                  <span>Multi-domain</span>
                 </Badge>
               </div>
-              <p class="text-[11px] text-muted-foreground hidden sm:block font-medium">
+              <p class="text-[11px] text-muted-foreground hidden sm:block">
                 Universal Skin, Hair, Body & Makeup Formulation Intelligence
               </p>
             </div>
@@ -152,12 +155,12 @@ function onTabSelect(value: string | number) {
           <Button
             variant="outline"
             size="sm"
-            class="h-9 px-3.5 gap-2 border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-semibold rounded-full shadow-xs cursor-pointer"
+            class="h-9 px-3.5 gap-2 text-primary font-medium rounded-sm cursor-pointer"
             @click="personaDrawerOpen = true"
           >
-            <SlidersHorizontal class="w-4 h-4 text-primary" />
+            <SlidersHorizontal class="w-4 h-4" aria-hidden="true" />
             <span class="hidden md:inline text-xs">Profile:</span>
-            <span class="text-xs truncate max-w-[160px] text-foreground font-bold">
+            <span class="text-xs truncate max-w-[160px] text-foreground font-medium">
               {{ currentPersona.name }}
             </span>
           </Button>
@@ -170,21 +173,21 @@ function onTabSelect(value: string | number) {
           <TabsList class="h-11 bg-transparent p-0 gap-4 sm:gap-8 border-b-0">
             <TabsTrigger
               value="explore"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary px-1 py-3 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
             >
-              <LayoutGrid class="w-4 h-4" />
+              <LayoutGrid class="w-4 h-4" aria-hidden="true" />
               Catalog & Explore
             </TabsTrigger>
 
             <TabsTrigger
               value="compare"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary px-1 py-3 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
             >
-              <Scale class="w-4 h-4" />
+              <Scale class="w-4 h-4" aria-hidden="true" />
               Compare Matrix
               <span
                 v-if="comparedProducts.length > 0"
-                class="size-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold"
+                class="size-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium"
               >
                 {{ comparedProducts.length }}
               </span>
@@ -192,17 +195,17 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="graph"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary px-1 py-3 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
             >
-              <Network class="w-4 h-4" />
+              <Network class="w-4 h-4" aria-hidden="true" />
               Ingredient Graph
             </TabsTrigger>
 
             <TabsTrigger
               value="copilot"
-              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary px-1 py-3 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+              class="gap-2 shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
             >
-              <Sparkles class="w-4 h-4 text-primary" />
+              <Sparkles class="w-4 h-4" aria-hidden="true" />
               Research Copilot
             </TabsTrigger>
           </TabsList>

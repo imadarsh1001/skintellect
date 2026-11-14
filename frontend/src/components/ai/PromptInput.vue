@@ -54,14 +54,14 @@ function submit() {
       rows="1"
       :placeholder="placeholder ?? 'Ask anything...'"
       :disabled="busy"
-      class="flex-grow resize-none rounded-xl border border-input bg-background px-3 py-2.5 text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-60"
+      class="flex-grow resize-none rounded-lg border border-input bg-background px-3 py-2.5 text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-60"
       @input="emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
       @keydown="onKeydown"
     />
     <Button
       variant="default"
       size="sm"
-      class="h-10 px-4 gap-1.5 font-bold cursor-pointer shrink-0"
+      class="h-10 px-4 gap-1.5 font-medium cursor-pointer shrink-0"
       :disabled="busy || !modelValue.trim()"
       @click="submit"
     >

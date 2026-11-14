@@ -9,17 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-card hover:bg-secondary hover:text-secondary-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        // Furrow moulded keys: lit inset top edge, shaded inset bottom; active sinks 1px.
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 key-moulded active:translate-y-px',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 key-moulded active:translate-y-px',
+        outline: 'border border-border bg-card hover:bg-secondary hover:text-secondary-foreground key-moulded active:translate-y-px',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 key-moulded active:translate-y-px',
         ghost: 'hover:bg-secondary hover:text-secondary-foreground',
         link: 'text-foreground underline-offset-4 hover:underline',
       },
       size: {
         default: 'h-9 px-4 py-2',
         sm: 'h-8 rounded-sm px-3 text-xs',
-        lg: 'h-10 rounded-sm px-8',
+        lg: 'h-12 rounded-sm px-8',
         icon: 'size-9',
       },
     },

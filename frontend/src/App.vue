@@ -108,7 +108,7 @@ function onTabSelect(value: string | number) {
         <!-- Brand Logo & Global Title -->
         <div class="flex items-center gap-3">
           <RouterLink to="/" class="flex items-center gap-3 min-w-0">
-            <div class="size-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
+            <div class="size-10 rounded-sm bg-primary text-primary-foreground flex items-center justify-center">
               <FlaskConical class="size-5" aria-hidden="true" />
             </div>
             <div class="min-w-0">
@@ -252,6 +252,6 @@ function onTabSelect(value: string | number) {
       @select-product="viewDetails"
     />
 
-    <Toaster rich-colors theme="dark" position="bottom-right" />
+    <Toaster rich-colors theme="light" position="bottom-right" />
   </div>
 </template>

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://designlang.app/schemas/gradients.json",
+  "source": "http://localhost:5173",
+  "generated": "2026-11-14T18:35:16.573Z",
+  "count": 2,
+  "gradients": [
+    {
+      "raw": "linear-gradient(to right top, rgb(14, 107, 113) 0%, oklch(0.596 0.145 163.225) 100%)",
+      "type": "linear",
+      "direction": "to right top",
+      "stops": [
+        {
+          "color": "rgb(14, 107, 113)",
+          "position": "0%"
+        },
+        {
+          "color": "oklch(0.596 0.145 163.225)",
+          "position": "100%"
+        }
+      ],
+      "classification": "brand"
+    },
+    {
+      "raw": "linear-gradient(to right bottom, oklab(0.481727 -0.0724493 -0.0302838 / 0.05) 0%, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 100%)",
+      "type": "linear",
+      "direction": "to right bottom",
+      "stops": [
+        {
+          "color": "oklab(0.481727 -0.0724493 -0.0302838 / 0.05)",
+          "position": "0%"
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "position": "50%"
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "position": "100%"
+        }
+      ],
+      "classification": "bold"
+    }
+  ]
+}

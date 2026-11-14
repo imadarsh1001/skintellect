@@ -1,0 +1,25 @@
+{
+  "flags": [
+    "skeleton-loading",
+    "error-state"
+  ],
+  "forms": {
+    "count": 0,
+    "families": {}
+  },
+  "inputTypesSeen": {
+    "input": 1
+  },
+  "modals": [],
+  "toastLibraries": [],
+  "loading": {
+    "skeleton": 1,
+    "spinner": 0
+  },
+  "empty": {
+    "count": 0
+  },
+  "error": {
+    "count": 20
+  }
+}

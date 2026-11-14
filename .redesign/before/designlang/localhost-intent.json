@@ -1,0 +1,167 @@
+{
+  "pageIntent": {
+    "type": "landing",
+    "confidence": 0.45,
+    "path": "/",
+    "title": "Skintellect - Honest Science-Grounded Moisturizer Intelligence",
+    "description": "",
+    "signals": [
+      {
+        "kind": "url",
+        "type": "landing",
+        "weight": 0.45,
+        "detail": "root-path"
+      }
+    ],
+    "alternates": [],
+    "needsSmart": true
+  },
+  "sectionRoles": {
+    "sections": [
+      {
+        "index": 0,
+        "tag": "header",
+        "role": "nav",
+        "subrole": null,
+        "confidence": 0.4,
+        "heading": "Formulation Studio",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 109
+        },
+        "buttonCount": 5,
+        "cardCount": 14,
+        "slots": {
+          "heading": "Formulation Studio",
+          "ctaCount": 5,
+          "lede": "✨\nFormulation Studio\nPRO · MULTI-DOMAIN"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 1,
+        "tag": "nav",
+        "role": "nav",
+        "subrole": null,
+        "confidence": 0.9,
+        "heading": null,
+        "bounds": {
+          "x": 694.46875,
+          "y": 20,
+          "w": 285.53125,
+          "h": 24
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {
+          "lede": "Evidence Workspace\nStudy\nData Progress"
+        },
+        "needsSmart": false
+      },
+      {
+        "index": 2,
+        "tag": "main",
+        "role": "pricing",
+        "subrole": null,
+        "confidence": 0.4,
+        "heading": "Universal Cosmetic Chemistry & Formulation Intelligence",
+        "bounds": {
+          "x": 0,
+          "y": 109,
+          "w": 1280,
+          "h": 4231.875
+        },
+        "buttonCount": 144,
+        "cardCount": 463,
+        "slots": {
+          "heading": "Universal Cosmetic Chemistry & Formulation Intelligence",
+          "subheadings": [
+            "Acnestil Cleansing Mousse",
+            "Power Serum Bright Serum",
+            "Pore Clarifying Brightening Serum",
+            "Plaisir No Shine Oil Free Gel"
+          ],
+          "ctaCount": 144,
+          "lede": "DOMAIN:\n🌐\nAll Domains\n🧴\nSkin (Face)\n💇\nHair & Scalp\n🧼\nBath & Body\n💄\nMakeup & Complexion\nCross-Domain Formulation Engine\nCATEGORY:\nAll Categories\n🧴 Moisturizers\n✨ Serums\n💧 Toners\n🧼 Cleansers\n☀️ Sunscreens\n🧴 Body Lotions\n576 FORMULAS WITH FULL INCI\n·\n2,502 indexed formulations\n·\n1,490 Ingredient Dossiers\nUniversal Cosmetic Chemistry & Formulation Intelligence"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 3,
+        "tag": "aside",
+        "role": "sidebar",
+        "subrole": null,
+        "confidence": 0.4,
+        "heading": null,
+        "bounds": {
+          "x": 24,
+          "y": 549,
+          "w": 320,
+          "h": 787.5625
+        },
+        "buttonCount": 14,
+        "cardCount": 28,
+        "slots": {
+          "ctaCount": 14,
+          "lede": "Formulation Filters\nReset\nSEARCH FORMULATIONS\nSORT RESULTS\n🏆 Best Persona Match\nCATEGORY\nAll Categories\nORIGIN / BEAUTY HERITAGE\n🌍 All Countries\nSKIN FOCUS GOAL\nAll Goals\nBUDGET TIER\nAll\n$\n$$\n$$$\n$$$$\nSTRICT EXCLUSIONS\n🍄\nFungal Acne Safe\n🌸\nFragrance-Free\n💧\nOil-Free\n🚫\n0 Pore Cloggers\nMIN PERSONA MATCH\n0%\n0% (All)\n60%\n95% (Strict)"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 4,
+        "tag": "nav",
+        "role": "nav",
+        "subrole": null,
+        "confidence": 0.9,
+        "heading": null,
+        "bounds": {
+          "x": 713.59375,
+          "y": 4284.875,
+          "w": 196.796875,
+          "h": 32
+        },
+        "buttonCount": 5,
+        "cardCount": 5,
+        "slots": {
+          "ctaCount": 5,
+          "lede": "1\n2\n…\n70"
+        },
+        "needsSmart": false
+      },
+      {
+        "index": 5,
+        "tag": "section",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 4340.875,
+          "w": 1280,
+          "h": 0
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {},
+        "needsSmart": true
+      }
+    ],
+    "counts": {
+      "nav": 3,
+      "pricing": 1,
+      "sidebar": 1,
+      "content": 1
+    },
+    "readingOrder": [
+      "nav",
+      "nav",
+      "pricing",
+      "sidebar",
+      "nav",
+      "content"
+    ]
+  }
+}

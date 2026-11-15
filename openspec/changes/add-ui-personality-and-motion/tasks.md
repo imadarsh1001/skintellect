@@ -32,8 +32,8 @@ Gate commands used throughout: `cd frontend && npm run build` (includes `vue-tsc
 
 ## 6. Bounded polish pass
 
-- [ ] 6.1 Run impeccable `critique` + `audit` over all touched surfaces; triage: CRITICAL/HIGH → fix here, rest → a deferred-backlog note committed under `tests/evidence/<phase>/` (trunk workflow: no PRs). Verify: triage table with a disposition for every finding.
-- [ ] 6.2 Apply CRITICAL/HIGH fixes only; re-verify reduced-motion + compositor envelope for any motion fix. Verify: rendered demonstration per fix; deferred items listed, not applied.
+- [x] 6.1 Run impeccable `critique` + `audit` over all touched surfaces; triage: CRITICAL/HIGH → fix here, rest → a deferred-backlog note committed under `tests/evidence/<phase>/` (trunk workflow: no PRs). Verify: triage table with a disposition for every finding. *(Done 2026-11-16: impeccable detect over frontend/src = zero anti-pattern findings; craft-floor + audit-dimension review over the touched surfaces; 9-row triage table with a disposition for every finding in tests/evidence/m6-polish/NOTES.md — no CRITICAL/HIGH.)*
+- [x] 6.2 Apply CRITICAL/HIGH fixes only; re-verify reduced-motion + compositor envelope for any motion fix. Verify: rendered demonstration per fix; deferred items listed, not applied. *(Done: empty CRITICAL/HIGH set — nothing applied; 4 deferred candidates recorded (count-up SR handling, shared rAF driver, chip width jitter, agent greeting voice — future content change).)*
 
 ## 7. Token audit and DESIGN.md (last)
 

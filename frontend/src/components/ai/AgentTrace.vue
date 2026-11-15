@@ -81,7 +81,7 @@ function formatEventTime(iso?: string) {
         </div>
         <div class="flex items-center gap-1 text-muted-foreground group-hover:text-foreground">
           <span class="text-[11px] font-medium">{{ open ? 'Hide' : 'Inspect' }}</span>
-          <ChevronDown class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" />
+          <ChevronDown class="w-3.5 h-3.5 transition-transform duration-(--duration-state)" :class="{ 'rotate-180': open }" />
         </div>
       </button>
     </CollapsibleTrigger>

@@ -38,7 +38,7 @@ const doneCount = () => props.steps.filter(s => s.status === 'completed').length
       >
         <Clock class="w-3 h-3 text-foreground group-hover:rotate-45 transition-transform" />
         <span>{{ open ? 'Hide workflow plan' : `Workflow plan (${steps.length} steps)` }}</span>
-        <ChevronDown class="w-3 h-3 text-muted-foreground transition-transform duration-200" :class="{ 'rotate-180': open }" />
+        <ChevronDown class="w-3 h-3 text-muted-foreground transition-transform duration-(--duration-state)" :class="{ 'rotate-180': open }" />
       </button>
     </CollapsibleTrigger>
 

@@ -99,9 +99,19 @@ Depth by lightness first: ground (`--background` 93.9%), sheet one step up (`--c
 
 Radius: cards 10px (`--radius-lg`), entries/notebook cards 14px (`--radius-xl`), controls and pills 6px (`--radius-sm`), chips 4px (`rounded-[4px]`); `rounded-full` only where the object is physically round (switch tracks, avatars). One radius per nesting level, concentric.
 
-## Motion (draft — group 1 of add-ui-personality-and-motion; finalized by its group 7)
+## Motion
 
-The motion vocabulary lives in `@theme static` in `frontend/src/assets/index.css` — the single motion source, like every token above. Three duration tiers map to the app's posture: `--duration-feedback` 150 ms (hover/press/focus — feedback never exceeds the ~200 ms perception band), `--duration-state` 220 ms (dialogs, drawers, collapsibles, view-state moves — the ≤ 300 ms tier), `--duration-moment` 450 ms (only a designated dealt moment may choreograph this long). Easings settle, never bounce: `--ease-entry` (hard decelerate into rest), `--ease-move` (even in, even out), `--ease-exit` (accelerate out). Compositor envelope: motion expresses through opacity and transform only — box-shadow is never animated (the moulded key press sinks via `transform`, its shadow is pre-rendered). Entry-on-mount uses the `enter-rise` / `enter-rise-sm` utilities (`@starting-style`, no JS, no keyframes); bespoke `@keyframes` are added per dealt moment in groups 3–4, never speculatively. `prefers-reduced-motion` collapses every animation and transition to instant and forbids smooth scrolling (global kill in the base layer). tw-animate-css remains the enter/exit vocabulary for reka portals.
+The motion vocabulary lives in `@theme static` in `frontend/src/assets/index.css` — the single motion source, like every token above. Three duration tiers map to the app's posture: `--duration-feedback` 150 ms (hover/press/focus — feedback never exceeds the ~200 ms perception band), `--duration-state` 220 ms (dialogs, drawers, collapsibles, view-state moves — the ≤ 300 ms tier), `--duration-moment` 450 ms (only a designated dealt moment may choreograph this long); `--duration-stagger` 30 ms with `--stagger-cap` 240 ms spaces a list's arrival. Easings settle, never bounce: `--ease-entry` (hard decelerate into rest), `--ease-move` (even in, even out), `--ease-exit` (accelerate out). Compositor envelope: motion expresses through opacity and transform, and through color-steps — box-shadow is never animated (the moulded key press sinks via `transform`, its shadow is pre-rendered). Entry-on-mount uses the `enter-rise` / `enter-rise-sm` utilities (`@starting-style`, no JS, no keyframes), staggered via `stagger-entry` (`--stagger-i` per sibling). One micro-interaction language, the `feedback` utility, owns hover/press/select transitions on every primitive — colors, opacity, and transform at the feedback tier; the `:focus-visible` tangerine ring stays instant by design. `prefers-reduced-motion` collapses every animation and transition to instant and forbids smooth scrolling (global kill in the base layer); JS count-ups check the same media query and render final values. tw-animate-css remains the enter/exit vocabulary for reka portals.
+
+### Dealt moments — one material idea, "the ledger writes"
+
+Every moment is composed only from the tokens above and plays once per data arrival, never on hover or scroll; under reduced motion everything renders instantly with state intact.
+
+- **Explore — the score reveal**: Fit chips stamp in and their figures count up to the persona-computed value; cards enter with a capped stagger. (Audience dimension 3.)
+- **Product dossier — the score follows you in**: the header's Fit badge and pts figure run the same count on open. (Dimension 3, continuity.)
+- **Copilot — the board convenes**: messages and agent-dispatch rows arrive with the entry primitive as the deliberation streams. (Dimension 4.)
+- **Research — the span proves the claim**: verbatim quote spans sweep once — the tangerine-soft well sits on the span, then fades (`span-sweep`). (Dimensions 1+4.)
+- **Study / Compare / Graph / Progress — quiet arrivals**: cards and columns rise with the capped stagger; Progress's live-polling figures deliberately never count.
 
 ## Components
 

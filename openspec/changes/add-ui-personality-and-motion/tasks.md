@@ -37,8 +37,8 @@ Gate commands used throughout: `cd frontend && npm run build` (includes `vue-tsc
 
 ## 7. Token audit and DESIGN.md (last)
 
-- [ ] 7.1 Token audit: every new visual-expression value resolves to a semantic `@theme` token; update `frontend/DESIGN.md` with the motion/accent vocabulary and dealt-moment inventory in the same change. Verify: no raw hex/durations/keyframes in components; DESIGN.md documents every new token.
-- [ ] 7.2 Final integration verification: full gate suite, reduced-motion + keyboard walk-through app-wide, before/after evidence retained under `tests/evidence/final/`. Verify: all gates green; spec scenarios demonstrated end-to-end; identity-preservation comparison against baselines clean.
+- [x] 7.1 Token audit: every new visual-expression value resolves to a semantic `@theme` token; update `frontend/DESIGN.md` with the motion/accent vocabulary and dealt-moment inventory in the same change. Verify: no raw hex/durations/keyframes in components; DESIGN.md documents every new token. *(Done 2026-11-16: zero raw durations after re-anchoring the last two chevron stragglers to `--duration-state`; zero raw hex/keyframes/easings outside index.css; DESIGN.md motion section finalized with the dealt-moment inventory.)*
+- [x] 7.2 Final integration verification: full gate suite, reduced-motion + keyboard walk-through app-wide, before/after evidence retained under `tests/evidence/final/`. Verify: all gates green; spec scenarios demonstrated end-to-end; identity-preservation comparison against baselines clean. *(Done: all four gates green; 8-route forced-reduced-motion captures in tests/evidence/final/; keyboard traversal verified trap-free with the ring rule shipped + gate-asserted (live visual ring capture inconclusive via automation — recorded honestly); spec-scenario → evidence map in final/NOTES.md.)*
 
 ## Workflow follow-up
 

@@ -11,8 +11,8 @@ Gate commands used throughout: `cd frontend && npm run build` (includes `vue-tsc
 
 ## 2. Micro-interaction feedback language
 
-- [ ] 2.1 Define and implement the shared hover/press/focus feedback treatment on the primitive packages (button, toggle-group, card, input, select, checkbox, switch, slider, tabs) using the foundation tokens. Verify: same element class gives identical feedback on different screens; feedback ≤ ~200 ms.
-- [ ] 2.2 Verification: consistency walk across all 8 views (landing home `/` included; catalog at `/explore`) + gates + reduced-motion check (feedback still instant-correct without animation).
+- [x] 2.1 Define and implement the shared hover/press/focus feedback treatment on the primitive packages (button, toggle-group, card, input, select, checkbox, switch, slider, tabs) using the foundation tokens. Verify: same element class gives identical feedback on different screens; feedback ≤ ~200 ms. *(Done 2026-11-16: `feedback` utility — color/opacity/transform at `--duration-feedback`/`--ease-move`; applied to Button/Input/Checkbox/Switch/TabsTrigger/Toggle-via-toggleVariants/SelectTrigger + dialog/sheet portal durations token-anchored; box-shadow animated by the old toggle cva removed (envelope violation); Card/Slider deliberately unchanged — resting surface / layout-positioned thumb; Button's snapping press sink now animates.)*
+- [x] 2.2 Verification: consistency walk across all 8 views (landing home `/` included; catalog at `/explore`) + gates + reduced-motion check (feedback still instant-correct without animation). *(Done: 8/8 routes compute identical 0.15s + move-bezier feedback with `feedback` present, zero overflow; all four gates green; reduced-motion capture in tests/evidence/m2-micro-interactions/.)*
 
 ## 3. Dealt moments — deep surfaces (Explore, product detail, Copilot)
 

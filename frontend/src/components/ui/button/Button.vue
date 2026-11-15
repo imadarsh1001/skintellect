@@ -5,7 +5,7 @@ import { Primitive, type PrimitiveProps } from 'reka-ui'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-medium transition-colors active:opacity-80 disabled:pointer-events-none disabled:opacity-55 disabled:cursor-not-allowed select-none cursor-pointer',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-medium feedback active:opacity-80 disabled:pointer-events-none disabled:opacity-55 disabled:cursor-not-allowed select-none cursor-pointer',
   {
     variants: {
       variant: {

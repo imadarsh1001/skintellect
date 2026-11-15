@@ -16,6 +16,8 @@
 @import "tw-animate-css";
 /* the taste gate writes state beside the app root; keep its archives out of utility detection */
 @source not "../.taste-skill";
+/* evidence notes quote class names; keep them out of utility detection too */
+@source not "../../../tests/evidence";
 @import "@fontsource/red-hat-display/600.css";
 @import "@fontsource/red-hat-text/400.css";
 @import "@fontsource/red-hat-text/500.css";
@@ -183,6 +185,18 @@
     opacity: 0;
     transform: translateY(6px);
   }
+}
+
+/* Shared micro-interaction feedback (group 2): one treatment for hover,
+   press, and select state on every interactive primitive — colors,
+   opacity, and transform at the feedback tier. Deliberately excludes
+   box-shadow: the compositor envelope never animates shadows (moulded-key
+   shadows are pre-rendered layers; the press moves via transform). */
+@utility feedback {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, transform;
+  transition-duration: var(--duration-feedback);
+  transition-timing-function: var(--ease-move);
 }
 
 @layer base {

@@ -145,8 +145,8 @@ function goToPage(target: number | '…') {
 
 <template>
   <div class="flex flex-col gap-5">
-    <!-- Multi-Domain Selector Strip -->
-    <div class="bg-card p-2.5 rounded-lg border flex items-center justify-between flex-wrap gap-2">
+    <!-- Multi-Domain Selector Strip (bare on the ground, same chip recipe as the category strip) -->
+    <div class="flex items-center justify-between flex-wrap gap-x-4 gap-y-2">
       <div class="flex items-center gap-1.5 overflow-x-auto">
         <span class="text-[11px] font-medium text-muted-foreground mr-1.5 shrink-0">Domain:</span>
         <ToggleGroup
@@ -160,7 +160,7 @@ function goToPage(target: number | '…') {
             v-for="domain in DOMAINS"
             :key="domain.value"
             :value="domain.value"
-            class="h-auto min-h-[44px] sm:min-h-[32px] rounded-sm px-3 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-muted data-[state=off]:text-foreground hover:bg-muted hover:text-foreground"
+            class="min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted hover:text-foreground"
           >
             <component :is="domain.icon" class="size-3.5" aria-hidden="true" /> {{ domain.label }}
           </ToggleGroupItem>
@@ -184,7 +184,7 @@ function goToPage(target: number | '…') {
       >
         <ToggleGroupItem
           value="all"
-          class="min-h-8 rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted"
         >
           All Categories
         </ToggleGroupItem>
@@ -192,7 +192,7 @@ function goToPage(target: number | '…') {
           v-for="cat in CATEGORIES"
           :key="cat"
           :value="cat"
-          class="min-h-8 rounded-[4px] px-3 py-1 text-xs font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border hover:bg-muted"
+          class="min-h-[44px] sm:min-h-[32px] rounded-[4px] px-3 py-1 text-xs font-medium border data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary data-[state=off]:bg-card data-[state=off]:text-foreground data-[state=off]:border-border hover:bg-muted"
         >
           <component :is="CATEGORY_ICONS[cat]" class="size-3.5 shrink-0" aria-hidden="true" /> {{ cat }}
         </ToggleGroupItem>

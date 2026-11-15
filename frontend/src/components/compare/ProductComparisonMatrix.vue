@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Product } from '@/lib/types'
-import { inciNames } from '@/lib/utils'
+import { inciNames, keyActiveName, keyActiveNote, keyActiveIcon } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ShieldCheck, AlertTriangle, HelpCircle, X, Sparkles, Scale } from 'lucide-vue-next'
+import { ShieldCheck, AlertTriangle, HelpCircle, X, Sparkles, Scale, FlaskConical } from 'lucide-vue-next'
+
+// A failed local icon gets out of the way; the lucide glyph behind it shows.
+function hideBrokenIcon(event: Event) {
+  ;(event.target as HTMLImageElement).style.display = 'none'
+}
 
 const props = defineProps<{
   products: Product[]
@@ -161,10 +166,27 @@ function getUniqueIngredients(product: Product): string[] {
             <!-- Key Actives -->
             <div class="flex flex-col gap-1.5 border-t pt-3">
               <span class="font-medium text-muted-foreground text-[11px]">Key Actives</span>
-              <div v-if="p.key_actives && p.key_actives.length > 0" class="flex flex-wrap gap-1">
-                <Badge v-for="act in p.key_actives" :key="act" variant="secondary" class="text-[11px]">
-                  {{ act }}
-                </Badge>
+              <div v-if="p.key_actives && p.key_actives.length > 0" class="flex flex-col gap-1">
+                <div v-for="(act, i) in p.key_actives" :key="i" class="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                  <Badge variant="secondary" class="text-[11px] font-medium">
+                    <span class="relative inline-flex size-3.5 shrink-0 items-center justify-center self-center">
+                      <FlaskConical class="absolute inset-0 size-3.5" aria-hidden="true" />
+                      <!-- Local copy (scripts/fetch_key_active_icons.py); on load failure
+                           the img hides and the lucide glyph behind it takes over. -->
+                      <img
+                        v-if="keyActiveIcon(act)"
+                        :src="keyActiveIcon(act)"
+                        alt=""
+                        class="relative size-3.5"
+                        @error="hideBrokenIcon"
+                      />
+                    </span>
+                    {{ keyActiveName(act) }}
+                  </Badge>
+                  <span v-if="keyActiveNote(act)" class="text-[11px] text-muted-foreground leading-snug">
+                    {{ keyActiveNote(act) }}
+                  </span>
+                </div>
               </div>
               <span v-else class="text-muted-foreground italic">No specialized actives tagged</span>
             </div>
@@ -178,7 +200,7 @@ function getUniqueIngredients(product: Product): string[] {
                 <span
                   v-for="u in getUniqueIngredients(p)"
                   :key="u"
-                  class="text-[11px] px-1.5 py-0.5 rounded bg-evidence-source-bg text-evidence-source capitalize"
+                  class="text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground capitalize"
                 >
                   {{ u }}
                 </span>

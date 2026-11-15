@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '@/lib/types'
-import { inciNames } from '@/lib/utils'
+import { inciNames, keyActiveName, keyActiveIcon } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import {
   Sparkles,
   Plus,
   Check,
+  FlaskConical,
   Droplets,
   Layers,
   CheckCircle2,
@@ -32,6 +33,12 @@ function getMatchScoreColor(score: number): string {
   if (score >= 90) return 'text-evidence-verified bg-evidence-verified-bg border-evidence-verified/40'
   if (score >= 70) return 'text-evidence-source bg-evidence-source-bg border-evidence-source/40'
   return 'text-evidence-unknown bg-evidence-unknown-bg border-evidence-unknown/40'
+}
+
+// A failed local icon just gets out of the way: the lucide glyph behind it
+// becomes the visible one.
+function hideBrokenIcon(event: Event) {
+  ;(event.target as HTMLImageElement).style.display = 'none'
 }
 </script>
 
@@ -158,12 +165,24 @@ function getMatchScoreColor(score: number): string {
         <span class="text-[11px] font-medium text-muted-foreground">Key Actives</span>
         <div class="flex flex-wrap gap-1">
           <Badge
-            v-for="active in product.key_actives.slice(0, 3)"
-            :key="active"
+            v-for="(active, i) in product.key_actives.slice(0, 3)"
+            :key="i"
             variant="secondary"
             class="text-[11px] font-medium"
           >
-            {{ active }}
+            <span class="relative inline-flex size-3.5 shrink-0 items-center justify-center">
+              <FlaskConical class="absolute inset-0 size-3.5" aria-hidden="true" />
+              <!-- Local copy (scripts/fetch_key_active_icons.py); if it fails to load
+                   the img hides and the lucide glyph behind it takes over. -->
+              <img
+                v-if="keyActiveIcon(active)"
+                :src="keyActiveIcon(active)"
+                alt=""
+                class="relative size-3.5"
+                @error="hideBrokenIcon"
+              />
+            </span>
+            {{ keyActiveName(active) }}
           </Badge>
           <span v-if="product.key_actives.length > 3" class="text-[11px] text-muted-foreground self-center pl-1">
             +{{ product.key_actives.length - 3 }} more

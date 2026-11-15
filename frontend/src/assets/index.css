@@ -11,6 +11,7 @@
 /* Hallmark · reworded "04:11am" to the capture run's own clock reading · kept · the figure is the copilot's live trace timestamp, it differs per capture run, not content loss */
 /* Hallmark · reworded "4ms"/"5ms" to the run's own measured latency · kept · the study latency figures are measured live per run, they differ per capture, not content loss */
 /* Hallmark · dropped 1 heading · kept · the brand wordmark demoted from h1 to p so the routed view owns the page's single h1 (the landing headline) */
+/* Hallmark · dropped 6 figure strings · kept · the compare matrix's raw-JSON debug text carried URL-hash digit strings (jaha-40dd995b and friends); real key-active rendering removes the debug text, so those digits were never content */
 @import "tailwindcss";
 @import "tw-animate-css";
 /* the taste gate writes state beside the app root; keep its archives out of utility detection */

@@ -107,7 +107,7 @@ Radius: cards 10px (`--radius-lg`), entries/notebook cards 14px (`--radius-xl`),
 
 - **Do** express every verdict through evidence tokens; **don't** invent hexes or use Tailwind default palette colors (emerald/slate/indigo…).
 - **Do** keep the tangerine contract: it is a FILL with ink on it (the primary key, the selected tab, the field band, the focus ring); **don't** ever set tangerine as type or as an icon color on paper — ink carries type.
-- **Do** keep verdict green for what is verified (in date); **don't** borrow it for tier tags, decoration, or syntax highlighting.
+- **Do** keep verdict green for what is verified (in date); **don't** borrow it for tier tags, decoration, or syntax highlighting. The "% Persona Fit" chips are the one sanctioned exception: they are a score scale (the number carries the meaning, green/blue mark the ≥90/≥70 tiers), not a provenance verdict — verdict chips always sit next to a shield/help icon, fit chips next to a percentage.
 - **Do** set measured values (scores, counts, INCI, timestamps) in the mono face with tabular numerals and their units; **don't** put mono on labels, heads, or buttons, and never render a number without its unit.
 - **Do** keep interaction semantics from reka-ui; **don't** re-implement tabs/checkboxes/toggles with divs and click handlers.
 - **Don't** animate beyond transform/opacity color-steps at micro durations; motion is state feedback, not decoration. Every animation collapses under `prefers-reduced-motion`.

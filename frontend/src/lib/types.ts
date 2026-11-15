@@ -32,7 +32,10 @@ export interface Product {
     }>
   }>
   skin_goals?: string[]
-  key_actives?: string[]
+  // The backend parses key_actives_json into {name, note, icon} objects and
+  // types the field Any; the union keeps synthetic/seed payloads (plain
+  // strings) safe. Render through the keyActive* helpers in @/lib/utils.
+  key_actives?: Array<{ name?: string; note?: string; icon?: string } | string>
   key_benefits?: string[]
   match_score?: number
   composite_score?: number

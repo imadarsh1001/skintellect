@@ -3,12 +3,6 @@ import { ref, computed, watch } from 'vue'
 import type { Product, SkinPersona } from '@/lib/types'
 import { fetchProduct } from '@/lib/api'
 import { ingredientBenefitIcons } from '@/lib/utils'
-
-// A failed local icon just gets out of the way (name/title text carries the
-// meaning; there is no substitute glyph).
-function hideBrokenIcon(event: Event) {
-  ;(event.target as HTMLImageElement).style.display = 'none'
-}
 import {
   Dialog,
   DialogContent,
@@ -53,6 +47,12 @@ const emits = defineEmits<{
   (e: 'toggle-compare', prod: Product): void
   (e: 'select-product', prod: Product): void
 }>()
+
+// A failed local icon disappears (name/title text carries the meaning; there
+// is no substitute glyph).
+function hideBrokenIcon(event: Event) {
+  ;(event.target as HTMLImageElement).style.display = 'none'
+}
 
 const activeTab = ref<string>('safety')
 const loading = ref(false)
@@ -484,13 +484,10 @@ function inspectAlternative(alt: any) {
                     <span>{{ ing.name || 'Ingredient' }}</span>
                     <!-- The payload's own benefit icons (scripts/fetch_catalog_icons.py
                          serves them locally); a failed load just disappears. -->
-                    <span
-                      v-if="ingredientBenefitIcons(ing).length > 0"
-                      class="inline-flex items-center gap-0.5"
-                    >
+                    <span class="inline-flex items-center gap-0.5">
                       <img
-                        v-for="(ic, k) in ingredientBenefitIcons(ing)"
-                        :key="k"
+                        v-for="ic in ingredientBenefitIcons(ing)"
+                        :key="ic.src"
                         :src="ic.src"
                         :alt="ic.title"
                         :title="ic.title"

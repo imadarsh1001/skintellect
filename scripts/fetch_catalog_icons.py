@@ -19,6 +19,9 @@ provenance.
 
 Re-run any time the collector syncs new data: existing files are kept
 unless ``--refresh`` is passed, so each run only fetches the delta.
+Successful downloads are recorded even when siblings fail, so a re-run
+retries only what failed. Exit codes: 0 ok, 1 download failures, 2
+missing/empty source.
 
 Usage:
     python scripts/fetch_catalog_icons.py [--source <json> ...] [--refresh]
@@ -56,6 +59,9 @@ HASH_SUFFIX_RE = re.compile(r"-[0-9a-f]{8,}\.svg$")
 
 
 def local_name(url: str) -> str:
+    # This slug rule is mirrored in the frontend at
+    # frontend/src/lib/utils.ts localIconPath(); change both together or
+    # icons silently vanish.
     base = url.rsplit("/", 1)[-1]
     return HASH_SUFFIX_RE.sub(".svg", base)
 
@@ -114,7 +120,9 @@ def fetch_family(kind: str, pattern: re.Pattern[str], dest: Path, sources: list[
             }
     elapsed = time.perf_counter() - started
 
-    if not failures and todo:
+    if todo and len(failures) < len(todo):
+        # Record every success (even a partial run) so a re-run retries only
+        # what actually failed.
         manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     total = sum(entry["bytes"] for entry in manifest.values())
     print(f"[icons] {kind}: {len(manifest)} on disk, {total} bytes total, {elapsed:.1f}s this run")

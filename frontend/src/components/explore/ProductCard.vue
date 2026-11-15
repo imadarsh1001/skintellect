@@ -12,8 +12,6 @@ import {
   Sparkles,
   Plus,
   Check,
-  Droplets,
-  Layers,
   CheckCircle2,
 } from 'lucide-vue-next'
 
@@ -34,8 +32,7 @@ function getMatchScoreColor(score: number): string {
   return 'text-evidence-unknown bg-evidence-unknown-bg border-evidence-unknown/40'
 }
 
-// A failed local icon just gets out of the way: the lucide glyph behind it
-// becomes the visible one.
+// A failed local icon disappears; the badge text carries the meaning.
 function hideBrokenIcon(event: Event) {
   ;(event.target as HTMLImageElement).style.display = 'none'
 }

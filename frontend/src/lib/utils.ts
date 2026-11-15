@@ -24,7 +24,7 @@ export function inciNames(product: { names?: string[]; ingredients?: Array<{ nam
  * (parsed from key_actives_json, typed Any upstream), while synthetic and
  * seed payloads may carry plain strings. These helpers are the single shape
  * decision, like inciNames above. Icons live locally under
- * /icons/key-actives/ (fetched by scripts/fetch_key_active_icons.py, with
+ * /icons/key-actives/ (fetched by scripts/fetch_catalog_icons.py, with
  * its manifest alongside); a missing icon yields '' and the caller falls
  * back to a lucide glyph instead of hotlinking the source host.
  */
@@ -55,12 +55,13 @@ export function localIconPath(url: string, family: 'key-actives' | 'ingredients'
   return '/icons/' + family + '/' + base.replace(/-[0-9a-f]{8,}\.svg$/, '.svg')
 }
 
-/** The benefit icons an ingredient payload carries ({name, alt, icon_url}). */
+/** The benefit icons an ingredient payload carries ({name, alt, icon_url});
+ *  at most three render, labeled by name (falling back to the payload's alt). */
 export function ingredientBenefitIcons(
-  ing: { icons?: Array<{ name?: string; icon_url?: string }> } | undefined,
+  ing: { icons?: Array<{ name?: string; alt?: string; icon_url?: string }> } | undefined,
 ): Array<{ src: string; title: string }> {
   return (ing?.icons ?? [])
     .slice(0, 3)
-    .map(ic => ({ src: localIconPath(ic.icon_url ?? '', 'ingredients'), title: ic.name ?? '' }))
-    .filter(ic => ic.src !== '')
+    .map(ic => ({ src: localIconPath(ic.icon_url ?? '', 'ingredients'), title: ic.name || ic.alt || '' }))
+    .filter(ic => ic.src !== '' && ic.title !== '')
 }

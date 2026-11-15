@@ -91,6 +91,17 @@ class ProductImageProxyTests(unittest.TestCase):
             response = self._get(3)
         self.assertEqual(response.status_code, 404)
 
+    def test_fetch_failure_maps_to_502(self):
+        from skintellect.api import catalog
+        with patch.object(catalog, '_fetch_image_bytes', side_effect=OSError('upstream down')):
+            response = self._get(4)
+        self.assertEqual(response.status_code, 502)
+
+    def test_fetch_leaves_no_tmp_file_behind(self):
+        self._get(5)
+        leftovers = [p.name for p in self.cache_dir.iterdir() if p.name.startswith('.')]
+        self.assertEqual(leftovers, [])
+
 
 if __name__ == '__main__':
     unittest.main()

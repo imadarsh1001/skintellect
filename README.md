@@ -148,7 +148,7 @@ uv run python scripts/check.py
 Skintellect adheres to strict verification-before-completion standards:
 
 ```powershell
-# 1. Run full verification suite (Ruff, 128 tests, UI semantic contracts)
+# 1. Run full verification suite (Ruff, 133 tests, UI semantic contracts)
 uv run python scripts/check.py
 
 # 2. Run developer query-intent parser validation (20/20 benchmark cases)
@@ -174,7 +174,7 @@ node tests/check_ui_semantics.js
 │   ├── agents/                # LangGraph copilot, specialist deliberation, CSI detective
 │   ├── database.py            # SQLite schema, transactions, migrations, reproducible audits
 │   ├── config.py              # Environment variable resolution & dynamic path discovery
-├── tests/                     # 128 unit and architecture tests with synthetic fixtures
+├── tests/                     # 133 unit and architecture tests with synthetic fixtures
 ├── experiments/               # Specialist board, Ingredient CSI, Formula Lab experiments
 ├── frontend/                  # Vue 3 + Tailwind CSS modern SPA interface
 ├── docs/                      # Architectural specs, module guides, and engineering logs

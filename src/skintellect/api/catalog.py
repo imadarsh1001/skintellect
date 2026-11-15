@@ -118,6 +118,8 @@ def get_product_image(product_id: int):
     hotlinks it. The first request fetches the bytes and caches them under
     IMAGE_CACHE_DIR; later requests serve straight from disk. Outbound hosts are
     allowlisted, and the cached bytes are served with their sniffed media type.
+    Sync endpoints run on a threadpool, so concurrent first fetches write to
+    distinct temp files and the final os.replace wins atomically.
     """
     image_url = get_product_image_url(product_id)
     if not image_url:
@@ -134,10 +136,11 @@ def get_product_image(product_id: int):
     try:
         data = _fetch_image_bytes(image_url)
     except Exception as exc:  # noqa: BLE001 - any network failure is an upstream failure
-        raise HTTPException(status_code=502, detail=f"Image fetch failed: {exc}") from exc
+        print(f"[image-proxy] product {product_id} fetch failed: {exc}")
+        raise HTTPException(status_code=502, detail="Image fetch failed") from exc
 
     cache_dir.mkdir(parents=True, exist_ok=True)
-    tmp_path = cache_dir / f".{product_id}.tmp"
+    tmp_path = cache_dir / f".{product_id}.{os.getpid()}.tmp"
     tmp_path.write_bytes(data)
     os.replace(tmp_path, cache_path)
 

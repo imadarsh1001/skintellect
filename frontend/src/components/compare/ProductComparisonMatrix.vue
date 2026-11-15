@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, AlertTriangle, HelpCircle, X, Sparkles, Scale } from 'lucide-vue-next'
 
-// A failed local icon gets out of the way; the lucide glyph behind it shows.
+// A failed local icon disappears; the badge text carries the meaning.
 function hideBrokenIcon(event: Event) {
   ;(event.target as HTMLImageElement).style.display = 'none'
 }

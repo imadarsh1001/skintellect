@@ -199,7 +199,8 @@ const latestLatency = computed(() => {
                 <div
                   v-for="(obs, idx) in filterObservations(observationsOf(product.id)).slice(0, 4)"
                   :key="(obs.evidence_id ?? idx) as string | number"
-                  class="p-2 rounded-lg border bg-card text-[11px]"
+                  class="p-2 rounded-lg border bg-card text-[11px] enter-rise-sm stagger-entry"
+                  :style="{ '--stagger-i': idx }"
                 >
                   <span class="font-medium text-[11px] px-1 py-0.5 rounded bg-muted text-foreground">
                     {{ observationAspect(obs) }}

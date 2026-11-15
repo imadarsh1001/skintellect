@@ -199,6 +199,24 @@
   transition-delay: min(calc(var(--duration-stagger) * var(--stagger-i, 0)), var(--stagger-cap));
 }
 
+/* Evidence-span sweep (group 4): a verbatim quote's proof made visible for a
+   beat — the tangerine-soft well sits on the span, then fades off. Color
+   steps only (the sanctioned material); reduced motion skips straight to
+   the faded state via the global kill. */
+@keyframes span-sweep {
+  from {
+    background-color: hsl(var(--accent));
+  }
+  to {
+    background-color: transparent;
+  }
+}
+@utility span-sweep {
+  animation: span-sweep var(--duration-state) var(--ease-move) both;
+  animation-delay: min(calc(var(--duration-stagger) * var(--stagger-i, 0)), var(--stagger-cap));
+  border-radius: var(--radius-sm);
+}
+
 /* Shared micro-interaction feedback (group 2): one treatment for hover,
    press, and select state on every interactive primitive — colors,
    opacity, and transform at the feedback tier. Deliberately excludes

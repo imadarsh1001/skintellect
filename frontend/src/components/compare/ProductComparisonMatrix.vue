@@ -110,9 +110,10 @@ function getUniqueIngredients(product: Product): string[] {
         :style="{ gridTemplateColumns: `repeat(${products.length}, minmax(280px, 1fr))` }"
       >
         <Card
-          v-for="p in products"
+          v-for="(p, pIdx) in products"
           :key="p.id"
-          class="flex flex-col justify-between relative border-t-4 border-t-primary"
+          class="flex flex-col justify-between relative border-t-4 border-t-primary enter-rise-sm stagger-entry"
+          :style="{ '--stagger-i': pIdx }"
         >
           <!-- Remove Button -->
           <button

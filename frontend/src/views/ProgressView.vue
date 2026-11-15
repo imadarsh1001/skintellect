@@ -145,7 +145,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
 
       <!-- Coverage -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <Card>
+        <Card class="enter-rise-sm">
           <CardHeader class="pb-2">
             <CardTitle class="text-sm font-medium">Review extraction</CardTitle>
           </CardHeader>
@@ -159,7 +159,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card class="enter-rise-sm">
           <CardHeader class="pb-2">
             <CardTitle class="text-sm font-medium">Passage indexing</CardTitle>
           </CardHeader>
@@ -176,7 +176,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       </div>
 
       <!-- Job submission form -->
-      <Card>
+      <Card class="enter-rise-sm">
         <CardHeader class="pb-2 border-b">
           <CardTitle class="text-sm font-medium">Start a preparation job</CardTitle>
         </CardHeader>
@@ -219,7 +219,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       <!-- Active jobs -->
       <div v-if="activeJobs.length" class="flex flex-col gap-2">
         <h3 class="text-sm font-medium">Active jobs</h3>
-        <Card v-for="job in activeJobs" :key="job.id" class="p-4">
+        <Card v-for="(job, jIdx) in activeJobs" :key="job.id" class="p-4 enter-rise-sm stagger-entry" :style="{ '--stagger-i': jIdx }">
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
             <div class="flex items-center gap-2">
               <Badge :variant="STATUS_VARIANT[job.status] ?? 'outline'" class="text-[11px] font-medium">{{ job.status }}</Badge>

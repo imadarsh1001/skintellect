@@ -406,6 +406,7 @@ const EXAMPLES = [
             v-for="(sel, idx) in answer.synthesis.selections.slice(0, 6)"
             :key="idx"
             class="p-2.5 rounded-lg border bg-card flex flex-col gap-1"
+            :style="{ '--stagger-i': idx }"
           >
             <div class="flex items-center justify-between gap-2">
               <span class="font-medium text-[11px] px-1.5 py-0.5 rounded bg-muted text-foreground">
@@ -413,7 +414,7 @@ const EXAMPLES = [
               </span>
               <Badge v-if="sel.kind === 'reported_experience'" variant="source" class="text-[11px] py-0">Reviewer experience</Badge>
             </div>
-            <p class="italic text-foreground/90 text-[11px]">"{{ sel.span || sel.quote }}"</p>
+            <p class="italic text-foreground/90 text-[11px] span-sweep">"{{ sel.span || sel.quote }}"</p>
           </div>
         </div>
         <p v-if="answer.synthesis?.unanswered_topics?.length" class="text-xs text-muted-foreground">
@@ -591,9 +592,10 @@ const EXAMPLES = [
                 </div>
 
                 <div
-                  v-for="obs in filterObservations(observationsOf(p.id), quoteState(p.id).aspect, quoteState(p.id).sentiment).slice(0, quoteState(p.id).shown)"
+                  v-for="(obs, oIdx) in filterObservations(observationsOf(p.id), quoteState(p.id).aspect, quoteState(p.id).sentiment).slice(0, quoteState(p.id).shown)"
                   :key="(obs.evidence_id ?? obs.span) as string"
-                  class="p-2 rounded-lg border bg-card"
+                  class="p-2 rounded-lg border bg-card enter-rise-sm stagger-entry"
+                  :style="{ '--stagger-i': oIdx }"
                 >
                   <div class="flex items-center justify-between gap-2 text-[11px]">
                     <span class="font-medium px-1.5 py-0.5 rounded bg-muted text-foreground">{{ obs.aspect || obs.topic }}</span>
@@ -604,7 +606,7 @@ const EXAMPLES = [
                       {{ obs.sentiment || 'observed' }}
                     </span>
                   </div>
-                  <p class="italic text-foreground/90 mt-1">"{{ obs.span || obs.quote }}"</p>
+                  <p class="italic text-foreground/90 mt-1 span-sweep">"{{ obs.span || obs.quote }}"</p>
                 </div>
 
                 <p

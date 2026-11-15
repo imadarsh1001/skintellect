@@ -126,13 +126,13 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
     <template v-else>
       <!-- Graph view: per-product evidence panels -->
       <div v-if="viewMode === 'graph'" class="flex flex-col gap-6">
-        <template v-for="product in products" :key="product.id">
+        <template v-for="(product, pIdx) in products" :key="product.id">
           <Card v-if="connectionsByProduct[product.id] === 'error'" class="p-4 flex items-start gap-2 text-xs">
             <AlertTriangle class="w-4 h-4 text-evidence-unknown shrink-0 mt-0.5" />
             <span>Connections for <strong>{{ product.brand }} {{ product.name }}</strong> could not be loaded.</span>
           </Card>
 
-          <Card v-else-if="connectionsFor(product.id)" class="overflow-hidden">
+          <Card v-else-if="connectionsFor(product.id)" class="overflow-hidden enter-rise-sm stagger-entry" :style="{ '--stagger-i': pIdx }">
             <CardHeader class="pb-3 border-b bg-muted/20">
               <div class="flex items-center justify-between gap-2">
                 <div>

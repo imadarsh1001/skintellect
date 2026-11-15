@@ -22,7 +22,7 @@ Gate commands used throughout: `cd frontend && npm run build` (includes `vue-tsc
 
 ## 4. Dealt moments — light surfaces (Study, Progress, Compare, Graph)
 
-- [ ] 4.1 Baselines into `tests/evidence/m4-light-moments/`; pick and implement one lighter moment per surface — including **ResearchView** (candidate: quote-explorer evidence reveal) — each traced to the audience brief like group 3. Verify: same checks as 3.2–3.3, scaled to light depth, user-need traces documented.
+- [x] 4.1 Baselines into `tests/evidence/m4-light-moments/`; pick and implement one lighter moment per surface — including **ResearchView** (candidate: quote-explorer evidence reveal) — each traced to the audience brief like group 3. Verify: same checks as 3.2–3.3, scaled to light depth, user-need traces documented. *(Done 2026-11-16: the re-homed span sweep landed on ResearchView's synthesis selections + explorer observations; Study/Compare/Graph/Progress cards rise with capped stagger; Progress figures deliberately not counted (live-polling values — restraint documented). Gates green; 5 baseline/after pairs + reduced-motion capture in tests/evidence/m4-light-moments/.)*
 
 ## 5. Personality-rich async states
 

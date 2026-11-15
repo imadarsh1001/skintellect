@@ -5,7 +5,7 @@ import { inciNames, keyActiveName, keyActiveNote, keyActiveIcon } from '@/lib/ut
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ShieldCheck, AlertTriangle, HelpCircle, X, Sparkles, Scale, FlaskConical } from 'lucide-vue-next'
+import { ShieldCheck, AlertTriangle, HelpCircle, X, Sparkles, Scale } from 'lucide-vue-next'
 
 // A failed local icon gets out of the way; the lucide glyph behind it shows.
 function hideBrokenIcon(event: Event) {
@@ -169,18 +169,15 @@ function getUniqueIngredients(product: Product): string[] {
               <div v-if="p.key_actives && p.key_actives.length > 0" class="flex flex-col gap-1">
                 <div v-for="(act, i) in p.key_actives" :key="i" class="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
                   <Badge variant="secondary" class="text-[11px] font-medium">
-                    <span class="relative inline-flex size-3.5 shrink-0 items-center justify-center self-center">
-                      <FlaskConical class="absolute inset-0 size-3.5" aria-hidden="true" />
-                      <!-- Local copy (scripts/fetch_key_active_icons.py); on load failure
-                           the img hides and the lucide glyph behind it takes over. -->
-                      <img
-                        v-if="keyActiveIcon(act)"
-                        :src="keyActiveIcon(act)"
-                        alt=""
-                        class="relative size-3.5"
-                        @error="hideBrokenIcon"
-                      />
-                    </span>
+                    <!-- The data's own SVG, served locally; a failed load leaves a
+                         name-only badge rather than any substitute icon. -->
+                    <img
+                      v-if="keyActiveIcon(act)"
+                      :src="keyActiveIcon(act)"
+                      alt=""
+                      class="size-3.5 shrink-0 self-center"
+                      @error="hideBrokenIcon"
+                    />
                     {{ keyActiveName(act) }}
                   </Badge>
                   <span v-if="keyActiveNote(act)" class="text-[11px] text-muted-foreground leading-snug">

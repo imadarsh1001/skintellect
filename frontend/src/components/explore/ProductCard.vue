@@ -12,7 +12,6 @@ import {
   Sparkles,
   Plus,
   Check,
-  FlaskConical,
   Droplets,
   Layers,
   CheckCircle2,
@@ -170,18 +169,15 @@ function hideBrokenIcon(event: Event) {
             variant="secondary"
             class="text-[11px] font-medium"
           >
-            <span class="relative inline-flex size-3.5 shrink-0 items-center justify-center">
-              <FlaskConical class="absolute inset-0 size-3.5" aria-hidden="true" />
-              <!-- Local copy (scripts/fetch_key_active_icons.py); if it fails to load
-                   the img hides and the lucide glyph behind it takes over. -->
-              <img
-                v-if="keyActiveIcon(active)"
-                :src="keyActiveIcon(active)"
-                alt=""
-                class="relative size-3.5"
-                @error="hideBrokenIcon"
-              />
-            </span>
+            <!-- The data's own SVG, served locally; a failed load leaves a
+                 name-only badge rather than any substitute icon. -->
+            <img
+              v-if="keyActiveIcon(active)"
+              :src="keyActiveIcon(active)"
+              alt=""
+              class="size-3.5 shrink-0"
+              @error="hideBrokenIcon"
+            />
             {{ keyActiveName(active) }}
           </Badge>
           <span v-if="product.key_actives.length > 3" class="text-[11px] text-muted-foreground self-center pl-1">

@@ -133,6 +133,26 @@
   --color-evidence-mixed-bg: #e7e1f5;
 }
 
+/* Motion vocabulary (change: add-ui-personality-and-motion, group 1).
+   Furrow tiers, not a gallery: feedback ≤ ~200 ms, state moves ≤ ~300 ms,
+   and only a designated dealt moment may choreograph longer (450 ms).
+   Easings never overshoot — Furrow settles, it does not bounce.
+   Compositor envelope: motion expresses through opacity and transform only.
+   static: the vocabulary is the sanctioned source — emit its variables even
+   before utilities consume them, so hand-written CSS resolves them. */
+@theme static {
+  --duration-feedback: 150ms;
+  --duration-state: 220ms;
+  --duration-moment: 450ms;
+
+  /* hard decelerate into rest — entries arrive and settle */
+  --ease-entry: cubic-bezier(0.22, 1, 0.36, 1);
+  /* even in, even out — dialogs, drawers, view-state moves */
+  --ease-move: cubic-bezier(0.4, 0, 0.2, 1);
+  /* accelerate out — exits leave without lingering */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+
 /* Furrow moulded keys: a lit inset top edge and a shaded inset bottom, the
    theme-sanctioned 1px key shadow; active sinks 1px (active:translate-y-px). */
 @utility key-moulded {
@@ -140,6 +160,29 @@
     inset 0 1px 0 hsl(var(--card) / 0.6),
     inset 0 -1px 0 hsl(var(--foreground) / 0.14),
     0 1px 1px hsl(var(--border));
+}
+
+/* Entry-on-mount primitives (group 1): an element animates from its
+   @starting-style state the moment it is first rendered (or unhidden) —
+   no JS, no keyframes, compositor-only (opacity + transform). Consumed
+   by groups 2–5; reduced motion renders them instant via the global kill. */
+@utility enter-rise-sm {
+  transition:
+    opacity var(--duration-state) var(--ease-entry),
+    transform var(--duration-state) var(--ease-entry);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@utility enter-rise {
+  transition:
+    opacity var(--duration-moment) var(--ease-entry),
+    transform var(--duration-moment) var(--ease-entry);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 
 @layer base {
@@ -199,6 +242,7 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }

@@ -198,6 +198,20 @@ def get_product_by_id(product_id: int, persona_id: str = "uap", records=None) ->
     return p_copy
 
 
+def get_product_image_url(product_id: int, records=None) -> Optional[str]:
+    """Returns the product's scraped image URL (collector object storage), or None.
+
+    Lightweight on purpose: the image proxy endpoint calls this per request,
+    so it reads the in-memory catalog cache without persona scoring.
+    """
+    catalog = records if records is not None else _load_catalog_cache()
+    p = next((x for x in catalog if x["id"] == product_id), None)
+    if not p:
+        return None
+    url = p.get("image_url")
+    return url if isinstance(url, str) and url else None
+
+
 def get_catalog_stats() -> Dict[str, Any]:
     """Computes global catalog metrics for category, country, and price distributions."""
     catalog = _load_catalog_cache()

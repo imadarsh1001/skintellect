@@ -33,6 +33,7 @@ analysis/outputs/
 *.sqlite
 *.sqlite3
 data/exports/
+data/cache/
 data/raw/
 reports/exports/
 /skinsort_*.json

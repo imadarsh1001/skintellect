@@ -71,6 +71,9 @@ load_environment()
 
 BASE_DIR = str(PROJECT_ROOT)
 EXPORTS_DIR = str(PROJECT_ROOT / "data" / "exports")
+# Runtime cache for images served through the on-demand proxy
+# (GET /api/products/{id}/image); gitignored, fills only on request.
+IMAGE_CACHE_DIR = str(PROJECT_ROOT / "data" / "cache" / "product-images")
 
 
 def resolve_database_path(root: Path = PROJECT_ROOT, override: str | None = None) -> str:

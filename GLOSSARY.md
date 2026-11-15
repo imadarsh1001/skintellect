@@ -26,7 +26,10 @@ A product record in the catalog (the code calls it `Product`). One formulation =
 _Avoid_: item, listing, product-name-only references
 
 **Indexed formulations**:
-Total formulations in the catalog (`stats.total_products`). Shown in the Explore hero stat row.
+Total formulations in the catalog (`stats.total_products`). Shown in the Explore hero stat row and the Home field band.
+
+**Ingredient dossiers**:
+The UI label for `stats.total_ingredients`: the size of the ingredient-facts vocabulary (a fixed catalog constant) that safety flags and facts resolve against. Shown in the Explore hero stat row and the Home field band. It is a vocabulary size, not a count of per-ingredient fact pages.
 
 **Formulas with full INCI**:
 The subset whose ingredient list is completely parsed (backend `enriched_products`; `verified_complete_products` when the API provides it). Subset of indexed — do not call these "Enriched Formulations".
@@ -40,20 +43,22 @@ Backend term (`verified_complete_products`, defined in the table above as *verif
 
 ## Evidence verdicts
 
+Colors below are the Furrow palette (light manila ground); meanings are product truth and never change with the theme.
+
 **Verified**:
-Full verified INCI present (green badge family).
+Full verified INCI present (green — what is in date).
 
 **Source**:
-Claim backed by an attributed source (blue).
+Claim backed by an attributed source (water blue).
 
 **Unknown**:
-Claim that could not be verified (neutral grey).
+Claim that could not be verified (manila grey).
 
 **Negative**:
-Contraindication or flagged trigger (red).
+Contraindication or flagged trigger (sienna — the product's own fifth-verdict extension; the Furrow theme ships no red).
 
 **Mixed**:
-Conflicting evidence (purple).
+Conflicting evidence (violet).
 
 ## Copilot
 

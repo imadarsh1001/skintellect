@@ -60,9 +60,15 @@ const detailedProduct = ref<any | null>(null)
 const ingredientSearch = ref('')
 const reviewSkinFilter = ref('all')
 
+// The dossier photo comes from the backend's on-demand image proxy
+// (GET /api/products/{id}/image — host-allowlisted, disk-cached). States are
+// exclusive so exactly one of photo/placeholder is ever on screen.
+const imageState = ref<'loading' | 'ok' | 'failed'>('loading')
+
 async function loadDetails() {
   if (!props.product?.id) return
   loading.value = true
+  imageState.value = 'loading'
   detailedProduct.value = { ...props.product }
   try {
     const full = await fetchProduct(props.product.id, props.currentPersona.id)
@@ -154,9 +160,20 @@ function inspectAlternative(alt: any) {
       <!-- Top Fixed Header -->
       <div v-if="detailedProduct" class="p-5 border-b border-border bg-muted/20 shrink-0 flex items-start justify-between gap-4">
         <div class="flex items-start gap-4">
-          <!-- Icon / Avatar -->
-          <div class="size-16 sm:size-20 rounded-lg bg-background border border-border flex items-center justify-center shrink-0 select-none">
-            <FlaskConical class="size-8 text-muted-foreground" aria-hidden="true" />
+          <!-- Product photo (backend image proxy) with the lab-flask placeholder:
+               the flask shows while the bytes load or when the product has none —
+               never both at once. -->
+          <div class="size-16 sm:size-20 rounded-lg bg-background border border-border flex items-center justify-center shrink-0 select-none overflow-hidden">
+            <img
+              v-show="imageState === 'ok'"
+              :key="detailedProduct.id"
+              :src="`/api/products/${detailedProduct.id}/image`"
+              :alt="detailedProduct.name"
+              class="size-full object-cover"
+              @load="imageState = 'ok'"
+              @error="imageState = 'failed'"
+            />
+            <FlaskConical v-if="imageState !== 'ok'" class="size-8 text-muted-foreground" aria-hidden="true" />
           </div>
 
           <div class="flex flex-col gap-1">

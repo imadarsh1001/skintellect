@@ -22,7 +22,6 @@ import {
   CheckCircle2,
   X,
   ExternalLink,
-  Loader2,
   Droplets,
   Layers,
   Leaf,
@@ -57,6 +56,7 @@ function hideBrokenIcon(event: Event) {
 
 const activeTab = ref<string>('safety')
 const loading = ref(false)
+const loadError = ref(false)
 const detailedProduct = ref<any | null>(null)
 const ingredientSearch = ref('')
 const reviewSkinFilter = ref('all')
@@ -81,12 +81,15 @@ const imageState = ref<'loading' | 'ok' | 'failed'>('loading')
 async function loadDetails() {
   if (!props.product?.id) return
   loading.value = true
+  loadError.value = false
   imageState.value = 'loading'
   detailedProduct.value = { ...props.product }
   try {
     const full = await fetchProduct(props.product.id, props.currentPersona.id)
     detailedProduct.value = full
   } catch (err) {
+    // The header keeps the card's cached details; the error state offers the retry.
+    loadError.value = true
     console.warn('Failed to load full product details:', err)
   } finally {
     loading.value = false
@@ -306,10 +309,29 @@ function inspectAlternative(alt: any) {
 
       <!-- Tab Content Area (Scrollable) -->
       <div class="p-6 overflow-y-auto flex-1 min-h-[380px] max-h-[60vh] space-y-6">
-        <!-- Loader -->
-        <div v-if="loading" class="py-16 text-center flex flex-col items-center justify-center gap-3">
-          <Loader2 class="size-8 animate-spin text-foreground" />
-          <span class="text-xs font-medium text-muted-foreground">Loading full clinical formulation dossier...</span>
+        <!-- Shaped loading: the dossier's eventual sections, so the body holds its shape -->
+        <div v-if="loading" class="py-2 space-y-5" aria-hidden="true">
+          <div class="h-20 rounded-lg bg-muted/40 animate-pulse" />
+          <div class="flex flex-wrap gap-1.5">
+            <div v-for="i in 6" :key="i" class="h-6 w-24 rounded-full bg-muted/40 animate-pulse" />
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div v-for="i in 3" :key="i" class="h-28 rounded-lg bg-muted/40 animate-pulse" />
+          </div>
+        </div>
+
+        <!-- Dossier fetch failed: the header keeps the card's cached identity; this offers the way back in -->
+        <div
+          v-else-if="loadError"
+          class="py-16 text-center flex flex-col items-center justify-center gap-3"
+          role="alert"
+        >
+          <AlertTriangle class="size-6 text-evidence-negative" />
+          <p class="text-sm font-medium text-evidence-negative">The full dossier couldn't be loaded.</p>
+          <p class="text-xs text-muted-foreground max-w-sm">
+            The header keeps this formula's cached details; the safety and clinical-fit tabs need the dossier service, which didn't answer.
+          </p>
+          <Button variant="outline" size="sm" class="h-8 text-xs" @click="loadDetails()">Retry</Button>
         </div>
 
         <div v-else-if="detailedProduct" class="space-y-6">

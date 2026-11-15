@@ -40,6 +40,15 @@ const interpreting = ref(false)
 const answering = ref(false)
 const searching = ref(false)
 const error = ref<string | null>(null)
+// Recovery (group 5): remember which async action failed so the error
+// state's Retry re-runs that exact request.
+const lastAction = ref<'interpret' | 'search' | 'assistant' | null>(null)
+
+function retryLast() {
+  if (lastAction.value === 'search') runSearch()
+  else if (lastAction.value === 'assistant') runAssistant()
+  else if (lastAction.value === 'interpret') runInterpret()
+}
 const unresolved = ref<string[]>([])
 const notice = ref<string | null>(null)
 
@@ -95,6 +104,7 @@ async function runInterpret() {
   if (!question.value.trim() || interpreting.value) return
   interpreting.value = true
   error.value = null
+  lastAction.value = 'interpret'
   try {
     const interpreted = await searchInterpret(question.value.trim())
     const intent = interpreted.intent ?? {}
@@ -133,6 +143,7 @@ async function runSearch() {
   searching.value = true
   error.value = null
   answer.value = null
+  lastAction.value = 'search'
   try {
     const intent = buildIntent()
     results.value = await structuredSearch({ ...intent, product_ids: scopeIds() ?? null })
@@ -148,6 +159,7 @@ async function runAssistant() {
   if (!question.value.trim() || answering.value) return
   answering.value = true
   error.value = null
+  lastAction.value = 'assistant'
   try {
     const response = await assistantQuery(question.value.trim(), scopeIds())
     answer.value = response
@@ -308,9 +320,10 @@ const EXAMPLES = [
           <span v-if="demoScope" class="text-[11px] text-muted-foreground">{{ DEMO_HINT }}</span>
         </div>
 
-        <p v-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
-          <AlertTriangle class="w-3.5 h-3.5" />
+        <p v-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5 flex-wrap" role="alert">
+          <AlertTriangle class="w-3.5 h-3.5 shrink-0" />
           {{ error }}
+          <Button variant="outline" size="sm" class="h-7 text-[11px] ml-1" @click="retryLast()">Retry</Button>
         </p>
 
         <!-- Editable filters filled from the question -->

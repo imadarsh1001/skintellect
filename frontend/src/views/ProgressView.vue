@@ -127,9 +127,16 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
       </Button>
     </div>
 
-    <Loader2 v-if="loading" class="w-5 h-5 animate-spin text-foreground mx-auto my-8" />
+    <!-- Shaped loading: the coverage cards and job form's eventual shape -->
+    <div v-if="loading" class="my-6 flex flex-col gap-3" aria-hidden="true">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div v-for="i in 2" :key="i" class="h-28 rounded-lg border bg-muted/40 animate-pulse" />
+      </div>
+      <div class="h-44 rounded-lg border bg-muted/40 animate-pulse" />
+    </div>
     <p v-else-if="error" class="text-xs text-evidence-negative font-medium flex items-center gap-1.5" role="alert">
       <AlertTriangle class="w-3.5 h-3.5" /> {{ error }}
+      <Button variant="outline" size="sm" class="h-7 text-[11px] ml-2" @click="load()">Retry</Button>
     </p>
 
     <template v-else-if="progress">

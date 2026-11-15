@@ -12,7 +12,7 @@ const buttonVariants = cva(
         // Furrow moulded keys: lit inset top edge, shaded inset bottom; active sinks 1px.
         default: 'bg-primary text-primary-foreground hover:bg-primary/90 key-moulded active:translate-y-px',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 key-moulded active:translate-y-px',
-        outline: 'border border-border bg-card hover:bg-secondary hover:text-secondary-foreground key-moulded active:translate-y-px',
+        outline: 'border border-border bg-card hover:bg-muted hover:text-foreground key-moulded active:translate-y-px',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 key-moulded active:translate-y-px',
         ghost: 'hover:bg-secondary hover:text-secondary-foreground',
         link: 'text-foreground underline-offset-4 hover:underline',

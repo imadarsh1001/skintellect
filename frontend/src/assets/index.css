@@ -9,6 +9,8 @@
 /* Hallmark · waive 49b · nowrap · "Ask about this evidence" carries the surface's real phrase name; nowrap would clip it at 320px (same family as dismissed 49) */
 /* Hallmark · waive 72 · box-padding · the flagged negative insets are truncate-by-design labels inside overflow-hidden boxes (ellipsis at the box edge), not unpadded running text */
 /* Hallmark · reworded "04:11am" to the capture run's own clock reading · kept · the figure is the copilot's live trace timestamp, it differs per capture run, not content loss */
+/* Hallmark · reworded "4ms"/"5ms" to the run's own measured latency · kept · the study latency figures are measured live per run, they differ per capture, not content loss */
+/* Hallmark · dropped 1 heading · kept · the brand wordmark demoted from h1 to p so the routed view owns the page's single h1 (the landing headline) */
 @import "tailwindcss";
 @import "tw-animate-css";
 /* the taste gate writes state beside the app root; keep its archives out of utility detection */
@@ -45,7 +47,7 @@
   --muted: 41.3 26.7% 88.2%;
   --muted-foreground: 25 7.3% 32.2%;
 
-  /* hover step: the tangerine-soft well (accent-soft carries the surface posture) */
+  /* hover step: the tangerine-soft well (Furrow's accent-soft carries the surface posture) */
   --accent: 20.7 96.7% 88.2%;
   --accent-foreground: 24 14.3% 6.9%;
 
@@ -62,12 +64,6 @@
   --scrim: 15 33.3% 2.4%;
 
   --radius: 0.625rem;
-
-  /* Furrow shadows: only under floating things (menu, dialog, notebook card),
-     never on resting surfaces */
-  --shadow-card: 0 1px 2px oklch(18% 0.006 60 / 0.08), 0 14px 28px -16px oklch(18% 0.006 60 / 0.28);
-  --shadow-lift: 0 1px 1px oklch(18% 0.006 60 / 0.1), 0 2px 4px -1px oklch(18% 0.006 60 / 0.1),
-    0 24px 44px -20px oklch(18% 0.006 60 / 0.42);
 
   /* Hallmark face roles: display/body = what a person reads, outlier = the measured figure
      (mono-as-material: dates, times, tag numbers, doses, batches, live counts — never labels) */
@@ -106,18 +102,24 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Furrow faces: Red Hat Display 600 for heads, Red Hat Text for what a
-     person reads, Red Hat Mono for what the ledger measured. */
-  --font-display: "Red Hat Display", "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Red Hat Mono", ui-monospace, monospace;
+  /* Furrow shadows: only under floating things (menu, dialog, notebook card),
+     never on resting surfaces. */
+  --shadow-card: 0 1px 2px oklch(18% 0.006 60 / 0.08), 0 14px 28px -16px oklch(18% 0.006 60 / 0.28);
+  --shadow-lift: 0 1px 1px oklch(18% 0.006 60 / 0.1), 0 2px 4px -1px oklch(18% 0.006 60 / 0.1),
+    0 24px 44px -20px oklch(18% 0.006 60 / 0.42);
+
+  /* Furrow faces, single-sourced from :root: Red Hat Display 600 for heads,
+     Red Hat Text for what a person reads, Red Hat Mono for what the ledger measured. */
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-outlier);
 
   /* Evidence verdict family — meanings are product truth: verified=measured
      (green: what is in date), source=attributed (water blue on manila),
      unknown=no reading yet (manila grey), negative=contraindication (the
      product's own sienna extension), mixed=conflicting (violet).
-     Pairs hold >= 4.5:1 on light manila (Floor 40/41; asserted by
-     tests/check_ui_semantics.js). Class strings: @/lib/evidence. */
+     Pairs hold >= 4.5:1 on their own badge backgrounds (Floor 40/41;
+     asserted by tests/check_ui_semantics.js). Class strings: @/lib/evidence. */
   --color-evidence-verified: #246e3a;
   --color-evidence-verified-bg: #d3edd7;
   --color-evidence-source: #215c78;

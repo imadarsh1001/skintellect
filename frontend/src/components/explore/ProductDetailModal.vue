@@ -589,7 +589,7 @@ function inspectAlternative(alt: any) {
           <!-- 5. RAW JSON TAB -->
           <TabsContent value="raw" class="mt-0 space-y-2">
             <span class="text-xs text-muted-foreground block">FastAPI Verified Payload:</span>
-            <pre class="p-4 rounded-sm bg-muted text-evidence-verified font-mono text-[11px] overflow-x-auto max-h-96 border border-border">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
+            <pre class="p-4 rounded-sm bg-muted text-muted-foreground font-mono text-[11px] overflow-x-auto max-h-96 border border-border">{{ JSON.stringify(detailedProduct, null, 2) }}</pre>
           </TabsContent>
         </div>
       </div>

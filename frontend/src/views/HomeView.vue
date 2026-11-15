@@ -18,8 +18,9 @@ import {
 // The landing owns no persona or compare-tray state (both stay global in
 // App.vue). Its only data is the catalog's own record, read from the same
 // API the Explore view uses. Content facts come from README.md/PRODUCT.md;
-// figures are always live, never hardcoded, and a failed fetch hides the
-// figure band instead of rendering an invented number.
+// figures are always live, never hardcoded, and a failed fetch leaves the
+// figure band and the record preview off the page instead of rendering an
+// invented number or an empty ledger.
 defineOptions({ inheritAttrs: false })
 
 const stats = ref<CatalogStats | null>(null)
@@ -37,6 +38,12 @@ onMounted(async () => {
     console.error('Landing catalog data unavailable', cause)
   }
 })
+
+// Parsed INCI count when the list payload carries it; the badge drops the
+// parenthetical rather than show a filler word in a figure slot.
+function inciCount(p: Product): number {
+  return p.names?.length || p.ingredients?.length || 0
+}
 
 // The four surfaces, named and described with the app's own words
 // (App.vue nav titles, PRODUCT.md promises 3 and 4, the 4-item tray limit).
@@ -81,13 +88,13 @@ const surfaces = [
       </p>
 
       <div class="mt-6 flex flex-wrap items-center gap-3">
-        <Button as-child size="lg" class="h-12 px-6 text-sm font-medium">
+        <Button as-child size="lg" class="px-6">
           <RouterLink to="/explore">
             Explore formulations
             <ArrowRight class="size-4" aria-hidden="true" />
           </RouterLink>
         </Button>
-        <Button as-child variant="outline" size="lg" class="h-12 px-6 text-sm font-medium">
+        <Button as-child variant="outline" size="lg" class="px-6">
           <a
             href="https://github.com/imadarsh1001/skintellect"
             target="_blank"
@@ -107,32 +114,34 @@ const surfaces = [
       >
         <div class="px-6 py-5">
           <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
-            {{ stats.total_products.toLocaleString() }}
+            {{ stats.total_products?.toLocaleString() ?? '' }}
           </div>
           <div class="mt-2 text-sm">indexed formulations</div>
         </div>
         <div class="px-6 py-5">
           <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
-            {{ stats.enriched_products.toLocaleString() }}
+            {{ stats.enriched_products?.toLocaleString() ?? '' }}
           </div>
           <div class="mt-2 text-sm">with full INCI parsed</div>
         </div>
         <div class="px-6 py-5">
           <div class="font-mono text-2xl sm:text-3xl tabular-nums leading-none">
-            {{ stats.total_ingredients.toLocaleString() }}
+            {{ stats.total_ingredients?.toLocaleString() ?? '' }}
           </div>
           <div class="mt-2 text-sm">ingredient dossiers</div>
         </div>
       </div>
     </section>
 
-    <!-- The book as an index: a ruled table of live catalog rows on the card sheet. -->
-    <section>
+    <!-- The book as an index: a ruled table of live catalog rows on the card sheet.
+         With the catalog unreachable, the whole section stays off the page rather
+         than show an empty ledger. -->
+    <section v-if="sample.length > 0">
       <div class="flex items-baseline justify-between gap-4">
         <h2 class="text-2xl sm:text-3xl text-foreground">The book as an index</h2>
         <p class="hidden sm:block text-xs text-muted-foreground">live rows from the catalog</p>
       </div>
-      <ul v-if="sample.length > 0" class="mt-4 border-t border-foreground">
+      <ul class="mt-4 border-t border-foreground">
         <li
           v-for="p in sample"
           :key="p.id"
@@ -146,7 +155,7 @@ const surfaces = [
           <span class="inline-flex items-center sm:ml-auto">
             <Badge v-if="p.formula_status === 'verified_complete'" variant="verified" class="gap-1 text-[11px]">
               <ShieldCheck class="w-3.5 h-3.5" aria-hidden="true" />
-              Verified INCI ({{ p.names?.length || p.ingredients?.length || 'Full' }})
+              Verified INCI{{ inciCount(p) ? ` (${inciCount(p)})` : '' }}
             </Badge>
             <Badge v-else-if="p.formula_status === 'unverified'" variant="unknown" class="gap-1 text-[11px]">
               <HelpCircle class="w-3.5 h-3.5" aria-hidden="true" />

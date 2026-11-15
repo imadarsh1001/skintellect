@@ -173,7 +173,7 @@ class FixtureServer(BaseHTTPRequestHandler):
         path = unquote(urlsplit(self.path).path)
         if path.startswith('/api/'):
             self._proxy('GET'); return
-        if path in ['/', '/study', '/research', '/progress', '/copilot', '/compare', '/graph']:
+        if path in ['/', '/explore', '/study', '/research', '/progress', '/copilot', '/compare', '/graph']:
             body = (FRONTEND_DIST / 'index.html').read_text(encoding='utf-8')
             self.send(body.replace('</body>', '<script>' + SCRIPT + '</script></body>'), mime='text/html'); return
         if path.startswith('/assets/'):

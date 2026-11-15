@@ -37,7 +37,7 @@ Skintellect is architected with a strict separation between **data collection** 
     │   ├── agents/             # LangGraph copilot, specialist deliberation, CSI detective
     │   └── database.py         # Schema creation (init_db), migrations, reproducible audits, exports
     ├── tests/                  # Unit/architecture tests, synthetic fixture bootstrap
-    └── frontend/               # Vue 3 + Vite + Tailwind SPA (the only UI; serves /, /compare, /graph, /copilot, /research, /study, /progress)
+    └── frontend/               # Vue 3 + Vite + Tailwind SPA (the only UI; serves / (landing home), /explore (catalog), /compare, /graph, /copilot, /research, /study, /progress)
 ```
 
 *The public repository is 100% self-contained: it runs out-of-the-box using deterministic synthetic catalogs (`tests/bootstrap_catalog.py`) or local SQLite databases (`skintellect_moisturizers.db`) with zero external scraping dependencies.*

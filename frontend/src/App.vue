@@ -48,6 +48,10 @@ const detailModalOpen = ref(false)
 
 const activeTab = computed(() => String(route.name ?? 'explore'))
 
+// One moulded-key tab recipe for all four triggers (zoom-out review: one source, no drift).
+const tabTriggerClass =
+  'gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded'
+
 function handleSelectPersona(p: SkinPersona) {
   selectPersona(p)
 }
@@ -113,10 +117,12 @@ function onTabSelect(value: string | number) {
             </div>
             <div class="min-w-0">
               <div class="flex items-center gap-2">
-                <h1 class="text-xl text-foreground truncate">Formulation Studio</h1>
-                <Badge variant="verified" class="hidden sm:inline-flex gap-1.5 text-[11px] py-0.5 px-2 font-medium shrink-0">
+                <!-- Brand wordmark: a page's one h1 belongs to the routed view (the landing's headline). -->
+                <p class="text-xl text-foreground truncate">Formulation Studio</p>
+                <!-- Tier tag, deliberately NOT the verified verdict: green means measured, not "Pro". -->
+                <Badge variant="outline" class="hidden sm:inline-flex gap-1.5 text-[11px] py-0.5 px-2 font-medium shrink-0">
                   <span>Pro</span>
-                  <span aria-hidden="true" class="h-2.5 w-px bg-evidence-verified/60"></span>
+                  <span aria-hidden="true" class="h-2.5 w-px bg-border"></span>
                   <span>Multi-domain</span>
                 </Badge>
               </div>
@@ -173,7 +179,7 @@ function onTabSelect(value: string | number) {
           <TabsList class="h-11 bg-transparent p-0 gap-4 sm:gap-8 border-b-0">
             <TabsTrigger
               value="explore"
-              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
+              :class="tabTriggerClass"
             >
               <LayoutGrid class="w-4 h-4" aria-hidden="true" />
               Catalog & Explore
@@ -181,13 +187,13 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="compare"
-              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
+              :class="tabTriggerClass"
             >
               <Scale class="w-4 h-4" aria-hidden="true" />
               Compare Matrix
               <span
                 v-if="comparedProducts.length > 0"
-                class="size-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium"
+                class="size-5 rounded-sm bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium"
               >
                 {{ comparedProducts.length }}
               </span>
@@ -195,7 +201,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="graph"
-              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
+              :class="tabTriggerClass"
             >
               <Network class="w-4 h-4" aria-hidden="true" />
               Ingredient Graph
@@ -203,7 +209,7 @@ function onTabSelect(value: string | number) {
 
             <TabsTrigger
               value="copilot"
-              class="gap-2 shrink-0 rounded-sm px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer min-h-[44px] sm:min-h-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:key-moulded"
+              :class="tabTriggerClass"
             >
               <Sparkles class="w-4 h-4" aria-hidden="true" />
               Research Copilot

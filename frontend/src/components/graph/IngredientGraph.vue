@@ -65,7 +65,7 @@ function productById(id: number) {
 }
 
 const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: string; label: string }> = {
-  product: { badge: 'bg-primary/10 text-foreground border-primary/30', label: 'Formula' },
+  product: { badge: 'bg-accent text-foreground border-primary/30', label: 'Formula' },
   ingredient: { badge: 'bg-evidence-verified-bg text-evidence-verified border-evidence-verified/30', label: 'Recorded ingredient' },
   reference: { badge: 'bg-evidence-source-bg text-evidence-source border-evidence-source/30', label: 'Reference' },
 }

@@ -392,7 +392,7 @@ const lastAssistantContent = computed(() => {
     <!-- Header with Session Switcher and New Chat -->
     <div class="flex items-center justify-between p-4 border-b bg-muted">
       <div class="flex items-center gap-3">
-        <div class="p-2.5 rounded-lg bg-primary/10 text-foreground">
+        <div class="p-2.5 rounded-lg bg-accent text-foreground">
           <Sparkles class="w-5 h-5 text-foreground" />
         </div>
         <div>

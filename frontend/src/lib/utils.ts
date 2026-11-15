@@ -40,8 +40,27 @@ export function keyActiveNote(active: KeyActive): string {
 
 export function keyActiveIcon(active: KeyActive): string {
   const url = typeof active === 'string' ? '' : active.icon
+  return localIconPath(url ?? '', 'key-actives')
+}
+
+/**
+ * Map a scraped icon URL to its local copy under /icons/<family>/
+ * (fetched by scripts/fetch_catalog_icons.py, manifest alongside).
+ * .../icons/v2/<attribute>-<hash>.svg -> /icons/<family>/<attribute>.svg.
+ * An unknown or empty URL yields '' and the caller renders no icon.
+ */
+export function localIconPath(url: string, family: 'key-actives' | 'ingredients'): string {
   if (!url) return ''
-  // .../icons/v2/<attribute>-<hash>.svg -> /icons/key-actives/<attribute>.svg
   const base = url.split('/').pop() ?? ''
-  return '/icons/key-actives/' + base.replace(/-[0-9a-f]{8,}\.svg$/, '.svg')
+  return '/icons/' + family + '/' + base.replace(/-[0-9a-f]{8,}\.svg$/, '.svg')
+}
+
+/** The benefit icons an ingredient payload carries ({name, alt, icon_url}). */
+export function ingredientBenefitIcons(
+  ing: { icons?: Array<{ name?: string; icon_url?: string }> } | undefined,
+): Array<{ src: string; title: string }> {
+  return (ing?.icons ?? [])
+    .slice(0, 3)
+    .map(ic => ({ src: localIconPath(ic.icon_url ?? '', 'ingredients'), title: ic.name ?? '' }))
+    .filter(ic => ic.src !== '')
 }

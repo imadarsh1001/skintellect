@@ -10,7 +10,13 @@ export interface Product {
   url?: string
   image_url?: string
   description?: string
-  ingredients?: Array<{ name: string; [key: string]: any }>
+  ingredients?: Array<{
+    name: string
+    // Benefit icons straight from the payload ({name, alt, icon_url});
+    // rendered locally via ingredientBenefitIcons() in @/lib/utils.
+    icons?: Array<{ name?: string; alt?: string; icon_url?: string }>
+    [key: string]: any
+  }>
   names?: string[]
   complete?: boolean
   formula_status?: FormulaStatus

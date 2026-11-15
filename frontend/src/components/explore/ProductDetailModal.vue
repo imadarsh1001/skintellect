@@ -2,6 +2,13 @@
 import { ref, computed, watch } from 'vue'
 import type { Product, SkinPersona } from '@/lib/types'
 import { fetchProduct } from '@/lib/api'
+import { ingredientBenefitIcons } from '@/lib/utils'
+
+// A failed local icon just gets out of the way (name/title text carries the
+// meaning; there is no substitute glyph).
+function hideBrokenIcon(event: Event) {
+  ;(event.target as HTMLImageElement).style.display = 'none'
+}
 import {
   Dialog,
   DialogContent,
@@ -458,6 +465,22 @@ function inspectAlternative(alt: any) {
                   <div class="font-medium text-foreground flex items-center gap-2">
                     <span class="text-muted-foreground text-[11px] w-5">{{ idx + 1 }}.</span>
                     <span>{{ ing.name || 'Ingredient' }}</span>
+                    <!-- The payload's own benefit icons (scripts/fetch_catalog_icons.py
+                         serves them locally); a failed load just disappears. -->
+                    <span
+                      v-if="ingredientBenefitIcons(ing).length > 0"
+                      class="inline-flex items-center gap-0.5"
+                    >
+                      <img
+                        v-for="(ic, k) in ingredientBenefitIcons(ing)"
+                        :key="k"
+                        :src="ic.src"
+                        :alt="ic.title"
+                        :title="ic.title"
+                        class="size-3.5 shrink-0"
+                        @error="hideBrokenIcon"
+                      />
+                    </span>
                   </div>
                   <div class="text-[11px] text-muted-foreground pl-7">
                     {{ ing.function || 'Skin Conditioning Agent · Solvent' }}

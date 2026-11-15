@@ -54,8 +54,10 @@ const emits = defineEmits<{
     <!-- Products Grid -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
       <ProductCard
-        v-for="p in products"
+        v-for="(p, idx) in products"
         :key="p.id"
+        class="enter-rise-sm stagger-entry"
+        :style="{ '--stagger-i': idx }"
         :product="p"
         :is-compared="comparedIds.includes(p.id)"
         @toggle-compare="(prod: Product) => emits('toggle-compare', prod)"

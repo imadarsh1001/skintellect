@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Product } from '@/lib/types'
 import { inciNames, keyActiveName, keyActiveIcon } from '@/lib/utils'
+import { motionDurationMs, useCountUp } from '@/lib/motion'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -31,6 +33,13 @@ function getMatchScoreColor(score: number): string {
   if (score >= 70) return 'text-evidence-source bg-evidence-source-bg border-evidence-source/40'
   return 'text-evidence-unknown bg-evidence-unknown-bg border-evidence-unknown/40'
 }
+
+// Dealt moment (group 3): the fit figure counts up to its computed value on
+// arrival — the score reads as computed-from-persona, not stamped-from-
+// nowhere. Duration comes from the theme token; reduced motion renders the
+// final value instantly (see lib/motion.ts).
+const cardScore = computed(() => props.product.persona_match?.score ?? props.product.match_score)
+const displayScore = useCountUp(cardScore, motionDurationMs('--duration-moment'))
 
 // A failed local icon disappears; the badge text carries the meaning.
 function hideBrokenIcon(event: Event) {
@@ -83,18 +92,18 @@ function hideBrokenIcon(event: Event) {
         </div>
         <div
           v-else-if="product.persona_match?.score !== undefined"
-          class="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border"
+          class="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border enter-rise-sm"
           :class="getMatchScoreColor(product.persona_match.score)"
         >
           <CheckCircle2 class="w-3 h-3 shrink-0" />
-          {{ product.persona_match.score }}% Fit
+          {{ displayScore ?? cardScore }}% Fit
         </div>
         <div
           v-else-if="product.match_score !== undefined"
-          class="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border"
+          class="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border enter-rise-sm"
           :class="getMatchScoreColor(product.match_score)"
         >
-          {{ product.match_score }}% Fit
+          {{ displayScore ?? cardScore }}% Fit
         </div>
       </div>
     </div>

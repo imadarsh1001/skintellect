@@ -449,7 +449,7 @@ const lastAssistantContent = computed(() => {
       <div
         v-for="msg in messages"
         :key="msg.id"
-        class="flex gap-3 max-w-4xl"
+        class="flex gap-3 max-w-4xl enter-rise-sm"
         :class="msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''"
       >
         <!-- Avatar -->

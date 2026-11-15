@@ -147,6 +147,11 @@
   --duration-state: 220ms;
   --duration-moment: 450ms;
 
+  /* Sibling stagger for list arrivals (group 3): per-index delay, capped so
+     the whole list completes well inside the moment tier. */
+  --duration-stagger: 30ms;
+  --stagger-cap: 240ms;
+
   /* hard decelerate into rest — entries arrive and settle */
   --ease-entry: cubic-bezier(0.22, 1, 0.36, 1);
   /* even in, even out — dialogs, drawers, view-state moves */
@@ -185,6 +190,13 @@
     opacity: 0;
     transform: translateY(6px);
   }
+}
+
+/* Stagger companion (group 3): set --stagger-i per sibling (0-based) and the
+   entry's transition-delay rides the stagger token, capped. Pairs with
+   enter-rise / enter-rise-sm (which own the transition itself). */
+@utility stagger-entry {
+  transition-delay: min(calc(var(--duration-stagger) * var(--stagger-i, 0)), var(--stagger-cap));
 }
 
 /* Shared micro-interaction feedback (group 2): one treatment for hover,

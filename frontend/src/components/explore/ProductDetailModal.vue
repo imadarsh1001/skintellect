@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue'
 import type { Product, SkinPersona } from '@/lib/types'
 import { fetchProduct } from '@/lib/api'
 import { ingredientBenefitIcons } from '@/lib/utils'
+import { motionDurationMs, useCountUp } from '@/lib/motion'
 import {
   Dialog,
   DialogContent,
@@ -59,6 +60,18 @@ const loading = ref(false)
 const detailedProduct = ref<any | null>(null)
 const ingredientSearch = ref('')
 const reviewSkinFilter = ref('all')
+
+// Dealt moment (group 3): the score follows you in — the dossier header's
+// fit figure and composite points count up with the same ledger language as
+// the Explore cards (one material idea across surfaces). Replays per open
+// because loadDetails replaces detailedProduct; reduced motion renders the
+// final values instantly (see lib/motion.ts).
+const headerScore = computed(
+  () => detailedProduct.value?.persona_match?.score ?? detailedProduct.value?.match_score,
+)
+const headerScoreDisplay = useCountUp(headerScore, motionDurationMs('--duration-moment'))
+const headerPts = computed(() => detailedProduct.value?.composite_score)
+const headerPtsDisplay = useCountUp(headerPts, motionDurationMs('--duration-moment'))
 
 // The dossier photo comes from the backend's on-demand image proxy
 // (GET /api/products/{id}/image — host-allowlisted, disk-cached). States are
@@ -210,14 +223,14 @@ function inspectAlternative(alt: any) {
         </div>
 
         <!-- Match Score Top Pill -->
-        <div class="flex items-center gap-2 shrink-0">
+        <div class="flex items-center gap-2 shrink-0 enter-rise-sm">
           <div class="text-right">
             <Badge
               v-if="detailedProduct.persona_match?.match_status === 'match'"
               variant="verified"
               class="text-sm px-3 py-1 rounded-lg"
             >
-              {{ detailedProduct.persona_match.score }}% Fit
+              {{ headerScoreDisplay ?? headerScore }}% Fit
             </Badge>
             <Badge
               v-else-if="detailedProduct.persona_match?.match_status === 'contraindicated'"
@@ -232,13 +245,13 @@ function inspectAlternative(alt: any) {
               variant="verified"
               class="text-sm px-3 py-1 rounded-lg"
             >
-              {{ detailedProduct.match_score }}% Fit
+              {{ headerScoreDisplay ?? headerScore }}% Fit
             </Badge>
             <Badge v-else variant="unknown" class="font-medium text-xs px-2.5 py-1 rounded-lg">
               No heuristic fit
             </Badge>
             <div v-if="detailedProduct.composite_score !== undefined" class="text-[11px] text-muted-foreground font-medium mt-1">
-              {{ detailedProduct.composite_score }} pts
+              {{ headerPtsDisplay ?? headerPts }} pts
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 # Glossary
 
-Two vocabularies share this file: the backend's domain decisions (data guarantees and module ownership) and the UI copy rules for user-facing text.
+Two vocabularies share this file: the backend's domain decisions (data guarantees and module ownership) and the UI's copy, color and motion rules for user-facing surfaces.
 
 ## Backend domain vocabulary
 
@@ -59,6 +59,17 @@ Contraindication or flagged trigger (sienna — the product's own fifth-verdict 
 
 **Mixed**:
 Conflicting evidence (violet).
+
+## Motion
+
+**Dealt moment**:
+The single deliberate visual/interaction highlight each major view presents (deepest on Explore, product detail and Copilot). It yields to the task immediately, is traced to a documented user need, and is never ambient decoration. Personality tokens live in `frontend/DESIGN.md`.
+
+**Feedback budget**:
+Interaction feedback completes within ~200 ms and state/view transitions within ~300 ms; longer choreography belongs to a view's dealt moment, not routine interactions.
+
+**Reduced motion**:
+When the user's system sets `prefers-reduced-motion`, decorative animation is disabled and all state changes still complete correctly, instantly. Non-negotiable fallback for every animation.
 
 ## Copilot
 

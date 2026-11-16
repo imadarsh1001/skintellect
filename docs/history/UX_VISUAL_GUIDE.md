@@ -1,3 +1,5 @@
+> Historical record. This document describes an earlier design, experiment or release; counts, paths and provider assumptions may be outdated. Use the [current development guide](../DEVELOPMENT.md) and [source layout](../SOURCE_LAYOUT.md) for supported commands and ownership.
+
 # Visual evidence guide
 
 The study, question and progress screens use a shared navy, teal and blue palette.

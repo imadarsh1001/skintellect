@@ -32,3 +32,4 @@ code lives in `skintellect.gemini`.
 | [Comprehensive Skintellect Ingredient Analysis Report: Shampoos & Haircare Formulations](RESEARCH_SHAMPOO_REPORT.md) | Historical note; see document banner |
 | [🔬 Skintellect Match & Dermatological Points: Reverse-Engineering Specification](REVERSE_ENGINEERING_SPEC.md) | Historical note; see document banner |
 | [UX and workspace cleanup](UX_CLEANUP_RELEASE.md) | Historical note; see document banner |
+| [Visual evidence guide (retired template UI)](UX_VISUAL_GUIDE.md) | Historical note; see document banner |

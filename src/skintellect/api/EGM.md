@@ -18,7 +18,7 @@ FastAPI application assembly and typed HTTP routers. `app.py` builds the app (li
 - `[catalog.py:create_persona]` maps `RuntimeError` from persona persistence to HTTP 500 without leaking the exception chain (`from None`).
 - `[research.py:copilot_stream]` emits `text/event-stream` with `data: <json>` frames and a terminal `data: [DONE]` frame, with `Cache-Control: no-cache` / `X-Accel-Buffering: no` headers.
 - CORS is restricted to `http://127.0.0.1:8000` and `http://localhost:8000` (`[app.py]` middleware configuration).
-- Known frontend/backend boundary gaps (documented, unresolved in code): `[app.js:API.analyzeRoutine]` posts to `/api/routine/analyze` and `[app.js:API.analyzeFormula]` to `/api/formula-lab/analyze`, and `[api.js:API.deliberateBoard]`/`[api.js:API.investigateCsi]` call `/api/agents/*`, but the routers included in `[app.py]` define none of those routes; `[study.js:label-form]` posts `/research/label` although no route is registered in `[research.py:router]` (the handler `research/labels.py:read_label` exists unwired). These requests 404 against the current app.
+- Known drift (code-grounded): `[research/labels.py:read_label]` remains unwired — no route registers `/api/research/label` and the legacy label-tab caller was retired with the template UI (`893a020`); the handler is exercised only by `tests/test_release.py`. The routine-analyzer, formula-lab and agents-board callers (`app.js`/`api.js`/`study.js`) were retired with the template UI, so no frontend caller remains for those unregistered routes.
 
 ## Side Effects
 - Startup (`[app.py:lifespan]`): schema migration (`skintellect.database.migrate`), interruption recovery marking queued/running jobs `interrupted`, and ingestion of `reference_sources.json` into `source_documents`.

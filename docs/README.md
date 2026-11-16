@@ -11,10 +11,12 @@ notes are preserved separately and may describe superseded behavior.
 | [Feature retirement study](FEATURE_RETIREMENT_STUDY.md) | Implemented extras, shared dependencies and a staged reduction plan |
 | [Advanced-study experiments](../experiments/README.md) | LangGraph board, label transcription, Ingredient CSI and Formula Lab study |
 | [Development](DEVELOPMENT.md) | Installation, configuration, CLI, checks and contribution rules |
+| [Workflow](workflow.md) | Trunk-based git workflow: commit to `main`, CI gates, revert-not-debate |
 | [Workspace](WORKSPACE_GUIDE.md) | Pages, launchers and file locations |
 | [Source layout](SOURCE_LAYOUT.md) | Package ownership and old-to-new migration map |
 | [Architecture](ARCHITECTURE.md) | Request flow, feature dependencies and persistence |
 | [Visual evidence](UX_VISUAL_GUIDE.md) | Color meanings, review excerpts and visual-verification limits |
+| [Furrow theme kit](THEME-FURROW-KIT.md) | Design tokens, palette and motion for reusing this theme on the next project |
 
 ## Feature and tool guides
 

@@ -51,4 +51,21 @@ router.beforeEach((to) => {
   return true
 })
 
+// A deploy between visits changes chunk hashes; a client holding the old
+// index then 404s on the lazy route it tries to load. One hard reload
+// picks up the new build. The sessionStorage flag makes the reload
+// once-per-failure so a genuinely broken deploy surfaces its error
+// instead of looping.
+router.onError((error, to) => {
+  const stale =
+    /Failed to fetch dynamically imported module|Importing a module script failed/.test(
+      String(error?.message ?? ''),
+    ) && sessionStorage.getItem('skintellect:chunk-reload') === null
+  if (stale) {
+    sessionStorage.setItem('skintellect:chunk-reload', '1')
+    window.location.assign(to?.fullPath ?? '/')
+  }
+})
+router.afterEach(() => sessionStorage.removeItem('skintellect:chunk-reload'))
+
 export default router

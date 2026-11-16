@@ -18,6 +18,17 @@ from skintellect.config import (
 from skintellect.database import migrate as migrate_foundation
 
 
+class CachedStaticFiles(StaticFiles):
+    """Frontend /assets filenames are content-hashed, so each response is
+    safe to cache forever. The HTML routes below serve index.html with
+    no-cache so it always revalidates and picks up the new hashes."""
+
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return response
+
+
 @asynccontextmanager
 async def lifespan(app):
     from skintellect.research.jobs import recover_interrupted
@@ -45,7 +56,7 @@ app.add_middleware(
 
 FRONTEND_DIST = Path(__file__).resolve().parents[3] / "frontend" / "dist"
 if (FRONTEND_DIST / "assets").is_dir():
-    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="frontend_assets")
+    app.mount("/assets", CachedStaticFiles(directory=str(FRONTEND_DIST / "assets")), name="frontend_assets")
 
 app.include_router(catalog_router)
 app.include_router(formulation_router)
@@ -61,7 +72,7 @@ def _serve_spa(fallback_redirect: str) -> HTMLResponse:
     modern_index = FRONTEND_DIST / "index.html"
     if modern_index.is_file():
         with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
+            return HTMLResponse(content=f.read(), headers={"Cache-Control": "no-cache"})
     return HTMLResponse(
         "<meta http-equiv='refresh' content='0; url=" + fallback_redirect + "'>"
     )
@@ -91,12 +102,17 @@ def graph_workspace():
 def copilot_workspace():
     return _serve_spa('/#copilot')
 
+@app.get('/explore', response_class=HTMLResponse)
+def explore_workspace():
+    return _serve_spa('/')
+
+
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
     modern_index = FRONTEND_DIST / "index.html"
     if modern_index.is_file():
         with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
+            return HTMLResponse(content=f.read(), headers={"Cache-Control": "no-cache"})
     raise HTTPException(
         status_code=503,
         detail="The web UI is not built yet. Run `npm run build` in frontend/ (or `npm run dev` for development).",

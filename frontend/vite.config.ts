@@ -26,7 +26,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Semantic vendor chunks: they change far less often than app code,
-        // so they stay cache-stable across app-only deploys.
+        // so they stay cache-stable across app-only deploys. Membership is a
+        // package-name match; anything unmatched (lucide, vue-sonner, cva,
+        // clsx…) lands in vendor-misc — revisit that bucket if it keeps
+        // growing, it already carries 45% of first-paint JS.
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined
           if (/[\\/]node_modules[\\/](marked|dompurify)[\\/]/.test(id)) return 'vendor-markdown'

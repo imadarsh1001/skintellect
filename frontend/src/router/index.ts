@@ -55,15 +55,22 @@ router.beforeEach((to) => {
 // index then 404s on the lazy route it tries to load. One hard reload
 // picks up the new build. The sessionStorage flag makes the reload
 // once-per-failure so a genuinely broken deploy surfaces its error
-// instead of looping.
+// instead of looping. NOTE: dynamic-import errors carry no HTTP status,
+// so the regexes can't tell a stale-hash 404 from an offline blip — a
+// transient failure also costs one reload. Acceptable: the state that
+// survives reload (persona, compare tray) lives in localStorage.
+const CHUNK_LOAD_ERROR =
+  /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/
+
 router.onError((error, to) => {
   const stale =
-    /Failed to fetch dynamically imported module|Importing a module script failed/.test(
-      String(error?.message ?? ''),
-    ) && sessionStorage.getItem('skintellect:chunk-reload') === null
+    CHUNK_LOAD_ERROR.test(String(error?.message ?? '')) &&
+    sessionStorage.getItem('skintellect:chunk-reload') === null
   if (stale) {
     sessionStorage.setItem('skintellect:chunk-reload', '1')
-    window.location.assign(to?.fullPath ?? '/')
+    window.location.assign(
+      to?.fullPath ?? window.location.pathname + window.location.search + window.location.hash,
+    )
   }
 })
 router.afterEach(() => sessionStorage.removeItem('skintellect:chunk-reload'))

@@ -1,12 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CompareView from '@/views/CompareView.vue'
-import CopilotView from '@/views/CopilotView.vue'
-import ExploreView from '@/views/ExploreView.vue'
-import GraphView from '@/views/GraphView.vue'
-import HomeView from '@/views/HomeView.vue'
-import ProgressView from '@/views/ProgressView.vue'
-import ResearchView from '@/views/ResearchView.vue'
-import StudyView from '@/views/StudyView.vue'
+
+// Route components load lazily (one chunk per view) so the first paint
+// only downloads the entry + landing view, not the whole SPA.
+const CompareView = () => import('@/views/CompareView.vue')
+const CopilotView = () => import('@/views/CopilotView.vue')
+const ExploreView = () => import('@/views/ExploreView.vue')
+const GraphView = () => import('@/views/GraphView.vue')
+const HomeView = () => import('@/views/HomeView.vue')
+const ProgressView = () => import('@/views/ProgressView.vue')
+const ResearchView = () => import('@/views/ResearchView.vue')
+const StudyView = () => import('@/views/StudyView.vue')
 
 /**
  * One SPA route per workspace, plus the landing home at `/` (the

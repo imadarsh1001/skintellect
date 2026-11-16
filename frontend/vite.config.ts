@@ -23,5 +23,18 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        // Semantic vendor chunks: they change far less often than app code,
+        // so they stay cache-stable across app-only deploys.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined
+          if (/[\\/]node_modules[\\/](marked|dompurify)[\\/]/.test(id)) return 'vendor-markdown'
+          if (/[\\/]node_modules[\\/]reka-ui[\\/]/.test(id)) return 'vendor-reka'
+          if (/[\\/]node_modules[\\/](@vueuse|@vue[\\/]|vue|vue-router)[\\/]/.test(id)) return 'vendor-vue'
+          return 'vendor-misc'
+        },
+      },
+    },
   },
 })

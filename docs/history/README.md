@@ -10,6 +10,10 @@ code lives in `skintellect.gemini`.
 
 | Document | Status |
 | --- | --- |
+| [EGM Drift Report — 2026-11-06](2026-11-06_DRIFT_REPORT.md) | Historical note; see document banner |
+| [Skintellect — Component Map & Gap Report](component_map_and_gap_report.md) | Historical note; see document banner |
+| [Skintellect UI Redesign](concepts_brief.md) | Historical note; see document banner |
+| [Consolidated Review Report — Route-Level Code Splitting Delivery](consolidated_review_report.md) | Historical note; see document banner |
 | [🏗️ Skintellect Continuous Crawling & Queue Architecture](CRAWLER_ARCHITECTURE.md) | Historical note; see document banner |
 | [Crawling & Data Harvesting — Learnings, Playbook & Heuristics](CRAWLING_LEARNINGS_AND_PLAYBOOK.md) | Historical note; see document banner |
 | [Dynamic review decisions and Google SDK embeddings](DYNAMIC_ASPECTS_AND_SDK.md) | Historical note; see document banner |
@@ -18,6 +22,7 @@ code lives in `skintellect.gemini`.
 | [Formulation Science & Algorithmic Scoring — Knowledge Base](FORMULATION_SCIENCE_AND_SCORING_LEARNINGS.md) | Historical note; see document banner |
 | [Gemini 4 Argon — API Usage Guide & Reference](GEMINI_PROVIDER_REFERENCE.md) | Historical note; see document banner |
 | [Gemini research implementation](GEMINI_RELEASE.md) | Historical note; see document banner |
+| [Goldfish Annotated Review Report](goldfish_review_report.md) | Historical note; see document banner |
 | [Evidence-backed research release](IMPLEMENTATION.md) | Historical note; see document banner |
 | [Stage 1: Data Ingestion & Crawling (`crawler/`)](LEGACY_CRAWLER_GUIDE.md) | Historical note; see document banner |
 | [Multi-Domain & Multi-Source Expansion Roadmap](MULTI_DOMAIN_ROADMAP.md) | Historical note; see document banner |

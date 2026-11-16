@@ -1,3 +1,5 @@
+> Historical record. This document describes an earlier design, experiment or release; counts, paths and provider assumptions may be outdated. Use the [current development guide](../DEVELOPMENT.md) and [source layout](../SOURCE_LAYOUT.md) for supported commands and ownership.
+
 # Goldfish Annotated Review Report
 
 Status: resolved & loop closed (2026-11-09 — Round 1: 20/20 applied; Round 2: 9/9 applied; Round 3: targeted verification of all 9 Round-2 edits returned ZERO findings; loop halted by user decision after clean verification; 0 open findings, 0 contested, 0 escalated, 0 declined)

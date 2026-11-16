@@ -1,3 +1,5 @@
+> Historical record. This document describes an earlier design, experiment or release; counts, paths and provider assumptions may be outdated. Use the [current development guide](../DEVELOPMENT.md) and [source layout](../SOURCE_LAYOUT.md) for supported commands and ownership.
+
 # Consolidated Review Report — Route-Level Code Splitting Delivery
 
 **Scope:** commits `6f64eb6` (route lazy imports + vendor chunks), `46e57bb` (stale-chunk reload guard), `95a0e72` (review fixes: /explore handler, Firefox regex, cache headers), `4516ba5` (contract sync + key rename), `274557f` (follow-up: catch-all SPA route + shared stale-chunk recovery).

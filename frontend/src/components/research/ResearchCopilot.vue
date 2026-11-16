@@ -651,7 +651,7 @@ const lastAssistantContent = computed(() => {
                       </span>
                       <span
                         class="text-[11px] font-medium px-1.5 py-0.2 rounded"
-                        :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : 'bg-evidence-mixed-bg text-evidence-mixed'"
+                        :class="obs.sentiment === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : obs.sentiment === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : obs.sentiment === 'mixed' ? 'bg-evidence-mixed-bg text-evidence-mixed' : 'bg-muted text-muted-foreground'"
                       >
                         {{ obs.sentiment || 'observed' }}
                       </span>

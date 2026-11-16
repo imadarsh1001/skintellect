@@ -103,6 +103,7 @@ function hideBrokenIcon(event: Event) {
           v-else-if="product.match_score !== undefined"
           class="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border enter-rise-sm"
           :class="getMatchScoreColor(product.match_score)"
+          :title="(product.match_reasons || []).join(' · ') || undefined"
         >
           {{ displayScore ?? cardScore }}% Fit
         </div>

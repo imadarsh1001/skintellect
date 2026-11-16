@@ -38,7 +38,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       v-for="(_, key) in modelValue"
       :key="key"
       :aria-label="typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined"
-      class="bg-foreground border-primary block size-4 shrink-0 rounded-full border transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-55"
+      class="bg-foreground border-primary block size-4 shrink-0 rounded-full border disabled:pointer-events-none disabled:opacity-55"
     />
   </SliderRoot>
 </template>

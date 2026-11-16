@@ -482,7 +482,7 @@ const EXAMPLES = [
             <div v-for="(check, idx) in p.checks" :key="idx" class="flex items-center gap-1.5 text-[11px]">
               <span
                 class="w-1.5 h-1.5 rounded-full shrink-0"
-                :class="check.status === 'pass' ? 'bg-evidence-verified' : check.status === 'fail' ? 'bg-rose-500' : 'bg-primary'"
+                :class="check.status === 'pass' ? 'bg-evidence-verified' : check.status === 'fail' ? 'bg-evidence-negative' : 'bg-evidence-unknown'"
               />
               <span class="text-muted-foreground">{{ check.constraint }}</span>
               <span v-if="check.matched_names?.length" class="text-foreground font-medium">{{ check.matched_names.join(', ') }}</span>
@@ -504,9 +504,13 @@ const EXAMPLES = [
 
           <!-- Evidence drawer -->
           <div v-if="expansion(p.id).evidence" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-1.5">
-            <Loader2 v-if="expansion(p.id).evidence!.loading" class="w-4 h-4 animate-spin text-foreground" />
+            <div v-if="expansion(p.id).evidence!.loading" class="flex flex-col gap-1.5" aria-hidden="true">
+              <div class="h-3 w-3/4 rounded bg-muted/60 animate-pulse" />
+              <div class="h-3 w-1/2 rounded bg-muted/60 animate-pulse" />
+            </div>
             <template v-else-if="expansion(p.id).evidence!.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).evidence!.error }}</span>
+              <Button variant="outline" size="sm" class="h-7 text-[11px] w-fit" @click="toggleEvidence(p)">Retry</Button>
             </template>
             <template v-else-if="evidenceDataOf(p.id)">
               <template v-if="evidenceDataOf(p.id)?.kind === 'catalog_record'">
@@ -525,9 +529,14 @@ const EXAMPLES = [
 
           <!-- Reviews drawer with quote explorer -->
           <div v-if="expansion(p.id).reviews" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2.5">
-            <Loader2 v-if="expansion(p.id).reviews!.loading" class="w-4 h-4 animate-spin text-foreground" />
+            <div v-if="expansion(p.id).reviews!.loading" class="flex flex-col gap-1.5" aria-hidden="true">
+              <div class="h-3 w-2/3 rounded bg-muted/60 animate-pulse" />
+              <div class="h-3 w-3/4 rounded bg-muted/60 animate-pulse" />
+              <div class="h-3 w-1/2 rounded bg-muted/60 animate-pulse" />
+            </div>
             <template v-else-if="expansion(p.id).reviews!.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).reviews!.error }}</span>
+              <Button variant="outline" size="sm" class="h-7 text-[11px] w-fit" @click="toggleReviews(p)">Retry</Button>
             </template>
             <template v-else-if="expansion(p.id).reviews?.data">
               <div class="flex items-center justify-between flex-wrap gap-2">
@@ -642,9 +651,13 @@ const EXAMPLES = [
 
           <!-- Alternatives drawer -->
           <div v-if="expansion(p.id).alternatives" class="p-3 rounded-lg border bg-muted/20 text-[11px] flex flex-col gap-2">
-            <Loader2 v-if="expansion(p.id).alternatives?.loading" class="w-4 h-4 animate-spin text-foreground" />
+            <div v-if="expansion(p.id).alternatives?.loading" class="flex flex-col gap-1.5" aria-hidden="true">
+              <div class="h-3 w-3/4 rounded bg-muted/60 animate-pulse" />
+              <div class="h-3 w-2/3 rounded bg-muted/60 animate-pulse" />
+            </div>
             <template v-else-if="expansion(p.id).alternatives?.error">
               <span class="text-evidence-negative font-medium">{{ expansion(p.id).alternatives?.error }}</span>
+              <Button variant="outline" size="sm" class="h-7 text-[11px] w-fit" @click="toggleAlternatives(p)">Retry</Button>
             </template>
             <template v-else-if="expansion(p.id).alternatives?.data">
               <div v-if="alternativesOf(p.id).length === 0" class="text-muted-foreground italic">

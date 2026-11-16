@@ -36,3 +36,9 @@ Real Tab keypresses traverse Explore sensibly (nav → tab strip → filter grou
 ## Deferred backlog (candidates for a future change)
 
 From m6 triage: count-up screen-reader handling; shared rAF driver for parallel count-ups; Fit-chip width jitter during count; agent greeting voice pass (future content change). Plus standing: F6 inline citations (backend-blocked), unit tests (non-goal), lazy-import code splitting (conversation-only).
+
+## Corrections (2026-11-16, EGM re-check round — three reviewers + design-taste checker)
+
+- Wording: "26/26 semantic pairs" → the semantics gate runs **26 assertions (7 contrast pairs)**; the number was right, the noun was wrong.
+- Envelope wording: the ui-motion spec SHALL and the older evidence notes said "transform/opacity only"; the shipped system (and DESIGN.md) allows **color-steps** for state meaning (span-sweep, feedback color transitions). Spec + DESIGN.md amended to one definition.
+- Known findings from the EGM re-check (nested error retries, reduced-motion delay residuals, ExploreView smooth scroll, rose/serif stragglers, count-up amend semantics, replay gating, drawer/graph loading shapes, rose→negative, EGM contracts, audience-brief gating) were all fixed in the same round — see git history and `critique-post-implementation.md`.

@@ -5,7 +5,7 @@ import { fetchConnections } from '@/lib/api'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { AlertTriangle, FlaskConical, Info, Loader2, Network, Scale, Table } from 'lucide-vue-next'
+import { AlertTriangle, FlaskConical, Info, Network, Scale, Table } from 'lucide-vue-next'
 
 /**
  * Ingredient evidence graph backed by real data: for every product in the
@@ -115,21 +115,29 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
         Add products to the compare tray (Compare button on any catalog card) to inspect their
         recorded ingredient connections and the references behind them.
       </p>
+      <RouterLink
+        to="/explore"
+        class="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-foreground bg-secondary hover:bg-accent border border-border rounded-sm px-3 h-8 feedback cursor-pointer"
+      >
+        Browse the catalog →
+      </RouterLink>
     </div>
 
-    <!-- Loading -->
-    <div v-else-if="loading" class="py-16 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-      <Loader2 class="w-4 h-4 animate-spin" />
-      Loading evidence connections...
+    <!-- Loading: shaped to the per-product panels that will land -->
+    <div v-else-if="loading" class="flex flex-col gap-6" aria-hidden="true">
+      <div v-for="i in Math.min(products.length || 1, 3)" :key="i" class="h-48 rounded-lg border bg-muted/30 animate-pulse" />
     </div>
 
     <template v-else>
       <!-- Graph view: per-product evidence panels -->
       <div v-if="viewMode === 'graph'" class="flex flex-col gap-6">
         <template v-for="(product, pIdx) in products" :key="product.id">
-          <Card v-if="connectionsByProduct[product.id] === 'error'" class="p-4 flex items-start gap-2 text-xs">
+          <Card v-if="connectionsByProduct[product.id] === 'error'" class="p-4 flex items-start gap-3 text-xs">
             <AlertTriangle class="w-4 h-4 text-evidence-unknown shrink-0 mt-0.5" />
-            <span>Connections for <strong>{{ product.brand }} {{ product.name }}</strong> could not be loaded.</span>
+            <div class="flex flex-col gap-1.5">
+              <span>Connections for <strong>{{ product.brand }} {{ product.name }}</strong> could not be loaded.</span>
+              <Button variant="outline" size="sm" class="h-7 text-[11px] w-fit" @click="loadAll()">Retry</Button>
+            </div>
           </Card>
 
           <Card v-else-if="connectionsFor(product.id)" class="overflow-hidden enter-rise-sm stagger-entry" :style="{ '--stagger-i': pIdx }">

@@ -24,10 +24,10 @@ Skincare shoppers and ingredient-literate enthusiasts auditing products before t
 - **Verdict-shaped**: verified / source / unknown / negative / mixed — reuse the five meanings rather than inventing new moods for states.
 - **Motion speaks the same voice**: motion serves meaning (feedback, state change, spatial continuity, visible deliberation); it settles and never bounces (`--ease-*` family has no overshoot); a dealt moment explains the product, it does not perform. Zero purely decorative motion — if a movement explains nothing a dimension above needs, it does not ship.
 
-## How this brief gates later groups
+## How this brief gates later groups (updated post-delivery, 2026-11-16 — the mappings below record what actually shipped)
 
-- Group 2 (feedback): identical hover/press/focus on every key, ≤ `--duration-feedback` — serves dimension 2's unstartling scan.
-- Group 3 (deep moments): Explore match-score reveal must show score *with* its reason (dim 3); product-detail evidence-span highlight must surface the span itself (dims 1, 4); Copilot deliberation moment must make agent reasoning visible, not decorative (dim 4).
-- Group 4 (light moments): quiet acknowledgments only — dims 1–2 read through them.
-- Group 5 (async states): shaped loading names the real work (dim 4); error states recover (dim 5); copy follows the voice guide verbatim rules.
+- Group 2 (feedback): identical hover/press on every interactive primitive, ≤ `--duration-feedback`; **focus is deliberately instant, not on the feedback tier** (Floor 15/26a) — serves dimension 2's unstartling scan.
+- Group 3 (deep moments): Explore match-score reveal shows score *with* its reason on `:title` (dim 3); the dossier carries the **score continuity count** ("the score follows you in", dim 3) — the evidence-span highlight originally planned here re-homed to ResearchView in group 4 after the dossier proved to render no attributed spans; Copilot deliberation arrival makes agent reasoning visible, not decorative (dim 4).
+- Group 4 (light moments): the re-homed **span sweep** on ResearchView synthesis quotes (dims 1, 4); Study/Progress arrivals serve dim 4, Compare serves dim 3, Graph serves dim 1.
+- Group 5 (async states): shaped loading names the real work (dim 4); error states recover, wired to the actual failing fetch — page-level and nested (dim 5); copy follows the voice guide verbatim rules.
 - Group 7 (audit): every moment/state in the shipped code must cite a dimension number from this file.

@@ -83,6 +83,12 @@ function getUniqueIngredients(product: Product): string[] {
       <p class="text-xs text-muted-foreground max-w-sm mx-auto mt-1">
         Select "Compare" on 2 or more products from the catalog to see their side-by-side chemical difference.
       </p>
+      <RouterLink
+        to="/explore"
+        class="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-foreground bg-secondary hover:bg-accent border border-border rounded-sm px-3 h-8 feedback cursor-pointer"
+      >
+        Browse the catalog →
+      </RouterLink>
     </div>
 
     <div v-else class="flex flex-col gap-6">

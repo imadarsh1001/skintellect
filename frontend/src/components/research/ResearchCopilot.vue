@@ -212,6 +212,9 @@ async function handleSelectSession(sid: string) {
         id: `sess_msg_${idx}_${Date.now()}`,
         role: m.role,
         content: m.content,
+        // Restored history is settled: it already existed, so it does not
+        // replay the arrival moment (DESIGN.md: moments play on true arrivals).
+        enter: false,
         timestamp: m.timestamp ? new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
       }))
     } else {
@@ -449,8 +452,8 @@ const lastAssistantContent = computed(() => {
       <div
         v-for="msg in messages"
         :key="msg.id"
-        class="flex gap-3 max-w-4xl enter-rise-sm"
-        :class="msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''"
+        class="flex gap-3 max-w-4xl"
+        :class="[msg.enter === false ? '' : 'enter-rise-sm', msg.role === 'user' ? 'ml-auto flex-row-reverse' : '']"
       >
         <!-- Avatar -->
         <div

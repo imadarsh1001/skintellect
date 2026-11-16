@@ -1,7 +1,7 @@
 # lib
 
 ## Overview
-Peanut package holding the frontend's shared infrastructure: the backend REST/SSE API client (`api.ts`), the domain type contracts (`types.ts`), and the Tailwind class merge helper (`utils.ts`). Every component-level network call and cross-component type flows through this package.
+Peanut package holding the frontend's shared infrastructure: the backend REST/SSE API client (`api.ts`), the domain type contracts (`types.ts`), the Tailwind class merge helper (`utils.ts`), the motion helpers (`motion.ts`), plus the evidence-summary builder (`evidence-summary.ts`) and markdown renderer (`markdown.ts`) — the latter two still owe their own interface sections here. Every component-level network call, cross-component type, and motion-token read flows through this package.
 
 ## Interface
 ### `utils.ts`
@@ -35,7 +35,13 @@ Peanut package holding the frontend's shared infrastructure: the backend REST/SS
 - `deleteCopilotSession(sessionId)` (`api.ts:deleteCopilotSession`): DELETE `/api/research/copilot/sessions/{sessionId}`; returns `res.ok` boolean
 - `fetchCopilotSession(sessionId)` (`api.ts:fetchCopilotSession`): GET `/api/research/copilot/sessions/{sessionId}` (encoded)
 
+### `motion.ts` (add-ui-personality-and-motion)
+- `motionDurationMs(tokenName)` (`motion.ts:motionDurationMs`): reads a `--duration-*` custom property off `:root` and parses it to milliseconds — handles both `"450ms"` and `".45s"` (minified output); returns `0` when the token is missing, so callers degrade to instant
+- `useCountUp(target, durationMs)` (`motion.ts:useCountUp`): tween a figure toward `target`, built on `@vueuse/core`'s `useTransition` + `usePreferredReducedMotion`; **ledger semantics — the tween starts from the previously displayed value** (a recompute amends, it never resets to zero); the first arrival reveals 0 → value; reduced motion renders the final value instantly
+
 ## Invariants
+- Motion durations come ONLY from the theme tokens via `motionDurationMs` — never a component-local raw duration (single source: `frontend/src/assets/index.css` `@theme static`)
+- The reduced-motion probe is `usePreferredReducedMotion` — no hand-rolled `matchMedia('(prefers-reduced-motion: reduce)')` literals anywhere in the frontend
 - `BASE_URL` is empty (`api.ts:3`): all requests are same-origin relative; in dev they rely on the Vite proxy `/api` → `http://127.0.0.1:8000` (`frontend/vite.config.ts:server.proxy`), in production on reverse-proxy parity
 - Error contract: every function `throw new Error(...)` on `!res.ok` **except** `deleteCopilotSession`, which returns the boolean `res.ok` without throwing (`api.ts:189-194`)
 - `streamCopilot` degradation chain (`api.ts:128-172`): non-OK/empty stream body, thrown stream errors, or a stream that ends without a `final_result` all fall back to `askCopilot` and synthesize one `final_result` callback — callers receive a terminal event exactly once

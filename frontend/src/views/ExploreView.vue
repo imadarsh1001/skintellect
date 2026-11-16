@@ -139,7 +139,9 @@ const CATEGORY_ICONS: Record<string, Component> = {
 function goToPage(target: number | '…') {
   if (target === '…' || target === page.value) return
   setPage(target)
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  // Reduced motion: the CSS kill cannot override an explicit smooth behavior.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
 }
 </script>
 

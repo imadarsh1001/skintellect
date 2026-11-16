@@ -156,8 +156,6 @@
   --ease-entry: cubic-bezier(0.22, 1, 0.36, 1);
   /* even in, even out — dialogs, drawers, view-state moves */
   --ease-move: cubic-bezier(0.4, 0, 0.2, 1);
-  /* accelerate out — exits leave without lingering */
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 }
 
 /* Furrow moulded keys: a lit inset top edge and a shaded inset bottom, the
@@ -180,15 +178,6 @@
   @starting-style {
     opacity: 0;
     transform: translateY(3px);
-  }
-}
-@utility enter-rise {
-  transition:
-    opacity var(--duration-moment) var(--ease-entry),
-    transform var(--duration-moment) var(--ease-entry);
-  @starting-style {
-    opacity: 0;
-    transform: translateY(6px);
   }
 }
 
@@ -286,6 +275,8 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
+      animation-delay: 0s !important;
       scroll-behavior: auto !important;
     }
   }

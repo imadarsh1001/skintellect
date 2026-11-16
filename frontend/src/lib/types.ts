@@ -195,5 +195,7 @@ export interface CopilotMessage {
   showCustomClarification?: boolean
   customClarificationText?: string
   streamingStage?: string
+  /** UI-only (add-ui-personality-and-motion): false = restored history, renders settled (no arrival entry). */
+  enter?: boolean
   timestamp: string
 }

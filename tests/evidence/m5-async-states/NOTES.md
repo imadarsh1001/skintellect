@@ -43,3 +43,7 @@ Spec: specs/ui-feedback-states (designed states; real copy; shaped loading; reco
 - **Recovery demonstrated live**: with the backend stopped, `error-progress-1440.png` (+ `error-study-1440.png`) captures the designed error states with their Retry actions rendering in place, page chrome intact. Study/Explore retries re-use their existing wired `load`/`reload`; Research retry re-runs the exact failed action (`retryLast`).
 - No blank regions, no generic state spinners remain on any async surface (remaining Loaders are control-level in-flight markers, inventoried above).
 - Copy review: every new string follows the voice guide — names the actual condition, states what still works, offers the next step, no hype, no filler.
+
+## Correction (2026-11-16, EGM re-check round)
+
+The inventory's "every async condition has an owner state" claim was false as originally written: the three ResearchView expansion drawers and the Graph connections panel loaded with bare spinner lines, and their error states had no recovery. Fixed in the re-check round: shaped mini-skeletons + Retry wired to `toggleEvidence`/`toggleReviews`/`toggleAlternatives`/`loadAll` on every nested state; this correction plus the fixes supersedes the inventory's completion claim.

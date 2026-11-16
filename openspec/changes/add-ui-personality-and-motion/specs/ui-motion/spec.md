@@ -36,7 +36,7 @@ All non-essential animation SHALL be disabled when the user's system requests re
 
 ### Requirement: Motion stays within the performance envelope
 
-Animations SHALL animate only compositor-friendly properties (transform, opacity), SHALL NOT cause layout shift, and SHALL NOT drop frames during normal navigation on the supported viewport sizes.
+Animations SHALL animate only compositor-friendly properties (transform, opacity) or step colors (background/color fades at token durations for state meaning, e.g. the evidence-span sweep), SHALL NOT animate layout properties or box-shadow, SHALL NOT cause layout shift, and SHALL NOT drop frames during normal navigation on the supported viewport sizes.
 
 #### Scenario: No layout shift from animation
 - **WHEN** entrance or feedback animations run on any view

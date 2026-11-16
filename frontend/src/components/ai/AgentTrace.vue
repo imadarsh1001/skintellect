@@ -115,10 +115,9 @@ function formatEventTime(iso?: string) {
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div
-              v-for="(agent, aIdx) in AGENTS"
+              v-for="agent in AGENTS"
               :key="agent.key"
-              class="p-2 rounded-lg border flex items-center justify-between text-[11px] enter-rise-sm stagger-entry"
-              :style="{ '--stagger-i': aIdx }"
+              class="p-2 rounded-lg border flex items-center justify-between text-[11px]"
               :class="isAgentActive(agent.key) ? 'bg-evidence-verified-bg border-evidence-verified/40 text-evidence-verified font-medium' : 'bg-muted border-dashed border-border text-muted-foreground'"
             >
               <span>{{ agent.label }}</span>

@@ -239,7 +239,7 @@ const latestLatency = computed(() => {
           </CardHeader>
           <CardContent class="pb-4 text-xs flex flex-col gap-2">
             <p class="text-foreground leading-relaxed">{{ ref.summary }}</p>
-            <p v-if="ref.quote" class="italic font-serif text-muted-foreground">"{{ ref.quote }}"</p>
+            <p v-if="ref.quote" class="italic text-muted-foreground">"{{ ref.quote }}"</p>
             <p v-if="ref.limitations" class="text-xs text-evidence-unknown">Limitations: {{ ref.limitations }}</p>
             <a v-if="ref.url" :href="ref.url" target="_blank" rel="noopener noreferrer" class="text-foreground font-medium hover:underline w-fit">
               Open source ↗

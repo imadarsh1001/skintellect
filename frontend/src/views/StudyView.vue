@@ -215,7 +215,7 @@ const latestLatency = computed(() => {
                     :class="observationSentiment(obs) === 'negative' ? 'bg-evidence-negative-bg text-evidence-negative' : observationSentiment(obs) === 'positive' ? 'bg-evidence-verified-bg text-evidence-verified' : 'bg-muted text-muted-foreground'">
                     {{ observationSentiment(obs) }}
                   </span>
-                  <p class="italic font-serif text-foreground/90 mt-1">"{{ obs.span || obs.quote }}"</p>
+                  <p class="italic text-foreground/90 mt-1">"{{ obs.span || obs.quote }}"</p>
                 </div>
               </div>
               <span class="text-[11px] text-muted-foreground">

@@ -36,7 +36,7 @@ const doneCount = () => props.steps.filter(s => s.status === 'completed').length
         class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-medium bg-card hover:bg-secondary border border-border text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
         :title="open ? 'Hide the workflow plan' : 'Inspect the workflow plan and progress'"
       >
-        <Clock class="w-3 h-3 text-foreground group-hover:rotate-45 transition-transform" />
+        <Clock class="w-3 h-3 text-foreground" />
         <span>{{ open ? 'Hide workflow plan' : `Workflow plan (${steps.length} steps)` }}</span>
         <ChevronDown class="w-3 h-3 text-muted-foreground transition-transform duration-(--duration-state)" :class="{ 'rotate-180': open }" />
       </button>

@@ -148,7 +148,7 @@ function formatEventTime(iso?: string) {
                 <div class="flex items-center gap-1.5 min-w-0">
                   <span
                     class="w-1.5 h-1.5 rounded-full shrink-0"
-                    :class="evt.action === 'executed' || evt.action === 'completed' ? 'bg-evidence-verified' : evt.action === 'bypassed' ? 'bg-primary' : 'bg-primary'"
+                    :class="evt.action === 'executed' || evt.action === 'completed' ? 'bg-evidence-verified' : 'bg-input'"
                   />
                   <span class="font-medium text-foreground truncate">{{ evt.stage }}</span>
                   <span class="text-muted-foreground truncate">

@@ -208,7 +208,7 @@
     background-color: hsl(var(--accent));
   }
   to {
-    background-color: transparent;
+    background-color: hsl(var(--accent) / 0);
   }
 }
 @utility span-sweep {

@@ -53,17 +53,24 @@ const emits = defineEmits<{
 
     <!-- Products Grid -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-      <ProductCard
+      <!-- Entry wrapper: the rise + stagger live OUTSIDE the card so the card's
+           own transition-colors (hover border) never overrides the entry
+           transition, and the stagger delay never leaks into hover feedback. -->
+      <div
         v-for="(p, idx) in products"
         :key="p.id"
         class="enter-rise-sm stagger-entry"
         :style="{ '--stagger-i': idx }"
-        :product="p"
-        :is-compared="comparedIds.includes(p.id)"
-        @toggle-compare="(prod: Product) => emits('toggle-compare', prod)"
-        @open-copilot="(prod: Product) => emits('open-copilot', prod)"
-        @view-details="(prod: Product) => emits('view-details', prod)"
-      />
+      >
+        <ProductCard
+          class="h-full"
+          :product="p"
+          :is-compared="comparedIds.includes(p.id)"
+          @toggle-compare="(prod: Product) => emits('toggle-compare', prod)"
+          @open-copilot="(prod: Product) => emits('open-copilot', prod)"
+          @view-details="(prod: Product) => emits('view-details', prod)"
+        />
+      </div>
     </div>
   </div>
 </template>

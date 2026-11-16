@@ -54,7 +54,7 @@ function submit() {
       rows="1"
       :placeholder="placeholder ?? 'Ask anything...'"
       :disabled="busy"
-      class="flex-grow resize-none rounded-lg border border-input bg-background px-3 py-2.5 text-xs sm:text-sm leading-relaxed disabled:opacity-60"
+      class="flex-grow resize-none rounded-lg border border-input bg-background px-3 py-2.5 text-xs sm:text-sm leading-relaxed placeholder:text-foreground/70 disabled:opacity-60"
       @input="emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
       @keydown="onKeydown"
     />

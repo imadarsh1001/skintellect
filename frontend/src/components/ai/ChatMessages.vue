@@ -26,7 +26,13 @@ async function scrollToBottom(smooth = true) {
   await nextTick()
   const el = container.value
   if (!el) return
-  el.scrollTo({ top: el.scrollHeight, behavior: smooth ? 'smooth' : 'auto' })
+  // Reduced-motion users get an instant jump: the CSS kill covers stylesheet
+  // motion, not JS-driven smooth scrolling.
+  const reduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const behavior = smooth && !reduced ? 'smooth' : 'auto'
+  el.scrollTo({ top: el.scrollHeight, behavior })
 }
 
 watch(

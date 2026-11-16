@@ -293,7 +293,7 @@ const EXAMPLES = [
           v-model="question"
           rows="3"
           placeholder="e.g. Find moisturizers with ceramides. Summarize texture evidence and suggest one alternative."
-          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed"
+          class="w-full rounded-lg border border-input bg-background p-3 text-sm leading-relaxed placeholder:text-foreground/70"
         />
         <div class="flex flex-wrap items-center gap-1.5">
           <button

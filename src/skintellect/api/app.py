@@ -21,7 +21,8 @@ from skintellect.database import migrate as migrate_foundation
 class CachedStaticFiles(StaticFiles):
     """Frontend /assets filenames are content-hashed, so each response is
     safe to cache forever. The HTML routes below serve index.html with
-    no-cache so it always revalidates and picks up the new hashes."""
+    no-cache so browsers never serve it stale (HTMLResponse carries no
+    ETag, so no-cache means a full refetch each load)."""
 
     async def get_response(self, path, scope):
         response = await super().get_response(path, scope)

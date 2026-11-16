@@ -65,14 +65,14 @@ const CHUNK_LOAD_ERROR =
 router.onError((error, to) => {
   const stale =
     CHUNK_LOAD_ERROR.test(String(error?.message ?? '')) &&
-    sessionStorage.getItem('skintellect:chunk-reload') === null
+    sessionStorage.getItem('skintellect_chunk_reload') === null
   if (stale) {
-    sessionStorage.setItem('skintellect:chunk-reload', '1')
+    sessionStorage.setItem('skintellect_chunk_reload', '1')
     window.location.assign(
       to?.fullPath ?? window.location.pathname + window.location.search + window.location.hash,
     )
   }
 })
-router.afterEach(() => sessionStorage.removeItem('skintellect:chunk-reload'))
+router.afterEach(() => sessionStorage.removeItem('skintellect_chunk_reload'))
 
 export default router

@@ -595,7 +595,7 @@ const lastAssistantContent = computed(() => {
                 <div
                   v-for="p in msg.matching_products.slice(0, 4)"
                   :key="p.id"
-                  class="p-3 rounded-sm bg-muted hover:bg-accent transition-colors flex flex-col justify-between gap-2"
+                  class="p-3 rounded-lg bg-card border border-border flex flex-col justify-between gap-2"
                 >
                   <div>
                     <div class="flex items-start justify-between gap-1.5">

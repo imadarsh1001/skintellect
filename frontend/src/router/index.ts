@@ -51,27 +51,34 @@ router.beforeEach((to) => {
   return true
 })
 
-// A deploy between visits changes chunk hashes; a client holding the old
-// index then 404s on the lazy route it tries to load. One hard reload
-// picks up the new build. The sessionStorage flag makes the reload
-// once-per-failure so a genuinely broken deploy surfaces its error
-// instead of looping. NOTE: dynamic-import errors carry no HTTP status,
-// so the regexes can't tell a stale-hash 404 from an offline blip — a
-// transient failure also costs one reload. Acceptable: the state that
+// One-shot stale-chunk recovery, shared by the router guard and the
+// app-level errorHandler: a deploy between visits changes chunk hashes, so
+// a client holding the old index 404s on a lazy chunk it tries to load.
+// One hard navigation picks up the new build. The sessionStorage flag makes
+// the recovery once-per-failure so a genuinely broken deploy surfaces its
+// error instead of looping. NOTE: dynamic-import errors carry no HTTP
+// status, so the regexes can't tell a stale-hash 404 from an offline blip —
+// a transient failure also costs one reload. Acceptable: the state that
 // survives reload (persona, compare tray) lives in localStorage.
 const CHUNK_LOAD_ERROR =
   /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/
 
-router.onError((error, to) => {
-  const stale =
-    CHUNK_LOAD_ERROR.test(String(error?.message ?? '')) &&
-    sessionStorage.getItem('skintellect_chunk_reload') === null
-  if (stale) {
-    sessionStorage.setItem('skintellect_chunk_reload', '1')
-    window.location.assign(
-      to?.fullPath ?? window.location.pathname + window.location.search + window.location.hash,
-    )
+export function recoverFromStaleChunk(error: unknown, targetPath?: string): boolean {
+  if (
+    !CHUNK_LOAD_ERROR.test(String((error as Error)?.message ?? '')) ||
+    sessionStorage.getItem('skintellect_chunk_reload') !== null
+  ) {
+    return false
   }
+  sessionStorage.setItem('skintellect_chunk_reload', '1')
+  window.location.assign(
+    targetPath ?? window.location.pathname + window.location.search + window.location.hash,
+  )
+  return true
+}
+
+router.onError((error, to) => {
+  recoverFromStaleChunk(error, to?.fullPath)
 })
 router.afterEach(() => sessionStorage.removeItem('skintellect_chunk_reload'))
 

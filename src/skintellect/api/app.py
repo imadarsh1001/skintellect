@@ -67,49 +67,9 @@ app.include_router(research_router)
 def health_check():
     return {'status': 'ok', 'app': APP_NAME, 'version': APP_VERSION}
 
-def _serve_spa(fallback_redirect: str) -> HTMLResponse:
-    """Serve the built SPA for a workspace route; without a build, point at
-    the canonical root (the legacy templates were retired in Stage 5)."""
-    modern_index = FRONTEND_DIST / "index.html"
-    if modern_index.is_file():
-        with open(modern_index, "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read(), headers={"Cache-Control": "no-cache"})
-    return HTMLResponse(
-        "<meta http-equiv='refresh' content='0; url=" + fallback_redirect + "'>"
-    )
-
-
-@app.get('/progress', response_class=HTMLResponse)
-def progress_workspace():
-    return _serve_spa('/')
-
-@app.get('/study', response_class=HTMLResponse)
-def prepared_study_workspace():
-    return _serve_spa('/')
-
-@app.get('/research', response_class=HTMLResponse)
-def research_workspace():
-    return _serve_spa('/')
-
-@app.get('/compare', response_class=HTMLResponse)
-def compare_workspace():
-    return _serve_spa('/#compare')
-
-@app.get('/graph', response_class=HTMLResponse)
-def graph_workspace():
-    return _serve_spa('/#graph')
-
-@app.get('/copilot', response_class=HTMLResponse)
-def copilot_workspace():
-    return _serve_spa('/#copilot')
-
-@app.get('/explore', response_class=HTMLResponse)
-def explore_workspace():
-    return _serve_spa('/')
-
-
-@app.get("/", response_class=HTMLResponse)
-async def serve_index():
+def _serve_spa() -> HTMLResponse:
+    """Serve the built SPA for any workspace path with no-cache (it must
+    never be served stale — hashed /assets are immutable)."""
     modern_index = FRONTEND_DIST / "index.html"
     if modern_index.is_file():
         with open(modern_index, "r", encoding="utf-8") as f:
@@ -118,3 +78,13 @@ async def serve_index():
         status_code=503,
         detail="The web UI is not built yet. Run `npm run build` in frontend/ (or `npm run dev` for development).",
     )
+
+
+@app.get('/{spa_path:path}', response_class=HTMLResponse)
+def serve_spa(spa_path: str):
+    """Catch-all SPA route: every non-API GET serves the app — the client
+    router owns unknown paths (catch-all → redirect /). Registered after
+    the API routers so unknown /api paths keep their JSON 404."""
+    if spa_path == 'api' or spa_path.startswith('api/'):
+        raise HTTPException(status_code=404, detail='Not Found')
+    return _serve_spa()

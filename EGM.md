@@ -14,21 +14,21 @@ State ownership: the SQLite catalog (default `skintellect_moisturizers.db` via [
 
 ## Subdirectories & System Boundaries
 
-- [src](./src/EGM.md) - Source root holding the single `skintellect` application package (config, SQLite foundation, Gemini transport, CLI, and eight child packages).
+- [src](./src/EGM.md) - Source root holding the single `skintellect` application package (config, SQLite foundation, Gemini transport, CLI, and seven child packages).
 - [frontend](./frontend/EGM.md) - Vue 3 + Vite + Tailwind SPA: build/tooling surface, `src/lib` API/SSE client, and feature/primitive component packages.
 - [experiments](./experiments/EGM.md) - Opt-in advanced-study track: specialist board, ingredient CSI, label OCR, formula lab, plus CLI and offline smoke suite.
 - [scripts](./scripts/EGM.md) - Developer checks and evaluation harnesses (offline gates, release evaluator, audit), excluded from the installed package.
 
-Non-contract top-level directories (no source code; intentionally not documented with contracts): `docs/` (design/history documentation), `data/` (raw/exports data), `reports/` (generated evaluation and audit JSON), `tests/` (test-only suite + fixtures), `.github/` (CI workflow).
+Non-contract top-level directories (no source code; intentionally not documented with contracts): `docs/` (design/history documentation), `data/` (raw/exports data), `reports/` (generated evaluation and audit JSON), `tests/` (test-only suite + fixtures), `openspec/` (spec-driven workflow baseline), `.github/` (CI workflow).
 
 ## Global Invariants
 
 - **Unverified-heuristic labeling**: all heuristic scores are explicitly labeled — [src/skintellect/formulation/models.py] `score_kind='unvalidated_heuristic'` / `evidence_status='unverified_heuristic'`, and evaluation outputs keep non-accuracy framing (`evaluation_kind='automated_engineering_checks_not_human_validated_accuracy'`, `human_reviewed=False` per [scripts/evaluate_release.py:evaluate]). No code path may present heuristic output as verified safety.
-- **Single Gemini transport with budgets**: all LLM traffic originates in [src/skintellect/gemini.py:GeminiClient] (temperature-0, JSON-schema-constrained, `run_budget(max_calls, max_seconds)` enforced, retries only on 429/5xx, failures raise [src/skintellect/gemini.py:GeminiUnavailable] with redacted codes); per-feature budgets cap research (6 calls/120 s) and label OCR (2 calls/90 s).
+- **Single Gemini transport with budgets**: all LLM traffic originates in [src/skintellect/gemini.py:GeminiClient] (temperature-0, JSON-schema-constrained, `run_budget(max_calls, max_seconds)` enforced, retries only on 429/5xx, failures raise [src/skintellect/gemini.py:GeminiUnavailable] with redacted codes); per-feature budgets cap research (6 calls/120 s), review preparation (6 calls/90 s), and label OCR (2 calls/90 s).
 - **One SQLite catalog, stamp-invalidated caches**: caches in `catalog/store.py`, `formulation/formulas.py:_get_ingredients_db`, and `research/passage_index.py` are invalidated by catalog stamp or payload hash; a record is `complete` only with non-empty formula + `verified_complete` + matching `formula_hash` + `verified_source/verified_at` ([catalog/store.py:Catalog._normalize]).
 - **Seed isolation**: `is_seed=1` products are exactly benchmark IDs 200001–200010 ([database.py:migrate], [ingestion/maintenance.py:BENCHMARK_PRODUCTS]); normal catalog and search queries exclude seeds unless explicitly included.
 - **Origin contract**: `frontend/src/lib/api.ts` uses `BASE_URL=''` (same-origin) with the Vite dev proxy `/api → http://127.0.0.1:8000` ([frontend/vite.config.ts]); FastAPI CORS is limited to `127.0.0.1:8000`/`localhost:8000`; production requires a reverse proxy.
-- **Boundary drift resolution**: the legacy dead-feature callers (Routine Studio, Formula Lab, AI Board/CSI, label reader) were deleted from the UI in the redesign (Stages 2 and 5); their routes remain unregistered by design and [experiments/label_ocr/labels.py:read_label] stays unwired. `docs/DEVELOPMENT.md` still references `python -m tests.smoke_agents`, but the module lives at `experiments/smoke_agents.py`.
+- **Boundary drift resolution**: the legacy dead-feature callers (Routine Studio, Formula Lab, AI Board/CSI, label reader) were deleted from the UI in the redesign (Stages 2 and 5); their routes remain unregistered by design and [experiments/label_ocr/labels.py:read_label] stays unwired. The board/CSI smoke module lives at `experiments/smoke_agents.py` (invoked `python -m experiments.smoke_agents`).
 - **SQLite integer booleans**: safety flags (`fungal_acne_safe`, `fragrance_free`, `alcohol_free`, `oil_free`, …) are stored/compared as integers 1/0 across backend and frontend ([catalog] queries, `frontend/src/components/explore` comparisons).
 - **Copilot markdown is sanitized**: the SPA renders assistant markdown through `renderMarkdown` ([frontend/src/lib/markdown.ts]) which **sanitizes with DOMPurify** before `v-html` — model output is never trusted raw (Stage 4 decision, flipping the earlier documented trust; enforced by tests/check_ui_semantics.js).
 - **Experiments stay read-only**: `experiments/*` never writes to the catalog database; smoke checks force `AGENT_LLM_MODE=offline` for determinism.
@@ -37,8 +37,8 @@ Non-contract top-level directories (no source code; intentionally not documented
 ## Global Side Effects
 
 - **SQLite writes** (single catalog DB): foundation tables ([database.py:migrate]), `personas` ([catalog/personas.py:save_persona]), `review_aspects` ([research/review_store.py]), `research_vectors` ([research/passage_index.py]), `preparation_jobs` ([research/jobs.py]), `source_documents` ([research/references.py]), `gemini_runs`/`gemini_cache` telemetry ([gemini.py:ensure_tables]), `copilot_sessions`/`copilot_messages` ([agents/copilot.py]).
-- **Network**: Gemini REST/SDK endpoints (generativelanguage/aiplatform) via [gemini.py:GeminiClient]; PubChem PUG REST (paced GETs) via [ingestion/pubchem.py:PubChemConnector]. No other outbound providers.
-- **File writes**: `data/exports/*.json` (catalog/review exports, persona JSON export); `reports/latest/*.json` and `reports/history/` (evaluations, audits); `.env` edits via [config.py:set_embedding_model|set_absa_model].
+- **Network**: Gemini REST/SDK endpoints (generativelanguage/aiplatform) via [gemini.py:GeminiClient]; PubChem PUG REST (paced GETs) via [ingestion/pubchem.py:PubChemConnector]; the product image proxy ([catalog/products.py:get_product_image_url] behind `GET /api/products/{id}/image`) fetches `https://storage.skinsort.com` under an SSRF host allowlist. No other outbound providers.
+- **File writes**: `data/exports/*.json` (catalog/review exports, persona JSON export); `reports/latest/*.json` and `reports/history/` (evaluations, audits); `.env` edits via [config.py:set_embedding_model|set_absa_model]; product image disk cache `data/cache/product-images/<product_id>` ([config.py:IMAGE_CACHE_DIR], written on first proxy fetch).
 - **Processes/ports**: uvicorn on `127.0.0.1:8000` ([cli.py:cmd_web]); Vite dev server on port 5173 with `/api` proxy; background preparation-job worker thread with cooperative cancellation.
 
 ## System Verification

@@ -13,7 +13,7 @@ Agentic research subsystem: LangChain-compatible read-only tools (`tools.py`), t
 
 ## Invariants
 - Tools are read-only by design: `[model_steps.py:choose_plan]`-style planning and `[intent.py]` routing activate only `search_catalog`, `extract_reviews`, `find_alternatives`, `retrieve_references`, `conversation_memory`, `clarification_generator`, or `greeting_handler`; there are no write tools (see `[model_steps.py:choose_plan]` prompt and `[intent.py:classify_and_plan]` dispatch sets).
-- `[intent.py:classify_and_plan]` routing order is fixed: pending-clarification shorthand -> conversation memory -> acknowledgment -> general_chat doubt/feedback -> greeting -> explore -> science_qa fast path (suppressed when the query is a buying search) -> review_inquiry -> compare -> HITL clarification -> semantic vector routing (never overriding an explicit category) -> structured search default with contextual category inheritance from the previous user turn.
+- `[intent.py:classify_and_plan]` routing order is fixed: pending-clarification shorthand -> conversation memory -> acknowledgment -> general_chat doubt/feedback -> greeting -> explore -> science_qa fast path (suppressed when the query is a buying search) -> review_inquiry -> compare -> HITL clarification -> semantic vector routing (an explicit-category query suppresses only the science_qa/greeting/conversation_memory/conversation_ack semantic routes; compare/review_inquiry/explore/general_chat can still fire and reroute away from search) -> structured search default with contextual category inheritance from the previous user turn.
 - `[graph.py:node_plan_and_retrieve_evidence]` falls back to product IDs `[1, 2, 3]` when a review inquiry has no candidate IDs; ceramide questions filter out the `niacinamide-33038007` reference.
 - `[graph.py:node_retrieve_candidates]` bypasses catalog search unless `search_catalog` is activated, returning an empty result set; the compiled graph routes via `[graph.py:route_after_intent]` (retrieve_candidates -> plan_and_retrieve_evidence -> synthesize).
 - `[graph.py:run_research_graph]` and `[graph.py:stream_research_graph]` degrade gracefully when `langgraph` is not installed (`_compiled_graph is None`): nodes run sequentially in the same order; `trace.mode` is `deterministic_workflow` vs `langgraph_compiled_workflow`.
@@ -31,4 +31,4 @@ Agentic research subsystem: LangChain-compatible read-only tools (`tools.py`), t
 - Python backend; no pytest configured. From the repository root run:
   `python -m tests.smoke_api`
   `python -m tests.run_legacy_direct`
-  `python -m tests.smoke_agents` (agent/board/CSI smoke checks; documented in `docs/DEVELOPMENT.md`)
+  `python -m experiments.smoke_agents` (agent/board/CSI smoke checks; documented in `docs/DEVELOPMENT.md`)

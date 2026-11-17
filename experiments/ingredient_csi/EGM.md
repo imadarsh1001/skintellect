@@ -42,7 +42,9 @@ is a study tool and never mutates stored data.
     `suspect_score` (0-99), `chemical_family`, `is_pore_clogger`, `is_irritant`,
     `is_fungal_trigger`.
   - Suspect score model (`[detective.py:CSIDetective.investigate]`):
-    `round(frequency_ratio * 40)` + `25` if absent from all safe decks + `20` if a
+    `round(frequency_ratio * 40)` + `25` when at least one safe deck was supplied
+    and the ingredient is absent from all of them (no `+25` with zero safe decks)
+    + `20` if a
     pore clogger + `15` if an irritant + `15` if a fungal trigger, capped at `99`.
     Flag lookups use `src/skintellect/formulation/ingredient_facts.py`
     (`KNOWN_PORE_CLOGGERS`, `IRRITANTS_ALLERGENS`, `FUNGAL_ACNE_TRIGGERS`).

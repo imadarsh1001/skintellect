@@ -19,9 +19,10 @@ Bounded, evidence-backed research subsystem for the Skintellect catalog. It inte
 - `[labels.py:read_label]` - experimental Gemini label-photo transcription (returns comparison only; never changes catalog).
 - `[preparation.py:prepare_reviews]` - resumable batched review extraction; `[preparation.py:main]` - module CLI: `python -m skintellect.research.preparation status|reviews|embed|smoke`.
 - `[jobs.py:create_job]`, `[jobs.py:execute]`, `[jobs.py:cancel]`, `[jobs.py:snapshot]`, `[jobs.py:history]`, `[jobs.py:recover_interrupted]`, `[jobs.py:initialize]` - durable single-worker preparation queue backed by the `preparation_jobs` table.
+- `[study.py:initialize]`, `[study.py:select_cohort]`, `[study.py:readiness]`, `[study.py:prepare_cohort]`, `[study.py:save_evaluation]`, `[study.py:main]` - bounded study cohort selection and readiness (backs `GET /api/research/demo` and the release evaluator's cohort gate).
 
 ## Invariants
-- All request/response models derive from `[models.py:StrictModel]` with `extra='forbid'`: unknown fields are rejected.
+- Request/response models are expected to derive from `[models.py:StrictModel]` with `extra='forbid'`: unknown fields are rejected. Known drift (code-grounded): `QueryRequest` and `AlternativeRequest` derive from plain `pydantic.BaseModel` with no `extra` configuration (unknown fields are silently ignored), and `SearchIntent` sets `extra="forbid"` directly without `StrictModel`; the three back `POST /api/search/interpret`, `POST /api/alternatives`, and `POST /api/research/copilot/plan`.
 - `[search.py:structured_search]` returns no products and `needs_clarification` when `intent.unresolved_terms` is non-empty; seed records (`is_seed != 0`) are always excluded; products with `unknown` ingredient checks are withheld rather than guessed.
 - `[evidence.py:check_ingredient]` returns status `unknown` when a required/excluded ingredient is absent from a formula whose completeness is unverified; absence is never treated as confirmation.
 - `[model_steps.py:extract_intent]` unions the rule baseline's `unresolved_terms`, `excluded_ingredients`, and `required_ingredients` into the model output - a model cannot erase a known blocking issue; excluded ingredients override required ones (`normalize` comparison).

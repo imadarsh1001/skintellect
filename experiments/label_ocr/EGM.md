@@ -69,8 +69,8 @@ touched.
   `GeminiClient.structured` runs `ensure_tables` DDL first
   (`src/skintellect/gemini.py:ensure_tables`), always INSERTs a `gemini_runs`
   telemetry row in its finally block (even when the call fails), and INSERT OR
-  REPLACEs a `gemini_cache` row on success (`src/skintellect/gemini.py:249`,
-  `src/skintellect/gemini.py:304`). The package itself writes no tables of its
+  REPLACEs a `gemini_cache` row on success (`src/skintellect/gemini.py:253`,
+  `src/skintellect/gemini.py:308`). The package itself writes no tables of its
   own and performs no filesystem writes.
 
 ## Verification

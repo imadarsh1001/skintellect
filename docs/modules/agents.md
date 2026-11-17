@@ -27,7 +27,7 @@ not a live PubChem molecular investigation. Offline commentary remains heuristic
 
 ```powershell
 python -m skintellect agent --help
-python -m tests.smoke_agents
+python -m experiments.smoke_agents
 ```
 
 The documented smoke command forces offline mode. Normal agent commands can use

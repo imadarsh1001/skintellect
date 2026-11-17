@@ -1,10 +1,10 @@
 # research
 
 ## Overview
-Peanut package containing `ResearchCopilot.vue`: the "Formulation Research Copilot" chat interface over the backend's streaming LangGraph agent. Since the Stage 4 rebuild it is a coordinator, not a monolith — message scrolling, prompt input, suggestion chips, sources, workflow plan, and agent trace live in the reusable AI pattern components under `components/ai/` (shadcn-vue AI Elements patterns: Message Scroller, Prompt Input, Suggestion, Sources, Trace, Plan/Task). Multi-turn sessions, SSE stream mapping, HITL clarification cards, and evidence citation inspection remain here. `deleteCopilotSession` is exposed by the API client but has no UI affordance yet.
+Peanut package containing `ResearchCopilot.vue`: the "Formulation Research Copilot" chat interface over the backend's streaming LangGraph agent. Since the Stage 4 rebuild it is a coordinator, not a monolith — message scrolling, prompt input, suggestion chips, sources, workflow plan, and agent trace live in the reusable AI pattern components under `components/ai/` (shadcn-vue AI Elements patterns: Message Scroller, Prompt Input, Suggestion, Sources, Trace, Plan/Task). Multi-turn sessions, SSE stream mapping, HITL clarification cards, and evidence citation inspection remain here. Session deletion is a header trash affordance with a confirmation toast (`confirmDeleteSession` → `handleDeleteSession`).
 
 ## Interface
-- `ResearchCopilot.vue` (single file component, ~600 lines)
+- `ResearchCopilot.vue` (single file component, 768 lines)
 - Props (`ResearchCopilot.vue:defineProps`): `activeProductIds?: number[]`, `personaId?: string` (defaults used internally: `props.personaId || 'uap'`)
 - Emits (`ResearchCopilot.vue:defineEmits`): `'view-details'` (product) and `'toggle-compare'` (product), fired from matching-formulation cards
 - AI pattern components consumed (all under `@/components/ai/`):
@@ -15,10 +15,10 @@ Peanut package containing `ResearchCopilot.vue`: the "Formulation Research Copil
   - `SourcesList` — citation badges carrying `evidence_id`; emits `inspect`
   - `AgentTrace` — routing decision, dispatch matrix, event timeline, stage latencies from the `trace` payload (`intent_route`, `route_reason`, `activated_agents`/`bypassed_agents` for `search_catalog`, `extract_reviews`, `find_alternatives`, `retrieve_references`, `events[]`, `stage_timings_ms`)
 - Markdown pipeline: `renderMarkdown` from `@/lib/markdown` (marked + DOMPurify sanitize) — see Invariants
-- Session lifecycle: `onMounted → loadSessions()` (`fetchCopilotSessions` with local fallback), `handleNewChat()` (`createCopilotSession(personaId)` with local-id fallback), `handleSelectSession(sid)` (`fetchCopilotSession` maps stored messages)
+- Session lifecycle: `onMounted → loadSessions()` (`fetchCopilotSessions` with local fallback) plus `consumeProductContext()` — reads `route.query.product_id`, fetches the product (`fetchProduct`), pushes an "on the analysis bench" context message, and clears the query param via `router.replace` (URL handoff from "Ask Copilot About This Formula"); `handleNewChat()` (`createCopilotSession(personaId)` with local-id fallback), `handleSelectSession(sid)` (`fetchCopilotSession` maps stored messages); `handleDeleteSession(sid)` (`deleteCopilotSession`, then re-selects or creates a session)
 - Send pipeline `handleSend(promptText?)`:
   - pushes the user message and a neutral assistant placeholder (`todo_list` = one in-progress "Interpreting..." step) — no client-side intent classification; the workflow plan is the backend's (`node_update` carries `todo_list`, node order constants in `NODE_ORDER` mark prior steps completed)
-  - `streamCopilot({ session_id, persona_id, query, product_ids }, callback)`; callback bumps `streamTick`, maps `node_update` stage labels and `final_result` (`answer`, `search.products` → `matching_products`, `review_insights`, `alternatives`, `trace`, `references`/`citations` → citations with `source_kind: 'reference_note'`, `clarification`, `session_title` into the session list)
+  - `streamCopilot({ session_id, persona_id, query, product_ids }, callback)`; callback bumps `streamTick`, maps `node_update` stage labels, `stream_fallback` (degraded-mode `toast.info('Live streaming is unavailable…')`), `tool_calls` (mapped from `res.trace.tools`), and `final_result` (`answer`, `search.products` → `matching_products`, `review_insights`, `alternatives`, `trace`, `references`/`citations` → citations with `source_kind: 'reference_note'`, `clarification`, `session_title` into the session list)
   - error path writes failure text into the assistant bubble and marks steps `'failed'`
 - Citation inspection `inspectCitation(cit)`: `fetchEvidence(cit.id)` with an offline fallback quote; rendered in the verbatim-evidence `Dialog`
 - HITL clarification contract: `msg.clarification.options` (`id`, `title`, `description`, `query`) as clickable cards re-sending via `handleSend(opt.query)`; `clarification.allow_custom` reveals the custom input (`submitCustomClarification`)
@@ -36,5 +36,5 @@ Peanut package containing `ResearchCopilot.vue`: the "Formulation Research Copil
 - Emits are the only path to product UI: the copilot never opens detail modals or mutates comparison state itself
 
 ## Side Effects
-- Network (all via `@/lib/api`): `fetchCopilotSessions` on mount; `createCopilotSession` on New Chat; `fetchCopilotSession` on session switch; `streamCopilot` SSE stream per send; `fetchEvidence` per citation inspection
+- Network (all via `@/lib/api`): `fetchCopilotSessions` on mount; `fetchProduct` + context message when `?product_id=` is present; `createCopilotSession` on New Chat; `fetchCopilotSession` on session switch; `streamCopilot` SSE stream per send (falling back to `askCopilot` on stream failure); `deleteCopilotSession` on confirmed deletion; `fetchEvidence` per citation inspection
 - Clipboard: `navigator.clipboard.writeText` in `copyMessage` with a 2000 ms `setTimeout` to reset the copied indicator

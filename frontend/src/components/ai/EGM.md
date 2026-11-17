@@ -13,7 +13,7 @@ Reusable presentation components implementing the shadcn-vue AI Elements pattern
 
 ## Invariants
 - No network access, no `@/lib/api` imports, no routing — every interaction is emitted upward
-- All inputs are typed payloads from `@/lib/types`; components never parse or scrape model text
+- SourcesList and TaskPlan take typed payloads from `@/lib/types` (`CopilotCitation[]`, `CopilotStep[]`); ChatMessages/PromptInput/SuggestionChip take plain primitives (`streamTick`, `modelValue`/`busy`/`placeholder`, `suggestion`/`disabled`); components never parse or scrape model text
 - Styling uses only the shared Tailwind tokens (evidence family included) plus `ui` primitives
 
 ## Verification

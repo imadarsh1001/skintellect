@@ -10,7 +10,7 @@ Framework-free domain layer: frozen/mutable dataclass entities for products, ing
 - `[entities.py:SkinPersonaEntity]` / `[entities.py:PersonaExclusionsEntity]` - persona with `skin_type`, `sensitivity`, `target_concerns`, and exclusion flags.
 - `[entities.py:ReviewEntity]` / `[entities.py:AspectObservationEntity]` - review plus frozen aspect observation (`aspect`, `sentiment`, `negated`, `quote_span`, `start`, `end`, `is_discovered`).
 - `[entities.py:ScientificReferenceEntity]` - frozen reference with `evidence_level` (e.g. `clinical_trial`, `in_vitro`, `review`, `regulatory`).
-- `[policies.py:evaluate_persona_match]` - deterministic product-vs-persona evaluation returning `[policies.py:PersonaMatchResult]` (`match_percentage`, `is_eligible`, `status`, `contributing_reasons`, `flagged_concerns`, `unknown_factors`, `coverage_score`).
+- `[policies.py:evaluate_persona_match]` - deterministic product-vs-persona evaluation returning `[policies.py:PersonaMatchResult]` (`product_id`, `match_percentage`, `is_eligible`, `status`, `contributing_reasons`, `flagged_concerns`, `unknown_factors`, `coverage_score`).
 - `[policies.py:normalize_ingredient_name]` - lowercase/whitespace normalization stripping `*`, `^`, dagger, and quote markers.
 - `[policies.py]` canonical sets: `COMMON_FUNGAL_TRIGGERS`, `COMMON_DRYING_ALCOHOLS`, `COMMON_FRAGRANCES`.
 

@@ -126,7 +126,7 @@ python -m tests.smoke_api
 
 Use `python -m tests.run_legacy_direct` for the same catalog assertions without
 HTTP transport. Run it against a disposable database copy when verifying a move.
-`python -m tests.smoke_agents` runs board/CSI smoke checks alone.
+`python -m experiments.smoke_agents` runs board/CSI smoke checks alone.
 The UI semantic checks do not establish browser rendering or interaction quality.
 
 ## Source rules

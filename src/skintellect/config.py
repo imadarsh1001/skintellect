@@ -17,7 +17,7 @@ def load_environment(path=None):
             continue
         key, sep, value = line.removeprefix('export ').partition('=')
         key, value = key.strip(), value.strip()
-        if not sep or not re.fullmatch(r'(?:GEMINI_[A-Z0-9_]+|RESEARCH_[A-Z0-9_]+|SKINTELLECT_[A-Z0-9_]+|SKINSORT_[A-Z0-9_]+|TURSO_[A-Z0-9_]+|GOOGLE_API_KEY|GOOGLE_CLOUD_PROJECT|GOOGLE_CLOUD_LOCATION|API_ENDPOINT|MODEL_ID|GENERATE_CONTENT_API|AGENT_LLM_MODE)', key):
+        if not sep or not re.fullmatch(r'(?:GEMINI_[A-Z0-9_]+|RESEARCH_[A-Z0-9_]+|SKINTELLECT_[A-Z0-9_]+|SKINSORT_[A-Z0-9_]+|TURSO_[A-Z0-9_]+|CF_[A-Z0-9_]+|GCP_PROJECT_ID|GCP_REGION|GOOGLE_API_KEY|GOOGLE_CLOUD_PROJECT|GOOGLE_CLOUD_LOCATION|API_ENDPOINT|MODEL_ID|GENERATE_CONTENT_API|AGENT_LLM_MODE)', key):
             continue
         if value[:1] in {'"', "'"} and value[-1:] == value[:1]:
             value = value[1:-1]
@@ -146,6 +146,18 @@ TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL", "").strip()
 TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN", "").strip()
 IS_REMOTE_DB = bool(TURSO_DATABASE_URL)
 DATABASE_URL = TURSO_DATABASE_URL if IS_REMOTE_DB else DB_PATH
+
+# Cloudflare AI Gateway (GATEWAY_RUNBOOK.md): one URL per provider, unified
+# auth and logging. Pass-through, not a shield — provider quirks arrive intact.
+CF_ACCOUNT_ID = os.environ.get("CF_ACCOUNT_ID", "").strip()
+CF_GATEWAY_ID = os.environ.get("CF_GATEWAY_ID", "").strip()
+CF_AIG_TOKEN = os.environ.get("CF_AIG_TOKEN", "").strip()
+GATEWAY_BASE_URL = (
+    f"https://gateway.ai.cloudflare.com/v1/{CF_ACCOUNT_ID}/{CF_GATEWAY_ID}"
+    if CF_ACCOUNT_ID and CF_GATEWAY_ID else ""
+)
+GATEWAY_ENABLED = bool(GATEWAY_BASE_URL and CF_AIG_TOKEN)
+GATEWAY_BYOK = os.environ.get("CF_GATEWAY_BYOK", "0") == "1"
 
 APP_NAME = "Skintellect"
 APP_DESCRIPTION = "Evidence-backed product research with explicit unknowns and heuristic assessments"

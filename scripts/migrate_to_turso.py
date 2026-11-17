@@ -58,10 +58,13 @@ def normalize_ddl(sql):
 
 def normalize_index_ddl(sql):
     return re.sub(r"CREATE\s+(UNIQUE\s+)?INDEX\s+",
-                  lambda m: f"CREATE {m.group(1) or ''}IF NOT EXISTS INDEX ", sql, count=1, flags=re.IGNORECASE)
+                  lambda m: f"CREATE {m.group(1) or ''}INDEX IF NOT EXISTS ", sql, count=1, flags=re.IGNORECASE)
 
 
 def main():
+    from skintellect.config import load_environment
+
+    load_environment()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--source", default=str(REPO_ROOT / "skintellect_moisturizers.db"))
     ap.add_argument("--url", default=os.environ.get("TURSO_DATABASE_URL"))
@@ -178,15 +181,21 @@ def main():
     jobs.initialize(args.url)
     print("  [ok] code-owned tables ensured (gemini_*, research_vectors, preparation_jobs)")
 
-    # 5. Verification: local vs remote row counts.
+    # 5. Verification: every local row must exist remotely. The remote side is
+    #    a live production database (telemetry/cache rows accrue between runs),
+    #    so extra remote rows are informational, not drift; fewer rows than
+    #    local means the copy missed something and is a hard failure.
     print("\nverification (local -> remote):")
     drift = False
     for t in ordered:
         local_count = local.execute(f'SELECT COUNT(*) FROM "{t}"').fetchone()[0]
         remote_count = remote.execute(f'SELECT COUNT(*) FROM "{t}"').fetchone()[0]
-        marker = "ok" if local_count == remote_count else "DRIFT"
-        if local_count != remote_count:
-            drift = True
+        if remote_count < local_count:
+            marker, drift = "DRIFT", True
+        elif remote_count > local_count:
+            marker = "remote-live"
+        else:
+            marker = "ok"
         print(f"  {t}: {local_count} -> {remote_count} [{marker}]")
     remote.close()
     local.close()

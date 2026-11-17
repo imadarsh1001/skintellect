@@ -65,6 +65,17 @@ class RemoteCursor:
     def fetchall(self):
         return self._cursor.fetchall()
 
+    # Call sites that hold a cursor (conn.cursor().execute(...)) delegate
+    # through here; the driver re-uses the same cursor per statement.
+    def execute(self, sql, parameters=()):
+        return RemoteCursor(self._cursor.execute(sql, parameters))
+
+    def executemany(self, sql, seq_of_parameters):
+        return RemoteCursor(self._cursor.executemany(sql, seq_of_parameters))
+
+    def executescript(self, sql_script):
+        return RemoteCursor(self._cursor.executescript(sql_script))
+
     def close(self):
         self._cursor.close()
 

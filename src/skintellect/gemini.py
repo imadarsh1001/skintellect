@@ -10,12 +10,22 @@ import os
 import re
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timezone
 
-from skintellect.config import DB_PATH, IS_REMOTE_DB, llm_enabled, load_environment
+from skintellect.config import (
+    DB_PATH,
+    GATEWAY_BASE_URL,
+    GATEWAY_BYOK,
+    GATEWAY_ENABLED,
+    CF_AIG_TOKEN,
+    IS_REMOTE_DB,
+    llm_enabled,
+    load_environment,
+)
 from skintellect.database import database
 
 API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/'
@@ -112,13 +122,24 @@ class GeminiClient:
         load_environment()
         self.api_key = (os.environ.get('GEMINI_API_KEY') or os.environ.get('GOOGLE_API_KEY') or '').strip()
         self.backend = os.environ.get('GEMINI_BACKEND',
-            'vertex' if os.environ.get('GOOGLE_CLOUD_PROJECT') else 'developer').lower()
+            'vertex' if os.environ.get('GOOGLE_CLOUD_PROJECT') or os.environ.get('GCP_PROJECT_ID') else 'developer').lower()
         if self.backend not in {'vertex','developer'}:
             raise GeminiUnavailable('invalid_backend')
         self.model = safe_model(model or os.environ.get('GEMINI_MODEL') or os.environ.get('MODEL_ID') or
                                 ('gemini-4-argon' if self.backend=='vertex' else 'gemini-flash-latest'))
-        self.project = os.environ.get('GOOGLE_CLOUD_PROJECT','')
-        self.location = os.environ.get('GOOGLE_CLOUD_LOCATION','global')
+        self.project = os.environ.get('GOOGLE_CLOUD_PROJECT','') or os.environ.get('GCP_PROJECT_ID','')
+        self.location = os.environ.get('GOOGLE_CLOUD_LOCATION','') or os.environ.get('GCP_REGION','') or 'global'
+        # Cloudflare AI Gateway routing (GATEWAY_RUNBOOK.md): provider paths are
+        # preserved under a per-provider gateway route; requests carry the
+        # gateway auth header and, in BYOK mode, no provider credential at all.
+        self.gateway_url = ''
+        self.gateway_headers = {}
+        self.byok = False
+        if GATEWAY_ENABLED:
+            route = 'google-vertex-ai' if self.backend=='vertex' else 'google-ai-studio'
+            self.gateway_url = GATEWAY_BASE_URL + '/' + route
+            self.gateway_headers = {'cf-aig-authorization': 'Bearer ' + CF_AIG_TOKEN}
+            self.byok = GATEWAY_BYOK
         self.embedding_location = os.environ.get('GEMINI_EMBEDDING_LOCATION',self.location)
         if self.backend=='vertex':
             for value in (self.project,self.location,self.embedding_location):
@@ -144,23 +165,35 @@ class GeminiClient:
 
     @property
     def available(self):
-        return bool(self.api_key) and llm_enabled()
+        # BYOK mode: the gateway injects the stored provider key, so a local
+        # credential is not required for the client to be usable.
+        return (bool(self.api_key) or self.byok) and llm_enabled()
 
     def status(self):
-        return {'provider': 'Gemini', 'configured': bool(self.api_key), 'enabled': self.available,
+        return {'provider': 'Gemini', 'configured': bool(self.api_key) or self.byok, 'enabled': self.available,
                 'backend':self.backend, 'location':self.location if self.backend=='vertex' else None,
                 'model': self.model, 'absa_model':safe_model(os.environ.get('GEMINI_ABSA_MODEL') or self.model),
                 'embedding_model': self.embedding_model,
                 'embedding_dimensions':self.embedding_dimensions,'embedding_transport':self.embedding_transport,
+                'gateway': {'enabled': bool(self.gateway_url), 'byok': self.byok,
+                            'route': self.gateway_url.rsplit('/', 1)[-1] if self.gateway_url else None},
                 'connection_check': 'not_performed_by_status'}
 
     def endpoint(self, model, method):
         model=safe_model(model)
         if self.backend=='developer':
-            return API_ROOT+'models/'+model+':'+method
-        location=self.embedding_location if model==self.embedding_model and method in {'predict','embedContent'} else self.location
-        return ('https://aiplatform.googleapis.com/v1/projects/'+self.project+'/locations/'+location+
-                '/publishers/google/models/'+model+':'+method)
+            url=API_ROOT+'models/'+model+':'+method
+        else:
+            location=self.embedding_location if model==self.embedding_model and method in {'predict','embedContent'} else self.location
+            url=('https://aiplatform.googleapis.com/v1/projects/'+self.project+'/locations/'+location+
+                    '/publishers/google/models/'+model+':'+method)
+        if self.gateway_url:
+            # Gateway route = drop-in host replacement: the provider path
+            # (/v1beta/models/... or /v1/projects/...) is preserved verbatim.
+            parsed=urllib.parse.urlsplit(url)
+            suffix=parsed.path+(('?'+parsed.query) if parsed.query else '')
+            return self.gateway_url+suffix
+        return url
 
     def _sdk_embedding_request(self,payload,timeout):
         """Use Google's supported client and its environment-based Cloud authentication."""
@@ -172,6 +205,20 @@ class GeminiClient:
             raise GeminiUnavailable('google_genai_sdk_not_installed') from None
         http=types.HttpOptions(timeout=max(1,int(timeout*1000)),
             retry_options=types.HttpRetryOptions(attempts=1))
+        if self.gateway_url:
+            # Gateway routing per GATEWAY_RUNBOOK.md §1/§2: per-provider route
+            # URL plus the cf-aig-authorization header. In BYOK mode the strip
+            # hook removes the provider Authorization header so Cloudflare
+            # injects the stored key (same pattern as the runbook's httpx hook).
+            http.base_url=self.gateway_url
+            http.headers=dict(self.gateway_headers)
+            if self.byok:
+                def _strip_authorization(request):
+                    request.headers.pop('authorization', None)
+                import httpx as _httpx
+                http.httpx_client=_httpx.Client(
+                    event_hooks={'request':[_strip_authorization]},
+                    timeout=max(1,int(timeout*1000))/1000)
         kwargs={'vertexai':self.backend=='vertex','http_options':http}
         if self.backend=='vertex':
             kwargs.update(project=self.project,location=self.embedding_location)
@@ -179,7 +226,9 @@ class GeminiClient:
                 from google.oauth2.credentials import Credentials
                 kwargs['credentials']=Credentials(token=self.embedding_access_token)
         else:
-            kwargs['api_key']=self.api_key
+            # BYOK: placeholder keeps the SDK happy while the gateway injects
+            # the stored key (runbook §1) — the real key never leaves home.
+            kwargs['api_key']='byok' if self.byok else self.api_key
         dimensions=(payload.get('embedContentConfig') or payload).get('outputDimensionality',self.embedding_dimensions)
         text=payload['content']['parts'][0]['text']
         try:
@@ -216,11 +265,17 @@ class GeminiClient:
             if run:
                 run['calls'] += 1
             event['attempts'] += 1
-            headers={'Content-Type':'application/json'}
-            if self.backend=='vertex' and model==self.embedding_model and method=='embedContent' and self.embedding_access_token:
-                headers['Authorization']='Bearer '+self.embedding_access_token
-            else:
-                headers['x-goog-api-key']=self.api_key
+            # Cloudflare's bot protection (error 1010) blocks the default
+            # Python-urllib signature; an explicit UA is required through the
+            # gateway and harmless direct to the provider.
+            headers={'Content-Type':'application/json','User-Agent':'skintellect/3.0'}
+            if self.gateway_url:
+                headers.update(self.gateway_headers)
+            if not self.byok:
+                if self.backend=='vertex' and model==self.embedding_model and method=='embedContent' and self.embedding_access_token:
+                    headers['Authorization']='Bearer '+self.embedding_access_token
+                else:
+                    headers['x-goog-api-key']=self.api_key
             request=urllib.request.Request(self.endpoint(model,method),data=json.dumps(payload).encode(),headers=headers)
             timeout = min(self.timeout, max(.1, run['deadline']-time.monotonic())) if run else self.timeout
             try:

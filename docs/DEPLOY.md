@@ -63,7 +63,10 @@ It verifies row counts per table at the end and exits non-zero on drift.
    | `TURSO_DATABASE_URL` | yes | `libsql://…` |
    | `TURSO_AUTH_TOKEN` | yes | least-privilege token for the db |
    | `GEMINI_API_KEY` | for LLM features | copilot/assistant/research degrade to heuristics without it (HTTP 503 on those endpoints) |
-   | `GEMINI_MODEL` | no | defaults `gemini-flash-latest` |
+   | `CF_ACCOUNT_ID`, `CF_GATEWAY_ID`, `CF_AIG_TOKEN` | for LLM features | routes every Gemini request through the Cloudflare AI Gateway (`{account}/{gateway}/google-ai-studio`); see the shared `GATEWAY_RUNBOOK.md` |
+   | `CF_GATEWAY_BYOK` | no | `1` only when the provider key is stored inside Cloudflare — the app then sends no provider credential |
+   | `GEMINI_BACKEND` | no | `developer` is the serverless-friendly default (API-key auth); Vertex needs ambient ADC credentials that `/var/task` lacks |
+   | `GEMINI_MODEL` | no | defaults `gemini-flash-latest` (Vertex argon requires `MODEL_ID`/`API_ENDPOINT` and global location) |
    | `GEMINI_EMBEDDING_DIMENSIONS` | no | defaults 768 — must match the migrated vectors |
 
 4. Deploy. Smoke checks: `/health` returns JSON, `/explore` deep-link renders

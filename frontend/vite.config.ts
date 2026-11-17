@@ -27,15 +27,18 @@ export default defineConfig({
       output: {
         // Semantic vendor chunks: they change far less often than app code,
         // so they stay cache-stable across app-only deploys. Membership is a
-        // package-name match; anything unmatched (lucide, vue-sonner, cva,
-        // clsx…) lands in vendor-misc — revisit that bucket if it keeps
-        // growing, it already carries 45% of first-paint JS.
+        // package-name match. There is deliberately NO catch-all bucket: a
+        // forced vendor-misc chunk once carried speed-insights + lucide +
+        // vue-sonner + cva together and produced a cross-chunk TDZ ordering
+        // failure on Vercel's Linux build ("Cannot access 'q' before
+        // initialization" → blank page). Rollup's default splitting keeps the
+        // leftovers cycle-safe; only dependency-clean one-way groups stay here.
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined
           if (/[\\/]node_modules[\\/](marked|dompurify)[\\/]/.test(id)) return 'vendor-markdown'
           if (/[\\/]node_modules[\\/]reka-ui[\\/]/.test(id)) return 'vendor-reka'
           if (/[\\/]node_modules[\\/](@vueuse|@vue[\\/]|vue|vue-router)[\\/]/.test(id)) return 'vendor-vue'
-          return 'vendor-misc'
+          return undefined
         },
       },
     },

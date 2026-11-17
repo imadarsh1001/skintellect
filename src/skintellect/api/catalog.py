@@ -29,6 +29,12 @@ from skintellect.catalog.taxonomy import get_all_domains, get_all_sources
 
 router = APIRouter()
 
+# Read-only catalog responses opt into Vercel's edge cache: the first request
+# per region pays the remote-DB latency, everyone after that within the window
+# is served from the CDN (~ms). Data changes only via offline pipelines, so a
+# 10-minute fresh window with a day of stale-while-revalidate is safe.
+READ_ONLY_CACHE = "public, s-maxage=600, stale-while-revalidate=86400"
+
 # The image proxy only ever fetches from the collector's object storage
 # (SSRF guard); anything else in the data is rejected before a request
 # leaves the process.
@@ -37,6 +43,7 @@ IMAGE_FETCH_TIMEOUT = 20.0
 
 @router.get("/api/products", response_model=PaginatedProductsResponse)
 def list_products(
+    response: Response,
     page: int = Query(1, ge=1),
     limit: int = Query(36, ge=1, le=100),
     category: str = Query("all"),
@@ -55,6 +62,7 @@ def list_products(
     include_seeds: bool = Query(False, description="Include explicitly labeled demonstration seed records")
 ):
     """Returns paginated, dynamically scored skincare products."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return get_products(
         page=page,
         limit=limit,
@@ -75,8 +83,9 @@ def list_products(
     )
 
 @router.get("/api/products/{product_id}", response_model=ProductDetail)
-def get_product_details(product_id: int, persona_id: str = Query("uap")):
+def get_product_details(product_id: int, response: Response, persona_id: str = Query("uap")):
     """Returns deep details, ingredients, reviews, and clinical scoring for a single product."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     product = get_product_by_id(product_id, persona_id=persona_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -131,7 +140,8 @@ def get_product_image(product_id: int):
     cache_path = cache_dir / str(product_id)
     if cache_path.exists():
         data = cache_path.read_bytes()
-        return Response(content=data, media_type=_sniff_image_type(data))
+        return Response(content=data, media_type=_sniff_image_type(data),
+                        headers={"Cache-Control": READ_ONLY_CACHE})
 
     try:
         data = _fetch_image_bytes(image_url)
@@ -144,21 +154,26 @@ def get_product_image(product_id: int):
     tmp_path.write_bytes(data)
     os.replace(tmp_path, cache_path)
 
-    return Response(content=data, media_type=_sniff_image_type(data))
+    return Response(content=data, media_type=_sniff_image_type(data),
+                    headers={"Cache-Control": READ_ONLY_CACHE})
 
 @router.get("/api/domains")
-def list_domains():
+def list_domains(response: Response):
     """Returns supported cosmetic & body care domains (Skin, Hair, Body, Makeup)."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return {"domains": get_all_domains()}
 
 @router.get("/api/sources")
-def list_sources():
+def list_sources(response: Response):
+    """Returns multi-source intelligence registries (Skintellect, INCIDecoder, CIR, PubChem)."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     """Returns multi-source intelligence registries (Skintellect, INCIDecoder, CIR, PubChem)."""
     return {"sources": [s | {"status": "configured_registry", "verified": False}
                         for s in get_all_sources()]}
 
 @router.get("/api/ingredients", response_model=PaginatedIngredientsResponse)
 def list_ingredients(
+    response: Response,
     search: str = Query(""),
     function: str = Query("all"),
     domain: str = Query("all"),
@@ -169,6 +184,7 @@ def list_ingredients(
     limit: int = Query(30, ge=1, le=100)
 ):
     """Searches, filters, and paginates the 1,490+ ingredient registry."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return get_ingredients(
         search=search,
         function=function,
@@ -181,21 +197,24 @@ def list_ingredients(
     )
 
 @router.get("/api/ingredients/meta/functions")
-def list_ingredient_functions():
+def list_ingredient_functions(response: Response):
     """Returns unique cosmetic functions across indexed ingredients for dropdown filtering."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return {"functions": get_ingredient_functions()}
 
 @router.get("/api/ingredients/{ingredient_id}", response_model=IngredientDetail)
-def get_single_ingredient(ingredient_id: str):
+def get_single_ingredient(ingredient_id: str, response: Response):
     """Retrieves deep scientific dossier for an ingredient including products formulated with it."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     detail = get_ingredient_detail(ingredient_id)
     if not detail:
         raise HTTPException(status_code=404, detail=f"Ingredient '{ingredient_id}' not found")
     return detail
 
 @router.get("/api/personas", response_model=List[PersonaModel])
-def list_personas():
+def list_personas(response: Response):
     """Lists all stored personas (uap is default)."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return get_all_personas()
 
 @router.post("/api/personas", response_model=PersonaModel)
@@ -207,8 +226,9 @@ def create_persona(payload: PersonaCreate):
         raise HTTPException(status_code=500, detail=str(exc)) from None
 
 @router.get("/api/personas/{persona_id}", response_model=PersonaModel)
-def get_persona_detail(persona_id: str):
+def get_persona_detail(persona_id: str, response: Response):
     """Retrieves a specific persona by ID or username."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     personas = get_all_personas()
     p = next((x for x in personas if x["id"] == persona_id or x["username"] == persona_id), None)
     if not p:
@@ -216,6 +236,7 @@ def get_persona_detail(persona_id: str):
     return p
 
 @router.get("/api/stats", response_model=CatalogStats)
-def catalog_stats():
+def catalog_stats(response: Response):
     """Returns catalog metrics and distribution counts."""
+    response.headers["Cache-Control"] = READ_ONLY_CACHE
     return get_catalog_stats()

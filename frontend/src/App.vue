@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 import { Toaster, toast } from 'vue-sonner'
 import { useRoute, useRouter } from 'vue-router'
 import type { Product, SkinPersona } from '@/lib/types'
@@ -259,5 +260,7 @@ function onTabSelect(value: string | number) {
     />
 
     <Toaster rich-colors theme="light" position="bottom-right" />
+
+    <SpeedInsights />
   </div>
 </template>

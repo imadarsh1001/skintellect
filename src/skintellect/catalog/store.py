@@ -43,6 +43,8 @@ class Catalog:
                 raise FileNotFoundError(self.path)
         self._display = None
         self._stamp = None
+        self._records = None
+        self._records_stamp = None
 
     @property
     def stamp(self):
@@ -95,8 +97,24 @@ class Catalog:
             'score_kind': 'heuristic_preference'}
 
     def records(self):
+        # Stamp-cached like display_records: alternatives() calls this on every
+        # product-detail request, and on serverless an uncached read costs a
+        # full products+record_quality scan (5,004 rows) per view. Derive lean
+        # copies from the display cache when present (same rows, minus reviews)
+        # so a cold detail costs ONE catalog read, not two.
+        stamp = self.stamp
+        if self._records is not None and self._records_stamp == stamp:
+            return self._records
+        if self._display is not None and self._stamp == stamp:
+            self._records = [{k: v for k, v in record.items() if k != 'reviews'}
+                             for record in self._display]
+            self._records_stamp = stamp
+            return self._records
         rows, quality, _ = self._read()
-        return [self._normalize(r, quality.get(r['id'], {})) for r in rows]
+        records = [self._normalize(r, quality.get(r['id'], {})) for r in rows]
+        self._records = records
+        self._records_stamp = stamp
+        return records
 
     def display_records(self, refresh=False):
         stamp = self.stamp

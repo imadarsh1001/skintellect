@@ -23,6 +23,9 @@ from skintellect.database import connect
 BASE_DIR = os.path.dirname(DB_PATH)
 JSON_PATH = os.path.join(EXPORTS_DIR, "skintellect_personas.json")
 
+# Instance-level cache for get_all_personas(); invalidated by save_persona.
+_PERSONAS_CACHE: List[Dict[str, Any]] | None = None
+
 DEFAULT_PERSONAS: List[Dict[str, Any]] = [
     {
         "id": "uap",
@@ -176,7 +179,15 @@ def init_personas_db() -> None:
 
 
 def get_all_personas() -> List[Dict[str, Any]]:
-    """Returns all stored personas from the database."""
+    """Returns all stored personas from the database.
+
+    Instance-cached: persona scoring calls this on every product request, and
+    on serverless each uncached call costs init DDL + a table scan round trip.
+    save_persona invalidates the cache on write.
+    """
+    global _PERSONAS_CACHE
+    if _PERSONAS_CACHE is not None:
+        return _PERSONAS_CACHE
     init_personas_db()
     conn = connect(get_catalog().path)
     conn.row_factory = sqlite3.Row
@@ -191,6 +202,7 @@ def get_all_personas() -> List[Dict[str, Any]]:
         d["target_concerns"] = json.loads(d["target_concerns"]) if isinstance(d["target_concerns"], str) else d["target_concerns"]
         d["safety_exclusions"] = json.loads(d["safety_exclusions"]) if isinstance(d["safety_exclusions"], str) else d["safety_exclusions"]
         result.append(d)
+    _PERSONAS_CACHE = result
     return result
 
 
@@ -229,6 +241,9 @@ def save_persona(payload):
     ))
     conn.commit()
     conn.close()
+
+    global _PERSONAS_CACHE
+    _PERSONAS_CACHE = None  # the write changed persona rows; drop the cache
 
     export_personas_json()
     personas = get_all_personas()

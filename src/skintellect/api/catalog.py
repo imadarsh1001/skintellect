@@ -31,9 +31,11 @@ router = APIRouter()
 
 # Read-only catalog responses opt into Vercel's edge cache: the first request
 # per region pays the remote-DB latency, everyone after that within the window
-# is served from the CDN (~ms). Data changes only via offline pipelines, so a
-# 10-minute fresh window with a day of stale-while-revalidate is safe.
-READ_ONLY_CACHE = "public, s-maxage=600, stale-while-revalidate=86400"
+# is served from the CDN (~ms). Catalog data changes only via offline pipelines
+# (a catalog refresh + redeploy naturally busts the cache), so one fresh hour
+# per region with a day of stale-while-revalidate keeps row-read costs down
+# without freezing persona updates for long.
+READ_ONLY_CACHE = "public, s-maxage=3600, stale-while-revalidate=86400"
 
 # The image proxy only ever fetches from the collector's object storage
 # (SSRF guard); anything else in the data is rejected before a request

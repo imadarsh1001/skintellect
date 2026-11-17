@@ -1,6 +1,7 @@
 """Load project configuration without executing dotenv values or exposing secrets."""
 import os
 import re
+import tempfile
 from pathlib import Path
 
 
@@ -16,7 +17,7 @@ def load_environment(path=None):
             continue
         key, sep, value = line.removeprefix('export ').partition('=')
         key, value = key.strip(), value.strip()
-        if not sep or not re.fullmatch(r'(?:GEMINI_[A-Z0-9_]+|RESEARCH_[A-Z0-9_]+|SKINTELLECT_[A-Z0-9_]+|SKINSORT_[A-Z0-9_]+|GOOGLE_API_KEY|GOOGLE_CLOUD_PROJECT|GOOGLE_CLOUD_LOCATION|API_ENDPOINT|MODEL_ID|GENERATE_CONTENT_API|AGENT_LLM_MODE)', key):
+        if not sep or not re.fullmatch(r'(?:GEMINI_[A-Z0-9_]+|RESEARCH_[A-Z0-9_]+|SKINTELLECT_[A-Z0-9_]+|SKINSORT_[A-Z0-9_]+|TURSO_[A-Z0-9_]+|GOOGLE_API_KEY|GOOGLE_CLOUD_PROJECT|GOOGLE_CLOUD_LOCATION|API_ENDPOINT|MODEL_ID|GENERATE_CONTENT_API|AGENT_LLM_MODE)', key):
             continue
         if value[:1] in {'"', "'"} and value[-1:] == value[:1]:
             value = value[1:-1]
@@ -31,11 +32,24 @@ def llm_enabled():
     return os.environ.get('RESEARCH_LLM_ENABLED', '1') == '1' and os.environ.get('AGENT_LLM_MODE') != 'offline'
 
 
+def _env_file_writable(path: Path) -> bool:
+    """Settings write-back is a local-dev convenience; on read-only
+    filesystems (serverless) the change cannot persist, so skip it."""
+    try:
+        if path.exists():
+            return os.access(path, os.W_OK)
+        return os.access(path.parent, os.W_OK)
+    except OSError:
+        return False
+
+
 def set_embedding_model(model, path=None):
     """Change only the embedding-model setting; never log credential-file contents."""
     if model not in {'gemini-embedding-001','gemini-embedding-2'}:
         raise ValueError('unsupported_embedding_model')
     path=Path(path) if path else PROJECT_ROOT / '.env'
+    if not _env_file_writable(path):
+        return
     content=path.read_text(encoding='utf-8-sig') if path.exists() else ''
     setting='GEMINI_EMBEDDING_MODEL='+model
     pattern=r'(?m)^\s*(?:export )?GEMINI_EMBEDDING_MODEL\s*=.*$'
@@ -51,6 +65,8 @@ def set_absa_model(model,path=None):
     if not re.fullmatch(r'[a-zA-Z0-9._-]{1,100}',model):
         raise ValueError('invalid_model_name')
     path=Path(path) if path else PROJECT_ROOT / '.env'
+    if not _env_file_writable(path):
+        return
     content=path.read_text(encoding='utf-8-sig') if path.exists() else ''
     setting='GEMINI_ABSA_MODEL='+model
     pattern=r'(?m)^\s*(?:export )?GEMINI_ABSA_MODEL\s*=.*$'
@@ -71,9 +87,29 @@ load_environment()
 
 BASE_DIR = str(PROJECT_ROOT)
 EXPORTS_DIR = str(PROJECT_ROOT / "data" / "exports")
+
+
+def _writable_dir(path: Path, fallback: Path) -> str:
+    """Use `path` when it can be created and written (dev checkout); fall back
+    to a temp dir when the filesystem is read-only (serverless deploys)."""
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+        probe = path / ".write-probe"
+        probe.write_bytes(b"")
+        probe.unlink()
+        return str(path)
+    except OSError:
+        fallback.mkdir(parents=True, exist_ok=True)
+        return str(fallback)
+
+
 # Runtime cache for images served through the on-demand proxy
 # (GET /api/products/{id}/image); gitignored, fills only on request.
-IMAGE_CACHE_DIR = str(PROJECT_ROOT / "data" / "cache" / "product-images")
+# Serverless filesystems are read-only, so the cache degrades to /tmp there.
+IMAGE_CACHE_DIR = _writable_dir(
+    PROJECT_ROOT / "data" / "cache" / "product-images",
+    Path(tempfile.gettempdir()) / "skintellect" / "cache" / "product-images",
+)
 
 
 def resolve_database_path(root: Path = PROJECT_ROOT, override: str | None = None) -> str:
@@ -103,6 +139,14 @@ def resolve_database_path(root: Path = PROJECT_ROOT, override: str | None = None
 
 
 DB_PATH = resolve_database_path(override=os.environ.get("SKINTELLECT_DB_PATH") or os.environ.get("SKINSORT_DB_PATH"))
+
+# Production (Vercel) talks to Turso over HTTP; local development falls back
+# to the checked-out SQLite file when the Turso env vars are absent.
+TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL", "").strip()
+TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN", "").strip()
+IS_REMOTE_DB = bool(TURSO_DATABASE_URL)
+DATABASE_URL = TURSO_DATABASE_URL if IS_REMOTE_DB else DB_PATH
+
 APP_NAME = "Skintellect"
 APP_DESCRIPTION = "Evidence-backed product research with explicit unknowns and heuristic assessments"
 APP_VERSION = "3.0.0"

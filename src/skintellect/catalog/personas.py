@@ -18,6 +18,7 @@ from typing import Any, Dict, List
 # Robust DB Path Resolution (supports root execution or execution from subfolders)
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 from skintellect.config import DB_PATH, EXPORTS_DIR
+from skintellect.database import connect
 
 BASE_DIR = os.path.dirname(DB_PATH)
 JSON_PATH = os.path.join(EXPORTS_DIR, "skintellect_personas.json")
@@ -130,7 +131,7 @@ DEFAULT_PERSONAS: List[Dict[str, Any]] = [
 
 def init_personas_db() -> None:
     """Initializes the personas table in SQLite and seeds default personas if empty."""
-    conn = sqlite3.connect(get_catalog().path)
+    conn = connect(get_catalog().path)
     cur = conn.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS personas (
@@ -177,7 +178,7 @@ def init_personas_db() -> None:
 def get_all_personas() -> List[Dict[str, Any]]:
     """Returns all stored personas from the database."""
     init_personas_db()
-    conn = sqlite3.connect(get_catalog().path)
+    conn = connect(get_catalog().path)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM personas ORDER BY is_default DESC, id ASC")
@@ -208,7 +209,7 @@ def save_persona(payload):
     username = payload.username.strip().lower()
     pid = f"custom_{username}"
 
-    conn = sqlite3.connect(get_catalog().path)
+    conn = connect(get_catalog().path)
     cur = conn.cursor()
     cur.execute("""
         INSERT OR REPLACE INTO personas (

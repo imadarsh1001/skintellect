@@ -116,18 +116,26 @@ class PreparationJobTests(unittest.TestCase):
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://test') as client:
                 response=await client.get('/progress')
                 self.assertEqual(response.status_code,200)
-                self.assertIn('job-form',response.text)
+                # /progress serves the SPA shell since the legacy page retired;
+                # the job form ships in the JS bundle, not the HTML.
+                self.assertIn('<div id="app">',response.text)
                 progress = await client.get('/api/research/progress')
                 self.assertEqual(progress.status_code, 200)
                 self.assertEqual(progress.json()['reviews']['eligible'], 1)
                 invalid=await client.post('/api/research/jobs',json={'kind':'shell','limit':0})
                 self.assertEqual(invalid.status_code,422)
-                with patch('skintellect.research.jobs.execute'):
+                with patch('skintellect.research.jobs._run_job'):
                     created=await client.post('/api/research/jobs',json={'kind':'reviews','limit':10})
-                    self.assertEqual(created.status_code,202)
+                    self.assertEqual(created.status_code,200)
+                    self.assertTrue(created.headers['content-type'].startswith('text/event-stream'))
+                    self.assertEqual(created.headers['cache-control'],'no-cache, no-transform')
+                    self.assertEqual(created.headers['x-accel-buffering'],'no')
+                    data_lines=[line[6:] for line in created.text.splitlines() if line.startswith('data: ')]
+                    queued=json.loads(data_lines[0])
+                    self.assertEqual(queued['event'],'queued')
+                    jid=queued['job_id']
                     conflict=await client.post('/api/research/jobs',json={'kind':'embed'})
                     self.assertEqual(conflict.status_code,409)
-                    jid=created.json()['job_id']
                     self.assertEqual((await client.post(f'/api/research/jobs/{jid}/cancel')).status_code,200)
         asyncio.run(check())
 

@@ -5,7 +5,7 @@ import {
   cancelPreparationJob,
   fetchDemo,
   fetchProgress,
-  submitPreparationJob,
+  streamPreparationJob,
   type DemoReadiness,
   type PreparationJobRow,
   type ProgressSnapshot,
@@ -17,14 +17,16 @@ import { AlertTriangle, Loader2, RefreshCw, XCircle } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 
 /** SPA fold-in of the legacy /progress page: Gemini preparation jobs
- * (submit / cancel / poll) and coverage dashboards. Polls every 5 s only
- * while the page is visible, like the legacy page did. */
+ * (submit over a live SSE stream / cancel / poll) and coverage dashboards.
+ * The 5 s snapshot poll stays only while the page is visible, as the safety
+ * net for a dropped stream and for coverage counters. */
 
 const progress = ref<ProgressSnapshot | null>(null)
 const demo = ref<DemoReadiness | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const submitting = ref(false)
+const liveJob = ref<{ completed: number; selected: number; calls: number } | null>(null)
 
 const form = reactive({
   kind: 'reviews' as 'reviews' | 'embed',
@@ -65,18 +67,39 @@ const { pause, resume } = useIntervalFn(
 async function submitJob() {
   if (submitting.value) return
   submitting.value = true
+  liveJob.value = null
   try {
-    await submitPreparationJob({
-      kind: form.kind,
-      limit: form.limit,
-      product_id: form.product_id ? Number(form.product_id) : null,
-      max_calls: form.max_calls,
-      max_seconds: form.max_seconds,
-    })
-    toast.success('Preparation job queued. Progress updates every few seconds.')
+    const result = await streamPreparationJob(
+      {
+        kind: form.kind,
+        limit: form.limit,
+        product_id: form.product_id ? Number(form.product_id) : null,
+        max_calls: form.max_calls,
+        max_seconds: Math.min(form.max_seconds, 240),
+      },
+      ev => {
+        if (ev.event === 'progress') {
+          liveJob.value = {
+            completed: ev.completed ?? 0,
+            selected: ev.selected ?? 0,
+            calls: ev.calls ?? 0,
+          }
+        }
+      },
+    )
+    liveJob.value = null
+    if (result.state === 'completed') toast.success('Preparation job completed.')
+    else if (result.state === 'cancelled') toast.info('Preparation job cancelled.')
+    else if (result.state === 'paused')
+      toast.warning(`Job paused (${result.error_code || 'budget reached'}). Saved progress is kept.`)
+    else toast.error(`Preparation job failed: ${result.error_code || result.state}`)
     await load()
   } catch (cause) {
+    liveJob.value = null
     toast.error(cause instanceof Error ? cause.message : String(cause))
+    // The stream may have dropped after the job started; the snapshot shows
+    // whatever state was committed server-side.
+    await load()
   } finally {
     submitting.value = false
   }
@@ -213,14 +236,25 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
           </label>
           <div class="col-span-2 sm:col-span-5 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-muted-foreground">
-              Jobs spend the configured Gemini budget ({{ form.max_calls }} calls / {{ form.max_seconds }} s) and stop cleanly at the limit.
+              Jobs spend the configured Gemini budget ({{ form.max_calls }} calls / {{ Math.min(form.max_seconds, 240) }} s) and stop cleanly at the limit; streamed jobs cap at 240 s.
             </span>
             <Button size="sm" class="gap-1.5 font-medium" :disabled="submitting" @click="submitJob">
               <Loader2 v-if="submitting" class="w-3.5 h-3.5 animate-spin" />
-              Queue job
+              {{ submitting ? 'Streaming…' : 'Queue job' }}
             </Button>
           </div>
         </CardContent>
+      </Card>
+
+      <!-- Live stream progress (submitted job runs inline; the poll below is the safety net) -->
+      <Card v-if="liveJob" class="p-4 border-evidence-source/40">
+        <div class="flex items-center gap-2 text-xs">
+          <Loader2 class="w-3.5 h-3.5 animate-spin text-evidence-source" />
+          <span class="font-medium">Streaming job progress</span>
+          <span class="text-muted-foreground text-[11px] font-mono">
+            {{ liveJob.completed }} processed<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ liveJob.selected }} selected<span class="mx-1.5 inline-block h-2.5 w-px bg-border align-middle" aria-hidden="true"></span>{{ liveJob.calls }} calls
+          </span>
+        </div>
       </Card>
 
       <!-- Active jobs -->

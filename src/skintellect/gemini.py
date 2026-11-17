@@ -15,7 +15,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timezone
 
-from skintellect.config import DB_PATH, llm_enabled, load_environment
+from skintellect.config import DB_PATH, IS_REMOTE_DB, llm_enabled, load_environment
 from skintellect.database import database
 
 API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/'
@@ -28,6 +28,22 @@ class GeminiUnavailable(RuntimeError):
 
 def ensure_tables(db_path):
     with database(db_path) as c:
+        # Passage vectors: local SQLite stores the JSON text; the remote Turso
+        # database stores native half-precision vector blobs (F16_BLOB) so
+        # similarity ranking runs server-side.
+        if IS_REMOTE_DB:
+            dims = int(os.environ.get('GEMINI_EMBEDDING_DIMENSIONS', '768') or '768')
+            vectors_ddl = f'''
+        CREATE TABLE IF NOT EXISTS research_vectors(
+            evidence_id TEXT NOT NULL, model TEXT NOT NULL, content_hash TEXT NOT NULL,
+            dimensions INTEGER NOT NULL, vector F16_BLOB({dims}),
+            PRIMARY KEY(evidence_id,model));'''
+        else:
+            vectors_ddl = '''
+        CREATE TABLE IF NOT EXISTS research_vectors(
+            evidence_id TEXT NOT NULL, model TEXT NOT NULL, content_hash TEXT NOT NULL,
+            dimensions INTEGER NOT NULL, vector_json TEXT NOT NULL,
+            PRIMARY KEY(evidence_id,model));'''
         c.executescript('''
         CREATE TABLE IF NOT EXISTS gemini_cache(
             cache_key TEXT PRIMARY KEY, task TEXT NOT NULL, model TEXT NOT NULL,
@@ -36,10 +52,7 @@ def ensure_tables(db_path):
             id INTEGER PRIMARY KEY, task TEXT, model TEXT, status TEXT,
             cache_hit INTEGER, attempts INTEGER, input_tokens INTEGER,
             output_tokens INTEGER, elapsed_ms REAL, error_code TEXT, created_at TEXT);
-        CREATE TABLE IF NOT EXISTS research_vectors(
-            evidence_id TEXT NOT NULL, model TEXT NOT NULL, content_hash TEXT NOT NULL,
-            dimensions INTEGER NOT NULL, vector_json TEXT NOT NULL,
-            PRIMARY KEY(evidence_id,model));
+        ''' + vectors_ddl + '''
         CREATE TABLE IF NOT EXISTS embedding_query_cache(
             cache_key TEXT PRIMARY KEY, vector_json TEXT NOT NULL, created_at TEXT NOT NULL);
         ''')

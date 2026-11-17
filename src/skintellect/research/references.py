@@ -14,6 +14,11 @@ def ingest_references(db_path, path=SOURCE_FILE):
     records=json.loads(Path(path).read_text(encoding='utf-8'))
     allowed={'www.fda.gov','www.aad.org','pubmed.ncbi.nlm.nih.gov'}
     with database(db_path) as c:
+        # Fast path for serverless cold starts: skip the per-record writes
+        # when every reference is already ingested.
+        ingested = c.execute("SELECT COUNT(*) FROM source_documents WHERE status='attributed_reference_note'").fetchone()[0]
+        if ingested >= len(records):
+            return {'ingested':0,'skipped':'already_current','kind':'attributed_reference_notes','human_reviewed':False}
         for record in records:
             parsed=urlparse(record['url'])
             if parsed.scheme!='https' or parsed.hostname not in allowed or not re.fullmatch(r'[a-z0-9-]{1,100}',record['id']):

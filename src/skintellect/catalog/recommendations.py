@@ -26,6 +26,7 @@ if sys.stdout.encoding != 'utf-8':
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 from skintellect.config import DB_PATH
+from skintellect.database import connect
 
 BASE_DIR = os.path.dirname(DB_PATH)
 
@@ -95,7 +96,7 @@ def get_recommendations(
     and dermatological benefits addressing dark spots, dryness, dullness, and texture.
     Supports filtering by category, brand country, skin goal, price tier, and formulation safety.
     """
-    conn = sqlite3.connect(db_path)
+    conn = connect(db_path)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
@@ -261,7 +262,7 @@ def search_products(
     db_path: str = DB_PATH
 ) -> List[Dict[str, Any]]:
     """Filters products across customizable criteria from the SQLite database."""
-    conn = sqlite3.connect(db_path)
+    conn = connect(db_path)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
@@ -363,7 +364,7 @@ def get_all_products_catalog(db_path: str = DB_PATH) -> List[Dict[str, Any]]:
     Returns the complete product catalog enriched with dermatological ingredient analysis,
     composite scoring, parsed JSON objects, and normalized taxonomy for interactive UI rendering.
     """
-    conn = sqlite3.connect(db_path)
+    conn = connect(db_path)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM products ORDER BY match_score DESC, rating DESC")

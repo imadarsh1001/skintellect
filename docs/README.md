@@ -12,6 +12,7 @@ notes are preserved separately and may describe superseded behavior.
 | [Advanced-study experiments](../experiments/README.md) | LangGraph board, label transcription, Ingredient CSI and Formula Lab study |
 | [Development](DEVELOPMENT.md) | Installation, configuration, CLI, checks and contribution rules |
 | [Workflow](workflow.md) | Trunk-based git workflow: commit to `main`, CI gates, revert-not-debate |
+| [Deploy](DEPLOY.md) | Vercel + Turso production: env vars, data migration runbook, local fallback |
 | [Workspace](WORKSPACE_GUIDE.md) | Pages, launchers and file locations |
 | [Source layout](SOURCE_LAYOUT.md) | Package ownership and old-to-new migration map |
 | [Architecture](ARCHITECTURE.md) | Request flow, feature dependencies and persistence |

@@ -2,17 +2,175 @@
 import hashlib
 import json
 import os
+import re
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
 
-from skintellect.config import DB_PATH, EXPORTS_DIR
+import turso_serverless
+
+from skintellect.config import DB_PATH, DATABASE_URL, EXPORTS_DIR, IS_REMOTE_DB, TURSO_AUTH_TOKEN, TURSO_DATABASE_URL
+
+
+class _NoRowsCursor:
+    """Stand-in cursor for statements skipped on the remote backend."""
+
+    description = None
+    lastrowid = None
+    rowcount = -1
+
+    def fetchone(self):
+        return None
+
+    def fetchmany(self, size=None):
+        return []
+
+    def fetchall(self):
+        return []
+
+    def close(self):
+        return None
+
+    def __iter__(self):
+        return iter(())
+
+    def __next__(self):
+        raise StopIteration
+
+
+class RemoteCursor:
+    """sqlite3-shaped cursor over a turso_serverless cursor (eager rows)."""
+
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    @property
+    def description(self):
+        return self._cursor.description
+
+    @property
+    def lastrowid(self):
+        return self._cursor.lastrowid
+
+    @property
+    def rowcount(self):
+        return self._cursor.rowcount
+
+    def fetchone(self):
+        return self._cursor.fetchone()
+
+    def fetchmany(self, size=None):
+        return self._cursor.fetchmany(size)
+
+    def fetchall(self):
+        return self._cursor.fetchall()
+
+    def close(self):
+        self._cursor.close()
+
+    def __iter__(self):
+        return iter(self._cursor)
+
+    def __next__(self):
+        return next(self._cursor)
+
+
+# Pragmas that only apply to a local SQLite file: issuing them over a remote
+# libSQL connection either errors or wastes a round-trip (no local file).
+_LOCAL_ONLY_PRAGMA = re.compile(r'^\s*PRAGMA\s+(?:journal_mode|synchronous|mmap_size)\b', re.IGNORECASE)
+
+
+def _translate_remote_error(exc):
+    """Surface driver errors as the sqlite3 exceptions call sites already catch."""
+    for driver_type, sqlite_type in (
+        (turso_serverless.IntegrityError, sqlite3.IntegrityError),
+        (turso_serverless.OperationalError, sqlite3.OperationalError),
+        (turso_serverless.ProgrammingError, sqlite3.ProgrammingError),
+        (turso_serverless.DatabaseError, sqlite3.DatabaseError),
+        (turso_serverless.Error, sqlite3.Error),
+    ):
+        if isinstance(exc, driver_type):
+            return sqlite_type(str(exc))
+    return exc
+
+
+class RemoteConnection:
+    """sqlite3.Connection-shaped wrapper over a remote Turso (libSQL) session.
+
+    Row semantics match sqlite3 once a call site assigns row_factory=sqlite3.Row:
+    positional, column-name and dict(row) access all work on both backends.
+    """
+
+    def __init__(self):
+        self._conn = turso_serverless.connect(TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN or None)
+
+    @property
+    def row_factory(self):
+        return self._conn.row_factory
+
+    @row_factory.setter
+    def row_factory(self, value):
+        # Call sites assign sqlite3.Row to request Row semantics; map it to the
+        # driver's equivalent so rows support row[0], row["col"] and dict(row).
+        self._conn.row_factory = turso_serverless.Row if value is sqlite3.Row else value
+
+    def _run(self, fn, *args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except turso_serverless.Error as exc:
+            raise _translate_remote_error(exc) from None
+
+    def execute(self, sql, parameters=()):
+        if _LOCAL_ONLY_PRAGMA.match(sql):
+            return _NoRowsCursor()
+        return self._run(lambda: RemoteCursor(self._conn.execute(sql, parameters)))
+
+    def executemany(self, sql, seq_of_parameters):
+        return self._run(lambda: RemoteCursor(self._conn.executemany(sql, seq_of_parameters)))
+
+    def executescript(self, sql_script):
+        return self._run(lambda: RemoteCursor(self._conn.executescript(sql_script)))
+
+    def cursor(self):
+        return RemoteCursor(self._conn.cursor())
+
+    def commit(self):
+        self._run(self._conn.commit)
+
+    def rollback(self):
+        self._run(self._conn.rollback)
+
+    def close(self):
+        self._run(self._conn.close)
+
+    @property
+    def in_transaction(self):
+        return self._conn.in_transaction
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is None:
+            self.commit()
+        else:
+            self.rollback()
+        return False
+
+
+def connect(path=None):
+    """Open a catalog connection: the local SQLite file in development, or the
+    remote Turso database in production (TURSO_DATABASE_URL set). `path` is
+    ignored remotely — every handle points at the same Turso database."""
+    if IS_REMOTE_DB:
+        return RemoteConnection()
+    return sqlite3.connect(path or DB_PATH)
 
 
 @contextmanager
 def database(path):
     """Commit/rollback a transaction and always release the Windows file handle."""
-    connection = sqlite3.connect(path)
+    connection = connect(path)
     try:
         with connection:
             yield connection
@@ -22,6 +180,16 @@ def database(path):
 
 def migrate(db_path=DB_PATH):
     with database(db_path) as c:
+        # Fast path: migration version 1 is the last metadata migration, so a
+        # stamped database skips the per-product seeding entirely (every
+        # serverless cold start would otherwise replay it over the network).
+        # Bump the guard together with any future migration.
+        try:
+            applied = c.execute('SELECT MAX(version) FROM foundation_migrations').fetchone()
+        except sqlite3.Error:
+            applied = None
+        if applied and applied[0] is not None and applied[0] >= 1:
+            return
         c.executescript("""
         CREATE TABLE IF NOT EXISTS foundation_migrations(version INTEGER PRIMARY KEY, applied_at TEXT);
         CREATE TABLE IF NOT EXISTS record_quality(

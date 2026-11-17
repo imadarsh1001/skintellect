@@ -105,13 +105,18 @@ def retrieve_hybrid(query, db_path, product_ids=None, limit=8, use_embeddings=Tr
     status='not_requested'
     if use_embeddings:
         status='not_configured_or_disabled' if not client.available else 'index_empty_or_stale'
-        state = PassageIndex(db_path, client.embedding_model, client.embedding_dimensions).read(docs)
+        index = PassageIndex(db_path, client.embedding_model, client.embedding_dimensions)
+        state = index.read(docs)
         if state.vectors and client.available:
             try:
                 query_vector = client.embed([query], task_type='RETRIEVAL_QUERY')[0]
-                for eid, vector in state.vectors.items():
-                    if len(vector) == len(query_vector):
-                        semantic_ranks.append((eid, sum(a*b for a,b in zip(vector, query_vector))))
+                if index.native:
+                    # Native path: similarity ranking runs inside Turso over F16_BLOB vectors.
+                    semantic_ranks = index.rank(query_vector, docs)
+                else:
+                    for eid, vector in state.vectors.items():
+                        if len(vector) == len(query_vector):
+                            semantic_ranks.append((eid, sum(a*b for a,b in zip(vector, query_vector))))
                 semantic_ranks.sort(key=lambda v: (-v[1], v[0]))
                 status = 'available'
             except (GeminiUnavailable, ValueError, TypeError):

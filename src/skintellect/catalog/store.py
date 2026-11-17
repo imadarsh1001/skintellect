@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from pathlib import Path
 
-from skintellect.config import DB_PATH
+from skintellect.config import DB_PATH, DATABASE_URL, IS_REMOTE_DB
 from skintellect.database import database, formula_hash
 from skintellect.formulation.ingredient_facts import classify_ingredients, names_from_formula
 
@@ -33,14 +33,24 @@ PRICE_RANGES = {
 
 class Catalog:
     def __init__(self, db_path):
-        self.path = str(Path(db_path).resolve())
-        if not Path(self.path).is_file():
-            raise FileNotFoundError(self.path)
+        if IS_REMOTE_DB:
+            # Every handle points at the shared Turso database; `db_path` is
+            # irrelevant remotely and the URL is not a filesystem path.
+            self.path = DATABASE_URL
+        else:
+            self.path = str(Path(db_path).resolve())
+            if not Path(self.path).is_file():
+                raise FileNotFoundError(self.path)
         self._display = None
         self._stamp = None
 
     @property
     def stamp(self):
+        if IS_REMOTE_DB:
+            # Remote catalog data is treated as static within a process
+            # lifetime (products/reviews change only via offline pipelines);
+            # the URL itself acts as the cache key.
+            return (self.path,)
         values = [self.path]
         for path in (Path(self.path), Path(self.path + '-wal')):
             if path.exists():
@@ -163,12 +173,16 @@ _default_catalog = None
 def get_catalog(db_path=None):
     global _default_catalog
     selected = _selected_catalog.get()
-    if selected is not None and (db_path is None or str(Path(db_path).resolve()) == selected.path):
+    if selected is not None and (db_path is None or str(Path(db_path).resolve()) == selected.path or IS_REMOTE_DB):
         return selected
     if db_path is not None:
         return Catalog(db_path)
     if _default_catalog is None or _default_catalog.path != str(Path(DB_PATH).resolve()):
-        _default_catalog = Catalog(DB_PATH)
+        if IS_REMOTE_DB:
+            if _default_catalog is None or _default_catalog.path != DATABASE_URL:
+                _default_catalog = Catalog(DB_PATH)
+        else:
+            _default_catalog = Catalog(DB_PATH)
     return _default_catalog
 
 

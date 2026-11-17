@@ -7,7 +7,7 @@ import skintellect.research.search as search_tools
 """Typed, bounded endpoints for the evidence-backed research release."""
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from skintellect.catalog.store import get_catalog
@@ -81,24 +81,47 @@ def preparation_progress():
     return snapshot(get_catalog().path)
 
 
-@router.post('/research/jobs', status_code=202)
-def start_preparation(payload: PreparationRequest, background_tasks: BackgroundTasks):
-    from skintellect.research.jobs import create_job, execute
+@router.post('/research/jobs')
+def start_preparation(payload: PreparationRequest):
+    """Run a preparation job inline and stream progress over SSE.
+
+    The 240s clamp leaves a 60s buffer under Vercel's 300s function kill so
+    the final job state is committed and the terminal event is emitted.
+    """
+    import json
+
+    from fastapi.responses import StreamingResponse
+    from skintellect.research.jobs import MAX_STREAM_SECONDS, create_job, release_stale_jobs, stream_job
+
+    db_path = get_catalog().path
+    release_stale_jobs(db_path)
     try:
         job_id = create_job(
-            get_catalog().path,
+            db_path,
             payload.kind,
             payload.limit,
             payload.product_id,
             payload.max_calls,
-            payload.max_seconds,
+            min(payload.max_seconds, MAX_STREAM_SECONDS),
         )
     except GeminiUnavailable as exc:
         raise HTTPException(503, detail=str(exc)) from None
     except ValueError as exc:
         raise HTTPException(409 if str(exc) == 'preparation_already_active' else 422, detail=str(exc)) from None
-    background_tasks.add_task(execute, get_catalog().path, job_id)
-    return {'job_id': job_id, 'status': 'queued'}
+
+    def event_stream():
+        for event in stream_job(db_path, job_id):
+            yield f"data: {json.dumps(event)}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type='text/event-stream',
+        headers={
+            'Cache-Control': 'no-cache, no-transform',
+            'Connection': 'keep-alive',
+            'X-Accel-Buffering': 'no',
+        },
+    )
 
 
 @router.post('/research/jobs/{job_id}/cancel')

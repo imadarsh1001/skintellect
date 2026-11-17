@@ -475,20 +475,86 @@ export async function fetchProgress(): Promise<ProgressSnapshot> {
   return res.json()
 }
 
-export async function submitPreparationJob(body: {
-  kind: 'reviews' | 'embed'
-  limit: number
-  product_id: number | null
-  max_calls: number
-  max_seconds: number
-}): Promise<{ job_id: number; status: string }> {
+export interface PreparationStreamEvent {
+  event: 'queued' | 'started' | 'progress' | 'keepalive' | 'done'
+  job_id?: number
+  kind?: string
+  completed?: number
+  selected?: number
+  calls?: number
+  tokens?: number
+  state?: string
+  error_code?: string | null
+}
+
+/** Submit a preparation job and consume its SSE progress stream to the
+ * terminal event. The server runs the job inline and clamps the time budget
+ * (240 s), committing final state even if this stream drops mid-run — the
+ * caller's snapshot poll stays the safety net for a broken stream. */
+export async function streamPreparationJob(
+  body: {
+    kind: 'reviews' | 'embed'
+    limit: number
+    product_id: number | null
+    max_calls: number
+    max_seconds: number
+  },
+  onEvent: (event: PreparationStreamEvent) => void,
+): Promise<{ job_id: number; state: string; error_code?: string | null }> {
   const res = await fetch(`${BASE_URL}/api/research/jobs`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
     body: JSON.stringify(body),
   })
   if (!res.ok) throw new Error(`The preparation job was rejected: ${res.status}`)
-  return res.json()
+
+  let jobId = 0
+  let finalState = 'unknown'
+  let finalError: string | null = null
+
+  const consumeLine = (raw: string) => {
+    if (!raw.startsWith('data: ')) return
+    let event: PreparationStreamEvent
+    try {
+      event = JSON.parse(raw.slice(6).trim())
+    } catch {
+      return
+    }
+    if (event.event === 'queued' && typeof event.job_id === 'number') jobId = event.job_id
+    if (event.event === 'done') {
+      finalState = event.state ?? 'unknown'
+      finalError = event.error_code ?? null
+    }
+    onEvent(event)
+  }
+
+  const consumeBuffered = (text: string) => {
+    for (const line of text.split('\n')) {
+      const trimmed = line.trim()
+      // SSE comment lines (": keepalive") carry no data.
+      if (trimmed && !trimmed.startsWith(':')) consumeLine(trimmed)
+    }
+  }
+
+  if (res.body) {
+    const reader = res.body.getReader()
+    const decoder = new TextDecoder()
+    let buffer = ''
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      buffer += decoder.decode(value, { stream: true })
+      const chunks = buffer.split('\n\n')
+      buffer = chunks.pop() || ''
+      for (const chunk of chunks) consumeBuffered(chunk)
+    }
+  } else {
+    // Runtime without stream support: parse the buffered SSE body.
+    consumeBuffered(await res.text())
+  }
+
+  if (!jobId) throw new Error('The preparation stream ended before a job was queued')
+  return { job_id: jobId, state: finalState, error_code: finalError }
 }
 
 export async function cancelPreparationJob(jobId: number): Promise<{ status: string; notice: string }> {

@@ -20,7 +20,7 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             pyproject.toml
-      - run: python -m pip install -e '.[dev,crawl]'
+      - run: python -m pip install -e '.[dev]'
       - run: python scripts/check.py
 
   frontend-checks:

@@ -3,16 +3,23 @@
 Jobs have explicit request/time limits. Cancellation is cooperative between batches;
 already persisted extraction results and embeddings are retained for a new job.
 """
+import queue
 import sqlite3
 import threading
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
+from skintellect.config import IS_REMOTE_DB
 from skintellect.database import database
 from skintellect.gemini import GeminiClient, GeminiUnavailable, ensure_tables, run_budget
 from skintellect.research.passage_index import PassageIndex
 from skintellect.research.review_store import ReviewCorpus
 
 _worker_lock = threading.Lock()
+
+# SSE-streamed jobs must finish (final state commit + terminal event)
+# comfortably before Vercel's 300s function ceiling; the 60s headroom
+# covers synthesis and the last database writes.
+MAX_STREAM_SECONDS = 240
 
 
 def now():
@@ -31,8 +38,29 @@ def initialize(db_path):
         c.execute("CREATE UNIQUE INDEX IF NOT EXISTS one_active_preparation_job ON preparation_jobs((1)) WHERE status IN ('queued','running')")
 
 
+def release_stale_jobs(db_path, stale_after_seconds=305):
+    """Mark jobs stuck in 'queued'/'running' as interrupted.
+
+    A serverless timeout or client disconnect can orphan a job row; a local
+    server restart cannot (the restart handler below covers it), so remotely
+    this is the only safe recovery — it must never kill another live worker's
+    in-flight job, hence the age cutoff instead of blanket reaping.
+    """
+    initialize(db_path)
+    cutoff = (datetime.now(timezone.utc) - timedelta(seconds=stale_after_seconds)).isoformat()
+    with database(db_path) as c:
+        c.execute("UPDATE preparation_jobs SET status='interrupted',error_code='stale_worker',finished_at=? "
+                  "WHERE status IN ('queued','running') AND started_at IS NOT NULL AND started_at <= ?",
+                  (now(), cutoff))
+
+
 def recover_interrupted(db_path):
     """Called once at app startup, before accepting new jobs; use one server worker."""
+    if IS_REMOTE_DB:
+        # Several serverless instances share the database; a blanket reap
+        # would mark another instance's live job interrupted.
+        release_stale_jobs(db_path)
+        return
     initialize(db_path)
     with database(db_path) as c:
         c.execute("UPDATE preparation_jobs SET status='interrupted',error_code='server_restarted',finished_at=? WHERE status IN ('queued','running')", (now(),))
@@ -69,15 +97,26 @@ def cancel(db_path, job_id):
 
 
 def execute(db_path, job_id):
+    """Run a job to completion in the calling thread (no events)."""
+    _run_job(db_path, job_id)
+
+
+def _run_job(db_path, job_id, emit=None):
+    def announce(event, **payload):
+        if emit is not None:
+            emit(event, **payload)
+
     # A second worker cannot start while the local worker owns the lock.
     with _worker_lock:
         with database(db_path) as c:
             c.row_factory=sqlite3.Row
             row=c.execute("SELECT * FROM preparation_jobs WHERE id=? AND status='queued'",(job_id,)).fetchone()
             if row is None:
+                announce('done', state='completed', error_code=None)
                 return
             job=dict(row)
             c.execute("UPDATE preparation_jobs SET status='running',started_at=? WHERE id=?",(now(),job_id))
+        announce('started', kind=job['kind'])
         def stopped():
             with database(db_path) as c:
                 return bool(c.execute('SELECT cancel_requested FROM preparation_jobs WHERE id=?',(job_id,)).fetchone()[0])
@@ -86,36 +125,76 @@ def execute(db_path, job_id):
             with database(db_path) as c:
                 c.execute('UPDATE preparation_jobs SET completed=?,selected=?,calls=?,tokens=? WHERE id=?',
                           (completed,selected,run['calls'],tokens,job_id))
+            announce('progress', completed=completed, selected=selected,
+                     calls=run['calls'], tokens=tokens)
         state='completed'
         code=None
-        with run_budget(job['max_calls'],job['max_seconds']) as run:
-            try:
-                if stopped():
-                    state='cancelled'
-                elif job['kind']=='reviews':
-                    from skintellect.research.preparation import prepare_reviews
-                    result=prepare_reviews(db_path,job['limit_count'],job['product_id'],on_progress=progress,should_stop=stopped)
-                    progress(result['processed_reviews'],result['selected_reviews'])
-                else:
-                    from skintellect.research.retrieval import index_embeddings
-                    result=index_embeddings(db_path,limit=job['limit_count'],
-                        product_ids=[job['product_id']] if job['product_id'] is not None else None,
-                        on_progress=progress,should_stop=stopped)
-                    progress(result['indexed'],result['pending_selected'])
-                if stopped():
-                    state='cancelled'
-            except GeminiUnavailable as exc:
-                code=str(exc)
-                state='paused' if code=='run_budget_exhausted' else 'failed'
-            except Exception:
-                # Provider bodies, credentials and raw exceptions never reach the UI.
-                state,code='failed','preparation_internal_error'
-            finally:
-                with database(db_path) as c:
-                    counts=c.execute('SELECT completed,selected FROM preparation_jobs WHERE id=?',(job_id,)).fetchone()
-                progress(*counts)
-                with database(db_path) as c:
-                    c.execute('UPDATE preparation_jobs SET status=?,error_code=?,finished_at=? WHERE id=?',(state,code,now(),job_id))
+        try:
+            with run_budget(job['max_calls'],job['max_seconds']) as run:
+                try:
+                    if stopped():
+                        state='cancelled'
+                    elif job['kind']=='reviews':
+                        from skintellect.research.preparation import prepare_reviews
+                        result=prepare_reviews(db_path,job['limit_count'],job['product_id'],on_progress=progress,should_stop=stopped)
+                        progress(result['processed_reviews'],result['selected_reviews'])
+                    else:
+                        from skintellect.research.retrieval import index_embeddings
+                        result=index_embeddings(db_path,limit=job['limit_count'],
+                            product_ids=[job['product_id']] if job['product_id'] is not None else None,
+                            on_progress=progress,should_stop=stopped)
+                        progress(result['indexed'],result['pending_selected'])
+                    if stopped():
+                        state='cancelled'
+                except GeminiUnavailable as exc:
+                    code=str(exc)
+                    state='paused' if code=='run_budget_exhausted' else 'failed'
+                except Exception:
+                    # Provider bodies, credentials and raw exceptions never reach the UI.
+                    state,code='failed','preparation_internal_error'
+                finally:
+                    with database(db_path) as c:
+                        counts=c.execute('SELECT completed,selected FROM preparation_jobs WHERE id=?',(job_id,)).fetchone()
+                    progress(*counts)
+                    with database(db_path) as c:
+                        c.execute('UPDATE preparation_jobs SET status=?,error_code=?,finished_at=? WHERE id=?',(state,code,now(),job_id))
+        except Exception:
+            # The worker itself failed outside the guarded body (e.g. the final
+            # state write); the terminal event must still reach the client.
+            state,code='failed','preparation_internal_error'
+            with database(db_path) as c:
+                c.execute("UPDATE preparation_jobs SET status='failed',error_code='preparation_internal_error',finished_at=? "
+                          "WHERE id=? AND status IN ('queued','running')",(now(),job_id))
+        announce('done', state=state, error_code=code)
+
+
+def stream_job(db_path, job_id):
+    """Yield JSON event dicts while the job runs in a worker thread.
+
+    The worker is daemonized and keeps committing final job state even when
+    the client disconnects (the generator is closed), so a dropped request
+    never leaves a half-written job behind.
+    """
+    events=queue.Queue()
+
+    def emit(event, **payload):
+        events.put(dict(event=event, **payload))
+
+    worker=threading.Thread(target=_run_job,args=(db_path,job_id,emit),daemon=True)
+    worker.start()
+    yield {'event':'queued','job_id':job_id}
+    while True:
+        try:
+            event=events.get(timeout=2.0)
+        except queue.Empty:
+            if not worker.is_alive():
+                break
+            yield {'event':'keepalive'}
+            continue
+        yield event
+        if event.get('event')=='done':
+            break
+    worker.join(timeout=5)
 
 
 def snapshot(db_path):

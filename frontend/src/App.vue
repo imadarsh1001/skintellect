@@ -5,7 +5,6 @@ import { Toaster, toast } from 'vue-sonner'
 import { useRoute, useRouter } from 'vue-router'
 import type { Product, SkinPersona } from '@/lib/types'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import PersonaDrawer from '@/components/explore/PersonaDrawer.vue'
 import ProductDetailModal from '@/components/explore/ProductDetailModal.vue'
@@ -134,12 +133,6 @@ function onTabSelect(value: string | number) {
               <div class="flex items-center gap-2">
                 <!-- Brand wordmark: a page's one h1 belongs to the routed view (the landing's headline). -->
                 <p class="text-xl text-foreground truncate">Formulation Studio</p>
-                <!-- Tier tag, deliberately NOT the verified verdict: green means measured, not "Pro". -->
-                <Badge variant="outline" class="hidden sm:inline-flex gap-1.5 text-[11px] py-0.5 px-2 font-medium shrink-0">
-                  <span>Pro</span>
-                  <span aria-hidden="true" class="h-2.5 w-px bg-border"></span>
-                  <span>Multi-domain</span>
-                </Badge>
               </div>
               <p class="text-xs text-muted-foreground hidden sm:block">
                 Universal Skin, Hair, Body & Makeup Formulation Intelligence

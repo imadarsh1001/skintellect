@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { setRouteSeo } from '@/lib/seo'
 
 // Route components load lazily (one chunk per view) so the first paint
 // only downloads the entry + landing view, not the whole SPA.
@@ -24,13 +25,13 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'home', component: HomeView },
-    { path: '/explore', name: 'explore', component: ExploreView },
-    { path: '/compare', name: 'compare', component: CompareView },
-    { path: '/graph', name: 'graph', component: GraphView },
-    { path: '/copilot', name: 'copilot', component: CopilotView },
-    { path: '/research', name: 'research', component: ResearchView },
-    { path: '/study', name: 'study', component: StudyView },
-    { path: '/progress', name: 'progress', component: ProgressView },
+    { path: '/explore', name: 'explore', component: ExploreView, meta: { title: 'Explore Formulations · Skintellect' } },
+    { path: '/compare', name: 'compare', component: CompareView, meta: { title: 'Compare Matrix · Skintellect' } },
+    { path: '/graph', name: 'graph', component: GraphView, meta: { title: 'Ingredient Graph · Skintellect' } },
+    { path: '/copilot', name: 'copilot', component: CopilotView, meta: { title: 'Research Copilot · Skintellect' } },
+    { path: '/research', name: 'research', component: ResearchView, meta: { title: 'Evidence Workspace · Skintellect' } },
+    { path: '/study', name: 'study', component: StudyView, meta: { title: 'Studies · Skintellect' } },
+    { path: '/progress', name: 'progress', component: ProgressView, meta: { title: 'Preparation Status · Skintellect' } },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })
@@ -81,5 +82,14 @@ router.onError((error, to) => {
   recoverFromStaleChunk(error, to?.fullPath)
 })
 router.afterEach(() => sessionStorage.removeItem('skintellect_chunk_reload'))
+
+// Head state (title / canonical / og:url) rides every navigation; the home
+// route has no meta.title and keeps the full brand title from index.html.
+const HOME_TITLE = 'Skintellect — Science-Grounded Formulation Intelligence'
+
+router.afterEach((to) => {
+  const routeTitle = to.meta.title as string | undefined
+  setRouteSeo(routeTitle ?? HOME_TITLE, to.path)
+})
 
 export default router

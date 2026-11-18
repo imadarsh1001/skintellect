@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /health
+
+Sitemap: https://skintellect.vercel.app/sitemap.xml

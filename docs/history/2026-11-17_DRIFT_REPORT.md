@@ -1,3 +1,7 @@
+> Historical record. This document describes an earlier design, experiment or release; counts, paths and provider assumptions may be outdated. Use the [current development guide](../DEVELOPMENT.md) and [source layout](../SOURCE_LAYOUT.md) for supported commands and ownership.
+>
+> **Closed 2026-11-19**: all doc-side findings were fixed in `c75a9a7`; the three deferred code findings were subsequently resolved (`e6948d0` reduced-motion probes, `0d10a69` strict request models, `92e42b3` CLI kwarg reconciliation) — nothing in this report remains open.
+
 # EGM Drift Report — 2026-11-17
 
 **Scope**: all 42 EGM.md contract files (root + `src/`, `frontend/`, `experiments/`, `scripts/` trees), audited against the codebase at HEAD `305ab3e` in both directions: doc-to-code hallucinations/staleness and missing public-surface coverage. Every finding below was verified in source with `file:line` evidence by six partitioned read-only auditor passes; the drift concentrates in contracts untouched since before the 2026-11-12 legacy-UI retirement (`893a020`), the Furrow retheme, and the graph/explore feature rewrites.

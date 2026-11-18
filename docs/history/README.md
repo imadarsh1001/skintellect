@@ -11,6 +11,7 @@ code lives in `skintellect.gemini`.
 | Document | Status |
 | --- | --- |
 | [EGM Drift Report — 2026-11-06](2026-11-06_DRIFT_REPORT.md) | Historical note; see document banner |
+| [EGM Drift Report — 2026-11-17](2026-11-17_DRIFT_REPORT.md) | Historical note; see document banner |
 | [Skintellect — Component Map & Gap Report](component_map_and_gap_report.md) | Historical note; see document banner |
 | [Skintellect UI Redesign](concepts_brief.md) | Historical note; see document banner |
 | [Consolidated Review Report — Route-Level Code Splitting Delivery](consolidated_review_report.md) | Historical note; see document banner |

@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -16,6 +17,11 @@ from skintellect.config import (
     APP_VERSION,
 )
 from skintellect.database import migrate as migrate_foundation
+
+# The interactive docs are a dev tool. Vercel's SPA rewrite already shadows
+# these paths at the edge; this gate is defense in depth for the mounted
+# function itself, so production ships them off there too.
+_DOCS_ENABLED = os.environ.get("VERCEL_ENV") != "production"
 
 
 class CachedStaticFiles(StaticFiles):
@@ -44,6 +50,9 @@ app = FastAPI(
     description=APP_DESCRIPTION,
     version=APP_VERSION,
     lifespan=lifespan,
+    docs_url="/docs" if _DOCS_ENABLED else None,
+    redoc_url="/redoc" if _DOCS_ENABLED else None,
+    openapi_url="/openapi.json" if _DOCS_ENABLED else None,
 )
 
 # CORS middleware for local development

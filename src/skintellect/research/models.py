@@ -152,8 +152,7 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class SearchIntent(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+class SearchIntent(StrictModel):
     category: str = "all"
     domain: Literal["skin", "hair", "body", "makeup", "all"] = "skin"
     required_ingredients: list[str] = Field(default_factory=list, max_length=20)
@@ -164,10 +163,10 @@ class SearchIntent(BaseModel):
     text: str = Field(default="", max_length=2000)
     limit: int = Field(default=10, ge=1, le=50)
 
-class QueryRequest(BaseModel):
+class QueryRequest(StrictModel):
     query: str = Field(min_length=1, max_length=2000)
 
-class AlternativeRequest(BaseModel):
-    product_id: int
+class AlternativeRequest(StrictModel):
+    product_id: int = Field(ge=1)
     constraints: SearchIntent = Field(default_factory=SearchIntent)
-    product_ids: list[Annotated[int,Field(ge=1)]] | None = Field(default=None,min_length=1,max_length=10)
+    product_ids: list[Annotated[int, Field(ge=1)]] | None = Field(default=None, min_length=1, max_length=10)

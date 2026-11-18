@@ -1,7 +1,7 @@
 # lib
 
 ## Overview
-Peanut package holding the frontend's shared infrastructure: the backend REST/SSE API client (`api.ts`), the domain type contracts (`types.ts`), the Tailwind class merge helper (`utils.ts`), the motion helpers (`motion.ts`), the badge evidence-variant source (`evidence.ts`), plus the evidence-summary builder (`evidence-summary.ts`) and markdown renderer (`markdown.ts`) — the latter three still owe their own interface sections here. Every component-level network call, cross-component type, and motion-token read flows through this package.
+Peanut package holding the frontend's shared infrastructure: the backend REST/SSE API client (`api.ts`), the domain type contracts (`types.ts`), the Tailwind class merge helper (`utils.ts`), the motion helpers (`motion.ts`), the per-route head-state writer (`seo.ts`), the badge evidence-variant source (`evidence.ts`), plus the evidence-summary builder (`evidence-summary.ts`) and markdown renderer (`markdown.ts`) — the latter three still owe their own interface sections here. Every component-level network call, cross-component type, motion-token read, and routed title/canonical update flows through this package.
 
 ## Interface
 ### `utils.ts`
@@ -45,9 +45,12 @@ Peanut package holding the frontend's shared infrastructure: the backend REST/SS
 - `motionDurationMs(tokenName)` (`motion.ts:motionDurationMs`): reads a `--duration-*` custom property off `:root` and parses it to milliseconds — handles both `"450ms"` and `".45s"` (minified output); returns `0` when the token is missing, so callers degrade to instant
 - `useCountUp(target, durationMs)` (`motion.ts:useCountUp`): tween a figure toward `target`, built on `@vueuse/core`'s `useTransition` + `usePreferredReducedMotion`; **ledger semantics — the tween starts from the previously displayed value** (a recompute amends, it never resets to zero); the first arrival reveals 0 → value; reduced motion renders the final value instantly
 
+### `seo.ts` (route head state)
+- `setRouteSeo(title, path)` (`seo.ts:setRouteSeo`): keeps the SPA shell's head state current per route — rewrites `document.title` and value-swaps `<link rel="canonical">`, `<meta property="og:url">` and `<meta property="og:title">`; only the canonical link is ever *created* (the two meta tags ship in `index.html` and are found from the first navigation). Canonical/og:url are `window.location.origin + path` with the **query string stripped**, so filtered views (`/explore?domain=skin`) canonicalize to the clean path and crawlers never see duplicate pages. The only caller is the router's `afterEach` (`router/index.ts`), which runs on every navigation; the home route has no `meta.title`, so the afterEach re-applies the brand title via the router's `HOME_TITLE` constant — kept byte-identical to `index.html`'s `<title>`.
+
 ## Invariants
 - Motion durations come ONLY from the theme tokens via `motionDurationMs` — never a component-local raw duration (single source: `frontend/src/assets/index.css` `@theme static`)
-- The reduced-motion probe is `usePreferredReducedMotion` — no hand-rolled `matchMedia('(prefers-reduced-motion: reduce)')` literals anywhere in the frontend. Known violations (code-grounded, to reconcile): `components/ai/ChatMessages.vue:31-33` and `views/ExploreView.vue:143` hand-roll the match
+- The reduced-motion probe is `usePreferredReducedMotion` — no hand-rolled `matchMedia('(prefers-reduced-motion: reduce)')` literals anywhere in the frontend (the two former violations in `components/ai/ChatMessages.vue` and `views/ExploreView.vue` now use the shared probe)
 - `BASE_URL` is empty (`api.ts:5`): all requests are same-origin relative; in dev they rely on the Vite proxy `/api` → `http://127.0.0.1:8000` (`frontend/vite.config.ts:server.proxy`), in production on reverse-proxy parity
 - Error contract: every function `throw new Error(...)` on `!res.ok` **except** `deleteCopilotSession`, which returns the boolean `res.ok` without throwing (`api.ts:261-266`)
 - `streamCopilot` degradation chain (`api.ts:177-245`): non-OK/empty stream body, thrown stream errors, or a stream that ends without a `final_result` all fall back to `askCopilot` and synthesize one `final_result` callback — callers receive a terminal event exactly once

@@ -183,6 +183,7 @@ function hideBrokenIcon(event: Event) {
               v-if="keyActiveIcon(active)"
               :src="keyActiveIcon(active)"
               alt=""
+              decoding="async"
               class="size-3.5 shrink-0"
               @error="hideBrokenIcon"
             />

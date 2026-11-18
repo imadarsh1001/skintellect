@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { computed, onMounted, ref } from 'vue'
+import { usePreferredReducedMotion } from '@vueuse/core'
 import type { Product } from '@/lib/types'
 import { fetchCatalogStats, type CatalogStats } from '@/lib/api'
 import { useExploreQuery, DEFAULT_FILTERS } from '@/composables/useExploreQuery'
@@ -60,6 +61,11 @@ const {
 const comparedIds = computed(() => props.comparedProducts.map(p => p.id))
 
 const mobileFiltersOpen = ref(false)
+
+// The one shared reduced-motion probe (@vueuse/core; the rule lives in
+// lib/motion.ts) — never a hand-rolled matchMedia literal; the CSS
+// kill-switch cannot stop JS-driven scrolling.
+const reducedMotion = usePreferredReducedMotion()
 
 const stats = ref<CatalogStats | null>(null)
 const statsLoading = ref(true)
@@ -140,8 +146,7 @@ function goToPage(target: number | '…') {
   if (target === '…' || target === page.value) return
   setPage(target)
   // Reduced motion: the CSS kill cannot override an explicit smooth behavior.
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+  window.scrollTo({ top: 0, behavior: reducedMotion.value === 'reduce' ? 'auto' : 'smooth' })
 }
 </script>
 
@@ -153,6 +158,7 @@ function goToPage(target: number | '…') {
         <span class="text-[11px] font-medium text-muted-foreground mr-1.5 shrink-0">Domain:</span>
         <ToggleGroup
           type="single"
+          aria-label="Product domain"
           :model-value="filters.domain"
           :spacing="2"
           class="shrink-0"
@@ -179,6 +185,7 @@ function goToPage(target: number | '…') {
       <span class="text-[11px] font-medium text-muted-foreground mr-1 shrink-0">Category:</span>
       <ToggleGroup
         type="single"
+        aria-label="Product category"
         :model-value="activeCategory"
         :spacing="2"
         class="shrink-0"
@@ -223,9 +230,9 @@ function goToPage(target: number | '…') {
           </span>
         </div>
 
-        <h2 class="text-2xl sm:text-3xl text-foreground">
+        <h1 class="text-2xl sm:text-3xl text-foreground">
           Universal Cosmetic Chemistry & Formulation Intelligence
-        </h2>
+        </h1>
         <p class="text-sm text-muted-foreground leading-relaxed">
           Explore formulations across Face, Scalp, Body, and Makeup scored deterministically against your skin profile.
           Zero-tolerance contraindications highlight fungal acne triggers, fragrances, and drying alcohols with verifiable proof.
@@ -243,6 +250,7 @@ function goToPage(target: number | '…') {
           </button>
           <ToggleGroup
             type="multiple"
+            aria-label="Quick active filters"
             :model-value="activeQuickFilters"
             :spacing="2"
             @update:model-value="onQuickFiltersUpdate"
@@ -368,6 +376,12 @@ function goToPage(target: number | '…') {
           </Button>
         </div>
 
+        <!-- Results announcement: this live region persists across loads so
+             screen readers hear each count change; the visible counter under
+             the grid stays plain text (changes are debounced, not per key). -->
+        <p aria-live="polite" aria-atomic="true" class="sr-only">
+          {{ loading ? 'Searching formulations…' : `${total} matching formulations found` }}
+        </p>
         <ProductGrid
           :products="products"
           :loading="loading"

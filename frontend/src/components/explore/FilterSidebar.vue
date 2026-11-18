@@ -110,7 +110,11 @@ const minMatchSlider = computed({
         <Input
           id="f2-search"
           v-model="search"
-          placeholder="Brand, product, active INCI..."
+          type="search"
+          autocomplete="off"
+          enterkeyhint="search"
+          spellcheck="false"
+          placeholder="Brand, product, active INCI…"
           class="pl-9 h-9 text-xs"
         />
       </div>
@@ -181,6 +185,7 @@ const minMatchSlider = computed({
       <label class="text-[11px] font-medium text-muted-foreground">Budget Tier</label>
       <ToggleGroup
         type="single"
+        aria-label="Budget tier"
         :model-value="priceTier"
         class="grid grid-cols-5 gap-1 w-full"
         @update:model-value="(v: unknown) => (priceTier = typeof v === 'string' ? v : 'all')"

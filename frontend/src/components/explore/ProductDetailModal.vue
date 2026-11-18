@@ -7,6 +7,8 @@ import { motionDurationMs, useCountUp } from '@/lib/motion'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogTitle,
 } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -173,6 +175,13 @@ function inspectAlternative(alt: any) {
 <template>
   <Dialog :open="open" @update:open="(val: boolean) => emits('update:open', val)">
     <DialogContent class="max-w-4xl max-h-[90vh] p-0 overflow-hidden flex flex-col gap-0 rounded-lg bg-card border-border">
+      <!-- Accessible name/description: the skeleton phase has no visible
+           title, so an sr-only fallback keeps the dialog named the whole time
+           it is open (reka-ui requires a DialogTitle on DialogContent). -->
+      <DialogTitle v-if="!detailedProduct" class="sr-only">Loading product dossier…</DialogTitle>
+      <DialogDescription class="sr-only">
+        Full formulation dossier: safety and clinical fit, complete INCI list, alternatives, and reviews.
+      </DialogDescription>
       <!-- Top Fixed Header -->
       <div v-if="detailedProduct" class="p-5 border-b border-border bg-muted/20 shrink-0 flex items-start justify-between gap-4">
         <div class="flex items-start gap-4">
@@ -185,6 +194,9 @@ function inspectAlternative(alt: any) {
               :key="detailedProduct.id"
               :src="`/api/products/${detailedProduct.id}/image`"
               :alt="detailedProduct.name"
+              width="80"
+              height="80"
+              decoding="async"
               class="size-full object-cover"
               @load="imageState = 'ok'"
               @error="imageState = 'failed'"
@@ -202,9 +214,9 @@ function inspectAlternative(alt: any) {
               </span>
             </div>
 
-            <h2 class="detail-name text-foreground text-lg sm:text-xl leading-tight">
+            <DialogTitle class="detail-name text-foreground text-lg sm:text-xl leading-tight">
               {{ detailedProduct.name }}
-            </h2>
+            </DialogTitle>
 
             <div class="flex items-center gap-3 text-xs flex-wrap pt-0.5 text-muted-foreground">
               <span v-if="detailedProduct.rating" class="flex items-center gap-1 font-medium text-foreground">
@@ -496,8 +508,10 @@ function inspectAlternative(alt: any) {
                 <Search class="absolute left-2.5 top-2.5 size-3.5 text-muted-foreground" />
                 <input
                   v-model="ingredientSearch"
-                  type="text"
-                  placeholder="Filter ingredients..."
+                  type="search"
+                  aria-label="Filter ingredients"
+                  autocomplete="off"
+                  placeholder="Filter ingredients…"
                   class="w-full h-8 pl-8 pr-3 text-xs rounded-lg border border-input bg-background"
                 />
               </div>
@@ -526,6 +540,7 @@ function inspectAlternative(alt: any) {
                         :src="ic.src"
                         :alt="ic.title"
                         :title="ic.title"
+                        decoding="async"
                         class="size-3.5 shrink-0"
                         @error="hideBrokenIcon"
                       />

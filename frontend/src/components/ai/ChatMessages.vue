@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from 'vue'
+import { usePreferredReducedMotion } from '@vueuse/core'
 
 /**
  * Message Scroller pattern (shadcn-vue AI Elements, Chat/Message Scroller):
@@ -14,6 +15,9 @@ const props = defineProps<{
 
 const container = ref<HTMLElement | null>(null)
 const pinned = ref(true)
+// The one shared reduced-motion probe (@vueuse/core; the rule lives in
+// lib/motion.ts) — never a hand-rolled matchMedia literal.
+const reducedMotion = usePreferredReducedMotion()
 
 function onScroll() {
   const el = container.value
@@ -28,10 +32,7 @@ async function scrollToBottom(smooth = true) {
   if (!el) return
   // Reduced-motion users get an instant jump: the CSS kill covers stylesheet
   // motion, not JS-driven smooth scrolling.
-  const reduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const behavior = smooth && !reduced ? 'smooth' : 'auto'
+  const behavior = smooth && reducedMotion.value !== 'reduce' ? 'smooth' : 'auto'
   el.scrollTo({ top: el.scrollHeight, behavior })
 }
 

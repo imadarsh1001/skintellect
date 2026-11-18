@@ -107,6 +107,15 @@ function onTabSelect(value: string | number) {
 
 <template>
   <div class="min-h-screen flex flex-col bg-background text-foreground font-sans">
+    <!-- Skip link: the navbar is the first Tab stop on every page; this is
+         the one keyboard bypass. #main carries tabindex="-1" so focus lands
+         there in Chrome and Safari (main is not natively focusable). -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+    >
+      Skip to main content
+    </a>
     <!-- Navbar Header: the manila bar (Furrow chrome) -->
     <header class="border-b bg-background sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
@@ -221,7 +230,11 @@ function onTabSelect(value: string | number) {
     </header>
 
     <!-- Main Content Area (route-owned) -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex flex-col gap-6">
+    <main
+      id="main"
+      tabindex="-1"
+      class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex flex-col gap-6 focus:outline-none"
+    >
       <RouterView v-slot="{ Component }">
         <component
           :is="Component"

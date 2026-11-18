@@ -43,6 +43,11 @@ const {
 
 const personaDrawerOpen = ref(false)
 
+// Operator consoles (/study, /progress) ship outside the nav in production
+// builds; import.meta.env.DEV is statically true only under the dev server.
+// The routes themselves stay deep-linkable for watching a preparation run.
+const SHOW_OPS_SURFACES = import.meta.env.DEV
+
 // Product Detail Modal State
 const selectedProduct = ref<Product | null>(null)
 const detailModalOpen = ref(false)
@@ -149,11 +154,12 @@ function onTabSelect(value: string | number) {
             <RouterLink
               to="/research"
               class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
-              title="Structured evidence workspace with quote explorer"
+              title="Structured evidence search with quote explorer"
             >
-              Evidence Workspace
+              Evidence Search
             </RouterLink>
             <RouterLink
+              v-if="SHOW_OPS_SURFACES"
               to="/study"
               class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
               title="Prepared study, references and quality checks"
@@ -161,6 +167,7 @@ function onTabSelect(value: string | number) {
               Study
             </RouterLink>
             <RouterLink
+              v-if="SHOW_OPS_SURFACES"
               to="/progress"
               class="px-2.5 py-1 rounded-lg hover:bg-muted hover:text-foreground transition font-medium whitespace-nowrap"
               title="Preparation and indexing status"

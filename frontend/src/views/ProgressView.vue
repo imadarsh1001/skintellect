@@ -39,7 +39,7 @@ const form = reactive({
 let loadInFlight = false
 
 async function load() {
-  if (loadInFlight) return // the 5s poll must not pile up behind a slow snapshot
+  if (loadInFlight) return // the poll must not pile up behind a slow snapshot
   loadInFlight = true
   try {
     const [snapshot, demoRes] = await Promise.all([fetchProgress(), fetchDemo()])
@@ -54,11 +54,28 @@ async function load() {
   }
 }
 
+// The 5s poll is the safety net for the live stream, so it refreshes the
+// light jobs snapshot only. fetchDemo() → study.readiness() re-reads the
+// whole catalog + cohort corpus per call — it rides mount and job
+// completion (submitJob's load()), never the poll.
+async function pollSnapshot() {
+  if (loadInFlight) return
+  loadInFlight = true
+  try {
+    progress.value = await fetchProgress()
+    error.value = null
+  } catch (cause) {
+    error.value = cause instanceof Error ? cause.message : String(cause)
+  } finally {
+    loadInFlight = false
+  }
+}
+
 onMounted(load)
 
 const { pause, resume } = useIntervalFn(
   () => {
-    if (document.visibilityState === 'visible') load()
+    if (document.visibilityState === 'visible') pollSnapshot()
   },
   5000,
 )

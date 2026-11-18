@@ -29,7 +29,7 @@ const router = createRouter({
     { path: '/compare', name: 'compare', component: CompareView, meta: { title: 'Compare Matrix · Skintellect' } },
     { path: '/graph', name: 'graph', component: GraphView, meta: { title: 'Ingredient Graph · Skintellect' } },
     { path: '/copilot', name: 'copilot', component: CopilotView, meta: { title: 'Research Copilot · Skintellect' } },
-    { path: '/research', name: 'research', component: ResearchView, meta: { title: 'Evidence Workspace · Skintellect' } },
+    { path: '/research', name: 'research', component: ResearchView, meta: { title: 'Evidence Search · Skintellect' } },
     { path: '/study', name: 'study', component: StudyView, meta: { title: 'Studies · Skintellect' } },
     { path: '/progress', name: 'progress', component: ProgressView, meta: { title: 'Preparation Status · Skintellect' } },
     { path: '/:pathMatch(.*)*', redirect: '/' },

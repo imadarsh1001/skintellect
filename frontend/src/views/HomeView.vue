@@ -45,22 +45,28 @@ function inciCount(p: Product): number {
   return p.names?.length || p.ingredients?.length || 0
 }
 
-// The four surfaces, named and described with the app's own words
+// The surfaces, named and described with the app's own words
 // (App.vue nav titles, PRODUCT.md promises 3 and 4, the 4-item tray limit).
+// /study is an operator console: its card ships only in dev builds — the
+// route itself stays deep-linkable in production.
 const surfaces = [
   {
     href: '/research',
-    title: 'Evidence Workspace',
+    title: 'Evidence Search',
     icon: FileSearch,
     description:
       'Reviews are evidence, not summaries: every insight carries its exact supporting text span.',
   },
-  {
-    href: '/study',
-    title: 'Study',
-    icon: BookOpen,
-    description: 'Prepared study, references and quality checks.',
-  },
+  ...(import.meta.env.DEV
+    ? [
+        {
+          href: '/study',
+          title: 'Study',
+          icon: BookOpen,
+          description: 'Prepared study, references and quality checks.',
+        },
+      ]
+    : []),
   {
     href: '/compare',
     title: 'Compare Matrix',
@@ -73,7 +79,7 @@ const surfaces = [
     icon: Sparkles,
     description: 'Multi-agent deliberation that shows its reasoning steps and sources.',
   },
-] as const
+]
 </script>
 
 <template>

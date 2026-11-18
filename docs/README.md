@@ -17,6 +17,7 @@ notes are preserved separately and may describe superseded behavior.
 | [Source layout](SOURCE_LAYOUT.md) | Package ownership and old-to-new migration map |
 | [Architecture](ARCHITECTURE.md) | Request flow, feature dependencies and persistence |
 | [Furrow theme kit](THEME-FURROW-KIT.md) | Design tokens, palette and motion for reusing this theme on the next project |
+| [Evidence Search scale-up plan](EVIDENCE_SEARCH_SCALEUP_PLAN.md) | Future arc: growing the prepared corpus behind `/research`; scope options, cost gates and decision criteria |
 
 ## Feature and tool guides
 

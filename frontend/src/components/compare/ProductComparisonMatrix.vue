@@ -46,10 +46,10 @@ function getUniqueIngredients(product: Product): string[] {
     <!-- Comparison Header -->
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
-        <h2 class="text-xl font-medium flex items-center gap-2">
+        <h1 class="text-xl font-medium flex items-center gap-2">
           <Scale class="w-5 h-5 text-foreground" />
           Side-by-Side Formulation Matrix
-        </h2>
+        </h1>
         <p class="text-xs text-muted-foreground mt-0.5">
           Comparing INCI compositions, shared actives, unique ingredients, and persona compatibility.
         </p>

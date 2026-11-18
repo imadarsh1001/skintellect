@@ -63,68 +63,6 @@ class LabelExtraction(StrictModel):
     appears_complete: bool
 
 
-from typing import Annotated, Literal
-
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-
-
-class StrictModel(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-
-KNOWN_ASPECTS=('texture','hydration','stickiness','pilling','stinging','scent','absorption','value')
-Aspect = Annotated[str,Field(min_length=1,max_length=64,pattern=r'^[a-z][a-z0-9_]*$')]
-
-def normalize_aspect(value):
-    if not isinstance(value,str):return value
-    label=unicodedata.normalize('NFKD',value).encode('ascii','ignore').decode().lower().strip()
-    label=re.sub(r'[^a-z0-9]+','_',label).strip('_')
-    aliases={'fragrance':'scent','smell':'scent','absorbency':'absorption','cost':'value'}
-    return aliases.get(label,label)
-
-
-class ReviewObservation(StrictModel):
-    review_id: int
-    aspect: Aspect
-    sentiment: Literal['positive','negative','neutral','mixed']
-    negated: bool
-    quote: str = Field(min_length=1, max_length=1500)
-
-    _normalize_aspect=field_validator('aspect',mode='before')(normalize_aspect)
-
-
-class ReviewExtraction(StrictModel):
-    observations: list[ReviewObservation] = Field(max_length=150)
-
-
-class EvidenceSelection(StrictModel):
-    evidence_id: str
-    topic: Aspect
-    quote: str = Field(min_length=1, max_length=700)
-
-    _normalize_topic=field_validator('topic',mode='before')(normalize_aspect)
-
-
-class ResearchAnswer(StrictModel):
-    selections: list[EvidenceSelection] = Field(max_length=6)
-    unanswered_topics: list[str] = Field(max_length=8)
-
-
-class ResearchPlan(StrictModel):
-    tools: list[Literal['reviews','alternatives','retrieve']] = Field(max_length=3)
-
-
-class ExtractionRequest(StrictModel):
-    product_id: int
-    limit: int = Field(default=10, ge=1, le=20)
-
-
-class LabelExtraction(StrictModel):
-    ingredients: list[str] = Field(max_length=150)
-    uncertain_text: list[str] = Field(max_length=30)
-    appears_complete: bool
-
-
 class DecisionReviewInput(StrictModel):
     id: int = Field(ge=1)
     text: str = Field(min_length=1,max_length=12000)
@@ -144,12 +82,6 @@ class ReviewDecisionRequest(StrictModel):
         if len({r.id for r in self.reviews})!=len(self.reviews):
             raise ValueError('Review IDs must be unique')
         return self
-
-
-
-from typing import Annotated, Literal
-
-from pydantic import BaseModel, ConfigDict, Field
 
 
 class SearchIntent(StrictModel):

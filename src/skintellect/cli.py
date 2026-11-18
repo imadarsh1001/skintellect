@@ -157,19 +157,18 @@ def cmd_recommend(args):
     cat_slug = args.category.strip().lower() if args.category else None
     results = get_recommendations(
         category=cat_slug,
-        brand_country=args.country,
+        country=args.country,
         skin_goal=args.goal,
-        min_match=args.min_match,
-        limit=args.limit,
-        max_cloggers=args.max_cloggers,
-        require_fungal_safe=args.fungal_safe,
-        require_oil_free=args.oil_free,
-        require_fragrance_free=not args.allow_fragrance,
-        require_alcohol_free=not args.allow_alcohol,
+        min_match_score=args.min_match,
+        max_pore_cloggers=args.max_cloggers,
+        must_be_fungal_safe=args.fungal_safe,
+        must_be_oil_free=args.oil_free,
+        must_be_fragrance_free=not args.allow_fragrance,
+        must_be_alcohol_free=not args.allow_alcohol,
         price_tier=args.price_tier,
         max_price_tier=args.max_price,
         search_query=args.search
-    )
+    )[:args.limit]
 
     cat_title = args.category.upper() if args.category else "ALL CATEGORIES"
     filters = []
@@ -215,8 +214,8 @@ def cmd_recommend(args):
             print(f"    Brightening Actives: {', '.join(p['analysis']['brighteners'])}")
         if p['analysis']['hydrators']:
             print(f"    Barrier & Hydration: {', '.join(p['analysis']['hydrators'])}")
-        if p['analysis']['soothers']:
-            print(f"    Soothing & Calming : {', '.join(p['analysis']['soothers'])}")
+        if p['analysis']['smoothers']:
+            print(f"    Soothing & Calming : {', '.join(p['analysis']['smoothers'])}")
         if p['short_desc']:
             print(f"    Summary: {p['short_desc'][:120]}...")
 
@@ -228,7 +227,7 @@ def cmd_filter(args):
     cat_slug = args.category.strip().lower() if args.category else None
     results = search_products(
         category=cat_slug,
-        brand_country=args.country,
+        country=args.country,
         skin_goal=args.goal,
         price_tier=args.price_tier,
         max_price_tier=args.max_price,
@@ -239,9 +238,9 @@ def cmd_filter(args):
         silicone_free=args.silicone_free,
         alcohol_free=args.alcohol_free,
         min_rating=args.min_rating,
-        active_ingredient=args.active,
+        active_term=args.active,
         search_query=args.search,
-        max_cloggers=args.max_cloggers,
+        max_pore_cloggers=args.max_cloggers,
         limit=args.limit
     )
 

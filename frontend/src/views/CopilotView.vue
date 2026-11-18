@@ -14,6 +14,9 @@ const emits = defineEmits<{
 </script>
 
 <template>
+  <!-- The chat view has no visible page title; the sr-only h1 keeps one
+       heading level per routed view without adding chrome. -->
+  <h1 class="sr-only">Research Copilot</h1>
   <ResearchCopilot
     :active-product-ids="activeProductIds"
     :persona-id="personaId"

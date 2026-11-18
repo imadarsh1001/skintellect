@@ -91,7 +91,7 @@ const latestLatency = computed(() => {
     <!-- Header -->
     <div class="border-b pb-4">
       <span class="text-[11px] font-medium text-foreground">Follow the evidence</span>
-      <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Meet the products. Follow the evidence.</h2>
+      <h1 class="text-2xl sm:text-3xl tracking-tight mt-1">Meet the products. Follow the evidence.</h1>
       <p class="text-sm text-muted-foreground mt-1">
         Choose a product, see what reviewers noticed, then inspect the original sources.
       </p>

@@ -76,10 +76,10 @@ const NODE_STYLES: Record<ProductConnections['nodes'][number]['type'], { badge: 
     <!-- Header -->
     <div class="flex items-center justify-between flex-wrap gap-4 border-b pb-4">
       <div>
-        <h2 class="text-xl font-medium flex items-center gap-2">
+        <h1 class="text-xl font-medium flex items-center gap-2">
           <Network class="w-5 h-5 text-foreground" />
           Ingredient Evidence Connections
-        </h2>
+        </h1>
         <p class="text-xs text-muted-foreground mt-0.5">
           Recorded ingredients, related formulas, and reference sources for everything in your compare tray.
         </p>

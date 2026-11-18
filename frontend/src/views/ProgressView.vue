@@ -157,7 +157,7 @@ const STATUS_VARIANT: Record<string, 'verified' | 'source' | 'unknown' | 'negati
     <div class="border-b pb-4 flex items-start justify-between flex-wrap gap-3">
       <div>
         <span class="text-[11px] font-medium text-foreground">Data progress</span>
-        <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Preparation and indexing status</h2>
+        <h1 class="text-2xl sm:text-3xl tracking-tight mt-1">Preparation and indexing status</h1>
         <p class="text-sm text-muted-foreground mt-1">
           Review extraction and passage indexing run as background jobs with explicit budgets and cancellation.
         </p>

@@ -279,7 +279,7 @@ const EXAMPLES = [
     <!-- Header -->
     <div class="border-b pb-4">
       <span class="text-[11px] font-medium text-foreground">Ask a question</span>
-      <h2 class="text-2xl sm:text-3xl tracking-tight mt-1">Go beyond the ingredient list.</h2>
+      <h1 class="text-2xl sm:text-3xl tracking-tight mt-1">Go beyond the ingredient list.</h1>
       <p class="text-sm text-muted-foreground mt-1 max-w-2xl">
         Describe the ingredients or review themes you care about. Skintellect shows matching records, supporting quotes,
         and what remains unknown.
